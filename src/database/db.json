@@ -1,0 +1,142 @@
+{
+  "users": [
+    {
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "id": 1
+    },
+    {
+      "first_name": "Fahrezi",
+      "last_name": "Alwi",
+      "username": "fahrezialwi",
+      "email": "fahrezialwi@gmail.com",
+      "password": "123456",
+      "id": 2
+    }
+  ],
+  "trips": [
+    {
+      "name": "Bromo Adventure",
+      "meeting_point": "Malang Kota Baru Station",
+      "price": 1250000,
+      "duration": "2D 1N",
+      "category": "MOUNTAIN",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/bromo-dan-river-tubing.jpg",
+      "id": 1
+    },
+    {
+      "name": "Pahawang Island",
+      "meeting_point": "Port of Ketapang",
+      "price": 630000,
+      "duration": "1D",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/big/pulau-pahawang-1-hari-PPR-12525.jpg",
+      "id": 2
+    },
+    {
+      "name": "Belitung Island",
+      "meeting_point": "Hanandjoeddin Airport",
+      "price": 795000,
+      "duration": "3D 2N",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/belitung.JPG",
+      "id": 3
+    },
+    {
+      "name": "Pari Island",
+      "meeting_point": "Port of Kaliadem",
+      "price": 350000,
+      "duration": "2D 1N",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/pulau-pari.JPG",
+      "id": 4
+    },
+    {
+      "name": "Krakatau Mountain",
+      "meeting_point": "Merak",
+      "price": 370000,
+      "duration": "3D 2N",
+      "category": "MOUNTAIN",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/gunung-krakatau.jpeg",
+      "id": 5
+    },
+    {
+      "name": "Dieng Plateau",
+      "meeting_point": "Jakarta",
+      "price": 575000,
+      "duration": "3D 2N",
+      "category": "MOUNTAIN",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/big/dieng-plateau-DPL-12161.jpg",
+      "id": 6
+    },
+    {
+      "name": "Sangiang Island",
+      "meeting_point": "Jakarta",
+      "price": 700000,
+      "duration": "2D 1N",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/pulau-sangiang.jpg",
+      "id": 7
+    },
+    {
+      "name": "Tidung Island",
+      "meeting_point": "Port of Kaliadem",
+      "price": 330000,
+      "duration": "2D 1N",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/pulau-tidung.JPG",
+      "id": 8
+    },
+    {
+      "name": "Green Canyon Pangandaran",
+      "meeting_point": "Jakarta",
+      "price": 650000,
+      "duration": "1D",
+      "category": "OUTDOOR",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/green-canyon-pangandaran.jpg",
+      "id": 9
+    },
+    {
+      "name": "Wae Rebo",
+      "meeting_point": "Labuan Bajo Airport",
+      "price": 1500000,
+      "duration": "2D 1N",
+      "category": "MOUNTAIN",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/wae-rebo.jpg",
+      "id": 10
+    },
+    {
+      "name": "Sailing Komodo",
+      "meeting_point": "Labuan Bajo Airport",
+      "price": 2500000,
+      "duration": "3D 2N",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/sailing-komodo.jpg",
+      "id": 11
+    },
+    {
+      "name": "Labengki Sombori",
+      "meeting_point": "Haluoleo Airport",
+      "price": 2350000,
+      "duration": "3D 2N",
+      "category": "BEACH",
+      "quota": 8,
+      "picture": "https://haraduta.com/images/item/thumbs/labengki-sombori.jpg",
+      "id": 12
+    }
+  ]
+}
