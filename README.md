@@ -1,2 +1,3 @@
-# JC10-Final-Project
+# JC10 Final Project
+
 Purwadhika project terakhir

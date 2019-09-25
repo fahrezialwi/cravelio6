@@ -13,7 +13,7 @@ class Home extends Component {
     
     componentDidMount() {
         axios.get(
-            'http://localhost:2019/trips'
+            'http://localhost:1010/trips'
         ).then((res) => {
             this.setState({
                 trips: res.data
@@ -23,7 +23,7 @@ class Home extends Component {
 
     tripList = () => {
         return this.state.trips.map((trip) => {
-            return <TripItem trip={trip} key={trip.id}/>
+            return <TripItem trip={trip} key={trip.trip_id}/>
         })   
     }
     

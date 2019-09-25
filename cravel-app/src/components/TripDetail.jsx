@@ -7,19 +7,40 @@ class TripDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            trip: [],
+            trip: '',
         }
     }
 
     componentDidMount() {
-       
+        this.getData()
+        // this.getPictures()
+    }
+
+    getData = () => {
         axios.get(
-            `http://localhost:2019/trips/${this.props.match.params.id}`
-        ).then((res) => {      
-            this.setState({
-                trip: res.data
-            })
+            `http://localhost:1010/trips/${this.props.match.params.id}`
+        ).then((res) => {          
+            console.log(res)
         })
+    }
+
+    // getPictures = () => {
+    //     axios.get(
+    //         `http://localhost:1010/pictures`,
+    //         {
+    //             params: {
+    //                 trip_id: this.props.match.params.id
+    //             }
+    //         }
+    //     ).then((res) => {          
+    //         this.setState({
+    //             pictures: res.data
+    //         })
+    //     })
+    // }
+
+    getReviews = () => {
+
     }
 
     onBookClick = () => {
@@ -27,11 +48,12 @@ class TripDetail extends Component {
     }
 
     render() {
-        if(this.state.trip){
+        console.log(this.state.trip)
+        if(this.state.trip.pictures[0]){
             return (
                 <div className="detail-top bottom-space">
                     <div className="main-image">
-                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%" height="600"/>
+                        <img src={this.state.trip.pictures[0]} alt={this.state.trip.name} width="100%" height="600"/>
                         <div className="favorites">Favorite</div>
                     </div>       
                     <div className="container">
@@ -69,26 +91,26 @@ class TripDetail extends Component {
                             <div className="col-6">
                                 <div className="row">
                                     <div className="col-12 mb-3">
-                                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%"/>
+                                        <img src={this.state.trip.pictures[0]} alt={this.state.trip.name} width="100%"/>
                                     </div>  
                                     <div className="col-6">
-                                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%"/>
+                                        <img src={this.state.trip.pictures[1]} alt={this.state.trip.name} width="100%"/>
                                     </div> 
                                     <div className="col-6">
-                                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%"/>
+                                        <img src={this.state.trip.pictures[2]} alt={this.state.trip.name} width="100%"/>
                                     </div> 
                                 </div>
                             </div>  
                             <div className="col-6">
                                 <div className="row">
                                     <div className="col-6 mb-3">
-                                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%"/>
+                                        <img src={this.state.trip.pictures[3]} alt={this.state.trip.name} width="100%"/>
                                     </div>  
                                     <div className="col-6 mb-3">
-                                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%"/>
+                                        <img src={this.state.trip.pictures[4]} alt={this.state.trip.name} width="100%"/>
                                     </div> 
                                     <div className="col-12">
-                                        <img src={this.state.trip.picture} alt={this.state.trip.name} width="100%"/>
+                                        <img src={this.state.trip.pictures[5]} alt={this.state.trip.name} width="100%"/>
                                     </div> 
                                 </div>
                             </div> 

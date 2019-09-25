@@ -25,7 +25,7 @@ class Register extends Component {
         let password = this.password.value
         
         axios.get(
-            'http://localhost:2019/users', 
+            'http://localhost:1010/login', 
             {
                 params: {
                     email: email
@@ -43,7 +43,7 @@ class Register extends Component {
             } else {
                 // POST data tersebut ke db.json
                 axios.post(
-                    'http://localhost:2019/users', 
+                    'http://localhost:1010/register', 
                     {
                         first_name: firstName,
                         last_name: lastName,
