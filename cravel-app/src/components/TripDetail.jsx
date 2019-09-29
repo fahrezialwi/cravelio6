@@ -95,6 +95,7 @@ class TripDetail extends Component {
                         </div>
                         <div className="row mt-5 mb-3">
                             <div className="col-12">
+                                <h4><strong>Reviews</strong></h4>
                                 <h4><strong>Itinerary</strong></h4>
                                 <p><strong>Day 1</strong></p>
                                 <ul>
