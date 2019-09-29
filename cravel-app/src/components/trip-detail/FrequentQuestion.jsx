@@ -1,33 +1,12 @@
 import React, { Component } from 'react'
+import parse from 'html-react-parser'
 
 class FrequentQuestion extends Component {
     render() {
         return (
             <div className="row mt-4">
                 <div className="col-12">
-                    <h4><strong>FAQ</strong></h4>
-                    <ul>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                        <li>Frequently Asked Question</li>
-                    </ul>
+                    {parse(this.props.trip.faq)}
                 </div>
             </div>
         )
