@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { URL_API } from '../helpers'
 
 class TripDetail extends Component {
 
@@ -13,47 +14,24 @@ class TripDetail extends Component {
 
     componentDidMount() {
         this.getData()
-        // this.getPictures()
     }
 
     getData = () => {
         axios.get(
-            `http://localhost:1010/trips/${this.props.match.params.id}`
-        ).then((res) => {          
-            console.log(res)
+            URL_API + `trips/${this.props.match.params.id}`
+        ).then((res) => {    
+            this.setState({
+                trip: res.data.results[0]
+            })      
         })
     }
 
-    // getPictures = () => {
-    //     axios.get(
-    //         `http://localhost:1010/pictures`,
-    //         {
-    //             params: {
-    //                 trip_id: this.props.match.params.id
-    //             }
-    //         }
-    //     ).then((res) => {          
-    //         this.setState({
-    //             pictures: res.data
-    //         })
-    //     })
-    // }
-
-    getReviews = () => {
-
-    }
-
-    onBookClick = () => {
-        
-    }
-
     render() {
-        console.log(this.state.trip)
-        if(this.state.trip.pictures[0]){
+        if(this.state.trip){
             return (
                 <div className="detail-top bottom-space">
                     <div className="main-image">
-                        <img src={this.state.trip.pictures[0]} alt={this.state.trip.name} width="100%" height="600"/>
+                        <img src={this.state.trip.picture_main} alt={this.state.trip.name} width="100%" height="600"/>
                         <div className="favorites">Favorite</div>
                     </div>       
                     <div className="container">

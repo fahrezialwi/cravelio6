@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
+import { URL_API } from '../helpers'
 
 class Register extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            repeatPassword: '',
             loading: '',
             error: '',
             success: ''
@@ -16,51 +22,74 @@ class Register extends Component {
 
     onRegisterSubmit = (e) => {
         e.preventDefault()
-
-        this.setState({loading: true})
-
-        let firstName = this.firstName.value
-        let lastName = this.lastName.value
-        let email = this.email.value
-        let password = this.password.value
-        
-        axios.get(
-            'http://localhost:1010/login', 
-            {
-                params: {
-                    email: email
-                }
-            }
-        ).then((res) => {
-            if(res.data.length > 0){
-                // Spinner akan jadi button, akan muncul pesan error
-                this.setState({loading: false, error:'Email has already been used'})
-
-                // Menghapus pesan error setelah 3 detik
-                setTimeout(() => { 
-                    this.setState({error: ''}) 
-                }, 3000)
-            } else {
-                // POST data tersebut ke db.json
-                axios.post(
-                    'http://localhost:1010/register', 
-                    {
-                        first_name: firstName,
-                        last_name: lastName,
-                        email: email,
-                        password: password
-                    }
-                ).then(() => {
-                    // Spinner jadi button, muncul pesan success
-                    this.setState({loading: false, success:'Registration successful'})
-
-                    // Redirect setelah 3 detik
-                    setTimeout(() => { 
-                        this.props.history.push("/login")
-                    }, 3000) 
-                })
-            }
+        this.setState({
+            loading: true
         })
+
+        let {firstName, lastName,  email, password, repeatPassword} = this.state
+
+        if(!firstName|| !lastName || !email || !password || !repeatPassword){
+            this.setState({
+                loading: false,
+                error: 'Please fill all input forms.'
+            })
+            setTimeout(() => { 
+                this.setState({
+                    error: ''
+                }) 
+            }, 3000)
+        } else {
+            if(password === repeatPassword){
+                axios.get(
+                    URL_API + 'users', 
+                    {
+                        params: {
+                            email: email
+                        }
+                    }
+                ).then((res) => {
+                    if(res.data.status === 200){
+                        this.setState({
+                            loading: false,
+                            error: 'Email address has already been used.'
+                        })
+                        setTimeout(() => { 
+                            this.setState({
+                                error: ''
+                            }) 
+                        }, 3000)
+                    } else {
+                        axios.post(
+                            URL_API + 'users', 
+                            {
+                                first_name: firstName,
+                                last_name: lastName,
+                                email: email,
+                                password: password
+                            }
+                        ).then(() => {
+                            this.setState({
+                                loading: false,
+                                success:'Registration successful. Redirecting you to login page.'
+                            })
+                            setTimeout(() => { 
+                                this.props.history.push("/login")
+                            }, 3000) 
+                        })
+                    }
+                })
+            } else{
+                this.setState({
+                    loading: false,
+                    error: 'Password did not match.'
+                })
+                setTimeout(() => { 
+                    this.setState({
+                        error: ''
+                    }) 
+                }, 3000)
+            }
+        }
     }
 
     loadingButton = () => {
@@ -85,15 +114,13 @@ class Register extends Component {
 
     notification = () => {
         if(this.state.error){
-            // notif error
             return (
-                <div className='alert alert-success mt-4'>
+                <div className='alert alert-danger mt-4'>
                     {this.state.error}
                 </div>
             )
 
         } else if(this.state.success){
-            // notif success
             return (
                 <div className='alert alert-success mt-4'>
                     {this.state.success}
@@ -115,11 +142,22 @@ class Register extends Component {
                                 <h2>Register</h2>
                                 <form onClick={this.loadingButton}>
                                     <div className="row">
-                                        <div className="col-6 input-group pr-2"><input ref={(input)=>{this.firstName = input}} type="text" className="form-control mt-3" placeholder="First name"/></div>
-                                        <div className="col-6 input-group pl-2"><input ref={(input)=>{this.lastName = input}} type="text" className="form-control mt-3" placeholder="Last name"/></div>
+                                        <div className="col-6 input-group pr-2">
+                                            <input onChange={e => this.setState({firstName: e.target.value})} type="text" className="form-control mt-3" placeholder="First Name" autoFocus/>
+                                        </div>
+                                        <div className="col-6 input-group pl-2">
+                                            <input onChange={e => this.setState({lastName: e.target.value})} type="text" className="form-control mt-3" placeholder="Last Name"/>
+                                        </div>
                                     </div>
-                                    <div className="input-group"><input ref={(input)=>{this.email = input}} type="email" className="form-control mt-3" placeholder="Email"/></div>
-                                    <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
+                                    <div className="input-group">
+                                        <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
+                                    </div>
+                                    <div className="input-group">
+                                        <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
+                                    </div>
+                                    <div className="input-group">
+                                        <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
+                                    </div>
                                     {this.loadingButton()}
                                 </form>
                                 {this.notification()}
