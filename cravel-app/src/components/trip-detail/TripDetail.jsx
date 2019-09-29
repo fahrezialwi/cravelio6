@@ -51,16 +51,16 @@ class TripDetail extends Component {
                         <Reviews/>
                         <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
                             <Tab eventKey="itinerary" title="Itinerary">
-                                <Itinerary/>
+                                <Itinerary trip={this.state.trip}/>
                             </Tab>
                             <Tab eventKey="includes" title="Price Includes">
-                                <PriceIncludes/>
+                                <PriceIncludes trip={this.state.trip}/>
                             </Tab>
                             <Tab eventKey="excludes" title="Price Excludes">
-                                <PriceExcludes/>
+                                <PriceExcludes trip={this.state.trip}/>
                             </Tab>
                             <Tab eventKey="faq" title="FAQ">
-                                <FrequentQuestion/>
+                                <FrequentQuestion trip={this.state.trip}/>
                             </Tab>
                         </Tabs>
                     </div>
