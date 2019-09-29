@@ -33,7 +33,7 @@ class TripDetail extends Component {
         ).then((res) => {    
             this.setState({
                 trip: res.data.results[0]
-            })      
+            })
         })
     }
 
@@ -47,8 +47,8 @@ class TripDetail extends Component {
                             <Detail trip={this.state.trip}/>
                             <Description trip={this.state.trip}/>
                         </div>
-                        <Pictures trip={this.state.trip}/>
-                        <Reviews/>
+                        <Pictures tripId={this.state.trip.trip_id}/>
+                        <Reviews tripId={this.state.trip.trip_id}/>
                         <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
                             <Tab eventKey="itinerary" title="Itinerary">
                                 <Itinerary trip={this.state.trip}/>
