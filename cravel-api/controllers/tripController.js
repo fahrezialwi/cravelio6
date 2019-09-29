@@ -9,12 +9,12 @@ module.exports = {
                     return {
                         trip_id: val.trip_id,
                         name: val.name,
+                        picture_main: val.picture_link,
                         meeting_point: val.meeting_point,
                         price: val.price,
                         duration: val.duration,
                         category: val.category,
-                        quota: val.quota,
-                        picture_main: val.picture_link
+                        quota: val.quota
                     }
                 })
                 
@@ -32,40 +32,87 @@ module.exports = {
     },
 
     getTripDetail: (req, res) => {
-        let sqlAll = `select * from trips t join pictures p on t.trip_id = p.trip_id where t.trip_id = ${req.params.id} and not p.is_main = 1`
-        let sqlMain = `select * from trips t join pictures p on t.trip_id = p.trip_id where t.trip_id = ${req.params.id} and p.is_main = 1`
-
-        db.query(sqlAll, (err,result) => {
-            db.query(sqlMain, (errMain, resultMain) => {
-                if (err) throw err
-                if (result.length > 0){
-                    let data = {
-                        trip_id : result[0].trip_id,
-                        name : result[0].name,
-                        meeting_point : result[0].meeting_point,
-                        price : result[0].price,
-                        duration : result[0].duration,
-                        category : result[0].category,
-                        quota : result[0].quota,
-                        picture_main: resultMain[0].picture_link,
-                        pictures: []
-                    }
-
-                    result.forEach(val => {
-                        data.pictures.push(val.picture_link)
-                    })
-                    
-                    res.send({
-                        status: 200,
-                        results: [data]
-                    })
-                } else {
-                    res.send({
-                        status: 404,
-                        message: 'Data not found'
-                    })
+        let sql = `select * from trips t join pictures p on t.trip_id = p.trip_id where t.trip_id = ${req.params.id} and p.is_main = 1`
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            if (result.length > 0){
+                let data = {
+                    trip_id : result[0].trip_id,
+                    name : result[0].name,
+                    picture_main: result[0].picture_link,
+                    meeting_point : result[0].meeting_point,
+                    price : result[0].price,
+                    duration : result[0].duration,
+                    category : result[0].category,
+                    quota : result[0].quota,
+                    description: result[0].description,
+                    itinerary: result[0].itinerary,
+                    price_includes: result[0].price_includes,
+                    price_excludes: result[0].price_excludes,
+                    faq: result[0].faq
                 }
-            })
+                
+                res.send({
+                    status: 200,
+                    results: [data]
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found'
+                })
+            }
+        })
+    },
+
+    getPictures: (req, res) => {
+        let sql = `select * from pictures`
+        if (req.params.id){
+            sql = `${sql} where picture_id = ${req.params.id}`
+        }
+        if (req.query.trip_id){
+            sql = `${sql} where trip_id = '${req.query.trip_id}' and not is_main = 1`
+        }
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            if (result.length > 0){          
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found'
+                })
+            }
+        })
+    },
+
+    getReviews: (req, res) => {
+        let sql = `select * from reviews`
+        if (req.params.id){
+            sql = `${sql} where review_id = ${req.params.id}`
+        }
+        if (req.query.trip_id){
+            sql = `${sql} where trip_id = ${req.query.trip_id}`
+        }
+        if (req.query.user_id){
+            sql = `${sql} where user_id = ${req.query.user_id}`
+        }
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            if (result.length > 0){          
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found'
+                })
+            }
         })
     }
 }

@@ -17,3 +17,4 @@ select * from users, reviews where users.user_id = reviews.user_id and trip_id =
 select * from trips t
 join pictures p on t.trip_id = p.trip_id
 where t.trip_id = 1;
+select * from pictures where trip_id = 1 and not is_main = 1;
