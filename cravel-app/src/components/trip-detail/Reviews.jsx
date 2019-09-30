@@ -29,6 +29,10 @@ class Reviews extends Component {
         })
     }
 
+    pictureList = () => {
+
+    }
+
     reviewList = () => {
         return this.state.reviews.map(review => {
             return (
@@ -40,6 +44,7 @@ class Reviews extends Component {
                         <div className="col-11">
                             <h5>{review.first_name} {review.last_name}</h5>
                             <p>{review.review_content}</p>
+                            <p>{this.pictureList()}</p>
                         </div>
                     </div>
                 </div>
