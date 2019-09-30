@@ -90,7 +90,7 @@ module.exports = {
     },
 
     getReviews: (req, res) => {
-        let sql = `select * from reviews`
+        let sql = `select review_id, review_content, star, first_name, last_name from reviews join users on reviews.user_id = users.user_id`
         if (req.params.id){
             sql = `${sql} where review_id = ${req.params.id}`
         }
