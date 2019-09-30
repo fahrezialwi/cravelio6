@@ -33,7 +33,7 @@ module.exports = {
 
     getTripDetail: (req, res) => {
         let sql = `select * from trips t join pictures p on t.trip_id = p.trip_id where t.trip_id = ${req.params.id} and p.is_main = 1`
-        db.query(sql, (err,result) => {
+        db.query(sql, (err, result) => {
             if (err) throw err
             if (result.length > 0){
                 let data = {
@@ -73,7 +73,7 @@ module.exports = {
         if (req.query.trip_id){
             sql = `${sql} where trip_id = '${req.query.trip_id}' and not is_main = 1`
         }
-        db.query(sql, (err,result) => {
+        db.query(sql, (err, result) => {
             if (err) throw err
             if (result.length > 0){          
                 res.send({
@@ -90,7 +90,7 @@ module.exports = {
     },
 
     getReviews: (req, res) => {
-        let sql = `select * from reviews`
+        let sql = `select review_id, review_content, star, first_name, last_name from reviews join users on reviews.user_id = users.user_id`
         if (req.params.id){
             sql = `${sql} where review_id = ${req.params.id}`
         }
@@ -106,6 +106,33 @@ module.exports = {
                 res.send({
                     status: 200,
                     results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found'
+                })
+            }
+        })
+    },
+
+    getReviewsPicture: (req, res) => {
+        let sql = `select picture_link from reviews_picture`
+        if (req.query.review_id){
+            sql = `${sql} where review_id = ${req.query.review_id}`
+        }
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            
+            let pictures = []
+            result.forEach(val => {
+                pictures.push(val.picture_link) 
+            })
+
+            if (result.length > 0){          
+                res.send({
+                    status: 200,
+                    results: pictures
                 })
             } else {
                 res.send({
