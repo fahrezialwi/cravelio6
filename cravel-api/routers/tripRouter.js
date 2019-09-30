@@ -8,4 +8,5 @@ router.get('/pictures', tripController.getPictures)
 router.get('/pictures/:id', tripController.getPictures)
 router.get('/reviews', tripController.getReviews)
 router.get('/reviews/:id', tripController.getReviews)
+router.get('/reviews-picture', tripController.getReviewsPicture)
 module.exports = router
