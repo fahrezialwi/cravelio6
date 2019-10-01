@@ -32,7 +32,7 @@ class Login extends Component {
     }
 
     render() {
-        if(!this.props.email){
+        if (!this.props.email){
             return (
                 <div className="container login-top">
                     <div className="row">

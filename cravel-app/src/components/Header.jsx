@@ -30,7 +30,7 @@ class Header extends Component {
     }
 
     render() {
-        if(!this.props.email){
+        if (!this.props.email){
             return (
                 <div>
                     <Navbar color="dark" dark expand="md" fixed="top">
