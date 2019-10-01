@@ -3,14 +3,26 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { onLoginUser } from '../actions/auth'
+import { URL_API } from '../helpers'
 
 class Login extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            loading: '',
+            error: ''
+        }
+    }
     
     onLoginSubmit = (e) => {
         e.preventDefault()
+        this.setState({
+            loading: true
+        })
 
         axios.get (
-            'http://localhost:1010/login',
+            URL_API + 'login',
             {
                 params: {
                     email: this.email.value,
@@ -18,17 +30,59 @@ class Login extends Component {
                 }
             }
         ).then((res)=> {
-            if (res.data.length === 0){
-                alert('User not found')
+            if (res.data.status === 404){
+                this.setState({
+                    loading: false,
+                    error: 'Incorrect email or password.'
+                })
+                setTimeout(() => { 
+                    this.setState({
+                        error: ''
+                    }) 
+                }, 3000)
             } else {
-                let{id, first_name, last_name, email} = res.data[0]
+                let {id, first_name, last_name, email} = res.data.results[0]
                 localStorage.setItem(
                     'userData',
-                    JSON.stringify({id, first_name, last_name, email})
+                    JSON.stringify({
+                        id, first_name, last_name, email
+                    })
                 )
                 this.props.onLoginUser(id, first_name, last_name, email)
             }
         })
+    }
+
+    loadingButton = () => {
+        if(this.state.loading){
+            return (
+                <div className='spinner-grow' role='status'>
+                    <span className='sr-only'></span>
+                </div>
+            )
+        }
+
+        return (
+            <button 
+                className='btn-block btn btn-dark mt-4'
+                onClick={this.onLoginSubmit}
+            >
+                Login
+            </button>
+        )
+
+    }
+
+    notification = () => {
+        if(this.state.error){
+            return (
+                <div className='alert alert-danger mt-4'>
+                    {this.state.error}
+                </div>
+            )
+        } else {
+            return null
+        }
     }
 
     render() {
@@ -42,10 +96,9 @@ class Login extends Component {
                                 <form onSubmit={this.onLoginSubmit}>
                                     <div className="input-group"><input ref={(input)=>{this.email = input}} type="text" className="form-control mt-3" placeholder="Email"/></div>
                                     <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
-                                    <div className="text-center">
-                                        <button className="btn btn-block btn-dark mt-4" onClick={this.onLoginSubmit}>Login</button>
-                                    </div>
+                                    {this.loadingButton()}
                                 </form>
+                                {this.notification()}
                             </div>
                         </div>
                     </div>

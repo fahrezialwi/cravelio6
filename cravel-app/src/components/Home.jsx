@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import TripItem from './TripItem'
+import { URL_API } from '../helpers'
 
 class Home extends Component {
 
@@ -13,11 +14,11 @@ class Home extends Component {
     
     componentDidMount() {
         axios.get(
-            'http://localhost:1010/trips'
+            URL_API + 'trips'
         ).then((res) => {
             this.setState({
-                trips: res.data
-            })  
+                trips: res.data.results
+            })
         })
     }
 
@@ -31,10 +32,12 @@ class Home extends Component {
         return (
             <div className="container home-top">
                 <h3>Our Best Pick</h3>
+                <p>Book one of these unique spots to escape the ordinary</p>
                 <div className="row">
                     {this.tripList()}
                 </div>
                 <h3>International Destinations</h3>
+                <p>A selection of places to stay verified for quality and design</p>
                 <div className="row">
                     {this.tripList()}
                 </div>

@@ -5,7 +5,7 @@ import Header from './Header'
 import Home from './Home'
 import Register from './Register'
 import Login from './Login'
-import TripDetail from './TripDetail'
+import TripDetail from './trip-detail/TripDetail'
 import { keepLogin } from '../actions/auth'
 
 class App extends Component {
