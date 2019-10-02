@@ -1,0 +1,26 @@
+.detail-top {
+    margin-top: 56px 
+}
+
+.favorites {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(255, 6, 27);
+    padding: 10px;
+    border-radius: 7px
+}
+
+.bottom-space {
+    margin-bottom: 80px
+}
+
+.bottom-navigation {
+    position: fixed;
+    width: 100%;
+    padding: 10px 0px;
+    bottom: 0;
+    background-color: white;
+    border-top: 1px solid #ddd;
+    z-index: 1
+}
