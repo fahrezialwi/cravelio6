@@ -90,49 +90,66 @@ module.exports = {
     },
 
     getReviews: (req, res) => {
-        let sql = `select review_id, review_content, star, first_name, last_name from reviews join users on reviews.user_id = users.user_id`
+        let sql = `select reviews.review_id, trip_id, reviews.user_id, first_name, last_name,
+        review_title, review_content, star, picture_link from reviews
+        join users on reviews.user_id = users.user_id
+        left join reviews_picture on reviews.review_id = reviews_picture.review_id`
+
         if (req.params.id){
-            sql = `${sql} where review_id = ${req.params.id}`
+            sql = `${sql} where reviews.review_id = ${req.params.id}`
         }
         if (req.query.trip_id){
             sql = `${sql} where trip_id = ${req.query.trip_id}`
         }
         if (req.query.user_id){
-            sql = `${sql} where user_id = ${req.query.user_id}`
+            sql = `${sql} where reviews.user_id = ${req.query.user_id}`
         }
-        db.query(sql, (err,result) => {
-            if (err) throw err
-            if (result.length > 0){          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found'
-                })
-            }
-        })
-    },
 
-    getReviewsPicture: (req, res) => {
-        let sql = `select picture_link from reviews_picture`
-        if (req.query.review_id){
-            sql = `${sql} where review_id = ${req.query.review_id}`
-        }
         db.query(sql, (err,result) => {
             if (err) throw err
             
-            let pictures = []
-            result.forEach(val => {
-                pictures.push(val.picture_link) 
-            })
+            let data = []
+            let iterator = 0
+
+            for (let i = 0; i < result.length; i++) {
+                if (i == 0){
+                    data.push({
+                        review_id: result[0].review_id,
+                        trip_id: result[0].trip_id,
+                        user_id: result[0].user_id,
+                        first_name: result[0].first_name,
+                        last_name: result[0].last_name,
+                        review_title: result[0].review_title,
+                        review_content: result[0].review_content,
+                        star: result[0].star,
+                        pictures : [result[0].picture_link]
+                    })
+                    iterator++
+                    continue
+                }
+
+                if (result[i].review_id == result[i-1].review_id){
+                    data[iterator - 1].pictures.push(result[i].picture_link)
+                } else {
+                    data.push({
+                        review_id: result[i].review_id,
+                        trip_id: result[i].trip_id,
+                        user_id: result[i].user_id,
+                        first_name: result[i].first_name,
+                        last_name: result[i].last_name,
+                        review_title: result[i].review_title,
+                        review_content: result[i].review_content,
+                        star: result[i].star,
+                        pictures : [result[i].picture_link]
+                    })
+                    iterator++
+                }
+            }
 
             if (result.length > 0){          
                 res.send({
                     status: 200,
-                    results: pictures
+                    results: data
                 })
             } else {
                 res.send({
