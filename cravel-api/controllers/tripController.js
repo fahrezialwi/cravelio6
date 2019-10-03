@@ -37,14 +37,14 @@ module.exports = {
             if (err) throw err
             if (result.length > 0){
                 let data = {
-                    trip_id : result[0].trip_id,
-                    name : result[0].name,
+                    trip_id: result[0].trip_id,
+                    name: result[0].name,
                     picture_main: result[0].picture_link,
-                    meeting_point : result[0].meeting_point,
-                    price : result[0].price,
-                    duration : result[0].duration,
-                    category : result[0].category,
-                    quota : result[0].quota,
+                    meeting_point: result[0].meeting_point,
+                    price: result[0].price,
+                    duration: result[0].duration,
+                    category: result[0].category,
+                    quota: result[0].quota,
                     description: result[0].description,
                     itinerary: result[0].itinerary,
                     price_includes: result[0].price_includes,
