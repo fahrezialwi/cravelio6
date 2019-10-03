@@ -6,6 +6,7 @@ import Home from './Home'
 import Register from './Register'
 import Login from './Login'
 import TripDetail from './trip-detail/TripDetail'
+import Footer from './Footer'
 import { keepLogin } from '../actions/auth'
 
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
                     <Route path='/register' component={Register} />
                     <Route path='/login' component={Login} />
                     <Route path='/tripdetail/:id' component={TripDetail}/>
+                    <Footer/>
                 </BrowserRouter>
             </div>
         )

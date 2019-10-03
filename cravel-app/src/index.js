@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { combineReducers, createStore } from 'redux'
 import App from './components/App'
 import authReducer from './reducers/authReducer'
-import './styles.css'
+import './styles/index.css'
 
 const reducers = combineReducers(
     {
