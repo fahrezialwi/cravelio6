@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { URL_API } from '../../helpers'
+import moment from 'moment'
 
 class Reviews extends Component {
     
@@ -52,10 +53,12 @@ class Reviews extends Component {
                             <h4>{review.star}</h4>
                         </div>
                         <div className="col-11">
-                            <h4 className="d-inline-block mr-2">{review.first_name} {review.last_name}</h4>on Sep 25, 2019
+                            <h4 className="d-inline-block mr-2">{review.first_name} {review.last_name}</h4>
+                            on {moment(review.updated_at).format('MMM Do, YYYY')}
                             <h5>{review.review_title}</h5>
                             <p>{review.review_content}</p>
                             {this.pictureList(review.pictures)}
+                            {/* {moment(new Date()).format("YYYY-MM-DD HH:mm:ss.SSS")} */}
                         </div>
                     </div>
                 </div>

@@ -91,7 +91,7 @@ module.exports = {
 
     getReviews: (req, res) => {
         let sql = `select reviews.review_id, trip_id, reviews.user_id, first_name, last_name,
-        review_title, review_content, star, picture_link from reviews
+        review_title, review_content, star, picture_link, reviews.created_at, reviews.updated_at from reviews
         join users on reviews.user_id = users.user_id
         left join reviews_picture on reviews.review_id = reviews_picture.review_id`
 
@@ -122,7 +122,9 @@ module.exports = {
                         review_title: result[0].review_title,
                         review_content: result[0].review_content,
                         star: result[0].star,
-                        pictures : [result[0].picture_link]
+                        pictures : [result[0].picture_link],
+                        created_at: result[0].created_at,
+                        updated_at: result[0].updated_at
                     })
                     iterator++
                     continue
@@ -140,7 +142,9 @@ module.exports = {
                         review_title: result[i].review_title,
                         review_content: result[i].review_content,
                         star: result[i].star,
-                        pictures : [result[i].picture_link]
+                        pictures : [result[i].picture_link],
+                        created_at: result[i].created_at,
+                        updated_at: result[i].updated_at
                     })
                     iterator++
                 }
