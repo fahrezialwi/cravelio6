@@ -12,7 +12,8 @@ class Sidebar extends Component {
                             <h6>Dates</h6>
                             <input type="radio" name="date"/>October 10, 2019<br/>
                             <input type="radio" name="date"/>October 28, 2019<br/>
-                            <input type="radio" name="date"/>November 9, 2019
+                            <input type="radio" name="date"/>November 9, 2019<br/>
+                            <input type="radio" name="date"/>November 17, 2019
                         </div>
                     </div>
                     <div className="row mt-3">
