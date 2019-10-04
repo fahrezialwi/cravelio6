@@ -3,6 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import { URL_API } from '../helpers'
+import '../styles/register.css'
 
 class Register extends Component {
 
@@ -135,7 +136,7 @@ class Register extends Component {
     render() {
         if(!this.props.email){
             return (
-                <div className="container login-top">
+                <div className="container register-top">
                     <div className="row">
                         <div className="col-sm-8 col-md-4 mx-auto">
                             <div className="card-body">

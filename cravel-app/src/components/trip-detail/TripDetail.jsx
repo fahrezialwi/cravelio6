@@ -13,6 +13,7 @@ import PriceIncludes from './PriceIncludes'
 import PriceExcludes from './PriceExcludes'
 import FrequentQuestion from './FrequentQuestion'
 import Sidebar from './Sidebar'
+import '../../styles/trip-detail.css'
 
 class TripDetail extends Component {
 

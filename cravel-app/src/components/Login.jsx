@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { onLoginUser } from '../actions/auth'
 import { URL_API } from '../helpers'
+import '../styles/login.css'
 
 class Login extends Component {
 

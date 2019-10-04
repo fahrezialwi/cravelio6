@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import TripItem from './TripItem'
 import { URL_API } from '../helpers'
+import '../styles/home.css'
 
 class Home extends Component {
 

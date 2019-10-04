@@ -8,6 +8,8 @@ import Login from './Login'
 import TripDetail from './trip-detail/TripDetail'
 import Footer from './Footer'
 import { keepLogin } from '../actions/auth'
+import '../styles/global.css'
+
 
 class App extends Component {
     constructor(props) {
