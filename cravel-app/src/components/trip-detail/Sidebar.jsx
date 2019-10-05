@@ -2,6 +2,22 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { URL_API } from '../../helpers'
+import '../../styles/sidebar.css'
+
+window.onscroll = function() {
+    let sidebar = document.getElementById("sidebar")
+    let height = document.body.clientHeight-700
+
+    if (window.scrollY > 600 && window.scrollY < height ) {
+        sidebar.classList.add("sidebar-fixed");
+        sidebar.removeAttribute("style")
+    } else if (window.scrollY < 600) {
+        sidebar.classList.remove("sidebar-fixed");
+    } else if (window.scrollY > height) {
+        sidebar.classList.remove("sidebar-fixed");
+        sidebar.style.marginTop = `${height-610}px`
+    }
+}
 
 class Sidebar extends Component {
 
@@ -43,7 +59,7 @@ class Sidebar extends Component {
 
     render() {
         return (
-            <div className="sidebar">
+            <div id="sidebar">
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -60,6 +76,7 @@ class Sidebar extends Component {
                     </div>
                 </div>
             </div>
+
         )
     }
 }
