@@ -1,0 +1,32 @@
+.home-top {
+    margin-top: 100px
+}
+
+.card-decoration {
+    color: #111111;
+    margin-bottom: 20px
+}
+
+.card-image {
+    width: 100%;
+    border-radius: 4px
+}
+
+.card-tag {
+    padding: 2px 4px;
+    font-size: 12px;
+    color: white;
+    background-color: rgb(174, 0, 255);
+    border-radius: 2px;
+    display: inline-block
+}
+
+.card-title {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-weight: 600
+}
+
+.card-price {
+    font-size: 14px
+}

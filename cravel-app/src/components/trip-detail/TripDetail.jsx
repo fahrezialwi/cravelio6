@@ -11,7 +11,8 @@ import Itinerary from './Itinerary'
 import PriceIncludes from './PriceIncludes'
 import PriceExcludes from './PriceExcludes'
 import FrequentQuestion from './FrequentQuestion'
-import BottomNavigation from './BottomNavigation'
+import Sidebar from './Sidebar'
+import '../../styles/trip-detail.css'
 
 class TripDetail extends Component {
 
@@ -43,26 +44,32 @@ class TripDetail extends Component {
                     <Pictures tripId={this.state.trip.trip_id}/>
                     <div className="container">
                         <div className="row mt-5 mb-3">
-                            <Detail trip={this.state.trip}/>
-                            <Description trip={this.state.trip}/>
+                            <div className="col-8">
+                                <div className="row">
+                                    <Detail trip={this.state.trip}/>
+                                    <Description trip={this.state.trip}/>
+                                </div>
+                                <Reviews tripId={this.state.trip.trip_id}/>
+                                <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
+                                    <Tab eventKey="itinerary" title="Itinerary">
+                                        <Itinerary trip={this.state.trip}/>
+                                    </Tab>
+                                    <Tab eventKey="includes" title="Price Includes">
+                                        <PriceIncludes trip={this.state.trip}/>
+                                    </Tab>
+                                    <Tab eventKey="excludes" title="Price Excludes">
+                                        <PriceExcludes trip={this.state.trip}/>
+                                    </Tab>
+                                    <Tab eventKey="faq" title="FAQ">
+                                        <FrequentQuestion trip={this.state.trip}/>
+                                    </Tab>
+                                </Tabs>
+                            </div>
+                            <div className="col-4">
+                                <Sidebar trip={this.state.trip}/>
+                            </div>
                         </div>
-                        <Reviews tripId={this.state.trip.trip_id}/>
-                        <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
-                            <Tab eventKey="itinerary" title="Itinerary">
-                                <Itinerary trip={this.state.trip}/>
-                            </Tab>
-                            <Tab eventKey="includes" title="Price Includes">
-                                <PriceIncludes trip={this.state.trip}/>
-                            </Tab>
-                            <Tab eventKey="excludes" title="Price Excludes">
-                                <PriceExcludes trip={this.state.trip}/>
-                            </Tab>
-                            <Tab eventKey="faq" title="FAQ">
-                                <FrequentQuestion trip={this.state.trip}/>
-                            </Tab>
-                        </Tabs>
                     </div>
-                    <BottomNavigation trip={this.state.trip}/>
                 </div>
             )
         } else {

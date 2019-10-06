@@ -10,9 +10,8 @@ const { authRouter, tripRouter } = require('./routers')
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/', (req, res) => {
-    res.send("Welcome to my API")
-})
+app.get('/', (req, res) => res.send("Welcome to my API"))
+app.get('/favicon.ico', (req, res) => res.status(204))
 
 app.use(authRouter)
 app.use(tripRouter)
