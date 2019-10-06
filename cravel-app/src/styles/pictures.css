@@ -1,0 +1,82 @@
+.main-image {
+    position: relative;
+    display: flex
+}
+
+.favorites {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    padding: 7px 15px;
+    border: 1px solid black;
+    border-radius: 7px;
+    z-index: 1;
+    cursor: pointer
+}
+
+.all-images {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    padding: 7px 15px;
+    border: 1px solid black;
+    border-radius: 7px;
+    z-index: 1;
+    cursor: pointer
+}
+
+.left-image {
+    -webkit-box-pack: center !important;
+    -webkit-box-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    background-color: rgb(0, 0, 0) !important;
+    position: relative !important;
+    width: 50% !important;
+    height: 294.667px !important;
+    color: inherit !important;
+    overflow: hidden !important;
+    border-width: 1px !important;
+    border-style: solid !important
+}
+
+.zooming-image {
+    display: inline-block !important;
+    left: 0px !important;
+    position: absolute !important;
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    transition: -ms-transform 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, -webkit-transform 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, transform 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, opacity 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s !important
+}
+
+.zooming-image:hover {
+    transform: scale(1.05) !important;
+    transition: -ms-transform 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, -webkit-transform 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s, transform 450ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s !important
+}
+
+.container-middle-image, .container-right-image {
+    position: relative !important;
+    width: 25% !important;
+    height: 294.667px !important;
+    overflow: hidden !important
+}
+
+.middle-image, .right-image {
+    -webkit-box-pack: center !important;
+    -webkit-box-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    background-color: rgb(0, 0, 0) !important;
+    position: relative !important;
+    height: 50% !important;
+    color: inherit !important;
+    overflow: hidden !important;
+    border-width: 1px !important;
+    border-style: solid !important
+}
