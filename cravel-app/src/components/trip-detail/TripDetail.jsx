@@ -3,7 +3,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Tab, Tabs } from 'react-bootstrap'
 import { URL_API } from '../../helpers'
-import Jumbotron from './Jumbotron'
 import Detail from './Detail'
 import Description from './Description'
 import Pictures from './Pictures'
@@ -41,13 +40,12 @@ class TripDetail extends Component {
         if(this.state.trip){
             return (
                 <div className="detail-top bottom-space">
-                    <Jumbotron trip={this.state.trip}/>
+                    <Pictures tripId={this.state.trip.trip_id}/>
                     <div className="container">
                         <div className="row mt-5 mb-3">
                             <Detail trip={this.state.trip}/>
                             <Description trip={this.state.trip}/>
                         </div>
-                        <Pictures tripId={this.state.trip.trip_id}/>
                         <Reviews tripId={this.state.trip.trip_id}/>
                         <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
                             <Tab eventKey="itinerary" title="Itinerary">
