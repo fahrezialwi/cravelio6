@@ -1,4 +1,7 @@
 /* Global styles here */
+.navbar-spacing {
+    margin-top: 56px
+}
 
 .text-light-dark {
     color: #606060!important

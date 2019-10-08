@@ -7,6 +7,9 @@ import Register from './Register'
 import Login from './Login'
 import TripDetail from './trip-detail/TripDetail'
 import Checkout from './Checkout'
+import Confirmation from './Confirmation'
+import Payment from './Payment'
+import Complete from './Complete'
 import Footer from './Footer'
 import { keepLogin } from '../actions/auth'
 import '../styles/global.css'
@@ -38,6 +41,9 @@ class App extends Component {
                     <Route path='/login' component={Login} />
                     <Route path='/tripdetail/:id' component={TripDetail}/>
                     <Route path='/checkout' component={Checkout}/>
+                    <Route path='/confirmation' component={Confirmation}/>
+                    <Route path='/payment' component={Payment}/>
+                    <Route path='/complete' component={Complete}/>
                     <Footer/>
                 </BrowserRouter>
             </div>

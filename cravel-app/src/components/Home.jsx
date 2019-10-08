@@ -31,19 +31,24 @@ class Home extends Component {
     
     render() {
         return (
-            <div className="container home-top">
-                <h3>Our Best Pick</h3>
-                <p>Book one of these unique spots to escape the ordinary</p>
-                <div className="row">
-                    {this.tripList()}
+            <div className="navbar-spacing">
+                <div className="container">
+                    <div className="pt-5 mb-4">
+                        <h3>Our Best Pick</h3>
+                        <p>Book one of these unique spots to escape the ordinary</p>
+                        <div className="row">
+                            {this.tripList()}
+                        </div>
+                    </div>
+                    <div>
+                        <h3>International Destinations</h3>
+                        <p>A selection of places to stay verified for quality and design</p>
+                        <div className="row">
+                            {this.tripList()}
+                        </div>
+                    </div>
                 </div>
-                <h3>International Destinations</h3>
-                <p>A selection of places to stay verified for quality and design</p>
-                <div className="row">
-                    {this.tripList()}
-                </div>
-            </div>
-            
+            </div>    
         )
     } 
 }

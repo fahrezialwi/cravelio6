@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class Sidebar extends Component {
     render() {
@@ -17,7 +18,9 @@ class Sidebar extends Component {
                     </div>
                     <div className="row mt-3">
                         <div className="col-12">
-                            <button className="btn btn-dark btn-block">Book</button>
+                            <Link to="/checkout">
+                                <button className="btn btn-dark btn-block">Book</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

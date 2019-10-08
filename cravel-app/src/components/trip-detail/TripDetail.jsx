@@ -41,7 +41,7 @@ class TripDetail extends Component {
     render() {
         if(this.state.trip){
             return (
-                <div className="detail-top bottom-space">
+                <div className="navbar-spacing bottom-spacing">
                     <Jumbotron trip={this.state.trip}/>
                     <div className="container">
                         <div className="row mt-5 mb-3">
