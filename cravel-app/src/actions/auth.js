@@ -1,9 +1,9 @@
 // Login
-export const onLoginUser = (id, firstName, lastName, email) => {
+export const onLoginUser = (id, firstName, lastName, email, role) => {
     return {
         type: 'LOGIN_SUCCESS',
         payload: {
-            id, firstName, lastName, email
+            id, firstName, lastName, email, role
         }
     }                          
 }
@@ -16,7 +16,8 @@ export const keepLogin = (objUser) => {
             id: objUser.id,
             firstName: objUser.first_name,
             lastName: objUser.last_name,
-            email: objUser.email
+            email: objUser.email,
+            role: objUser.role
         }
     }
 }

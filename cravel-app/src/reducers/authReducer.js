@@ -2,7 +2,8 @@ const init = {
     id: '',
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    role: ''
 }
 
 const authReducer = (state = init, action) => {
@@ -13,7 +14,8 @@ const authReducer = (state = init, action) => {
                 id: action.payload.id,
                 firstName: action.payload.firstName,
                 lastName: action.payload.lastName,
-                email: action.payload.email
+                email: action.payload.email,
+                role: action.payload.role
             }
         case "LOGOUT_SUCCESS":
             return {
@@ -21,7 +23,8 @@ const authReducer = (state = init, action) => {
                 id: '',
                 firstName: '',
                 lastName: '',
-                email: ''
+                email: '',
+                role: ''
             }
         default:
             return state

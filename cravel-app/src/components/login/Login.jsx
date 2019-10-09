@@ -31,7 +31,7 @@ class Login extends Component {
                 }
             }
         ).then((res)=> {
-            if (res.data.status === 404){
+            if (res.data.status === 401){
                 this.setState({
                     loading: false,
                     error: 'Incorrect email or password.'
@@ -42,14 +42,14 @@ class Login extends Component {
                     }) 
                 }, 3000)
             } else {
-                let {id, first_name, last_name, email} = res.data.results[0]
+                let {id, first_name, last_name, email, role} = res.data.results[0]
                 localStorage.setItem(
                     'userData',
                     JSON.stringify({
-                        id, first_name, last_name, email
+                        id, first_name, last_name, email, role
                     })
                 )
-                this.props.onLoginUser(id, first_name, last_name, email)
+                this.props.onLoginUser(id, first_name, last_name, email, role)
             }
         })
     }
@@ -89,17 +89,19 @@ class Login extends Component {
     render() {
         if(!this.props.email){
             return (
-                <div className="container login-top">
-                    <div className="row">
-                        <div className="col-sm-8 col-md-4 mx-auto">
-                            <div className="card-body">
-                                <h2>Login</h2>
-                                <form onSubmit={this.onLoginSubmit}>
-                                    <div className="input-group"><input ref={(input)=>{this.email = input}} type="text" className="form-control mt-3" placeholder="Email"/></div>
-                                    <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
-                                    {this.loadingButton()}
-                                </form>
-                                {this.notification()}
+                <div className="navbar-spacing">
+                    <div className="container container-height">
+                        <div className="row pt-5">
+                            <div className="col-sm-8 col-md-4 mx-auto">
+                                <div className="card-body">
+                                    <h2>Login</h2>
+                                    <form onSubmit={this.onLoginSubmit}>
+                                        <div className="input-group"><input ref={(input)=>{this.email = input}} type="text" className="form-control mt-3" placeholder="Email"/></div>
+                                        <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
+                                        {this.loadingButton()}
+                                    </form>
+                                    {this.notification()}
+                                </div>
                             </div>
                         </div>
                     </div>

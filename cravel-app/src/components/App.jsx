@@ -16,6 +16,7 @@ import OpenTrip from './footer/OpenTrip'
 import PrivateTrip from './footer/PrivateTrip'
 import PrivacyPolicy from './footer/PrivacyPolicy'
 import TermsConditions from './footer/TermsConditions'
+import Dashboard from './dashboard/Dashboard'
 import { keepLogin } from '../actions/auth'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/global.css'
@@ -54,6 +55,7 @@ class App extends Component {
                     <Route path='/private-trip' component={PrivateTrip}/>
                     <Route path='/privacy-policy' component={PrivacyPolicy}/>
                     <Route path='/terms-and-conditions' component={TermsConditions}/>
+                    <Route path='/dashboard' component={Dashboard}/>
                     <Footer/>
                 </BrowserRouter>
             </div>

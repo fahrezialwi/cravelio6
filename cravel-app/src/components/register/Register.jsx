@@ -136,36 +136,39 @@ class Register extends Component {
     render() {
         if(!this.props.email){
             return (
-                <div className="container register-top">
-                    <div className="row">
-                        <div className="col-sm-8 col-md-4 mx-auto">
-                            <div className="card-body">
-                                <h2>Register</h2>
-                                <form onClick={this.loadingButton}>
-                                    <div className="row">
-                                        <div className="col-6 input-group pr-2">
-                                            <input onChange={e => this.setState({firstName: e.target.value})} type="text" className="form-control mt-3" placeholder="First Name" autoFocus/>
+                <div className="navbar-spacing">
+                    <div className="container container-height">
+                        <div className="row pt-5">
+                            <div className="col-sm-8 col-md-4 mx-auto">
+                                <div className="card-body">
+                                    <h2>Register</h2>
+                                    <form onClick={this.loadingButton}>
+                                        <div className="row">
+                                            <div className="col-6 input-group pr-2">
+                                                <input onChange={e => this.setState({firstName: e.target.value})} type="text" className="form-control mt-3" placeholder="First Name" autoFocus/>
+                                            </div>
+                                            <div className="col-6 input-group pl-2">
+                                                <input onChange={e => this.setState({lastName: e.target.value})} type="text" className="form-control mt-3" placeholder="Last Name"/>
+                                            </div>
                                         </div>
-                                        <div className="col-6 input-group pl-2">
-                                            <input onChange={e => this.setState({lastName: e.target.value})} type="text" className="form-control mt-3" placeholder="Last Name"/>
+                                        <div className="input-group">
+                                            <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
                                         </div>
-                                    </div>
-                                    <div className="input-group">
-                                        <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
-                                    </div>
-                                    <div className="input-group">
-                                        <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
-                                    </div>
-                                    <div className="input-group">
-                                        <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
-                                    </div>
-                                    {this.loadingButton()}
-                                </form>
-                                {this.notification()}
+                                        <div className="input-group">
+                                            <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
+                                        </div>
+                                        <div className="input-group">
+                                            <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
+                                        </div>
+                                        {this.loadingButton()}
+                                    </form>
+                                    {this.notification()}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             )
         } else {
             return <Redirect to='/'/>
