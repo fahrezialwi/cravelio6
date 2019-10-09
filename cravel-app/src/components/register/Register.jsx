@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
-import { URL_API } from '../helpers'
-import '../styles/register.css'
+import { URL_API } from '../../helpers'
+import '../../styles/register.css'
 
 class Register extends Component {
 

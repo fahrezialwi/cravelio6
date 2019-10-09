@@ -12,7 +12,7 @@ import {
     DropdownItem 
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { onLogoutUser } from '../actions/auth'
+import { onLogoutUser } from '../../actions/auth'
 
 class Header extends Component {
 
