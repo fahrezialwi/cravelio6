@@ -72,6 +72,10 @@ class Header extends Component {
                                             <div style={{fontSize: "14px"}}>({this.props.email})</div>
                                         </DropdownItem>
                                         <DropdownItem divider />
+                                        <DropdownItem className="text-light-dark">
+                                            Order History
+                                        </DropdownItem>
+                                        <DropdownItem divider />
                                         <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
                                             Logout
                                         </DropdownItem>

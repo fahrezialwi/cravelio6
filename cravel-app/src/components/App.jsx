@@ -12,6 +12,7 @@ import Payment from './Payment'
 import Complete from './Complete'
 import Footer from './Footer'
 import { keepLogin } from '../actions/auth'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/global.css'
 
 

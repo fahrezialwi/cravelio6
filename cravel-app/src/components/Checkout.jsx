@@ -57,14 +57,14 @@ class Checkout extends Component {
                         <div className="col-5">
                             <div className="card mb-5">
                                 <div className="card-header">
-                                    Bromo Adventure
+                                    Summary
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-flush">
                                         <li className="list-group-item">
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <p className="mb-0">Trip Cost</p>
+                                                    <p className="mb-0">Bromo Adventure</p>
                                                     <p className="mb-0">(2 pax @Rp 400.000)</p>
                                                 </div>
                                                 <div className="col-6 text-right">

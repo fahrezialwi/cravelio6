@@ -5,9 +5,12 @@ class Complete extends Component {
     render() {
         return (
             <div className="navbar-spacing">
-                <div className="container">
+                <div className="container pt-5">
                     <div className="row">
-                        Booking Completed
+                        <div className="col-12 text-center">
+                            <h2>Booking Completed</h2>
+                            <p>We're processing your request. Please check email soon for invoice.</p>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-3 ml-auto">
