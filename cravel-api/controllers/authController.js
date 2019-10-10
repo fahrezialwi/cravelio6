@@ -53,8 +53,8 @@ module.exports = {
                 }
             } else {
                 res.send({
-                    status: 404,
-                    message: 'Login error'
+                    status: 401,
+                    message: 'User not found'
                 })
             }
         })

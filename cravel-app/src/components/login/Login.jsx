@@ -3,7 +3,8 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { onLoginUser } from '../../actions/auth'
-import { URL_API } from '../../helpers'
+import URL_API from '../../config/urlAPI'
+import encrypt from '../../config/crypto'
 import '../../styles/login.css'
 
 class Login extends Component {
@@ -22,12 +23,13 @@ class Login extends Component {
             loading: true
         })
 
+        let password = encrypt(this.password.value)
         axios.get (
             URL_API + 'login',
             {
                 params: {
                     email: this.email.value,
-                    password: this.password.value
+                    password: password
                 }
             }
         ).then((res)=> {
@@ -91,7 +93,7 @@ class Login extends Component {
             return (
                 <div className="navbar-spacing">
                     <div className="container container-height">
-                        <div className="row pt-5">
+                        <div className="row row-top">
                             <div className="col-sm-8 col-md-4 mx-auto">
                                 <div className="card-body">
                                     <h2>Login</h2>

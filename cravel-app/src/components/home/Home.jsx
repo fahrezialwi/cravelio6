@@ -33,7 +33,7 @@ class Home extends Component {
         return (
             <div className="navbar-spacing">
                 <div className="container container-height">
-                    <div className="row pt-5">
+                    <div className="row row-top">
                         <div className="col-12">
                             <h3>Our Best Pick</h3>
                             <p>Book one of these unique spots to escape the ordinary</p>

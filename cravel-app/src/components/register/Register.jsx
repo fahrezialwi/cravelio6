@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
-import { URL_API } from '../../helpers'
+import URL_API from '../../config/urlAPI'
+import encrypt from '../../config/crypto'
 import '../../styles/register.css'
 
 class Register extends Component {
@@ -26,10 +27,14 @@ class Register extends Component {
         this.setState({
             loading: true
         })
-
+        
         let {firstName, lastName,  email, password, repeatPassword} = this.state
 
+        password = encrypt(password)
+        repeatPassword = encrypt(repeatPassword)
+
         if(!firstName|| !lastName || !email || !password || !repeatPassword){
+
             this.setState({
                 loading: false,
                 error: 'Please fill all input forms.'
@@ -138,7 +143,7 @@ class Register extends Component {
             return (
                 <div className="navbar-spacing">
                     <div className="container container-height">
-                        <div className="row pt-5">
+                        <div className="row row-top">
                             <div className="col-sm-8 col-md-4 mx-auto">
                                 <div className="card-body">
                                     <h2>Register</h2>

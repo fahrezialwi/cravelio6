@@ -29,7 +29,7 @@ class Dashboard extends Component {
             return (
                 <div className="navbar-spacing">
                     <div className="container container-height">
-                        <div className="row pt-5 pb-5">
+                        <div className="row row-top row-bottom">
                             <div className="col-3">
                                 <div className="card">
                                     <div className="card-header">

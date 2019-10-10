@@ -7,6 +7,14 @@
     min-height: 65vh
 }
 
+.row-top {
+    padding-top: 3rem
+}
+
+.row-bottom {
+    padding-bottom: 3rem
+}
+
 .text-light-dark {
     color: #606060!important
 }
