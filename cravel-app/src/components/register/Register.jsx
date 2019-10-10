@@ -34,7 +34,6 @@ class Register extends Component {
         repeatPassword = encrypt(repeatPassword)
 
         if(!firstName|| !lastName || !email || !password || !repeatPassword){
-
             this.setState({
                 loading: false,
                 error: 'Please fill all input forms.'

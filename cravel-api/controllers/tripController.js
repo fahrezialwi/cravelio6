@@ -9,12 +9,13 @@ module.exports = {
                     return {
                         trip_id: val.trip_id,
                         name: val.name,
-                        picture_main: val.picture_link,
+                        description: val.description,
                         meeting_point: val.meeting_point,
                         price: val.price,
-                        duration: val.duration,
                         category: val.category,
-                        quota: val.quota
+                        duration: val.duration,
+                        quota: val.quota,
+                        picture_main: val.picture_link,
                     }
                 })
                 
