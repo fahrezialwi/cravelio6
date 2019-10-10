@@ -23,14 +23,14 @@ class Confirmation extends Component {
         if(!this.state.proceed){
             return (
                 <div className="navbar-spacing">
-                    <div className="container pt-5">
-                        <div className="row">
+                    <div className="container container-height">
+                        <div className="row row-top">
                             <div className="col-12">
                                 <h2>Confirmation</h2>
                                 <p>Please check your order</p>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row pb-3">
                             <div className="col-12">
                                 <div className="card mb-4">
                                     <div className="card-body">
@@ -65,7 +65,7 @@ class Confirmation extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row row-bottom">
                             <div className="col-3 ml-auto">
                                 <button onClick={this.proceedPayment} className="btn btn-dark btn-block">Proceed to Payment</button>
                             </div>
@@ -76,8 +76,8 @@ class Confirmation extends Component {
         } else {
             return(
                 <div className="navbar-spacing">
-                    <div className="container pt-5">
-                        <div className="text-center">
+                    <div className="container container-height">
+                        <div className="text-center row-top row-bottom">
                             <h4 className="mb-4">Processing your order</h4>
                             <div className="spinner-border" role="status">
                                 <span className="sr-only">Loading...</span>

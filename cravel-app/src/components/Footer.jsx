@@ -6,7 +6,7 @@ class Footer extends Component {
     render() {
         return (   
             <div className="footer-background">
-                <div className="container mt-5 pt-5 pb-4">
+                <div className="container pt-5 pb-4">
                     <div className="row mb-5">
                         <div className="col-3">
                             <h1 className="footer-logo">cravel</h1>

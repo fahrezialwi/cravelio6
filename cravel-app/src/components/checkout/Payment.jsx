@@ -5,8 +5,8 @@ class Payment extends Component {
     render() {
         return (
             <div className="navbar-spacing">
-                <div className="container pt-5">
-                    <div className="row">
+                <div className="container container-height">
+                    <div className="row row-top">
                         <div className="col-12">
                             <h2>Invoice #1</h2>
                             <p>Due Amount: Rp. 600.000</p>
@@ -45,7 +45,7 @@ class Payment extends Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ class Payment extends Component {
                             <input type="file" className="form-control"/>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row row-bottom">
                         <div className="col-3 ml-auto">
                             <Link to="/complete">
                                 <button className="btn btn-dark btn-block">Submit</button>

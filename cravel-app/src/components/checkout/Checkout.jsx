@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import '../styles/checkout.css'
+import '../../styles/checkout.css'
 
 const participants = [0, 1]
 
@@ -49,8 +49,8 @@ class Checkout extends Component {
     render() {
         return (
             <div className="navbar-spacing">
-                <div className="container">
-                    <div className="row pt-5 pb-3">
+                <div className="container container-height">
+                    <div className="row row-top pb-3">
                         <div className="col-7">
                             {this.renderForm()}
                         </div>
@@ -108,7 +108,7 @@ class Checkout extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row row-bottom">
                         <div className="col-3 ml-auto">
                             <Link to={`/confirmation`}>
                                 <button className="btn btn-dark btn-block">Next</button>
