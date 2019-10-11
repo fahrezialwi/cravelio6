@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { URL_API } from '../../helpers'
+import URL_API from '../../config/urlAPI'
 import moment from 'moment'
 
 class Reviews extends Component {

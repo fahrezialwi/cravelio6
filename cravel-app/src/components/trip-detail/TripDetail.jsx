@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
-import { URL_API } from '../../helpers'
+import URL_API from '../../config/urlAPI'
 import Jumbotron from './Jumbotron'
 import Detail from './Detail'
 import Description from './Description'
@@ -29,12 +30,14 @@ class TripDetail extends Component {
     }
 
     getData = () => {
-        axios.get(
-            URL_API + `trips/${this.props.match.params.id}`
-        ).then((res) => {    
+        axios.get(URL_API + 'trips', {
+            params: {
+                path: this.props.location.pathname.split("/").pop()
+            }
+        }).then(res => {      
             this.setState({
                 trip: res.data.results[0]
-            })
+            })    
         })
     }
 
@@ -74,11 +77,15 @@ class TripDetail extends Component {
                     </div>
                 </div>
             )
+        } else if(this.state.trip === undefined) {
+            return <Redirect to='/404'/>
         } else {
             return (
-                <div className="container container-top">
-                    <h1 className="text-center">Loading</h1>
-                </div>
+                <div className="navbar-spacing">
+                    <div className="container container-height">
+                        <h1 className="row-top text-center">Loading</h1>
+                    </div>  
+                </div> 
             )
         }
     }

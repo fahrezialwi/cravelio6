@@ -37,24 +37,18 @@ module.exports = {
     },
 
     loginUser: (req, res) => {
-        db.query(`select * from users where email = '${req.query.email}'`, (err, result) => {
+        db.query(`select * from users where email = '${req.query.email}' and password = '${req.query.password}'`, (err, result) => {
             if (err) throw err
             if (result.length > 0){
-                if(req.query.password === result[0].password){
-                    res.send({
-                        status: 200,
-                        results: result
-                    })
-                } else {
-                    res.send({
-                        status: 401,
-                        message: 'Wrong password'
-                    })
-                }
+                res.send({
+                    status: 200,
+                    results: result
+                })
             } else {
                 res.send({
                     status: 401,
-                    message: 'User not found'
+                    message: 'Wrong email or password',
+                    results: result
                 })
             }
         })

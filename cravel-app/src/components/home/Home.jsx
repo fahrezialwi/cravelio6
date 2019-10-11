@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import TripItem from './TripItem'
-import { URL_API } from '../../helpers'
+import URL_API from '../../config/urlAPI'
 import '../../styles/home.css'
 
 class Home extends Component {
@@ -9,7 +9,7 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            trips: [],
+            trips: []
         }
     }
     
