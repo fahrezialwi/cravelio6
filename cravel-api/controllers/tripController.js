@@ -3,11 +3,8 @@ const db = require('../database')
 module.exports = {
     getTrips: (req, res) => {
         let sql = `select * from trips as t join pictures as p on t.trip_id = p.trip_id where p.is_main = 1`
-        if(req.query.path){
-            sql += ` and t.path = '${req.query.path}'`
-        }
-        if(req.params.id){
-            sql += ` and t.trip_id = ${req.params.id}`
+        if(req.params.path){
+            sql += ` and t.path = '${req.params.path}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err

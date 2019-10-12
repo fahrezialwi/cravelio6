@@ -18,6 +18,7 @@ import PrivacyPolicy from './footer/PrivacyPolicy'
 import TermsConditions from './footer/TermsConditions'
 import Dashboard from './dashboard/Dashboard'
 import NotFound from './NotFound'
+import ScrollToTop from './ScrollToTop'
 import { keepLogin } from '../actions/auth'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/global.css'
@@ -42,6 +43,7 @@ class App extends Component {
         if(this.state.check){
             return (
                 <BrowserRouter>
+                    <ScrollToTop/>
                     <Header/>  
                     <Switch>
                         <Route path='/' exact component={Home}/>

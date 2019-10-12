@@ -30,11 +30,9 @@ class TripDetail extends Component {
     }
 
     getData = () => {
-        axios.get(URL_API + 'trips', {
-            params: {
-                path: this.props.location.pathname.split("/").pop()
-            }
-        }).then(res => {      
+        axios.get(
+            URL_API + `trips/${this.props.location.pathname.split("/").pop()}`
+        ).then(res => {      
             this.setState({
                 trip: res.data.results[0]
             })    
