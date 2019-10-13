@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-class Transaction extends Component {
+class EditTrip extends Component {
     render() {
         return (
             <div className="card-body">
                 <div className="row">
                     <div className="col-12">
-                        Transaction Component
+                        Edit Trip Component
                     </div>
                 </div>
             </div>
@@ -14,4 +14,4 @@ class Transaction extends Component {
     }
 }
 
-export default Transaction
+export default EditTrip

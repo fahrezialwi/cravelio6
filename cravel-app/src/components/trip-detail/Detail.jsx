@@ -4,7 +4,7 @@ class Detail extends Component {
     render() {
         return (
             <div className="col-6">
-                <h2>{this.props.trip.name}</h2>
+                <h2>{this.props.trip.trip_name}</h2>
                 <div className="row">
                     <div className="col-12 mt-2">
                         <div className="row">

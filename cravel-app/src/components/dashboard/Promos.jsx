@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import URL_API from '../../config/urlAPI'
 
-class ManageTrip extends Component {
+class Promos extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            trips : []
+            promos : []
         }
     }
 
@@ -17,26 +17,21 @@ class ManageTrip extends Component {
 
     getData = () => {
         axios.get (
-            URL_API + 'trips'
+            URL_API + 'promos'
         ).then((res)=> {
             this.setState({
-                trips: res.data.results
+                promos: res.data.results
             })
         })
     }
 
-    tripList = () => {
-        console.log(this.state.trips)
-        return this.state.trips.map((trip, index) => {
+    promoList = () => {
+        return this.state.promos.map((promo, index) => {
             return (
-                <tr key={trip.trip_id}>
+                <tr key={promo.promo_id}>
                     <td>{index+1}</td>
-                    <td>{trip.name}</td>
-                    <td>{trip.meeting_point}</td>
-                    <td>{trip.price}</td>
-                    <td>{trip.category}</td>
-                    <td>{trip.duration}</td>
-                    <td><img src={trip.picture_main} alt={trip.name} width="100"/></td>
+                    <td>{promo.promo_code}</td>
+                    <td>{promo.promo_discount}</td>
                 </tr>
             )
         })
@@ -52,16 +47,12 @@ class ManageTrip extends Component {
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Name</th>
-                                        <th>Meeting Point</th>
-                                        <th>Price</th>
-                                        <th>Category</th>
-                                        <th>Duration</th>
-                                        <th>Picture</th>
+                                        <th>Promo Code</th>
+                                        <th>Promo Discount (%)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.tripList()}
+                                    {this.promoList()}
                                 </tbody>
                             </table>
                         </div>
@@ -72,4 +63,4 @@ class ManageTrip extends Component {
     }
 }
 
-export default ManageTrip
+export default Promos

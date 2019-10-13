@@ -13,7 +13,7 @@ module.exports = {
                     return {
                         trip_id: val.trip_id,
                         path: val.path,
-                        name: val.name,
+                        trip_name: val.trip_name,
                         picture_main: val.picture_link,
                         meeting_point: val.meeting_point,
                         price: val.price,
