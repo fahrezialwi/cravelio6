@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import moment from 'moment'
 import URL_API from '../../config/urlAPI'
 
 class PaymentsPending extends Component {
@@ -38,7 +39,7 @@ class PaymentsPending extends Component {
                     <td>{transaction.transfer_bank_name}</td>
                     <td>{transaction.transfer_account_holder}</td>
                     <td><img src={transaction.transfer_proof} alt={transaction.transaction_id} width="100"/></td>
-                    <td>{transaction.created_at}</td>
+                    <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
                 </tr>
             )
         })

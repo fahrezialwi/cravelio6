@@ -32,6 +32,8 @@ class Promos extends Component {
                     <td>{index+1}</td>
                     <td>{promo.promo_code}</td>
                     <td>{promo.promo_discount}</td>
+                    <td><button className="btn btn-dark">Edit</button></td>
+                    <td><button className="btn btn-dark">Delete</button></td>
                 </tr>
             )
         })
@@ -49,6 +51,7 @@ class Promos extends Component {
                                         <th>No.</th>
                                         <th>Promo Code</th>
                                         <th>Promo Discount (%)</th>
+                                        <th colSpan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

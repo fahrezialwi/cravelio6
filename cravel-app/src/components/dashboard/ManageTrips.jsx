@@ -30,12 +30,14 @@ class ManageTrip extends Component {
             return (
                 <tr key={trip.trip_id}>
                     <td>{index+1}</td>
-                    <td>{trip.name}</td>
+                    <td>{trip.trip_name}</td>
                     <td>{trip.meeting_point}</td>
                     <td>{trip.price}</td>
                     <td>{trip.category}</td>
                     <td>{trip.duration}</td>
                     <td><img src={trip.picture_main} alt={trip.name} width="100"/></td>
+                    <td><button className="btn btn-dark">Edit</button></td>
+                    <td><button className="btn btn-dark">Delete</button></td>
                 </tr>
             )
         })
@@ -57,6 +59,7 @@ class ManageTrip extends Component {
                                         <th>Category</th>
                                         <th>Duration</th>
                                         <th>Picture</th>
+                                        <th colSpan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
