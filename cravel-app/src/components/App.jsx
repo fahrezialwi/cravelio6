@@ -6,6 +6,10 @@ import Home from './home/Home'
 import Register from './register/Register'
 import Login from './login/Login'
 import TripDetail from './trip-detail/TripDetail'
+import Checkout from './checkout/Checkout'
+import Confirmation from './checkout/Confirmation'
+import Payment from './checkout/Payment'
+import Complete from './checkout/Complete'
 import Footer from './footer/Footer'
 import ContactUs from './footer/ContactUs'
 import HowToBook from './footer/HowToBook'
@@ -50,6 +54,10 @@ class App extends Component {
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
                         <Route path='/trip' component={TripDetail}/>
+                        <Route path='/checkout' component={Checkout}/>
+                        <Route path='/confirmation' component={Confirmation}/>
+                        <Route path='/payment' component={Payment}/>
+                        <Route path='/complete' component={Complete}/>
                         <Route path='/contact-us' component={ContactUs}/>
                         <Route path='/how-to-book' component={HowToBook}/>
                         <Route path='/help-center' component={HelpCenter}/>

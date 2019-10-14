@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
-import { URL_API } from '../../helpers'
+import URL_API from '../../config/urlAPI'
 import '../../styles/sidebar.css'
 
 window.onscroll = function() {
@@ -18,6 +19,7 @@ window.onscroll = function() {
         sidebar.style.marginTop = `${height-610}px`
     }
 }
+
 
 class Sidebar extends Component {
 
@@ -71,7 +73,9 @@ class Sidebar extends Component {
                     </div>
                     <div className="row mt-3">
                         <div className="col-12">
-                            <button className="btn btn-dark btn-block">Book</button>
+                            <Link to="/checkout">
+                                <button className="btn btn-dark btn-block">Book</button>
+                            </Link>
                         </div>
                     </div>
                 </div>
