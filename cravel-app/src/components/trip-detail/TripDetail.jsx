@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
 import URL_API from '../../config/urlAPI'
-import Jumbotron from './Jumbotron'
 import Detail from './Detail'
 import Description from './Description'
 import Pictures from './Pictures'
@@ -43,7 +42,7 @@ class TripDetail extends Component {
         if(this.state.trip){
             return (
                 <div className="navbar-spacing">
-                    <Jumbotron trip={this.state.trip}/>
+                    <Pictures tripId={this.state.trip.trip_id}/>
                     <div className="container container-height">
                         <div className="row row-top row-bottom">
                             <div className="col-8">
@@ -51,7 +50,6 @@ class TripDetail extends Component {
                                     <Detail trip={this.state.trip}/>
                                     <Description trip={this.state.trip}/>
                                 </div>
-                                <Pictures tripId={this.state.trip.trip_id}/>
                                 <Reviews tripId={this.state.trip.trip_id}/>
                                 <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
                                     <Tab eventKey="itinerary" title="Itinerary">
