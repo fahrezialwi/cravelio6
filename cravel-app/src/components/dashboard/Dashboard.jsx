@@ -5,6 +5,7 @@ import Overview from './Overview'
 import PaymentsPending from './PaymentsPending'
 import TransactionHistory from './TransactionHistory'
 import ManageTrips from './ManageTrips'
+import Schedules from './Schedules'
 import Promos from './Promos'
 import '../../styles/dashboard.css'
 
@@ -26,6 +27,8 @@ class Dashboard extends Component {
             return <TransactionHistory/>
         } else if(this.state.content === 'manage'){
             return <ManageTrips/>
+        } else if(this.state.content === 'schedule'){
+            return <Schedules/>
         } else if(this.state.content === 'promo'){
             return <Promos/>
         }
@@ -50,6 +53,7 @@ class Dashboard extends Component {
                                             <li className={"list-group-item list-dashboard" + (this.state.content === 'payment' ? ' list-active' : '')} onClick={() => this.setState({content: 'payment'})}>Payments Pending</li>
                                             <li className={"list-group-item list-dashboard" + (this.state.content === 'transaction' ? ' list-active' : '')} onClick={() => this.setState({content: 'transaction'})}>Transaction History</li>
                                             <li className={"list-group-item list-dashboard" + (this.state.content === 'manage' ? ' list-active' : '')} onClick={() => this.setState({content: 'manage'})}>Manage Trips</li>
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'schedule' ? ' list-active' : '')} onClick={() => this.setState({content: 'schedule'})}>Schedules</li>
                                             <li className={"list-group-item list-dashboard" + (this.state.content === 'promo' ? ' list-active' : '')} onClick={() => this.setState({content: 'promo'})}>Promos</li>
                                         </ul>
                                     </div>
