@@ -15,7 +15,10 @@ app.get('/favicon.ico', (req, res) => res.status(204))
 
 app.use(routers.authRouter)
 app.use(routers.tripRouter)
+app.use(routers.pictureRouter)
+app.use(routers.reviewRouter)
 app.use(routers.transactionRouter)
+app.use(routers.scheduleRouter)
 app.use(routers.promoRouter)
 
 app.listen(port, () => console.log("Server up in port " + port))
