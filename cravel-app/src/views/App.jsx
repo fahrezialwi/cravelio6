@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from  'react-redux'
+import { keepLogin } from '../actions/auth'
+import Cookies from 'universal-cookie'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -21,7 +23,6 @@ import TermsConditions from './pages/TermsConditions'
 import Dashboard from './pages/Dashboard'
 import NotFound from './components/general/NotFound'
 import ScrollToTop from './components/general/ScrollToTop'
-import { keepLogin } from '../actions/auth'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/global.css'
 
@@ -34,9 +35,11 @@ class App extends Component {
     }
 
     componentDidMount() {
-        let userStorage = JSON.parse(localStorage.getItem('userData'))
-        if(userStorage){
-            this.props.keepLogin(userStorage)
+        const cookie = new Cookies()
+        let userCookie = cookie.get('userData')
+        
+        if(userCookie){
+            this.props.keepLogin(userCookie)
         }
         this.setState({check: true})
     }

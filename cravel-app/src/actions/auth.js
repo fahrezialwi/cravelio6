@@ -1,3 +1,5 @@
+import Cookies from 'universal-cookie'
+
 // Login
 export const onLoginUser = (id, firstName, lastName, email, role) => {
     return {
@@ -24,7 +26,8 @@ export const keepLogin = (objUser) => {
 
 // Logout
 export const onLogoutUser = () => {
-    localStorage.removeItem('userData')
+    const cookie = new Cookies()
+    cookie.remove('userData')
     return {
         type: 'LOGOUT_SUCCESS',
     }

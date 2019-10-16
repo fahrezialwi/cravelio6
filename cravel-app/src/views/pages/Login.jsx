@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { onLoginUser } from '../../actions/auth'
@@ -47,12 +48,21 @@ class Login extends Component {
                 }, 3000)
             } else {
                 let {id, first_name, last_name, email, role} = res.data.results[0]
-                localStorage.setItem(
+
+                let d = new Date()
+                d.setTime(d.getTime() + (1*24*60*60*1000))
+                const cookie = new Cookies()
+
+                cookie.set(
                     'userData',
-                    JSON.stringify({
+                    {
                         id, first_name, last_name, email, role
-                    })
+                    },
+                    {
+                        path: "/", expires: d
+                    }
                 )
+
                 this.props.onLoginUser(id, first_name, last_name, email, role)
             }
         })
