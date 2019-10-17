@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
-import URL_API from '../../config/urlAPI'
-import encrypt from '../../config/crypto'
+import URL_API from '../../helpers/urlAPI'
+import encrypt from '../../helpers/crypto'
 import '../styles/register.css'
 
 class Register extends Component {

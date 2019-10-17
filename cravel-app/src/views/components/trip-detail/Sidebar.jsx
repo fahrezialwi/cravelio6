@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
-import URL_API from '../../../config/urlAPI'
+import URL_API from '../../../helpers/urlAPI'
 import '../../styles/sidebar.css'
 
 // window.onscroll = function() {

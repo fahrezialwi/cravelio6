@@ -3,7 +3,7 @@ import axios from 'axios'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import TripItem from '../components/home/TripItem'
-import URL_API from '../../config/urlAPI'
+import URL_API from '../../helpers/urlAPI'
 import '../styles/home.css'
 
 class Home extends Component {

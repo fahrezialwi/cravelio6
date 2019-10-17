@@ -14,7 +14,7 @@ import PriceIncludes from '../components/trip-detail/PriceIncludes'
 import PriceExcludes from '../components/trip-detail/PriceExcludes'
 import FrequentQuestion from '../components/trip-detail/FrequentQuestion'
 import Sidebar from '../components/trip-detail/Sidebar'
-import URL_API from '../../config/urlAPI'
+import URL_API from '../../helpers/urlAPI'
 import '../styles/trip-detail.css'
 
 class TripDetail extends Component {
