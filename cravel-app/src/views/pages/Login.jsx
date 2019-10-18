@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 import { onLoginUser } from '../../actions/auth'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
-import URL_API from '../../helpers/urlAPI'
+import URL_API from '../../configs/urlAPI'
 import encrypt from '../../helpers/crypto'
 import '../styles/login.css'
 

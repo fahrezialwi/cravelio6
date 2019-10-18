@@ -1,34 +1,43 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { onCheckout } from '../../actions/booking'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import axios from 'axios'
-import URL_API from '../../helpers/urlAPI'
+import moment from 'moment'
+import URL_API from '../../configs/urlAPI'
 import formatCurrency from '../../helpers/formatCurrency'
 import '../styles/checkout.css'
-
-const participants = [0, 1]
 
 class Checkout extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            tripPrice: 800000,
             promoCode: '',
+            promoCodeInput: '',
             promoPercentage: 0,
             promoValue: 0,
-            totalPrice: 800000,
+            totalPrice: 0,
             promoMessage: ''
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            totalPrice: this.props.tripPrice
+        })
+    }
+
     renderForm = () => {
-        return participants.map((val, index) => {
-            return (
-                <div className="row mb-3" key={index}>
+        let participants = []
+
+        for (let i = 0 ; i < this.props.pax ; i++){
+            participants.push(
+                <div className="row mb-3" key={i}>
                     <div className="col-12 mb-3">
-                        <h4>Participant {index+1}</h4>
+                        <h4>Participant {i+1}</h4>
                     </div>
                     <div className="col-2 mb-3">
                         <h6>Title</h6>
@@ -60,7 +69,8 @@ class Checkout extends Component {
                     </div>  
                 </div>
             )
-        })
+        }
+        return participants
     }
 
     renderPromo = () => {
@@ -69,7 +79,8 @@ class Checkout extends Component {
                 <li className="list-group-item">
                     <div className="row">
                         <div className="col-6">
-                            Promo
+                            <p className="mb-0">Promo</p>
+                            <div className="checkout-promo">{this.state.promoCode}</div>
                         </div>
                         <div className="col-6 text-right">
                             - {formatCurrency(this.state.promoValue)}
@@ -83,11 +94,11 @@ class Checkout extends Component {
     }
 
     checkPromo = () => {
-        if(this.state.promoCode){
+        if(this.state.promoCodeInput){
             axios.get(
                 URL_API + 'promos', {
                     params: {
-                        promo_code: this.state.promoCode
+                        promo_code: this.state.promoCodeInput
                     }
                 }
             ).then(res => {
@@ -95,7 +106,7 @@ class Checkout extends Component {
                     this.setState({
                         promoPercentage: 0,
                         promoValue: 0,
-                        totalPrice: this.state.tripPrice,
+                        totalPrice: this.props.tripPrice,
                         promoMessage: 'Invalid code'
                     })
                     setTimeout(() => { 
@@ -105,9 +116,10 @@ class Checkout extends Component {
                     }, 3000)
                 } else if (res.data.results[0]){
                     this.setState({
+                        promoCode: res.data.results[0].promo_code,
                         promoPercentage: res.data.results[0].promo_discount,
-                        promoValue: this.state.tripPrice*(res.data.results[0].promo_discount/100),
-                        totalPrice: this.state.tripPrice-(this.state.tripPrice*(res.data.results[0].promo_discount/100)),
+                        promoValue: this.props.tripPrice*(res.data.results[0].promo_discount/100),
+                        totalPrice: this.props.tripPrice-(this.props.tripPrice*(res.data.results[0].promo_discount/100)),
                         promoMessage: `Promo applied. Discount ${res.data.results[0].promo_discount}%`
                     })
                 }
@@ -125,100 +137,119 @@ class Checkout extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Header/>
-                <div className="navbar-spacing">
-                    <div className="container container-height">
-                        <div className="row row-top pb-3">
-                            <div className="col-7">
-                                <div className="row mb-5">
-                                    <div className="col-12 mb-3">
-                                        <h4>Contact Details</h4>
+        if(this.props.tripName){
+            return (
+                <div>
+                    <Header/>
+                    <div className="navbar-spacing">
+                        <div className="container container-height">
+                            <div className="row row-top pb-3">
+                                <div className="col-7">
+                                    <div className="row mb-5">
+                                        <div className="col-12 mb-3">
+                                            <h4>Contact Details</h4>
+                                        </div>
+                                        <div className="col-6 mb-3">
+                                            <h6>First Name</h6>
+                                            <input type="text" className="form-control"/>
+                                        </div>
+                                        <div className="col-6 mb-3">
+                                            <h6>Last Name</h6>
+                                            <input type="text" className="form-control"/>
+                                        </div>
+                                        <div className="col-6 mb-3">
+                                            <h6>Mobile Number</h6>
+                                            <input type="text" className="form-control"/>
+                                        </div>
+                                        <div className="col-6 mb-3">
+                                            <h6>Email</h6>
+                                            <input type="text" className="form-control"/>
+                                        </div>  
                                     </div>
-                                    <div className="col-6 mb-3">
-                                        <h6>First Name</h6>
-                                        <input type="text" className="form-control"/>
-                                    </div>
-                                    <div className="col-6 mb-3">
-                                        <h6>Last Name</h6>
-                                        <input type="text" className="form-control"/>
-                                    </div>
-                                    <div className="col-6 mb-3">
-                                        <h6>Mobile Number</h6>
-                                        <input type="text" className="form-control"/>
-                                    </div>
-                                    <div className="col-6 mb-3">
-                                        <h6>Email</h6>
-                                        <input type="text" className="form-control"/>
-                                    </div>  
+                                    {this.renderForm()}
                                 </div>
-                                {this.renderForm()}
-                            </div>
-                            <div className="col-5">
-                                <div className="card mb-5">
-                                    <div className="card-header">
-                                        Summary
+                                <div className="col-5">
+                                    <div className="card mb-5">
+                                        <div className="card-header">
+                                            Summary
+                                        </div>
+                                        <div className="card-body">
+                                            <ul className="list-group list-group-flush">
+                                                <li className="list-group-item">
+                                                    <div className="row">
+                                                        <div className="col-6 pr-0">
+                                                            <p className="mb-0">{this.props.tripName}</p>
+                                                            <div className="checkout-date">
+                                                                {moment(this.props.startDate).format('MMM Do, YYYY')} - {moment(this.props.endDate).format('MMM Do, YYYY')}
+                                                            </div>
+                                                            <div className="checkout-pax">{this.props.pax} pax @{formatCurrency(this.props.tripPrice)}</div>
+                                                        </div>
+                                                        <div className="col-6 text-right">
+                                                            {formatCurrency(this.props.tripPrice)}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                {this.renderPromo()}
+                                                <li className="list-group-item">
+                                                    <div className="row">
+                                                        <div className="col-6">
+                                                            Total
+                                                        </div>
+                                                        <div className="col-6 text-right">
+                                                            {formatCurrency(this.state.totalPrice)}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div className="card-body">
-                                        <ul className="list-group list-group-flush">
-                                            <li className="list-group-item">
-                                                <div className="row">
-                                                    <div className="col-6 pr-0">
-                                                        <p className="mb-0">Bromo Adventure</p>
-                                                        <div className="checkout-date">Nov 11th, 2019 - Nov 15th, 2019</div>
-                                                        <div className="checkout-pax">2 pax @Rp 400.000</div>
-                                                    </div>
-                                                    <div className="col-6 text-right">
-                                                        {formatCurrency(this.state.tripPrice)}
-                                                    </div>
+                                    <div className="card">
+                                        <div className="card-header">
+                                            Have Promo Code?
+                                        </div>
+                                        <div className="card-body">
+                                            <div className="input-group mb-2">
+                                                <input onChange={e => this.setState({promoCodeInput: e.target.value})} type="text" className="form-control"/>
+                                                <div className="input-group-append">
+                                                    <button onClick = {() => this.checkPromo()} className="btn btn-dark btn-block">Apply</button>
                                                 </div>
-                                            </li>
-                                            {this.renderPromo()}
-                                            <li className="list-group-item">
-                                                <div className="row">
-                                                    <div className="col-6">
-                                                        Total
-                                                    </div>
-                                                    <div className="col-6 text-right">
-                                                        {formatCurrency(this.state.totalPrice)}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="card">
-                                    <div className="card-header">
-                                        Have Promo Code?
-                                    </div>
-                                    <div className="card-body">
-                                        <div className="input-group mb-2">
-                                            <input onChange={e => this.setState({promoCode: e.target.value})} type="text" className="form-control"/>
-                                            <div className="input-group-append">
-                                                <button onClick = {() => this.checkPromo()} className="btn btn-dark btn-block">Apply</button>
+                                            </div>
+                                            <div>
+                                                {this.state.promoMessage}
                                             </div>
                                         </div>
-                                        <div>
-                                            {this.state.promoMessage}
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="row row-bottom">
-                            <div className="col-3 ml-auto">
-                                <Link to={`/confirmation`}>
-                                    <button className="btn btn-dark btn-block">Next</button>
-                                </Link>
+                            <div className="row row-bottom">
+                                <div className="col-3 ml-auto">
+                                    <Link to={`/confirmation`}>
+                                        <button onClick={this.props.onCheckout(this.state.totalPrice)} className="btn btn-dark btn-block">Next</button>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <Footer/>
                 </div>
-                <Footer/>
-            </div>
-        )
+            )
+        } else {
+            return <Redirect to="/"/>
+        }
     }
 }
 
-export default Checkout
+const mapStateToProps = (state) => {
+    return {
+        firstName: state.auth.firstName,
+        lastName: state.auth.lastName,
+        email: state.auth.email,
+        tripName: state.booking.tripName,
+        tripPrice: state.booking.tripPrice,
+        startDate: state.booking.startDate,
+        endDate: state.booking.endDate,
+        pax: state.booking.pax
+    }
+}
+
+export default connect(mapStateToProps,{onCheckout})(Checkout)

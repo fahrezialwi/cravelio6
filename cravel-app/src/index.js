@@ -4,10 +4,12 @@ import { Provider } from 'react-redux'
 import { combineReducers, createStore } from 'redux'
 import App from './views/App'
 import authReducer from './reducers/authReducer'
+import bookingReducer from './reducers/bookingReducer'
 
 const reducers = combineReducers(
     {
-        auth: authReducer
+        auth: authReducer,
+        booking: bookingReducer
     }
 )
 

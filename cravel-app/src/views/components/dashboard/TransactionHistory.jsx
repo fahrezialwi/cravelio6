@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
-import URL_API from '../../../helpers/urlAPI'
+import URL_API from '../../../configs/urlAPI'
 
 class PaymentsPending extends Component {
 

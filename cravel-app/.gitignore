@@ -11,8 +11,8 @@
 # production
 /build
 
-# configurations
-/src/configs
+# secret key
+secretKey.js
 
 # misc
 .DS_Store

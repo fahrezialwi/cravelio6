@@ -3,6 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
+import { onBookingTrip } from '../../actions/booking'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Detail from '../components/trip-detail/Detail'
@@ -14,7 +15,7 @@ import PriceIncludes from '../components/trip-detail/PriceIncludes'
 import PriceExcludes from '../components/trip-detail/PriceExcludes'
 import FrequentQuestion from '../components/trip-detail/FrequentQuestion'
 import Sidebar from '../components/trip-detail/Sidebar'
-import URL_API from '../../helpers/urlAPI'
+import URL_API from '../../configs/urlAPI'
 import '../styles/trip-detail.css'
 
 class TripDetail extends Component {
@@ -23,6 +24,9 @@ class TripDetail extends Component {
         super(props)
         this.state = {
             trip: '',
+            startDate: '',
+            endDate: '',
+            pax: 1
         }
     }
 
@@ -38,6 +42,28 @@ class TripDetail extends Component {
                 trip: res.data.results[0]
             })    
         })
+    }
+
+    dateHandler = (startDate, endDate) => {
+        this.setState({
+            startDate, endDate
+        })
+    }
+
+    paxHandler = (pax) => {
+        this.setState({
+            pax
+        })
+    }
+
+    onBookClick = () => {
+        this.props.onBookingTrip(
+            this.state.trip.trip_name,
+            this.state.trip.price,
+            this.state.startDate,
+            this.state.endDate,
+            this.state.pax
+        )
     }
 
     render() {
@@ -71,7 +97,7 @@ class TripDetail extends Component {
                                     </Tabs>
                                 </div>
                                 <div className="col-4">
-                                    <Sidebar trip={this.state.trip}/>
+                                    <Sidebar date={this.dateHandler} pax={this.paxHandler} bookClick={this.onBookClick} trip={this.state.trip}/>
                                 </div>
                             </div>
                         </div>
@@ -99,8 +125,10 @@ class TripDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        id: state.auth.id
+        firstName: state.auth.firstName,
+        lastName: state.auth.lastName,
+        email: state.auth.email
     }
 }
 
-export default withRouter(connect(mapStateToProps)(TripDetail))
+export default withRouter(connect(mapStateToProps,{onBookingTrip})(TripDetail))
