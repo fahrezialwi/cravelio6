@@ -26,7 +26,14 @@ class Reviews extends Component {
         ).then((res) => {    
             this.setState({
                 reviews: res.data.results
-            })    
+            })
+
+            let average = arr => arr.reduce((p,c) => p+c, 0 )/arr.length
+            let arrReview = res.data.results.map(review => {
+                return review.star
+            })
+
+            this.props.review(average(arrReview).toFixed(1),res.data.results.length)
         })
     }
 
@@ -58,7 +65,6 @@ class Reviews extends Component {
                             <h5>{review.review_title}</h5>
                             <p>{review.review_content}</p>
                             {this.pictureList(review.pictures)}
-                            {/* {moment(new Date()).format("YYYY-MM-DD HH:mm:ss.SSS")} */}
                         </div>
                     </div>
                 </div>

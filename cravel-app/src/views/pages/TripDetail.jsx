@@ -24,6 +24,8 @@ class TripDetail extends Component {
         super(props)
         this.state = {
             trip: '',
+            reviewAvg: '',
+            reviewCount: '',
             startDate: '',
             endDate: '',
             pax: 1
@@ -44,6 +46,12 @@ class TripDetail extends Component {
         })
     }
 
+    reviewHandler = (reviewAvg, reviewCount) => {
+        this.setState({
+            reviewAvg, reviewCount
+        })
+    }
+
     dateHandler = (startDate, endDate) => {
         this.setState({
             startDate, endDate
@@ -57,13 +65,19 @@ class TripDetail extends Component {
     }
 
     onBookClick = () => {
-        this.props.onBookingTrip(
-            this.state.trip.trip_name,
-            this.state.trip.price,
-            this.state.startDate,
-            this.state.endDate,
-            this.state.pax
-        )
+        if(this.props.email){
+            this.props.onBookingTrip(
+                this.state.trip.trip_name,
+                this.state.trip.price,
+                this.state.startDate,
+                this.state.endDate,
+                this.state.pax
+            )
+
+            this.props.history.push("/checkout")
+        } else {
+            this.props.history.push("/login")
+        }
     }
 
     render() {
@@ -80,7 +94,7 @@ class TripDetail extends Component {
                                         <Detail trip={this.state.trip}/>
                                         <Description trip={this.state.trip}/>
                                     </div>
-                                    <Reviews tripId={this.state.trip.trip_id}/>
+                                    <Reviews tripId={this.state.trip.trip_id} review={this.reviewHandler}/>
                                     <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
                                         <Tab eventKey="itinerary" title="Itinerary">
                                             <Itinerary trip={this.state.trip}/>
@@ -97,7 +111,15 @@ class TripDetail extends Component {
                                     </Tabs>
                                 </div>
                                 <div className="col-4">
-                                    <Sidebar date={this.dateHandler} pax={this.paxHandler} bookClick={this.onBookClick} trip={this.state.trip}/>
+                                    <Sidebar
+                                        reviewAvg={this.state.reviewAvg}
+                                        reviewCount={this.state.reviewCount}
+                                        trip={this.state.trip}
+                                        date={this.state.startDate}
+                                        pickDate={this.dateHandler}
+                                        pax={this.paxHandler}
+                                        bookClick={this.onBookClick}
+                                    />
                                 </div>
                             </div>
                         </div>

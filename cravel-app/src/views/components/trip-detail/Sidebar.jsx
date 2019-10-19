@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 import URL_API from '../../../configs/urlAPI'
+import formatCurrency from '../../../helpers/formatCurrency'
 import '../../styles/sidebar.css'
 
 // window.onscroll = function() {
@@ -55,9 +55,12 @@ class Sidebar extends Component {
                         type="radio"
                         className="mr-2"
                         name="date"
-                        onClick={() => this.props.date(schedule.date_start, schedule.date_end)}
+                        onClick={() => this.props.pickDate(schedule.date_start, schedule.date_end)}
+                        id={schedule.schedule_id}
                     />
-                    {moment(schedule.date_start).format('MMM Do, YYYY')} - {moment(schedule.date_end).format('MMM Do, YYYY')}
+                    <label className="mb-0" htmlFor={schedule.schedule_id}>
+                        {moment(schedule.date_start).format('MMM Do, YYYY')} - {moment(schedule.date_end).format('MMM Do, YYYY')}
+                    </label>
                 </div>
             )
         })
@@ -69,8 +72,11 @@ class Sidebar extends Component {
                 <div className="container">
                     <div className="row mb-3">
                         <div className="col-12">
-                            <h5>Rp {this.props.trip.price}/pax</h5>
-                            <p>4.7 (50 reviews)</p>
+                            <div>
+                                <span className="price-tag">{formatCurrency(this.props.trip.price)}</span>
+                                <span className="per-pax">/pax</span>
+                            </div>
+                            <p>{this.props.reviewAvg} ({this.props.reviewCount} reviews)</p>
                             <h6>Pick the date</h6>
                             {this.scheduleList()}
                         </div>
@@ -78,19 +84,16 @@ class Sidebar extends Component {
                     <div className="row mb-3">
                         <div className="col-12">
                             <h6>Pax</h6>
-                            <input type="number" className="form-control" onChange={e => this.props.pax(parseInt(e.target.value))}/>
+                            <input type="number" className="form-control" defaultValue="1" min="1" onChange={e => this.props.pax(parseInt(e.target.value))}/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <Link to="/checkout">
-                                <button onClick={() => this.props.bookClick()} className="btn btn-dark btn-block">Book</button>
-                            </Link>
+                            <button onClick={() => this.props.bookClick()} className="btn btn-dark btn-block" disabled={!this.props.date}>Book</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         )
     }
 }

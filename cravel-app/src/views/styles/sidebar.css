@@ -10,3 +10,13 @@
     position: fixed;
     top: 100px;
 }
+
+.price-tag {
+    font-size: 22px;
+    font-weight: 600
+}
+
+.per-pax {
+    font-size: 12px;
+    margin-left: 3px
+}

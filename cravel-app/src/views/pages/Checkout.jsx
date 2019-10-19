@@ -98,6 +98,7 @@ class Checkout extends Component {
                                 }
                             })}
                             className="form-control"
+                            autoComplete="off"
                         >
                             <option></option>
                             <option value="Mr.">Mr.</option>
@@ -119,6 +120,7 @@ class Checkout extends Component {
                                 }
                             })}
                             className="form-control"
+                            autoComplete="off"
                         />
                         <div className={"first-name-error" + (this.state.participantsError[`firstName${i}`]? ' show-error' : '')}>
                             {this.state.participantsError[`firstName${i}`]}
@@ -135,6 +137,7 @@ class Checkout extends Component {
                                 }
                             })}
                             className="form-control"
+                            autoComplete="off"
                         />
                         <div className={"last-name-error" + (this.state.participantsError[`lastName${i}`] ? ' show-error' : '')}>
                             {this.state.participantsError[`lastName${i}`]}
@@ -150,6 +153,7 @@ class Checkout extends Component {
                                 }
                             })}
                             className="form-control"
+                            autoComplete="off"
                         >
                             <option></option>
                             <option value="KTP">KTP</option>
@@ -170,6 +174,7 @@ class Checkout extends Component {
                                 }
                             })}
                             className="form-control"
+                            autoComplete="off"
                         />
                         <div className={"id-number-error" + (this.state.participantsError[`idNumber${i}`] ? ' show-error' : '')}>
                             {this.state.participantsError[`idNumber${i}`]}
