@@ -1,3 +1,20 @@
+.first-name-error,
+.last-name-error,
+.phone-number-error,
+.email-error,
+.title-error,
+.id-type-error,
+.id-number-error {
+    font-size: 12px;
+    color: #e73f2d;
+    display: none
+}
+
+.show-error {
+    margin-top: 5px;
+    display: inline-block
+}
+
 .checkout-promo {
     font-size: 12px;
     text-transform: uppercase

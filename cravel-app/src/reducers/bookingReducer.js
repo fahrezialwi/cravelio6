@@ -20,6 +20,7 @@ const bookingReducer = (state = init, action) => {
         case "CHECKOUT_SUCCESS":
             return {
                 ...state,
+                participants: action.payload.participants,
                 totalPrice: action.payload.totalPrice
             }
         default:

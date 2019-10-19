@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import moment from 'moment'
+import formatCurrency from '../../helpers/formatCurrency'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 
@@ -38,9 +41,9 @@ class Confirmation extends Component {
                                 <div className="col-12">
                                     <div className="card mb-4">
                                         <div className="card-body">
-                                            <p>Trip Name: Bromo Adventure</p>
-                                            <p>Date: Nov 18, 2019  - Nov 20, 2019</p>
-                                            <p>Price Total: Rp 600.000</p>
+                                            <p>Trip Name: {this.props.tripName}</p>
+                                            <p>Date: {moment(this.props.startDate).format('MMM Do, YYYY')} - {moment(this.props.endDate).format('MMM Do, YYYY')}</p>
+                                            <p>Price Total: {formatCurrency(this.props.totalPrice)}</p>
                                             <table className="table">
                                                 <thead>
                                                     <tr>
@@ -101,4 +104,15 @@ class Confirmation extends Component {
     }
 }
 
-export default withRouter(Confirmation)
+const mapStateToProps = (state) => {
+    return {
+        tripName: state.booking.tripName,
+        tripPrice: state.booking.tripPrice,
+        startDate: state.booking.startDate,
+        endDate: state.booking.endDate,
+        totalPrice: state.booking.totalPrice,
+        participants: state.booking.participants
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(Confirmation))

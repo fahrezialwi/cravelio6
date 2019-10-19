@@ -47,7 +47,7 @@ class Login extends Component {
                     }) 
                 }, 3000)
             } else {
-                let {id, first_name, last_name, email, role} = res.data.results[0]
+                let {id, first_name, last_name, email, role, phone_number} = res.data.results[0]
 
                 let d = new Date()
                 d.setTime(d.getTime() + (1*24*60*60*1000))
@@ -56,14 +56,14 @@ class Login extends Component {
                 cookie.set(
                     'userData',
                     {
-                        id, first_name, last_name, email, role
+                        id, first_name, last_name, email, role, phone_number
                     },
                     {
                         path: "/", expires: d
                     }
                 )
 
-                this.props.onLoginUser(id, first_name, last_name, email, role)
+                this.props.onLoginUser(id, first_name, last_name, email, role, phone_number)
             }
         })
     }
