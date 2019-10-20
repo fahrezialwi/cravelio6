@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import axios from 'axios'
 import moment from 'moment'
 import formatCurrency from '../../helpers/formatCurrency'
+import URL_API from '../../configs/urlAPI'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 
@@ -16,12 +18,19 @@ class Confirmation extends Component {
     }
 
     proceedPayment = () => {
-        this.setState({
-            proceed: true
+        // this.setState({
+        //     proceed: true
+        // })
+        // setTimeout(() => {
+        //     this.props.history.push('/invoice')
+        // }, 3000)
+        axios.post(
+            URL_API + 'transactions', {
+
+            }
+        ).then(res => {
+            console.log(res.data)
         })
-        setTimeout(() => {
-            this.props.history.push('/payment')
-        }, 3000)
     }
 
     renderParticipants = () => {
@@ -66,8 +75,8 @@ class Confirmation extends Component {
                                                         <tr>
                                                             <th>No.</th>
                                                             <th>Name</th>
-                                                            <th>Identification</th>
-                                                            <th>Identification No.</th>
+                                                            <th>ID Type</th>
+                                                            <th>ID Number</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -85,7 +94,7 @@ class Confirmation extends Component {
                                         </Link>
                                     </div>
                                     <div className="col-3 ml-auto">
-                                        <button onClick={this.proceedPayment} className="btn btn-dark btn-block">Proceed to Payment</button>
+                                        <button onClick={() => this.proceedPayment()} className="btn btn-dark btn-block">Proceed to Payment</button>
                                     </div>
                                 </div>
                             </div>

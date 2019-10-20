@@ -1,11 +1,11 @@
 import Cookies from 'universal-cookie'
 
 // Login
-export const onLoginUser = (id, firstName, lastName, email, role, phoneNumber) => {
+export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumber) => {
     return {
         type: 'LOGIN_SUCCESS',
         payload: {
-            id, firstName, lastName, email, role, phoneNumber
+            userId, firstName, lastName, email, role, phoneNumber
         }
     }                          
 }
@@ -13,9 +13,9 @@ export const onLoginUser = (id, firstName, lastName, email, role, phoneNumber) =
 // Keep Login
 export const keepLogin = (objUser) => {
     return {
-        type: 'LOGIN_SUCCESS',
+        type: 'KEEP_LOGIN_SUCCESS',
         payload: {
-            id: objUser.id,
+            userId: objUser.user_id,
             firstName: objUser.first_name,
             lastName: objUser.last_name,
             email: objUser.email,

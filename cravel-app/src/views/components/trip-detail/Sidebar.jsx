@@ -55,11 +55,11 @@ class Sidebar extends Component {
                         type="radio"
                         className="mr-2"
                         name="date"
-                        onClick={() => this.props.pickDate(schedule.date_start, schedule.date_end)}
+                        onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date)}
                         id={schedule.schedule_id}
                     />
                     <label className="mb-0" htmlFor={schedule.schedule_id}>
-                        {moment(schedule.date_start).format('MMM Do, YYYY')} - {moment(schedule.date_end).format('MMM Do, YYYY')}
+                        {moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}
                     </label>
                 </div>
             )

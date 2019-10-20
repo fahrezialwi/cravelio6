@@ -9,7 +9,7 @@ import Login from './pages/Login'
 import TripDetail from './pages/TripDetail'
 import Checkout from './pages/Checkout'
 import Confirmation from './pages/Confirmation'
-import Payment from './pages/Payment'
+import Invoice from './pages/Invoice'
 import Complete from './pages/Complete'
 import ContactUs from './pages/ContactUs'
 import HowToBook from './pages/HowToBook'
@@ -56,7 +56,7 @@ class App extends Component {
                         <Route path='/trip' component={TripDetail}/>
                         <Route path='/checkout' component={Checkout}/>
                         <Route path='/confirmation' component={Confirmation}/>
-                        <Route path='/payment' component={Payment}/>
+                        <Route path='/invoice/:id' component={Invoice}/>
                         <Route path='/complete' component={Complete}/>
                         <Route path='/contact-us' component={ContactUs}/>
                         <Route path='/how-to-book' component={HowToBook}/>

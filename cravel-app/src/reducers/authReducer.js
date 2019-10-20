@@ -1,5 +1,5 @@
 const init = {
-    id: '',
+    userId: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -12,7 +12,17 @@ const authReducer = (state = init, action) => {
         case "LOGIN_SUCCESS":
             return {
                 ...state,
-                id: action.payload.id,
+                userId: action.payload.userId,
+                firstName: action.payload.firstName,
+                lastName: action.payload.lastName,
+                email: action.payload.email,
+                role: action.payload.role,
+                phoneNumber: action.payload.phoneNumber
+            }
+        case "KEEP_LOGIN_SUCCESS":
+            return {
+                ...state,
+                userId: action.payload.userId,
                 firstName: action.payload.firstName,
                 lastName: action.payload.lastName,
                 email: action.payload.email,
@@ -22,7 +32,7 @@ const authReducer = (state = init, action) => {
         case "LOGOUT_SUCCESS":
             return {
                 ...state,
-                id: '',
+                userId: '',
                 firstName: '',
                 lastName: '',
                 email: '',

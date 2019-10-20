@@ -140,7 +140,7 @@ class Register extends Component {
     }
 
     render() {
-        if(!this.props.email){
+        if(!this.props.userId){
             return (
                 <div>
                     <Header/>
@@ -187,7 +187,7 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        email: state.auth.email
+        id: state.auth.userId
     }
 }
 

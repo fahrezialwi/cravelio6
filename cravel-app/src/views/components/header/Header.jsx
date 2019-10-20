@@ -30,7 +30,7 @@ class Header extends Component {
     }
 
     userMenu = () => {
-        if(!this.props.email){
+        if(!this.props.userId){
             return (
                 <Nav className="ml-auto" navbar>
                     <NavItem>
@@ -95,7 +95,7 @@ class Header extends Component {
 
     render() {
         return (
-                <Navbar color="dark" dark expand="md" fixed="top">
+            <Navbar color="dark" dark expand="md" fixed="top">
                 <div className="container">
                     <Link className="navbar-brand" to="/">cravel</Link>
                     <NavbarToggler onClick={this.toggle}/>
@@ -103,13 +103,14 @@ class Header extends Component {
                     {this.userMenu()}
                     </Collapse>
                 </div>
-                </Navbar>
+            </Navbar>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.auth.userId,
         firstName: state.auth.firstName,
         lastName: state.auth.lastName,
         email: state.auth.email,

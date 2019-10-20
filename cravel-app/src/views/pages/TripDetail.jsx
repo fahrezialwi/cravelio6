@@ -65,7 +65,7 @@ class TripDetail extends Component {
     }
 
     onBookClick = () => {
-        if(this.props.email){
+        if(this.props.userId){
             this.props.onBookingTrip(
                 this.state.trip.trip_name,
                 this.state.trip.price,
@@ -147,9 +147,9 @@ class TripDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.auth.userId,
         firstName: state.auth.firstName,
-        lastName: state.auth.lastName,
-        email: state.auth.email
+        lastName: state.auth.lastName
     }
 }
 

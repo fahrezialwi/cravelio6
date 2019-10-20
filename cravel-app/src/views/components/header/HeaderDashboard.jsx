@@ -30,7 +30,7 @@ class Header extends Component {
     }
 
     userMenu = () => {
-        if(!this.props.email){
+        if(!this.props.userId){
             return (
                 <Nav className="ml-auto" navbar>
                     <NavItem>
@@ -112,6 +112,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.auth.userId,
         firstName: state.auth.firstName,
         lastName: state.auth.lastName,
         email: state.auth.email,
