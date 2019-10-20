@@ -359,7 +359,7 @@ class Checkout extends Component {
         if(!this.state.email){
             formIsValid = false
             contactDetailsError["email"] = "Field cannot be empty"
-         }
+        }
  
         if(this.state.email.length !== 0){
             let lastAtPos = this.state.email.lastIndexOf('@')
