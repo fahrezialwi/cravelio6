@@ -39,6 +39,12 @@ class Checkout extends Component {
             email: this.props.email,
             phoneNumber: this.props.phoneNumber,
         })
+
+        if(this.props.participants){
+            this.setState({
+                participants: this.props.participants
+            }) 
+        }
     }
 
     renderContactDetails = () => {
@@ -81,107 +87,215 @@ class Checkout extends Component {
 
     renderParticipants = () => {
         let participants = []
-
-        for (let i = 1 ; i <= this.props.pax ; i++){
-            participants.push(
-                <div className="row mb-3" key={i}>
-                    <div className="col-12 mb-3">
-                        <h4>Participant #{i}</h4>
-                    </div>
-                    <div className="col-2 mb-3">
-                        <h6>Title</h6>
-                        <select 
-                            onChange={e => this.setState({
-                                participants: {
-                                    ...this.state.participants,
-                                    [`title${i}`]: e.target.value
-                                }
-                            })}
-                            className="form-control"
-                            autoComplete="off"
-                        >
-                            <option></option>
-                            <option value="Mr.">Mr.</option>
-                            <option value="Ms.">Ms.</option>
-                            <option value="Mrs.">Mrs.</option>
-                        </select>
-                        <div className={"first-name-error" + (this.state.participantsError[`title${i}`] ? ' show-error' : '')}>
-                            {this.state.participantsError[`title${i}`]}
+        if(this.props.participants){
+            for (let i = 1 ; i <= this.props.pax ; i++){
+                participants.push(
+                    <div className="row mb-3" key={i}>
+                        <div className="col-12 mb-3">
+                            <h4>Participant #{i}</h4>
                         </div>
-                    </div>
-                    <div className="col-5 mb-3">
-                        <h6>First Name</h6>
-                        <input 
-                            type="text" 
-                            onChange={e => this.setState({
-                                participants: {
-                                    ...this.state.participants,
-                                    [`firstName${i}`]: e.target.value
-                                }
-                            })}
-                            className="form-control"
-                            autoComplete="off"
-                        />
-                        <div className={"first-name-error" + (this.state.participantsError[`firstName${i}`]? ' show-error' : '')}>
-                            {this.state.participantsError[`firstName${i}`]}
+                        <div className="col-2 mb-3">
+                            <h6>Title</h6>
+                            <select 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`title${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                                defaultValue={this.props.participants[`title${i}`]}
+                            >
+                                <option></option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                            </select>
+                            <div className={"first-name-error" + (this.state.participantsError[`title${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`title${i}`]}
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-5 mb-3">
-                        <h6>Last Name</h6>
-                        <input 
-                            type="text" 
-                            onChange={e => this.setState({
-                                participants: {
-                                    ...this.state.participants,
-                                    [`lastName${i}`]: e.target.value
-                                }
-                            })}
-                            className="form-control"
-                            autoComplete="off"
-                        />
-                        <div className={"last-name-error" + (this.state.participantsError[`lastName${i}`] ? ' show-error' : '')}>
-                            {this.state.participantsError[`lastName${i}`]}
+                        <div className="col-5 mb-3">
+                            <h6>First Name</h6>
+                            <input 
+                                type="text" 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`firstName${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                                defaultValue={this.props.participants[`firstName${i}`]}
+                            />
+                            <div className={"first-name-error" + (this.state.participantsError[`firstName${i}`]? ' show-error' : '')}>
+                                {this.state.participantsError[`firstName${i}`]}
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-4 mb-3">
-                        <h6>ID Type</h6>
-                        <select 
-                            onChange={e => this.setState({
-                                participants: {
-                                    ...this.state.participants,
-                                    [`idType${i}`]: e.target.value
-                                }
-                            })}
-                            className="form-control"
-                            autoComplete="off"
-                        >
-                            <option></option>
-                            <option value="KTP">KTP</option>
-                            <option value="Passport">Passport</option>
-                        </select>
-                        <div className={"id-type-error" + (this.state.participantsError[`idType${i}`] ? ' show-error' : '')}>
-                            {this.state.participantsError[`idType${i}`]}
+                        <div className="col-5 mb-3">
+                            <h6>Last Name</h6>
+                            <input 
+                                type="text" 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`lastName${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                                defaultValue={this.props.participants[`lastName${i}`]}
+                            />
+                            <div className={"last-name-error" + (this.state.participantsError[`lastName${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`lastName${i}`]}
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-8 mb-3">
-                        <h6>ID Number</h6>
-                        <input 
-                            type="text" 
-                            onChange={e => this.setState({
-                                participants: {
-                                    ...this.state.participants,
-                                    [`idNumber${i}`]: e.target.value
-                                }
-                            })}
-                            className="form-control"
-                            autoComplete="off"
-                        />
-                        <div className={"id-number-error" + (this.state.participantsError[`idNumber${i}`] ? ' show-error' : '')}>
-                            {this.state.participantsError[`idNumber${i}`]}
+                        <div className="col-4 mb-3">
+                            <h6>ID Type</h6>
+                            <select 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`idType${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                                defaultValue={this.props.participants[`idType${i}`]}
+                            >
+                                <option></option>
+                                <option value="KTP">KTP</option>
+                                <option value="Passport">Passport</option>
+                            </select>
+                            <div className={"id-type-error" + (this.state.participantsError[`idType${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`idType${i}`]}
+                            </div>
                         </div>
-                    </div>  
-                </div>
-            )
+                        <div className="col-8 mb-3">
+                            <h6>ID Number</h6>
+                            <input 
+                                type="text" 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`idNumber${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                                defaultValue={this.props.participants[`idNumber${i}`]}
+                            />
+                            <div className={"id-number-error" + (this.state.participantsError[`idNumber${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`idNumber${i}`]}
+                            </div>
+                        </div>  
+                    </div>
+                )
+            }
+        } else {
+            for (let i = 1 ; i <= this.props.pax ; i++){
+                participants.push(
+                    <div className="row mb-3" key={i}>
+                        <div className="col-12 mb-3">
+                            <h4>Participant #{i}</h4>
+                        </div>
+                        <div className="col-2 mb-3">
+                            <h6>Title</h6>
+                            <select 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`title${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                            >
+                                <option></option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                            </select>
+                            <div className={"first-name-error" + (this.state.participantsError[`title${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`title${i}`]}
+                            </div>
+                        </div>
+                        <div className="col-5 mb-3">
+                            <h6>First Name</h6>
+                            <input 
+                                type="text" 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`firstName${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                            />
+                            <div className={"first-name-error" + (this.state.participantsError[`firstName${i}`]? ' show-error' : '')}>
+                                {this.state.participantsError[`firstName${i}`]}
+                            </div>
+                        </div>
+                        <div className="col-5 mb-3">
+                            <h6>Last Name</h6>
+                            <input 
+                                type="text" 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`lastName${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                            />
+                            <div className={"last-name-error" + (this.state.participantsError[`lastName${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`lastName${i}`]}
+                            </div>
+                        </div>
+                        <div className="col-4 mb-3">
+                            <h6>ID Type</h6>
+                            <select 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`idType${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                            >
+                                <option></option>
+                                <option value="KTP">KTP</option>
+                                <option value="Passport">Passport</option>
+                            </select>
+                            <div className={"id-type-error" + (this.state.participantsError[`idType${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`idType${i}`]}
+                            </div>
+                        </div>
+                        <div className="col-8 mb-3">
+                            <h6>ID Number</h6>
+                            <input 
+                                type="text" 
+                                onChange={e => this.setState({
+                                    participants: {
+                                        ...this.state.participants,
+                                        [`idNumber${i}`]: e.target.value
+                                    }
+                                })}
+                                className="form-control"
+                                autoComplete="off"
+                            />
+                            <div className={"id-number-error" + (this.state.participantsError[`idNumber${i}`] ? ' show-error' : '')}>
+                                {this.state.participantsError[`idNumber${i}`]}
+                            </div>
+                        </div>  
+                    </div>
+                )
+            }
         }
         return participants
     }
@@ -482,7 +596,8 @@ const mapStateToProps = (state) => {
         tripPrice: state.booking.tripPrice,
         startDate: state.booking.startDate,
         endDate: state.booking.endDate,
-        pax: state.booking.pax
+        pax: state.booking.pax,
+        participants: state.booking.participants
     }
 }
 

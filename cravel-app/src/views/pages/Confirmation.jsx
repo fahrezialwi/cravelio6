@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Redirect } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import formatCurrency from '../../helpers/formatCurrency'
@@ -79,6 +79,11 @@ class Confirmation extends Component {
                                     </div>
                                 </div>
                                 <div className="row row-bottom">
+                                    <div className="col-3 mr-auto">
+                                        <Link to="/checkout">
+                                            <button className="btn btn-dark btn-block">Back</button>
+                                        </Link>
+                                    </div>
                                     <div className="col-3 ml-auto">
                                         <button onClick={this.proceedPayment} className="btn btn-dark btn-block">Proceed to Payment</button>
                                     </div>
