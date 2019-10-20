@@ -112,7 +112,7 @@ class Login extends Component {
                                     <div className="card-body">
                                         <h2>Login</h2>
                                         <form onSubmit={this.onLoginSubmit}>
-                                            <div className="input-group"><input ref={(input)=>{this.email = input}} type="text" className="form-control mt-3" placeholder="Email"/></div>
+                                            <div className="input-group"><input ref={(input)=>{this.email = input}} type="email" className="form-control mt-3" placeholder="Email"/></div>
                                             <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
                                             {this.loadingButton()}
                                         </form>

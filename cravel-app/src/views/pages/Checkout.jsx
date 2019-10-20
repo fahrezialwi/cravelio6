@@ -36,9 +36,14 @@ class Checkout extends Component {
             totalPrice: this.props.pax*this.props.tripPrice,
             firstName: this.props.firstName,
             lastName: this.props.lastName,
-            email: this.props.email,
-            phoneNumber: this.props.phoneNumber,
+            email: this.props.email
         })
+
+        if(this.props.phoneNumber){
+            this.setState({
+                phoneNumber: this.props.phoneNumber
+            }) 
+        }
 
         if(this.props.participants){
             this.setState({
@@ -55,14 +60,14 @@ class Checkout extends Component {
                 </div>
                 <div className="col-6 mb-3">
                     <h6>First Name</h6>
-                    <input type="text" defaultValue={this.props.firstName} onChange={e => this.setState({firstName: e.target.value})} className="form-control"/>
+                    <input type="fname" defaultValue={this.props.firstName} onChange={e => this.setState({firstName: e.target.value})} className="form-control"/>
                     <div className={"first-name-error" + (this.state.contactDetailsError.firstName ? ' show-error' : '')}>
                         {this.state.contactDetailsError.firstName}
                     </div>
                 </div>
                 <div className="col-6 mb-3">
                     <h6>Last Name</h6>
-                    <input type="text" defaultValue={this.props.lastName} onChange={e => this.setState({lastName: e.target.value})} className="form-control"/>
+                    <input type="lname" defaultValue={this.props.lastName} onChange={e => this.setState({lastName: e.target.value})} className="form-control"/>
                     <div className={"last-name-error" + (this.state.contactDetailsError.lastName ? ' show-error' : '')}>
                         {this.state.contactDetailsError.lastName}
                     </div>
@@ -76,7 +81,7 @@ class Checkout extends Component {
                 </div>
                 <div className="col-6 mb-3">
                     <h6>Email</h6>
-                    <input type="text" defaultValue={this.props.email} onChange={e => this.setState({email: e.target.value})} className="form-control"/>
+                    <input type="email" defaultValue={this.props.email} onChange={e => this.setState({email: e.target.value})} className="form-control"/>
                     <div className={"email-error" + (this.state.contactDetailsError.email ? ' show-error' : '')}>
                         {this.state.contactDetailsError.email}
                     </div>
@@ -119,7 +124,7 @@ class Checkout extends Component {
                         <div className="col-5 mb-3">
                             <h6>First Name</h6>
                             <input 
-                                type="text" 
+                                type="fname" 
                                 onChange={e => this.setState({
                                     participants: {
                                         ...this.state.participants,
@@ -137,7 +142,7 @@ class Checkout extends Component {
                         <div className="col-5 mb-3">
                             <h6>Last Name</h6>
                             <input 
-                                type="text" 
+                                type="lname" 
                                 onChange={e => this.setState({
                                     participants: {
                                         ...this.state.participants,
@@ -554,6 +559,7 @@ class Checkout extends Component {
     }
 
     render() {
+        console.log(this.state)
         if(this.props.tripName){
             return (
                 <div>

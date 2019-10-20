@@ -153,10 +153,10 @@ class Register extends Component {
                                         <form onClick={this.loadingButton}>
                                             <div className="row">
                                                 <div className="col-6 input-group pr-2">
-                                                    <input onChange={e => this.setState({firstName: e.target.value})} type="text" className="form-control mt-3" placeholder="First Name" autoFocus/>
+                                                    <input onChange={e => this.setState({firstName: e.target.value})} type="fname" className="form-control mt-3" placeholder="First Name" autoFocus/>
                                                 </div>
                                                 <div className="col-6 input-group pl-2">
-                                                    <input onChange={e => this.setState({lastName: e.target.value})} type="text" className="form-control mt-3" placeholder="Last Name"/>
+                                                    <input onChange={e => this.setState({lastName: e.target.value})} type="lname" className="form-control mt-3" placeholder="Last Name"/>
                                                 </div>
                                             </div>
                                             <div className="input-group">
