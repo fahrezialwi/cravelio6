@@ -97,7 +97,7 @@ class Invoice extends Component {
                 return (
                     <div>
                         <Header/>
-                        <div className="navbar-spacing">
+                        <div>
                             <div className="container container-height">
                                 <div className="row row-top">
                                     <div className="col-12">

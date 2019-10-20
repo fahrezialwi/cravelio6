@@ -1,8 +1,4 @@
 /* Global styles here */
-.navbar-spacing {
-    margin-top: 56px
-}
-
 .container-height {
     min-height: 65vh
 }
@@ -25,4 +21,16 @@ a:hover {
 
 .text-bold {
     font-weight: 700
+}
+
+.fslightbox-container {
+    background: rgba(255, 255, 255, 0.9)
+}
+
+.fslightbox-slide-number-container {
+    color: #717171
+}
+
+img.fslightbox-source{
+    border-radius: 20px
 }

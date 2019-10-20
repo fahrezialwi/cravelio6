@@ -55,7 +55,7 @@ class Confirmation extends Component {
                 return (
                     <div>
                         <Header/>
-                        <div className="navbar-spacing">
+                        <div>
                             <div className="container container-height">
                                 <div className="row row-top">
                                     <div className="col-12">
@@ -106,7 +106,7 @@ class Confirmation extends Component {
                 return(
                     <div>
                         <Header/>
-                        <div className="navbar-spacing">
+                        <div>
                             <div className="container container-height">
                                 <div className="text-center row-top row-bottom">
                                     <h4 className="mb-4">Processing your order</h4>

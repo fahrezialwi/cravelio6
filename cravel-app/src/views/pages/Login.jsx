@@ -105,7 +105,7 @@ class Login extends Component {
             return (
                 <div>
                     <Header/>
-                    <div className="navbar-spacing">
+                    <div>
                         <div className="container container-height">
                             <div className="row row-top">
                                 <div className="col-sm-8 col-md-4 mx-auto">

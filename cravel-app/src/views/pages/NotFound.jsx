@@ -7,7 +7,7 @@ class NotFound extends Component {
         return (
             <div>
                 <Header/>
-                <div className="navbar-spacing">
+                <div>
                     <div className="container container-height">
                         <div className="row row-top row-bottom">
                             <div className="col-12">

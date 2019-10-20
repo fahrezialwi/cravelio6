@@ -85,7 +85,7 @@ class TripDetail extends Component {
             return (
                 <div>
                     <Header/>
-                    <div className="navbar-spacing">
+                    <div>
                         <Pictures tripId={this.state.trip.trip_id}/>
                         <div className="container container-height">
                             <div className="row row-top row-bottom">
@@ -133,7 +133,7 @@ class TripDetail extends Component {
             return (
                 <div>
                     <Header/>
-                    <div className="navbar-spacing">
+                    <div>
                         <div className="container container-height">
                             <h1 className="row-top text-center">Loading</h1>
                         </div>

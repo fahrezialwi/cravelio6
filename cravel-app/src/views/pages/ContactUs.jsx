@@ -7,7 +7,7 @@ class ContactUs extends Component {
         return (
             <div>
                 <Header/>
-                <div className="navbar-spacing">
+                <div>
                     <div className="container container-height">
                         <div className="row pt-5">
                             Contact Us Component

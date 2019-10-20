@@ -13,6 +13,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { onLogoutUser } from '../../../actions/auth'
+import '../../styles/header.css'
 
 class Header extends Component {
 
@@ -95,7 +96,7 @@ class Header extends Component {
 
     render() {
         return (
-            <Navbar color="dark" dark expand="md" fixed="top">
+            <Navbar color="dark" dark expand="md" className="navbar-sticky">
                 <div className="container">
                     <Link className="navbar-brand" to="/">cravel</Link>
                     <NavbarToggler onClick={this.toggle}/>
