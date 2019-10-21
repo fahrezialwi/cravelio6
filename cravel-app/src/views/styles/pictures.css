@@ -3,7 +3,7 @@
     display: flex
 }
 
-.favorites {
+.favorite {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -13,6 +13,11 @@
     border-radius: 7px;
     z-index: 1;
     cursor: pointer
+}
+
+.favorite-selected {
+    background-color: rgb(212, 25, 88);
+    color: white
 }
 
 .all-images {

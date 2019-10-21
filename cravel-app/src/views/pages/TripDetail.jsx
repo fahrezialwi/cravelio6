@@ -24,6 +24,8 @@ class TripDetail extends Component {
         super(props)
         this.state = {
             trip: '',
+            favorite: false,
+            favoriteId: '',
             reviewAvg: '',
             reviewCount: '',
             startDate: '',
@@ -34,6 +36,7 @@ class TripDetail extends Component {
 
     componentDidMount() {
         this.getData()
+        this.getFavoriteData()
     }
 
     getData = () => {
@@ -43,6 +46,28 @@ class TripDetail extends Component {
             this.setState({
                 trip: res.data.results[0]
             })    
+        })
+    }
+
+    getFavoriteData = () => {
+        axios.get(
+            URL_API + 'favorites', {
+                params: {
+                    path: this.props.location.pathname.split("/").pop(),
+                    user_id: this.props.userId
+                }
+            }
+        ).then(res => {   
+            if(res.data.results.length !== 0){
+                this.setState({
+                    favorite: true,
+                    favoriteId: res.data.results[0].favorite_id
+                })    
+            } else {
+                this.setState({
+                    favorite: false
+                })  
+            }
         })
     }
 
@@ -80,13 +105,35 @@ class TripDetail extends Component {
         }
     }
 
+    onFavoriteClick = () => {
+        if(this.state.trip){
+            if(this.state.favorite){
+                axios.patch(
+                    URL_API + `favorites/${this.state.favoriteId}`
+                ).then(res => {
+                    this.getFavoriteData()
+                })
+            } else {
+                axios.post(
+                    URL_API + 'favorites', {
+                        trip_id: this.state.trip.trip_id,
+                        user_id: this.props.userId
+                    }
+                ).then(res => {
+                    this.getFavoriteData()
+                })
+            }
+        }
+    }
+
     render() {
+        console.log(this.state)
         if(this.state.trip){
             return (
                 <div>
                     <Header/>
                     <div>
-                        <Pictures tripId={this.state.trip.trip_id}/>
+                        <Pictures tripId={this.state.trip.trip_id} favorite={this.state.favorite} favoriteClick={this.onFavoriteClick}/>
                         <div className="container container-height">
                             <div className="row row-top row-bottom">
                                 <div className="col-8">
