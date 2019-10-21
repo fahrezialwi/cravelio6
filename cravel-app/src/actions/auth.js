@@ -28,7 +28,7 @@ export const keepLogin = (objUser) => {
 // Logout
 export const onLogoutUser = () => {
     const cookie = new Cookies()
-    cookie.remove('userData')
+    cookie.remove('userData', { path: '/' })
     return {
         type: 'LOGOUT_SUCCESS',
     }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
 import { onBookingTrip } from '../../actions/booking'
+import { onClearBooking } from '../../actions/booking'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Detail from '../components/trip-detail/Detail'
@@ -37,6 +38,7 @@ class TripDetail extends Component {
     componentDidMount() {
         this.getData()
         this.getFavoriteData()
+        this.props.onClearBooking()
     }
 
     getData = () => {
@@ -50,25 +52,27 @@ class TripDetail extends Component {
     }
 
     getFavoriteData = () => {
-        axios.get(
-            URL_API + 'favorites', {
-                params: {
-                    path: this.props.location.pathname.split("/").pop(),
-                    user_id: this.props.userId
+        if(this.props.userId){
+            axios.get(
+                URL_API + 'favorites', {
+                    params: {
+                        path: this.props.location.pathname.split("/").pop(),
+                        user_id: this.props.userId
+                    }
                 }
-            }
-        ).then(res => {   
-            if(res.data.results.length !== 0){
-                this.setState({
-                    favorite: true,
-                    favoriteId: res.data.results[0].favorite_id
-                })    
-            } else {
-                this.setState({
-                    favorite: false
-                })  
-            }
-        })
+            ).then(res => {   
+                if(res.data.results.length !== 0){
+                    this.setState({
+                        favorite: true,
+                        favoriteId: res.data.results[0].favorite_id
+                    })    
+                } else {
+                    this.setState({
+                        favorite: false
+                    })  
+                }
+            })
+        }
     }
 
     reviewHandler = (reviewAvg, reviewCount) => {
@@ -106,7 +110,7 @@ class TripDetail extends Component {
     }
 
     onFavoriteClick = () => {
-        if(this.state.trip){
+        if(this.props.userId){
             if(this.state.favorite){
                 axios.patch(
                     URL_API + `favorites/${this.state.favoriteId}`
@@ -123,17 +127,22 @@ class TripDetail extends Component {
                     this.getFavoriteData()
                 })
             }
+        } else {
+            this.props.history.push("/login")
         }
     }
 
     render() {
-        console.log(this.state)
         if(this.state.trip){
             return (
                 <div>
                     <Header/>
                     <div>
-                        <Pictures tripId={this.state.trip.trip_id} favorite={this.state.favorite} favoriteClick={this.onFavoriteClick}/>
+                        <Pictures
+                            tripId={this.state.trip.trip_id}
+                            favorite={this.props.userId ? this.state.favorite : false}
+                            favoriteClick={this.onFavoriteClick}
+                        />
                         <div className="container container-height">
                             <div className="row row-top row-bottom">
                                 <div className="col-8">
@@ -200,4 +209,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps,{onBookingTrip})(TripDetail))
+export default withRouter(connect(mapStateToProps,{onBookingTrip,onClearBooking})(TripDetail))

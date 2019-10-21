@@ -559,8 +559,7 @@ class Checkout extends Component {
     }
 
     render() {
-        console.log(this.state)
-        if(this.props.tripName){
+        if(this.props.userId && this.props.tripName){
             return (
                 <div>
                     <Header/>
@@ -594,6 +593,7 @@ class Checkout extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.auth.userId,
         firstName: state.auth.firstName,
         lastName: state.auth.lastName,
         email: state.auth.email,

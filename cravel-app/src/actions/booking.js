@@ -18,12 +18,9 @@ export const onCheckout = (participants, totalPrice) => {
     }                          
 }
 
-// Keep Booking
-export const keepBooking = (tripName, tripPrice, startDate, endDate, pax) => {
+// Clear Booking
+export const onClearBooking = () => {
     return {
-        type: 'BOOKING_SUCCESS',
-        payload: {
-            tripName, tripPrice, startDate, endDate, pax
-        }
+        type: 'CLEAR_BOOKING_SUCCESS',
     }
 }

@@ -23,6 +23,17 @@ const bookingReducer = (state = init, action) => {
                 participants: action.payload.participants,
                 totalPrice: action.payload.totalPrice
             }
+        case "CLEAR_BOOKING_SUCCESS":
+            return {
+                ...state,
+                tripName: '',
+                tripPrice: '',
+                startDate: '',
+                endDate: '',
+                pax: '',
+                participants: '',
+                totalPrice: ''
+            }
         default:
             return state
     }

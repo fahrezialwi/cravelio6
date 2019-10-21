@@ -37,7 +37,7 @@ class Confirmation extends Component {
         let participants = []
         for (let i = 1 ; i <= this.props.pax ; i++){
             participants.push(
-                <tr>
+                <tr key={i}>
                     <td>{i}</td>
                     <td>{this.props.participants[`firstName${i}`]} {this.props.participants[`lastName${i}`]}</td>
                     <td>{this.props.participants[`idType${i}`]}</td>
@@ -45,12 +45,11 @@ class Confirmation extends Component {
                 </tr>
             )
         }
-        console.log(participants)
         return participants
     }
 
     render() {
-        if(this.props.participants){
+        if(this.props.userId && this.props.participants){
             if(!this.state.proceed){
                 return (
                     <div>
@@ -128,6 +127,7 @@ class Confirmation extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.auth.userId,
         tripName: state.booking.tripName,
         tripPrice: state.booking.tripPrice,
         startDate: state.booking.startDate,
