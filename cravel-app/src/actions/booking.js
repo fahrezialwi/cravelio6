@@ -9,11 +9,25 @@ export const onBookingTrip = (tripName, tripPrice, startDate, endDate, pax) => {
 }
 
 // Checkout
-export const onCheckout = (participants, totalPrice) => {
+export const onCheckout = (
+    contactFirstName,
+    contactLastName,
+    contactPhoneNumber,
+    contactEmail,
+    participants,
+    promoCodeInput,
+    totalPrice
+) => {
     return {
         type: 'CHECKOUT_SUCCESS',
         payload: {
-            participants, totalPrice
+            contactFirstName,
+            contactLastName,
+            contactPhoneNumber,
+            contactEmail,
+            participants,
+            promoCodeInput,
+            totalPrice
         }
     }                          
 }

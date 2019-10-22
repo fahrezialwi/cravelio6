@@ -20,7 +20,12 @@ const bookingReducer = (state = init, action) => {
         case "CHECKOUT_SUCCESS":
             return {
                 ...state,
+                contactFirstName: action.payload.contactFirstName,
+                contactLastName: action.payload.contactLastName,
+                contactPhoneNumber: action.payload.contactPhoneNumber,
+                contactEmail: action.payload.contactEmail,
                 participants: action.payload.participants,
+                promoCodeInput: action.payload.promoCodeInput,
                 totalPrice: action.payload.totalPrice
             }
         case "CLEAR_BOOKING_SUCCESS":
@@ -31,7 +36,12 @@ const bookingReducer = (state = init, action) => {
                 startDate: '',
                 endDate: '',
                 pax: '',
+                contactFirstName: '',
+                contactLastName: '',
+                contactPhoneNumber: '',
+                contactEmail: '',
                 participants: '',
+                promoCodeInput: '',
                 totalPrice: ''
             }
         default:

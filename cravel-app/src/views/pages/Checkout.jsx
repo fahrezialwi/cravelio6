@@ -45,10 +45,42 @@ class Checkout extends Component {
             }) 
         }
 
+        if(this.props.contactFirstName){
+            this.setState({
+                firstName: this.props.contactFirstName
+            }) 
+        }
+
+        if(this.props.contactLastName){
+            this.setState({
+                lastName: this.props.contactLastName
+            }) 
+        }
+
+        if(this.props.contactPhoneNumber){
+            this.setState({
+                phoneNumber: this.props.contactPhoneNumber
+            }) 
+        }
+
+        if(this.props.contactEmail){
+            this.setState({
+                email: this.props.contactEmail
+            }) 
+        }
+
         if(this.props.participants){
             this.setState({
                 participants: this.props.participants
             }) 
+        }
+
+        if(this.props.promoCodeInput){
+            this.setState({
+                promoCodeInput: this.props.promoCodeInput
+            }, () => {
+                this.checkPromo()
+            })
         }
     }
 
@@ -60,28 +92,28 @@ class Checkout extends Component {
                 </div>
                 <div className="col-6 mb-3">
                     <h6>First Name</h6>
-                    <input type="fname" defaultValue={this.props.firstName} onChange={e => this.setState({firstName: e.target.value})} className="form-control"/>
+                    <input type="fname" defaultValue={this.state.firstName} onChange={e => this.setState({firstName: e.target.value})} className="form-control"/>
                     <div className={"first-name-error" + (this.state.contactDetailsError.firstName ? ' show-error' : '')}>
                         {this.state.contactDetailsError.firstName}
                     </div>
                 </div>
                 <div className="col-6 mb-3">
                     <h6>Last Name</h6>
-                    <input type="lname" defaultValue={this.props.lastName} onChange={e => this.setState({lastName: e.target.value})} className="form-control"/>
+                    <input type="lname" defaultValue={this.state.lastName} onChange={e => this.setState({lastName: e.target.value})} className="form-control"/>
                     <div className={"last-name-error" + (this.state.contactDetailsError.lastName ? ' show-error' : '')}>
                         {this.state.contactDetailsError.lastName}
                     </div>
                 </div>
                 <div className="col-6 mb-3">
                     <h6>Phone Number</h6>
-                    <input type="text" defaultValue={this.props.phoneNumber} onChange={e => this.setState({phoneNumber: e.target.value})} className="form-control"/>
+                    <input type="text" defaultValue={this.state.phoneNumber} onChange={e => this.setState({phoneNumber: e.target.value})} className="form-control"/>
                     <div className={"phone-number-error" + (this.state.contactDetailsError.phoneNumber ? ' show-error' : '')}>
                         {this.state.contactDetailsError.phoneNumber}
                     </div>
                 </div>
                 <div className="col-6 mb-3">
                     <h6>Email</h6>
-                    <input type="email" defaultValue={this.props.email} onChange={e => this.setState({email: e.target.value})} className="form-control"/>
+                    <input type="email" defaultValue={this.state.email} onChange={e => this.setState({email: e.target.value})} className="form-control"/>
                     <div className={"email-error" + (this.state.contactDetailsError.email ? ' show-error' : '')}>
                         {this.state.contactDetailsError.email}
                     </div>
@@ -344,27 +376,6 @@ class Checkout extends Component {
         )
     }
 
-    renderPromo = () => {
-        return (
-            <div className="card">
-                <div className="card-header">
-                    Have Promo Code?
-                </div>
-                <div className="card-body">
-                    <div className="input-group mb-2">
-                        <input onChange={e => this.setState({promoCodeInput: e.target.value})} type="text" className="form-control"/>
-                        <div className="input-group-append">
-                            <button onClick = {() => this.checkPromo()} className="btn btn-dark btn-block">Apply</button>
-                        </div>
-                    </div>
-                    <div>
-                        {this.state.promoMessage}
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
     renderPromoList = () => {
         if(this.state.promoValue){
             return (
@@ -383,6 +394,27 @@ class Checkout extends Component {
         } else {
             return null
         }
+    }
+
+    renderPromo = () => {
+        return (
+            <div className="card">
+                <div className="card-header">
+                    Have Promo Code?
+                </div>
+                <div className="card-body">
+                    <div className="input-group mb-2">
+                        <input onChange={e => this.setState({promoCodeInput: e.target.value})} defaultValue={this.props.promoCodeInput} type="text" className="form-control"/>
+                        <div className="input-group-append">
+                            <button onClick = {() => this.checkPromo()} className="btn btn-dark btn-block">Apply</button>
+                        </div>
+                    </div>
+                    <div>
+                        {this.state.promoMessage}
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     checkPromo = () => {
@@ -552,8 +584,16 @@ class Checkout extends Component {
     }
 
     checkAllData = () => {
-        if (this.validationHandler()) {
-            this.props.onCheckout(this.state.participants, this.state.totalPrice)
+        if(this.validationHandler()) {
+            this.props.onCheckout(
+                this.state.firstName,
+                this.state.lastName,
+                this.state.phoneNumber,
+                this.state.email,
+                this.state.participants,
+                this.state.promoCodeInput,
+                this.state.totalPrice
+            )
             this.props.history.push("/confirmation")
         }
     }
@@ -603,7 +643,12 @@ const mapStateToProps = (state) => {
         startDate: state.booking.startDate,
         endDate: state.booking.endDate,
         pax: state.booking.pax,
-        participants: state.booking.participants
+        contactFirstName: state.booking.contactFirstName,
+        contactLastName: state.booking.contactLastName,
+        contactPhoneNumber: state.booking.contactPhoneNumber,
+        contactEmail: state.booking.contactEmail,
+        participants: state.booking.participants,
+        promoCodeInput: state.booking.promoCodeInput
     }
 }
 
