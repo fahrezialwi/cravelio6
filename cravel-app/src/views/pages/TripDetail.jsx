@@ -96,6 +96,7 @@ class TripDetail extends Component {
     onBookClick = () => {
         if(this.props.userId){
             this.props.onBookingTrip(
+                this.state.trip.trip_id,
                 this.state.trip.trip_name,
                 this.state.trip.price,
                 this.state.startDate,

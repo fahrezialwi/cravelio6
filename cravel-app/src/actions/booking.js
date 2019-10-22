@@ -1,9 +1,9 @@
 // Booking Detail
-export const onBookingTrip = (tripName, tripPrice, startDate, endDate, pax) => {
+export const onBookingTrip = (tripId, tripName, tripPrice, startDate, endDate, pax) => {
     return {
         type: 'BOOKING_SUCCESS',
         payload: {
-            tripName, tripPrice, startDate, endDate, pax
+            tripId, tripName, tripPrice, startDate, endDate, pax
         }
     }                          
 }

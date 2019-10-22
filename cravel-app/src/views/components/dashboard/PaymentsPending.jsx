@@ -36,8 +36,8 @@ class PaymentsPending extends Component {
                 <tr key={transaction.transaction_id}>
                     <td>#{transaction.transaction_id}</td>
                     <td>{transaction.trip_name}</td>
-                    <td>{transaction.first_name} {transaction.last_name}</td>
-                    <td>{transaction.phone_number}</td>
+                    <td>{transaction.contact_first_name} {transaction.contact_last_name}</td>
+                    <td>{transaction.contact_phone_number}</td>
                     <td>{transaction.pax}</td>
                     <td>{transaction.transfer_bank_name ? transaction.transfer_bank_name : '(not yet upload)'}</td>
                     <td>{transaction.transfer_account_holder ? transaction.transfer_account_holder : '(not yet upload)'}</td>

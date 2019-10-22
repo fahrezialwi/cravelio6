@@ -1,4 +1,5 @@
 const init = {
+    tripId: '',
     tripName: '',
     tripPrice: '',
     startDate: '',
@@ -11,6 +12,7 @@ const bookingReducer = (state = init, action) => {
         case "BOOKING_SUCCESS":
             return {
                 ...state,
+                tripId: action.payload.tripId,
                 tripName: action.payload.tripName,
                 tripPrice: action.payload.tripPrice,
                 startDate: action.payload.startDate,
@@ -31,6 +33,7 @@ const bookingReducer = (state = init, action) => {
         case "CLEAR_BOOKING_SUCCESS":
             return {
                 ...state,
+                tripId: '',
                 tripName: '',
                 tripPrice: '',
                 startDate: '',

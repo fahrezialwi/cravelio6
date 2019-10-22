@@ -18,19 +18,32 @@ class Confirmation extends Component {
     }
 
     proceedPayment = () => {
-        // this.setState({
-        //     proceed: true
-        // })
-        // setTimeout(() => {
-        //     this.props.history.push('/invoice')
-        // }, 3000)
-        axios.post(
-            URL_API + 'transactions', {
-
-            }
-        ).then(res => {
-            console.log(res.data)
-        })
+        this.setState({
+            proceed: true
+        }, () => {
+            axios.post(
+                URL_API + 'transactions', {
+                    trip_id: this.props.tripId,
+                    trip_name: this.props.tripName,
+                    start_date: moment(this.props.startDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
+                    end_date: moment(this.props.endDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
+                    user_id: this.props.userId,
+                    contact_first_name: this.props.contactFirstName,
+                    contact_last_name: this.props.contactLastName,
+                    contact_phone_number: this.props.contactPhoneNumber,
+                    contact_email: this.props.contactEmail,
+                    pax: this.props.pax,
+                    participants: this.props.participants,
+                    total_payment: this.props.totalPrice,
+                    status: 'Pending',
+                    created_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')
+                }
+            ).then(res => {
+                setTimeout(() => { 
+                    this.props.history.push(`/invoice/${res.data.results.insertId}`)
+                }, 1000)
+            })
+        })  
     }
 
     renderParticipants = () => {
@@ -128,13 +141,18 @@ class Confirmation extends Component {
 const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
+        tripId: state.booking.tripId,
         tripName: state.booking.tripName,
         tripPrice: state.booking.tripPrice,
         startDate: state.booking.startDate,
         endDate: state.booking.endDate,
-        totalPrice: state.booking.totalPrice,
         pax: state.booking.pax,
-        participants: state.booking.participants
+        contactFirstName: state.booking.contactFirstName,
+        contactLastName: state.booking.contactFirstName,
+        contactPhoneNumber: state.booking.contactPhoneNumber,
+        contactEmail: state.booking.contactEmail,
+        participants: state.booking.participants,
+        totalPrice: state.booking.totalPrice,
     }
 }
 
