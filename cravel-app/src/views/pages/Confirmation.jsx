@@ -74,49 +74,47 @@ class Confirmation extends Component {
                 return (
                     <div>
                         <Header/>
-                        <div>
-                            <div className="container container-height">
-                                <div className="row row-top">
-                                    <div className="col-12">
-                                        <h2>Confirmation</h2>
-                                        <p>Please check your order</p>
-                                    </div>
+                        <div className="container container-height">
+                            <div className="row row-top">
+                                <div className="col-12">
+                                    <h2>Confirmation</h2>
+                                    <p>Please check your order</p>
                                 </div>
-                                <div className="row pb-3">
-                                    <div className="col-12">
-                                        <div className="card mb-4">
-                                            <div className="card-body">
-                                                <p>Trip Name: {this.props.tripName}</p>
-                                                <p>Date: {moment(this.props.startDate).format('MMM Do, YYYY')} - {moment(this.props.endDate).format('MMM Do, YYYY')}</p>
-                                                <p>Price ({this.props.pax} pax): {formatCurrency(this.props.pax*this.props.tripPrice)}</p>
-                                                <p>Promo ({(this.props.promoCode).toUpperCase()}): - {formatCurrency(this.props.promoValue)}</p>
-                                                <p>Total: {formatCurrency(this.props.totalPrice)}</p>
-                                                <table className="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>No.</th>
-                                                            <th>Name</th>
-                                                            <th>ID Type</th>
-                                                            <th>ID Number</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {this.renderParticipants()}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                            </div>
+                            <div className="row pb-3">
+                                <div className="col-12">
+                                    <div className="card mb-4">
+                                        <div className="card-body">
+                                            <p>Trip Name: {this.props.tripName}</p>
+                                            <p>Date: {moment(this.props.startDate).format('MMM Do, YYYY')} - {moment(this.props.endDate).format('MMM Do, YYYY')}</p>
+                                            <p>Price ({this.props.pax} pax): {formatCurrency(this.props.pax*this.props.tripPrice)}</p>
+                                            <p>Promo ({(this.props.promoCode).toUpperCase()}): - {formatCurrency(this.props.promoValue)}</p>
+                                            <p>Total: {formatCurrency(this.props.totalPrice)}</p>
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Name</th>
+                                                        <th>ID Type</th>
+                                                        <th>ID Number</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.renderParticipants()}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row row-bottom">
-                                    <div className="col-3 mr-auto">
-                                        <Link to="/checkout">
-                                            <button className="btn btn-dark btn-block">Back</button>
-                                        </Link>
-                                    </div>
-                                    <div className="col-3 ml-auto">
-                                        <button onClick={() => this.proceedPayment()} className="btn btn-dark btn-block">Proceed to Payment</button>
-                                    </div>
+                            </div>
+                            <div className="row row-bottom">
+                                <div className="col-3 mr-auto">
+                                    <Link to="/checkout">
+                                        <button className="btn btn-dark btn-block">Back</button>
+                                    </Link>
+                                </div>
+                                <div className="col-3 ml-auto">
+                                    <button onClick={() => this.proceedPayment()} className="btn btn-dark btn-block">Proceed to Payment</button>
                                 </div>
                             </div>
                         </div>
@@ -127,13 +125,11 @@ class Confirmation extends Component {
                 return(
                     <div>
                         <Header/>
-                        <div>
-                            <div className="container container-height">
-                                <div className="text-center row-top row-bottom">
-                                    <h4 className="mb-4">Processing your order</h4>
-                                    <div className="spinner-border" role="status">
-                                        <span className="sr-only">Loading...</span>
-                                    </div>
+                        <div className="container container-height">
+                            <div className="text-center row-top row-bottom">
+                                <h4 className="mb-4">Processing your order</h4>
+                                <div className="spinner-border" role="status">
+                                    <span className="sr-only">Loading...</span>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +153,7 @@ const mapStateToProps = (state) => {
         endDate: state.booking.endDate,
         pax: state.booking.pax,
         contactFirstName: state.booking.contactFirstName,
-        contactLastName: state.booking.contactFirstName,
+        contactLastName: state.booking.contactLastName,
         contactPhoneNumber: state.booking.contactPhoneNumber,
         contactEmail: state.booking.contactEmail,
         participants: state.booking.participants,

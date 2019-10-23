@@ -14,6 +14,9 @@ module.exports = {
         if (req.query.year){
             sql = `${sql} where year(tr.created_at) = ${req.query.year}`
         }
+        if (req.query.user_id){
+            sql = `${sql} where tr.user_id = ${req.query.user_id}`
+        }
 
         db.query(sql, (err,result) => {
             if (err) throw err

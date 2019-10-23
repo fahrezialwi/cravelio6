@@ -138,46 +138,44 @@ class TripDetail extends Component {
             return (
                 <div>
                     <Header/>
-                    <div>
-                        <Pictures
-                            tripId={this.state.trip.trip_id}
-                            favorite={this.props.userId ? this.state.favorite : false}
-                            favoriteClick={this.onFavoriteClick}
-                        />
-                        <div className="container container-height">
-                            <div className="row row-top row-bottom">
-                                <div className="col-8">
-                                    <div className="row">
-                                        <Detail trip={this.state.trip}/>
-                                        <Description trip={this.state.trip}/>
-                                    </div>
-                                    <Reviews tripId={this.state.trip.trip_id} review={this.reviewHandler}/>
-                                    <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
-                                        <Tab eventKey="itinerary" title="Itinerary">
-                                            <Itinerary trip={this.state.trip}/>
-                                        </Tab>
-                                        <Tab eventKey="includes" title="Price Includes">
-                                            <PriceIncludes trip={this.state.trip}/>
-                                        </Tab>
-                                        <Tab eventKey="excludes" title="Price Excludes">
-                                            <PriceExcludes trip={this.state.trip}/>
-                                        </Tab>
-                                        <Tab eventKey="faq" title="FAQ">
-                                            <FrequentQuestion trip={this.state.trip}/>
-                                        </Tab>
-                                    </Tabs>
+                    <Pictures
+                        tripId={this.state.trip.trip_id}
+                        favorite={this.props.userId ? this.state.favorite : false}
+                        favoriteClick={this.onFavoriteClick}
+                    />
+                    <div className="container container-height">
+                        <div className="row row-top row-bottom">
+                            <div className="col-8">
+                                <div className="row">
+                                    <Detail trip={this.state.trip}/>
+                                    <Description trip={this.state.trip}/>
                                 </div>
-                                <div className="col-4">
-                                    <Sidebar
-                                        reviewAvg={this.state.reviewAvg}
-                                        reviewCount={this.state.reviewCount}
-                                        trip={this.state.trip}
-                                        date={this.state.startDate}
-                                        pickDate={this.dateHandler}
-                                        pax={this.paxHandler}
-                                        bookClick={this.onBookClick}
-                                    />
-                                </div>
+                                <Reviews tripId={this.state.trip.trip_id} review={this.reviewHandler}/>
+                                <Tabs defaultActiveKey="itinerary" id="uncontrolled-tab-example">
+                                    <Tab eventKey="itinerary" title="Itinerary">
+                                        <Itinerary trip={this.state.trip}/>
+                                    </Tab>
+                                    <Tab eventKey="includes" title="Price Includes">
+                                        <PriceIncludes trip={this.state.trip}/>
+                                    </Tab>
+                                    <Tab eventKey="excludes" title="Price Excludes">
+                                        <PriceExcludes trip={this.state.trip}/>
+                                    </Tab>
+                                    <Tab eventKey="faq" title="FAQ">
+                                        <FrequentQuestion trip={this.state.trip}/>
+                                    </Tab>
+                                </Tabs>
+                            </div>
+                            <div className="col-4">
+                                <Sidebar
+                                    reviewAvg={this.state.reviewAvg}
+                                    reviewCount={this.state.reviewCount}
+                                    trip={this.state.trip}
+                                    date={this.state.startDate}
+                                    pickDate={this.dateHandler}
+                                    pax={this.paxHandler}
+                                    bookClick={this.onBookClick}
+                                />
                             </div>
                         </div>
                     </div>
@@ -190,10 +188,8 @@ class TripDetail extends Component {
             return (
                 <div>
                     <Header/>
-                    <div>
-                        <div className="container container-height">
-                            <h1 className="row-top text-center">Loading</h1>
-                        </div>
+                    <div className="container container-height">
+                        <h1 className="row-top text-center">Loading</h1>
                     </div>
                     <Footer/>
                 </div>

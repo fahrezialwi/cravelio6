@@ -7,11 +7,9 @@ class HowToBook extends Component {
         return (
             <div>
                 <Header/>
-                <div>
-                    <div className="container container-height">
-                        <div className="row pt-5">
-                            How To Book Component
-                        </div>
+                <div className="container container-height">
+                    <div className="row pt-5">
+                        How To Book Component
                     </div>
                 </div>
                 <Footer/>

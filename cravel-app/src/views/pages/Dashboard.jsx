@@ -41,33 +41,31 @@ class Dashboard extends Component {
             return (
                 <div>
                     <Header/>
-                    <div>
-                        <div className="container container-height">
-                            <div className="row row-top row-bottom">
-                                <div className="col-3">
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <div className="pt-2 pb-2 text-center">
-                                                <h5>Admin Dashboard</h5>
-                                            </div>
-                                        </div>
-                                        <div className="card-body">
-                                            <ul className="list-group list-group-flush">
-                                                <li className={"list-group-item list-dashboard" + (this.state.content === 'overview' ? ' list-active' : '')} onClick={() => this.setState({content: 'overview'})}>Overview</li>
-                                                <li className={"list-group-item list-dashboard" + (this.state.content === 'payment' ? ' list-active' : '')} onClick={() => this.setState({content: 'payment'})}>Payments Pending</li>
-                                                <li className={"list-group-item list-dashboard" + (this.state.content === 'transaction' ? ' list-active' : '')} onClick={() => this.setState({content: 'transaction'})}>Transaction History</li>
-                                                <li className={"list-group-item list-dashboard" + (this.state.content === 'manage' ? ' list-active' : '')} onClick={() => this.setState({content: 'manage'})}>Manage Trips</li>
-                                                <li className={"list-group-item list-dashboard" + (this.state.content === 'schedule' ? ' list-active' : '')} onClick={() => this.setState({content: 'schedule'})}>Schedules</li>
-                                                <li className={"list-group-item list-dashboard" + (this.state.content === 'promo' ? ' list-active' : '')} onClick={() => this.setState({content: 'promo'})}>Promos</li>
-                                            </ul>
+                    <div className="container container-height">
+                        <div className="row row-top row-bottom">
+                            <div className="col-3">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <div className="pt-2 pb-2 text-center">
+                                            <h5>Admin Dashboard</h5>
                                         </div>
                                     </div>
+                                    <div className="card-body">
+                                        <ul className="list-group list-group-flush">
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'overview' ? ' list-active' : '')} onClick={() => this.setState({content: 'overview'})}>Overview</li>
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'payment' ? ' list-active' : '')} onClick={() => this.setState({content: 'payment'})}>Payments Pending</li>
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'transaction' ? ' list-active' : '')} onClick={() => this.setState({content: 'transaction'})}>Transaction History</li>
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'manage' ? ' list-active' : '')} onClick={() => this.setState({content: 'manage'})}>Manage Trips</li>
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'schedule' ? ' list-active' : '')} onClick={() => this.setState({content: 'schedule'})}>Schedules</li>
+                                            <li className={"list-group-item list-dashboard" + (this.state.content === 'promo' ? ' list-active' : '')} onClick={() => this.setState({content: 'promo'})}>Promos</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div className="col-9">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            {this.contentSection()}
-                                        </div>
+                            </div>
+                            <div className="col-9">
+                                <div className="card">
+                                    <div className="card-body">
+                                        {this.contentSection()}
                                     </div>
                                 </div>
                             </div>

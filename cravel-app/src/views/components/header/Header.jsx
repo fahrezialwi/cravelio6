@@ -61,6 +61,21 @@ class Header extends Component {
                                     <div style={{fontSize: "14px"}}>({this.props.email})</div>
                                 </DropdownItem>
                                 <DropdownItem divider />
+                                <Link to="/edit-profile">
+                                    <DropdownItem className="text-light-dark">
+                                        Edit Profile
+                                    </DropdownItem>
+                                </Link>
+                                <Link to="/wishlist">
+                                    <DropdownItem className="text-light-dark">
+                                        Wishlist
+                                    </DropdownItem>
+                                </Link>
+                                <Link to="/order-history">
+                                    <DropdownItem className="text-light-dark">
+                                        Order History
+                                    </DropdownItem>
+                                </Link>
                                 <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
                                     Logout
                                 </DropdownItem>
@@ -83,6 +98,21 @@ class Header extends Component {
                                     <div style={{fontSize: "14px"}}>({this.props.email})</div>
                                 </DropdownItem>
                                 <DropdownItem divider />
+                                <Link to="/edit-profile">
+                                    <DropdownItem className="text-light-dark">
+                                        Edit Profile
+                                    </DropdownItem>
+                                </Link>
+                                <Link to="/wishlist">
+                                    <DropdownItem className="text-light-dark">
+                                        Wishlist
+                                    </DropdownItem>
+                                </Link>
+                                <Link to="/order-history">
+                                    <DropdownItem className="text-light-dark">
+                                        Order History
+                                    </DropdownItem>
+                                </Link>
                                 <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
                                     Logout
                                 </DropdownItem>

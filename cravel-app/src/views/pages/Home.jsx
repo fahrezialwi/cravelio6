@@ -35,22 +35,20 @@ class Home extends Component {
         return (
             <div>
                 <Header/>
-                    <div>
-                    <div className="container container-height">
-                        <div className="row row-top">
-                            <div className="col-12">
-                                <h3>Our Best Pick</h3>
-                                <p>Book one of these unique spots to escape the ordinary</p>
-                            </div>
-                            {this.tripList()}
+                <div className="container container-height">
+                    <div className="row row-top">
+                        <div className="col-12">
+                            <h3>Our Best Pick</h3>
+                            <p>Book one of these unique spots to escape the ordinary</p>
                         </div>
-                        <div className="row pb-5">
-                            <div className="col-12">
-                                <h3>International Destinations</h3>
-                                <p>A selection of places to stay verified for quality and design</p>
-                            </div>
-                            {this.tripList()}
+                        {this.tripList()}
+                    </div>
+                    <div className="row pb-5">
+                        <div className="col-12">
+                            <h3>International Destinations</h3>
+                            <p>A selection of places to stay verified for quality and design</p>
                         </div>
+                        {this.tripList()}
                     </div>
                 </div>
                 <Footer/>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import URL_API from '../../../configs/urlAPI'
 
-class PaymentsPending extends Component {
+class TransactionHistory extends Component {
 
     constructor(props) {
         super(props)
@@ -86,4 +86,4 @@ class PaymentsPending extends Component {
     }
 }
 
-export default PaymentsPending
+export default TransactionHistory

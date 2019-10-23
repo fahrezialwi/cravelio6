@@ -97,51 +97,49 @@ class Invoice extends Component {
                 return (
                     <div>
                         <Header/>
-                        <div>
-                            <div className="container container-height">
-                                <div className="row row-top">
-                                    <div className="col-12">
-                                        <h2>Invoice #{this.state.transaction.transaction_id}</h2>
-                                        <p className="mb-1">Due Amount: {formatCurrency(this.state.transaction.total_payment)}</p>
-                                        <p className="mb-1">Status: {this.state.transaction.status}</p>
-                                        <p>
-                                            Please pay before {moment(this.state.transaction.created_at).add(1, 'days').format('MMMM DD, YYYY')} at {moment(this.state.transaction.created_at).add(1, 'days').format('HH:mm')}
-                                        </p>
-                                    </div>
+                        <div className="container container-height">
+                            <div className="row row-top">
+                                <div className="col-12">
+                                    <h2>Invoice #{this.state.transaction.transaction_id}</h2>
+                                    <p className="mb-1">Due Amount: {formatCurrency(this.state.transaction.total_payment)}</p>
+                                    <p className="mb-1">Status: {this.state.transaction.status}</p>
+                                    <p>
+                                        Please pay before {moment(this.state.transaction.created_at).add(1, 'days').format('MMMM DD, YYYY')} at {moment(this.state.transaction.created_at).add(1, 'days').format('HH:mm')}
+                                    </p>
                                 </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="card mb-4">
-                                            <div className="card-body">
-                                                <p className="mb-1">Trip Name: {this.state.transaction.trip_name}</p>
-                                                <p className="mb-1">Date: {moment(this.state.transaction.start_date).format('MMMM DD, YYYY')}  - {moment(this.state.transaction.end_date).format('MMMM DD, YYYY')}</p>
-                                                <p className="mb-1">Price ({this.state.transaction.pax} pax): {formatCurrency(this.state.transaction.pax*this.state.transaction.trip_price)}</p>
-                                                {this.state.transaction.promo_code ? <p className="mb-1">Promo ({(this.state.transaction.promo_code).toUpperCase()}): - {formatCurrency(this.state.transaction.promo_value)}</p> : null}
-                                                <p>Total: {formatCurrency(this.state.transaction.total_payment)}</p>
-                                                <table className="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>No.</th>
-                                                            <th>Name</th>
-                                                            <th>ID Type</th>
-                                                            <th>ID Number</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {this.participantsList()}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card mb-4">
+                                        <div className="card-body">
+                                            <p className="mb-1">Trip Name: {this.state.transaction.trip_name}</p>
+                                            <p className="mb-1">Date: {moment(this.state.transaction.start_date).format('MMMM DD, YYYY')}  - {moment(this.state.transaction.end_date).format('MMMM DD, YYYY')}</p>
+                                            <p className="mb-1">Price ({this.state.transaction.pax} pax): {formatCurrency(this.state.transaction.pax*this.state.transaction.trip_price)}</p>
+                                            {this.state.transaction.promo_code ? <p className="mb-1">Promo ({(this.state.transaction.promo_code).toUpperCase()}): - {formatCurrency(this.state.transaction.promo_value)}</p> : null}
+                                            <p>Total: {formatCurrency(this.state.transaction.total_payment)}</p>
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Name</th>
+                                                        <th>ID Type</th>
+                                                        <th>ID Number</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.participantsList()}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    {this.renderUpload()}
-                                </div>
-                                <div className="row row-bottom">
-                                    <div className="col-3 ml-auto">
-                                        {this.renderButton()}
-                                    </div>
+                            </div>
+                            <div className="row">
+                                {this.renderUpload()}
+                            </div>
+                            <div className="row row-bottom">
+                                <div className="col-3 ml-auto">
+                                    {this.renderButton()}
                                 </div>
                             </div>
                         </div>

@@ -608,22 +608,20 @@ class Checkout extends Component {
             return (
                 <div>
                     <Header/>
-                    <div>
-                        <div className="container container-height">
-                            <div className="row row-top pb-3">
-                                <div className="col-7">
-                                    {this.renderContactDetails()}
-                                    {this.renderParticipants()}
-                                </div>
-                                <div className="col-5">
-                                    {this.renderSummary()}
-                                    {this.renderPromo()}
-                                </div>
+                    <div className="container container-height">
+                        <div className="row row-top pb-3">
+                            <div className="col-7">
+                                {this.renderContactDetails()}
+                                {this.renderParticipants()}
                             </div>
-                            <div className="row row-bottom">
-                                <div className="col-3 ml-auto">
-                                    <button onClick={() => this.checkAllData()} className="btn btn-dark btn-block">Next</button>
-                                </div>
+                            <div className="col-5">
+                                {this.renderSummary()}
+                                {this.renderPromo()}
+                            </div>
+                        </div>
+                        <div className="row row-bottom">
+                            <div className="col-3 ml-auto">
+                                <button onClick={() => this.checkAllData()} className="btn btn-dark btn-block">Next</button>
                             </div>
                         </div>
                     </div>

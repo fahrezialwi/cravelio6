@@ -7,12 +7,10 @@ class NotFound extends Component {
         return (
             <div>
                 <Header/>
-                <div>
-                    <div className="container container-height">
-                        <div className="row row-top row-bottom">
-                            <div className="col-12">
-                                404: Page Not Found
-                            </div>
+                <div className="container container-height">
+                    <div className="row row-top row-bottom">
+                        <div className="col-12">
+                            404: Page Not Found
                         </div>
                     </div>
                 </div>

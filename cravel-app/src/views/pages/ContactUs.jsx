@@ -7,11 +7,9 @@ class ContactUs extends Component {
         return (
             <div>
                 <Header/>
-                <div>
-                    <div className="container container-height">
-                        <div className="row pt-5">
-                            Contact Us Component
-                        </div>
+                <div className="container container-height">
+                    <div className="row pt-5">
+                        Contact Us Component
                     </div>
                 </div>
                 <Footer/>

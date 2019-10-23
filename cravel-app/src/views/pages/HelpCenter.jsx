@@ -7,11 +7,9 @@ class HelpCenter extends Component {
         return (
             <div>
                 <Header/>
-                <div>
-                    <div className="container container-height">
-                        <div className="row pt-5">
-                            Help Center Component
-                        </div>
+                <div className="container container-height">
+                    <div className="row pt-5">
+                        Help Center Component
                     </div>
                 </div>
                 <Footer/>

@@ -7,11 +7,9 @@ class Careers extends Component {
         return (
             <div>
                 <Header/>
-                <div>
-                    <div className="container container-height">
-                        <div className="row pt-5">
-                            Careers Component
-                        </div>
+                <div className="container container-height">
+                    <div className="row pt-5">
+                        Careers Component
                     </div>
                 </div>
                 <Footer/>

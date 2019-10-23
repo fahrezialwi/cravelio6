@@ -143,35 +143,33 @@ class Register extends Component {
         if(!this.props.userId){
             return (
                 <div>
-                    <Header/>
-                    <div>
-                        <div className="container container-height">
-                            <div className="row row-top">
-                                <div className="col-sm-8 col-md-4 mx-auto">
-                                    <div className="card-body">
-                                        <h2>Register</h2>
-                                        <form onClick={this.loadingButton}>
-                                            <div className="row">
-                                                <div className="col-6 input-group pr-2">
-                                                    <input onChange={e => this.setState({firstName: e.target.value})} type="fname" className="form-control mt-3" placeholder="First Name" autoFocus/>
-                                                </div>
-                                                <div className="col-6 input-group pl-2">
-                                                    <input onChange={e => this.setState({lastName: e.target.value})} type="lname" className="form-control mt-3" placeholder="Last Name"/>
-                                                </div>
+                <Header/>
+                    <div className="container container-height">
+                        <div className="row row-top">
+                            <div className="col-sm-8 col-md-4 mx-auto">
+                                <div className="card-body">
+                                    <h2>Register</h2>
+                                    <form onClick={this.loadingButton}>
+                                        <div className="row">
+                                            <div className="col-6 input-group pr-2">
+                                                <input onChange={e => this.setState({firstName: e.target.value})} type="fname" className="form-control mt-3" placeholder="First Name" autoFocus/>
                                             </div>
-                                            <div className="input-group">
-                                                <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
+                                            <div className="col-6 input-group pl-2">
+                                                <input onChange={e => this.setState({lastName: e.target.value})} type="lname" className="form-control mt-3" placeholder="Last Name"/>
                                             </div>
-                                            <div className="input-group">
-                                                <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
-                                            </div>
-                                            <div className="input-group">
-                                                <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
-                                            </div>
-                                            {this.loadingButton()}
-                                        </form>
-                                        {this.notification()}
-                                    </div>
+                                        </div>
+                                        <div className="input-group">
+                                            <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
+                                        </div>
+                                        <div className="input-group">
+                                            <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
+                                        </div>
+                                        <div className="input-group">
+                                            <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
+                                        </div>
+                                        {this.loadingButton()}
+                                    </form>
+                                    {this.notification()}
                                 </div>
                             </div>
                         </div>

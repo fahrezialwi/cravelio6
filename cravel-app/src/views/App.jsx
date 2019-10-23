@@ -6,6 +6,9 @@ import Cookies from 'universal-cookie'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import EditProfile from './pages/EditProfile'
+import Wishlist from './pages/Wishlist'
+import OrderHistory from './pages/OrderHistory'
 import TripDetail from './pages/TripDetail'
 import Checkout from './pages/Checkout'
 import Confirmation from './pages/Confirmation'
@@ -53,6 +56,9 @@ class App extends Component {
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
+                        <Route path='/edit-profile' component={EditProfile}/>
+                        <Route path='/wishlist' component={Wishlist}/>
+                        <Route path='/order-history' component={OrderHistory}/>
                         <Route path='/trip' component={TripDetail}/>
                         <Route path='/checkout' component={Checkout}/>
                         <Route path='/confirmation' component={Confirmation}/>
