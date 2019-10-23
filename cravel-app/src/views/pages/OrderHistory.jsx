@@ -69,6 +69,9 @@ class OrderHistory extends Component {
                         <Header/>
                         <div className="container container-height">
                             <div className="row row-top">
+                                <div className="col-12 mb-3">
+                                    <h2>Order History</h2>
+                                </div>
                                 <div className="col-12">
                                     <div className="table-responsive">
                                         <table className="table">

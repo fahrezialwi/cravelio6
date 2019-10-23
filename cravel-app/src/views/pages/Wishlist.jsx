@@ -45,6 +45,9 @@ class Wishlist extends Component {
                 <Header/>
                 <div className="container container-height">
                     <div className="row row-top">
+                        <div className="col-12 mb-3">
+                            <h2>Wishlist</h2>
+                        </div>
                         {this.favoriteList()}
                     </div>
                 </div>

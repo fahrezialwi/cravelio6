@@ -56,10 +56,10 @@ class Header extends Component {
                             </div>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem className="text-light-dark">
+                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
                                     <div>{this.props.firstName} {this.props.lastName}</div>
                                     <div style={{fontSize: "14px"}}>({this.props.email})</div>
-                                </DropdownItem>
+                                </div>
                                 <DropdownItem divider />
                                 <Link to="/edit-profile">
                                     <DropdownItem className="text-light-dark">
@@ -93,10 +93,10 @@ class Header extends Component {
                             </div>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem className="text-light-dark">
+                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
                                     <div>{this.props.firstName} {this.props.lastName}</div>
                                     <div style={{fontSize: "14px"}}>({this.props.email})</div>
-                                </DropdownItem>
+                                </div>
                                 <DropdownItem divider />
                                 <Link to="/edit-profile">
                                     <DropdownItem className="text-light-dark">
