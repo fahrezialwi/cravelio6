@@ -2,8 +2,11 @@ const db = require('../database')
 
 module.exports = {
     getFavorites: (req, res) => {
-        let sql = `select * from favorites as f
-        join trips as t on f.trip_id = t.trip_id where is_deleted = 0`
+        let sql = `select f.favorite_id, f.user_id, f.is_deleted, f.trip_id,
+        t.path, t.trip_name, t.price, t.duration, t.category, p.picture_link from favorites as f
+        join trips as t on f.trip_id = t.trip_id
+        join pictures as p on f.trip_id = p.trip_id
+        where f.is_deleted = 0 and p.is_main = 1`
 
         if (req.params.id){
             sql = `${sql} and f.favorite_id = ${req.params.id}`

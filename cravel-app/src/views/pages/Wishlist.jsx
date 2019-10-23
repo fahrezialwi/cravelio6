@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import URL_API from '../../configs/urlAPI'
-import TripItem from '../components/home/TripItem'
+import TripItem from '../components/trip-item/TripItem'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 
@@ -28,7 +28,7 @@ class Wishlist extends Component {
             }
         ).then(res => {
             this.setState({
-                favorite: res.data.results
+                favorites: res.data.results
             })    
         })
     }
@@ -45,9 +45,7 @@ class Wishlist extends Component {
                 <Header/>
                 <div className="container container-height">
                     <div className="row row-top">
-                        <div className="col-12">
-                            {this.favoriteList()}
-                        </div>
+                        {this.favoriteList()}
                     </div>
                 </div>
                 <Footer/>

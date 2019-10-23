@@ -14,7 +14,7 @@ module.exports = {
                         trip_id: val.trip_id,
                         path: val.path,
                         trip_name: val.trip_name,
-                        picture_main: val.picture_link,
+                        picture_link: val.picture_link,
                         meeting_point: val.meeting_point,
                         price: val.price,
                         duration: val.duration,
