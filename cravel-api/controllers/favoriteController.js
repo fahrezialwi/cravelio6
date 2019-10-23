@@ -2,7 +2,7 @@ const db = require('../database')
 
 module.exports = {
     getFavorites: (req, res) => {
-        let sql = `select f.favorite_id, f.trip_id, t.path, f.user_id, f.is_deleted from favorites as f
+        let sql = `select * from favorites as f
         join trips as t on f.trip_id = t.trip_id where is_deleted = 0`
 
         if (req.params.id){
@@ -33,7 +33,7 @@ module.exports = {
     },
     
     getAllFavorites: (req, res) => {
-        let sql = `select f.favorite_id, f.trip_id, t.path, f.user_id, f.is_deleted from favorites as f
+        let sql = `select * from favorites as f
         join trips as t on f.trip_id = t.trip_id`
 
         if (req.params || req.query){
