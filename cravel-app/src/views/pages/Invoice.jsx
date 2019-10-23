@@ -115,7 +115,9 @@ class Invoice extends Component {
                                             <div className="card-body">
                                                 <p className="mb-1">Trip Name: {this.state.transaction.trip_name}</p>
                                                 <p className="mb-1">Date: {moment(this.state.transaction.start_date).format('MMMM DD, YYYY')}  - {moment(this.state.transaction.end_date).format('MMMM DD, YYYY')}</p>
-                                                <p>Pax: {this.state.transaction.pax} person(s)</p>
+                                                <p className="mb-1">Price ({this.state.transaction.pax} pax): {formatCurrency(this.state.transaction.pax*this.state.transaction.trip_price)}</p>
+                                                {this.state.transaction.promo_code ? <p className="mb-1">Promo ({(this.state.transaction.promo_code).toUpperCase()}): - {formatCurrency(this.state.transaction.promo_value)}</p> : null}
+                                                <p>Total: {formatCurrency(this.state.transaction.total_payment)}</p>
                                                 <table className="table">
                                                     <thead>
                                                         <tr>

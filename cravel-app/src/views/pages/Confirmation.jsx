@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { onClearBooking } from '../../actions/booking'
 import axios from 'axios'
 import moment from 'moment'
 import formatCurrency from '../../helpers/formatCurrency'
@@ -18,6 +19,7 @@ class Confirmation extends Component {
     }
 
     proceedPayment = () => {
+        window.scrollTo(0, 0)
         this.setState({
             proceed: true
         }, () => {
@@ -25,6 +27,7 @@ class Confirmation extends Component {
                 URL_API + 'transactions', {
                     trip_id: this.props.tripId,
                     trip_name: this.props.tripName,
+                    trip_price: this.props.tripPrice,
                     start_date: moment(this.props.startDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
                     end_date: moment(this.props.endDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
                     user_id: this.props.userId,
@@ -34,6 +37,9 @@ class Confirmation extends Component {
                     contact_email: this.props.contactEmail,
                     pax: this.props.pax,
                     participants: this.props.participants,
+                    promo_code: this.props.promoCode,
+                    promo_percentage: this.props.promoPercentage,
+                    promo_value: this.props.promoValue,
                     total_payment: this.props.totalPrice,
                     status: 'Pending',
                     created_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')
@@ -41,7 +47,8 @@ class Confirmation extends Component {
             ).then(res => {
                 setTimeout(() => { 
                     this.props.history.push(`/invoice/${res.data.results.insertId}`)
-                }, 1000)
+                    this.props.onClearBooking()
+                }, 500)
             })
         })  
     }
@@ -81,7 +88,9 @@ class Confirmation extends Component {
                                             <div className="card-body">
                                                 <p>Trip Name: {this.props.tripName}</p>
                                                 <p>Date: {moment(this.props.startDate).format('MMM Do, YYYY')} - {moment(this.props.endDate).format('MMM Do, YYYY')}</p>
-                                                <p>Price Total: {formatCurrency(this.props.totalPrice)}</p>
+                                                <p>Price ({this.props.pax} pax): {formatCurrency(this.props.pax*this.props.tripPrice)}</p>
+                                                <p>Promo ({(this.props.promoCode).toUpperCase()}): - {formatCurrency(this.props.promoValue)}</p>
+                                                <p>Total: {formatCurrency(this.props.totalPrice)}</p>
                                                 <table className="table">
                                                     <thead>
                                                         <tr>
@@ -152,8 +161,11 @@ const mapStateToProps = (state) => {
         contactPhoneNumber: state.booking.contactPhoneNumber,
         contactEmail: state.booking.contactEmail,
         participants: state.booking.participants,
-        totalPrice: state.booking.totalPrice,
+        promoCode: state.booking.promoCode,
+        promoPercentage: state.booking.promoPercentage,
+        promoValue: state.booking.promoValue,
+        totalPrice: state.booking.totalPrice
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Confirmation))
+export default withRouter(connect(mapStateToProps,{onClearBooking})(Confirmation))

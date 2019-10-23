@@ -15,7 +15,10 @@ export const onCheckout = (
     contactPhoneNumber,
     contactEmail,
     participants,
+    promoCode,
     promoCodeInput,
+    promoPercentage,
+    promoValue,
     totalPrice
 ) => {
     return {
@@ -26,7 +29,10 @@ export const onCheckout = (
             contactPhoneNumber,
             contactEmail,
             participants,
+            promoCode,
             promoCodeInput,
+            promoPercentage,
+            promoValue,
             totalPrice
         }
     }                          

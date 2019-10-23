@@ -75,11 +75,13 @@ class Checkout extends Component {
             }) 
         }
 
-        if(this.props.promoCodeInput){
+        if(this.props.promoCode){
             this.setState({
-                promoCodeInput: this.props.promoCodeInput
-            }, () => {
-                this.checkPromo()
+                promoCode: this.props.promoCode,
+                promoCodeInput: this.props.promoCodeInput,
+                promoPercentage: this.props.promoPercentage,
+                promoValue: this.props.promoValue,
+                totalPrice: this.props.totalPrice
             })
         }
     }
@@ -591,7 +593,10 @@ class Checkout extends Component {
                 this.state.phoneNumber,
                 this.state.email,
                 this.state.participants,
+                this.state.promoCode,
                 this.state.promoCodeInput,
+                this.state.promoPercentage,
+                this.state.promoValue,
                 this.state.totalPrice
             )
             this.props.history.push("/confirmation")
@@ -648,7 +653,11 @@ const mapStateToProps = (state) => {
         contactPhoneNumber: state.booking.contactPhoneNumber,
         contactEmail: state.booking.contactEmail,
         participants: state.booking.participants,
-        promoCodeInput: state.booking.promoCodeInput
+        promoCode: state.booking.promoCode,
+        promoCodeInput: state.booking.promoCodeInput,
+        promoPercentage: state.booking.promoPercentage,
+        promoValue: state.booking.promoValue,
+        totalPrice: state.booking.totalPrice
     }
 }
 
