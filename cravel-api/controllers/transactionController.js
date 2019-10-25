@@ -137,7 +137,11 @@ module.exports = {
             })
             
             for (let i = 1; i <= req.body.pax ; i++){
-                db.query(`insert into transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number) values ((select transaction_id from transactions where created_at = '${req.body.created_at}'), '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}', '${req.body.participants["lastName"+i]}', '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`)
+                db.query(
+                    `insert into transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
+                    values ((select transaction_id from transactions where created_at = '${req.body.created_at}'),
+                    '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}', '${req.body.participants["lastName"+i]}',
+                    '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`)
             }
         })
     }

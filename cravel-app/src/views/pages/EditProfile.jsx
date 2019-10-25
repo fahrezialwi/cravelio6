@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import URL_API from '../../configs/urlAPI'
+import encrypt from '../../helpers/crypto'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 
@@ -10,7 +11,15 @@ class EditProfile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: {}
+            profilePicture: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            repeatPassword: '',
+            birthDate: '',
+            address: '',
+            phoneNumber: ''
         }
     }
 
@@ -23,13 +32,45 @@ class EditProfile extends Component {
             URL_API + `users/${this.props.userId}`
         ).then(res => {
             this.setState({
-                user: res.data.results[0]
+                profilePicture: res.data.results[0].profile_picture,
+                firstName: res.data.results[0].first_name,
+                lastName: res.data.results[0].last_name,
+                email: res.data.results[0].email,
+                birthDate: res.data.results[0].birth_date,
+                address: res.data.results[0].address,
+                phoneNumber: res.data.results[0].phone_number
             })    
         })
     }
 
+    onEditClick = () => {
+        if(this.state.password){
+            if(this.state.password === this.state.repeatPassword){
+                axios.put(
+                    URL_API + `users/${this.props.userId}`, {
+                        profile_picture: this.state.profilePicture,
+                        first_name: this.state.firstName,
+                        last_name: this.state.lastName,
+                        email: this.state.email,
+                        password: encrypt(this.state.password),
+                        birth_date: this.state.birthDate,
+                        address: this.state.address,
+                        phone_number: this.state.phoneNumber
+                    }
+                ).then(res => {
+                    alert("Edit Success")
+                }).catch(err => {
+                    console.log(err)
+                })
+            } else {
+                alert("Password doesn't match")
+            }
+        } else {
+            alert("Please check your password")
+        }
+    }
+
     render() {
-        console.log(this.state.user)
         return (
             <div>
                 <Header/>
@@ -39,50 +80,88 @@ class EditProfile extends Component {
                             <h2>Edit Profile</h2>
                         </div>
                         <div className="col-8 mb-3">
-                            <img src={this.state.user.profile_picture} alt="profile" width="200"/>
+                            <img src={this.state.profilePicture} alt="profile" width="200"/>
                         </div>
                         <div className="col-8 mb-3">
                             <div className="row">
                                 <div className="col-6">
                                     First Name
-                                    <input type="fname" defaultValue={this.state.user.first_name} className="form-control"></input>
+                                    <input 
+                                        type="fname"
+                                        onChange={e => this.setState({firstName: e.target.value})}
+                                        defaultValue={this.state.firstName}
+                                        className="form-control"
+                                    />
                                 </div>
                                 <div className="col-6">
                                     Last Name
-                                    <input type="lname" defaultValue={this.state.user.last_name} className="form-control"></input>
+                                    <input 
+                                        type="lname"
+                                        onChange={e => this.setState({lastName: e.target.value})}
+                                        defaultValue={this.state.lastName}
+                                        className="form-control"
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="col-8 mb-3">
                             Email
-                            <input type="email" defaultValue={this.state.user.email} className="form-control"></input>
+                            <input 
+                                type="email"
+                                onChange={e => this.setState({email: e.target.value})}
+                                defaultValue={this.state.email}
+                                className="form-control"
+                            />
                         </div>
                         <div className="col-8 mb-3">
                             <div className="row">
                                 <div className="col-6">
                                     Password
-                                    <input type="password" className="form-control"></input>
+                                    <input 
+                                        type="password"
+                                        onChange={e => this.setState({password: e.target.value})}
+                                        className="form-control"
+                                    />
                                 </div>
                                 <div className="col-6">
                                     Repeat Password
-                                    <input type="password" className="form-control"></input>
+                                    <input 
+                                        type="password"
+                                        onChange={e => this.setState({repeatPassword: e.target.value})}
+                                        className="form-control"
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="col-8 mb-3">
-                            Birthdate
-                            <input type="date" className="form-control"></input>
+                            Birth Date
+                            <input 
+                                type="date"
+                                onChange={e => this.setState({birthDate: e.target.value})}
+                                defaultValue={this.state.birthDate}
+                                className="form-control"
+                            />
                         </div>
                         <div className="col-8 mb-3">
                             Address
-                            <input type="text" defaultValue={this.state.user.address} className="form-control"></input>
+                            <input 
+                                type="text"
+                                onChange={e => this.setState({address: e.target.value})}
+                                defaultValue={this.state.address}
+                                className="form-control"
+                            />
                         </div>
                         <div className="col-8 mb-4">
                             Phone Number
-                            <input type="text" defaultValue={this.state.user.phone_number} className="form-control"></input>
+                            <input 
+                                type="text"
+                                onChange={e => this.setState({phoneNumber: e.target.value})}
+                                defaultValue={this.state.phoneNumber}
+                                className="form-control"
+                            />
                         </div>
                         <div className="col-8 mb-5">
-                            <button className="btn btn-dark">Save</button>
+                            <button onClick={() => this.onEditClick()} className="btn btn-dark">Save</button>
                         </div>
                     </div>
                 </div>
