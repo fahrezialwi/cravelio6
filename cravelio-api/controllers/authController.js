@@ -1,4 +1,19 @@
 const db = require('../database')
+const nodemailer = require('nodemailer')
+const URL_APP = require('../configs/urlApp')
+const mailPassword = require('../configs/mailPassword')
+const emailSecretKey = require('../configs/secretKey')
+const jwt = require('jsonwebtoken')
+
+let transporter = nodemailer.createTransport({
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'donotreply@cravelio.com',
+        pass: mailPassword
+    }
+})
 
 module.exports = {
     getUsers: (req, res) => {
@@ -99,4 +114,67 @@ module.exports = {
             }
         })
     },
+
+    sendPasswordLink: (req, res) => {
+        let info = {}
+        info.email = req.body.email
+        info.expiry = new Date(new Date().getTime() +  10 * 60 * 1000)
+
+        let token = jwt.sign(info, emailSecretKey)
+
+        let mailOptions = {
+            from: 'Cravelio <donotreply@cravelio.com>',
+            to: req.body.email,
+            subject: 'Forgot Password',
+            html: `<p>To reset your password, visit the following address:</p><a href='${URL_APP}reset-password?key=${token}'>Reset your password</a>`
+        }
+        
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) throw err
+        })
+
+        res.send({
+            status: '201',
+            message: 'Email sent'
+        })  
+    },
+
+    checkPasswordLink: (req, res) => {
+        let token = req.query.token
+        let data = jwt.verify(token, emailSecretKey)
+        
+        if(new Date(data.expiry) > new Date()){
+            res.send({
+                status: 200,
+                message: 'Link is active'
+            })
+        } else {
+            res.send({
+                status: 404,
+                message: 'Link is expired'
+            })
+        }
+    },
+
+    resetPassword: (req, res) => {
+        let token = req.body.token
+        let data = jwt.verify(token, emailSecretKey)
+
+        db.query(`update users set password = '${req.body.password}' where email = '${data.email}'`, (err, result) => {
+
+            if (err) throw err
+            if (result.length > 0){
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 401,
+                    message: 'Error resetting password',
+                    results: result
+                })
+            }
+        })
+    }
 }

@@ -7,5 +7,8 @@ router.get('/users/:id', authController.getUsers)
 router.post('/users', authController.createUser)
 router.put('/users/:id', authController.editUser)
 router.get('/login', authController.loginUser)
+router.post('/send-password-link', authController.sendPasswordLink)
+router.get('/check-password-link', authController.checkPasswordLink)
+router.patch('/reset-password', authController.resetPassword)
 
 module.exports = router

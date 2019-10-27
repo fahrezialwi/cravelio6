@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { onLoginUser } from '../../actions/auth'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
@@ -115,6 +115,11 @@ class Login extends Component {
                                         <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
                                         {this.loadingButton()}
                                     </form>
+                                    <Link to="/forgot-password">
+                                        <div className="text-light-dark mt-3">
+                                            Forgot password?
+                                        </div>
+                                    </Link>
                                     {this.notification()}
                                 </div>
                             </div>

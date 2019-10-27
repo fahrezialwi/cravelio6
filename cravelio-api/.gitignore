@@ -3,5 +3,9 @@
 # dependencies
 /node_modules
 
-# database config
+# database setting
 /database
+
+# configs
+mailPassword.js
+secretKey.js
