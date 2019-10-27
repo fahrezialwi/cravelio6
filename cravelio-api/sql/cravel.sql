@@ -1,4 +1,4 @@
-use cravel;
+use cravelio;
 
 select * from users;
 select * from trips;

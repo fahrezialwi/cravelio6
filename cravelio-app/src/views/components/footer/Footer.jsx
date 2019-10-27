@@ -9,10 +9,10 @@ class Footer extends Component {
                 <div className="container pt-5 pb-4">
                     <div className="row mb-5">
                         <div className="col-3">
-                            <h1 className="footer-logo">cravel</h1>
+                            <h1 className="footer-logo">cravelio</h1>
                         </div>
                         <div className="col-3 footer-link">
-                            <h5>About Cravel</h5>
+                            <h5>About Cravelio</h5>
                             <a href="/" rel="nofollow norefferer">Contact Us</a>
                             <a href="/" rel="nofollow norefferer">How to Book</a>
                             <a href="/" rel="nofollow norefferer">Help Center</a>
@@ -32,7 +32,7 @@ class Footer extends Component {
                     </div>
                     <div className="row">
                         <div className="col-12 copyright text-center">
-                            Copyright 2019. Cravel
+                            Copyright 2019. Cravelio
                         </div>
                     </div>
                 </div>

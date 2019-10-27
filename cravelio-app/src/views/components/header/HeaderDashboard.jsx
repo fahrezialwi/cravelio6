@@ -13,7 +13,6 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { onLogoutUser } from '../../../actions/auth'
-import '../../styles/header.css'
 
 class Header extends Component {
 
@@ -56,26 +55,11 @@ class Header extends Component {
                             </div>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
+                                <DropdownItem className="text-light-dark">
                                     <div>{this.props.firstName} {this.props.lastName}</div>
                                     <div style={{fontSize: "14px"}}>({this.props.email})</div>
-                                </div>
+                                </DropdownItem>
                                 <DropdownItem divider />
-                                <Link to="/edit-profile">
-                                    <DropdownItem className="text-light-dark">
-                                        Edit Profile
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/wishlist">
-                                    <DropdownItem className="text-light-dark">
-                                        Wishlist
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/order-history">
-                                    <DropdownItem className="text-light-dark">
-                                        Order History
-                                    </DropdownItem>
-                                </Link>
                                 <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
                                     Logout
                                 </DropdownItem>
@@ -93,26 +77,11 @@ class Header extends Component {
                             </div>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
+                                <DropdownItem className="text-light-dark">
                                     <div>{this.props.firstName} {this.props.lastName}</div>
                                     <div style={{fontSize: "14px"}}>({this.props.email})</div>
-                                </div>
+                                </DropdownItem>
                                 <DropdownItem divider />
-                                <Link to="/edit-profile">
-                                    <DropdownItem className="text-light-dark">
-                                        Edit Profile
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/wishlist">
-                                    <DropdownItem className="text-light-dark">
-                                        Wishlist
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/order-history">
-                                    <DropdownItem className="text-light-dark">
-                                        Order History
-                                    </DropdownItem>
-                                </Link>
                                 <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
                                     Logout
                                 </DropdownItem>
@@ -126,15 +95,17 @@ class Header extends Component {
 
     render() {
         return (
-            <Navbar color="dark" dark expand="md" className="navbar-sticky">
+            <div>
+                <Navbar color="dark" dark expand="md" fixed="top">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">cravel</Link>
+                    <Link className="navbar-brand" to="/">cravelio</Link>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar>
                     {this.userMenu()}
                     </Collapse>
                 </div>
-            </Navbar>
+                </Navbar>
+            </div>
         )
     }
 }

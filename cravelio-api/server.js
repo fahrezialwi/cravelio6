@@ -10,7 +10,7 @@ const routers = require('./routers')
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/', (req, res) => res.send("Welcome to Cravel API"))
+app.get('/', (req, res) => res.send("Welcome to Cravelio API"))
 app.get('/favicon.ico', (req, res) => res.status(204))
 
 app.use(routers.authRouter)
