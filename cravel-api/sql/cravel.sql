@@ -30,3 +30,13 @@ where trip_id = 1;
 
 select picture_link from reviews_picture
 where review_id = 2;
+
+select * from reviews;
+select * from reviews_picture;
+
+select * from reviews
+left join reviews_picture on reviews.review_id = reviews_picture.review_id;
+
+select * from reviews
+join users on reviews.user_id = users.user_id
+left join reviews_picture on reviews.review_id = reviews_picture.review_id;

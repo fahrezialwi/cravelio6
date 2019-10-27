@@ -1,0 +1,7 @@
+.list-dashboard:hover {
+    cursor: pointer
+}
+
+.list-active {
+    font-weight: bold
+}

@@ -1,9 +1,11 @@
+import Cookies from 'universal-cookie'
+
 // Login
-export const onLoginUser = (id, firstName, lastName, email) => {
+export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumber) => {
     return {
         type: 'LOGIN_SUCCESS',
         payload: {
-            id, firstName, lastName, email
+            userId, firstName, lastName, email, role, phoneNumber
         }
     }                          
 }
@@ -11,19 +13,22 @@ export const onLoginUser = (id, firstName, lastName, email) => {
 // Keep Login
 export const keepLogin = (objUser) => {
     return {
-        type: 'LOGIN_SUCCESS',
+        type: 'KEEP_LOGIN_SUCCESS',
         payload: {
-            id: objUser.id,
+            userId: objUser.user_id,
             firstName: objUser.first_name,
             lastName: objUser.last_name,
-            email: objUser.email
+            email: objUser.email,
+            role: objUser.role,
+            phoneNumber: objUser.phone_number
         }
     }
 }
 
 // Logout
 export const onLogoutUser = () => {
-    localStorage.removeItem('userData')
+    const cookie = new Cookies()
+    cookie.remove('userData', { path: '/' })
     return {
         type: 'LOGOUT_SUCCESS',
     }

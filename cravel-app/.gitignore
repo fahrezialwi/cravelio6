@@ -11,6 +11,9 @@
 # production
 /build
 
+# secret key
+secretKey.js
+
 # misc
 .DS_Store
 .env.local
