@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 import URL_API from '../../configs/urlAPI'
@@ -57,8 +58,7 @@ class EditProfile extends Component {
                         password: encrypt(this.state.password),
                         birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
                         address: this.state.address,
-                        phone_number: this.state.phoneNumber,
-                        updated_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')
+                        phone_number: this.state.phoneNumber
                     }
                 ).then(res => {
                     alert("Edit Success")
@@ -80,7 +80,7 @@ class EditProfile extends Component {
     }
 
     render() {
-        if(this.state.birthDate){
+        if(this.props.userId){
             return (
                 <div>
                     <Header/>
@@ -181,7 +181,7 @@ class EditProfile extends Component {
                 </div>
             )
         } else {
-            return null
+            return <Redirect to="/"/>
         }
     }
 }

@@ -75,13 +75,33 @@ class Register extends Component {
                                 password: password
                             }
                         ).then(() => {
-                            this.setState({
-                                loading: false,
-                                success:'Registration successful. Redirecting you to login page.'
+                            axios.post(
+                                URL_API + 'send-verification-link', {
+                                    email: email
+                                }
+                            ).then(res => {
+                                this.setState({
+                                    firstName: '',
+                                    lastName: '',
+                                    email: '',
+                                    password: '',
+                                    repeatPassword: '',
+                                    loading: false,
+                                    success: 'Registration successful. Please check your inbox to verify your account.'
+                                })
+    
+                                this.refs.firstName.value = ''
+                                this.refs.lastName.value = ''
+                                this.refs.email.value = ''
+                                this.refs.password.value = ''
+                                this.refs.repeatPassword.value = ''
+
+                                setTimeout(() => { 
+                                    this.setState({
+                                        success: ''
+                                    })
+                                }, 10000) 
                             })
-                            setTimeout(() => { 
-                                this.props.history.push("/login")
-                            }, 3000) 
                         })
                     }
                 })
@@ -152,20 +172,20 @@ class Register extends Component {
                                     <form onClick={this.loadingButton}>
                                         <div className="row">
                                             <div className="col-6 input-group pr-2">
-                                                <input onChange={e => this.setState({firstName: e.target.value})} type="fname" className="form-control mt-3" placeholder="First Name" autoFocus/>
+                                                <input onChange={e => this.setState({firstName: e.target.value})} type="fname" ref="firstName" className="form-control mt-3" placeholder="First Name" autoFocus/>
                                             </div>
                                             <div className="col-6 input-group pl-2">
-                                                <input onChange={e => this.setState({lastName: e.target.value})} type="lname" className="form-control mt-3" placeholder="Last Name"/>
+                                                <input onChange={e => this.setState({lastName: e.target.value})} type="lname" ref="lastName" className="form-control mt-3" placeholder="Last Name"/>
                                             </div>
                                         </div>
                                         <div className="input-group">
-                                            <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
+                                            <input onChange={e => this.setState({email: e.target.value})} type="email" ref="email" className="form-control mt-3" placeholder="Email"/>
                                         </div>
                                         <div className="input-group">
-                                            <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
+                                            <input onChange={e => this.setState({password: e.target.value})} type="password" ref="password" className="form-control mt-3" placeholder="Password"/>
                                         </div>
                                         <div className="input-group">
-                                            <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
+                                            <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" ref="repeatPassword" className="form-control mt-3" placeholder="Repeat Password"/>
                                         </div>
                                         {this.loadingButton()}
                                     </form>

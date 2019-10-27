@@ -6,7 +6,9 @@ import Cookies from 'universal-cookie'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import VerifyAccount from './pages/VerifyAccount'
 import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import EditProfile from './pages/EditProfile'
 import Wishlist from './pages/Wishlist'
 import OrderHistory from './pages/OrderHistory'
@@ -29,7 +31,6 @@ import NotFound from './pages/NotFound'
 import ScrollToTop from './components/general/ScrollToTop'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/global.css'
-import ResetPassword from './pages/ResetPassword'
 
 class App extends Component {
     constructor(props) {
@@ -58,6 +59,7 @@ class App extends Component {
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
+                        <Route path='/verify' component={VerifyAccount}/>
                         <Route path='/forgot-password' component={ForgotPassword}/>
                         <Route path='/reset-password' component={ResetPassword}/>
                         <Route path='/edit-profile' component={EditProfile}/>

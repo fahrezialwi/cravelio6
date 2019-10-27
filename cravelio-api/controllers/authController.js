@@ -1,9 +1,10 @@
 const db = require('../database')
 const nodemailer = require('nodemailer')
+const jwt = require('jsonwebtoken')
+const moment = require('moment')
 const URL_APP = require('../configs/urlApp')
 const mailPassword = require('../configs/mailPassword')
 const emailSecretKey = require('../configs/secretKey')
-const jwt = require('jsonwebtoken')
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
@@ -42,15 +43,15 @@ module.exports = {
     },
 
     createUser: (req, res) => {
-        db.query(
-            `insert into users (first_name, last_name, email, password)
-            values ('${req.body.first_name}', '${req.body.last_name}',
-            '${req.body.email}', '${req.body.password}')`, (err, result) => {
+        let sql = `insert into users (first_name, last_name, email, password, is_verified, created_at)
+        values ('${req.body.first_name}', '${req.body.last_name}', '${req.body.email}', 
+        '${req.body.password}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
+        db.query(sql, (err, result) => {
             if (err) throw err
             res.send({
                 status: 201,
-                message: 'Account created'
+                message: 'Your account has been created'
             })
         })
     },
@@ -77,7 +78,7 @@ module.exports = {
     editUser: (req, res) => {
         let sql = `update users set first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
-        password = '${req.body.password}', updated_at = '${req.body.updated_at}',`
+        password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
 
         if(req.body.profile_picture){
             sql += ` profile_picture = '${req.body.profile_picture}',`
@@ -115,6 +116,57 @@ module.exports = {
         })
     },
 
+    sendVerificationLink: (req, res) => {
+        let info = {}
+        info.email = req.body.email
+        info.expiry = new Date(new Date().getTime() +  10 * 60 * 1000)
+
+        let token = jwt.sign(info, emailSecretKey)
+
+        let mailOptions = {
+            from: 'Cravelio <donotreply@cravelio.com>',
+            to: req.body.email,
+            subject: 'Verify your account',
+            html: `<p>To verify your account, visit the following address:</p><a href='${URL_APP}verify?key=${token}'>Verify your account</a>`
+        }
+        
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) throw err
+        })
+
+        res.send({
+            status: 201,
+            message: 'Email sent'
+        })  
+    },
+
+    checkVerificationLink: (req, res) => {
+        let token = req.query.token
+        let data = jwt.verify(token, emailSecretKey)
+        
+        if(new Date(data.expiry) > new Date()){
+            res.send({
+                status: 200,
+                message: 'Link is active'
+            })
+        } else {
+            res.send({
+                status: 404,
+                message: 'Link has expired'
+            })
+        }
+    },
+
+    verifyUser: (req, res) => {
+        let token = req.body.token
+        let data = jwt.verify(token, emailSecretKey)
+
+        db.query(`update users set is_verified = 1 where email = '${data.email}'`, (err, result) => {
+            if (err) throw err
+            res.send('Your account has been verified')
+        })
+    },
+
     sendPasswordLink: (req, res) => {
         let info = {}
         info.email = req.body.email
@@ -134,7 +186,7 @@ module.exports = {
         })
 
         res.send({
-            status: '201',
+            status: 201,
             message: 'Email sent'
         })  
     },
@@ -151,7 +203,7 @@ module.exports = {
         } else {
             res.send({
                 status: 404,
-                message: 'Link is expired'
+                message: 'Link has expired'
             })
         }
     },

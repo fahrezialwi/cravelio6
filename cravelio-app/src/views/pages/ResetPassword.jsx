@@ -32,7 +32,6 @@ class ResetPassword extends Component {
                 }
             }
         ).then(res => {
-            console.log(res.data)
             if(res.data.status === 404) {
                 this.setState({
                     expired: true
@@ -100,7 +99,7 @@ class ResetPassword extends Component {
                     <div className="container container-height">
                         <div className="row row-top">
                             <div className="col-sm-8 col-md-4 mx-auto">
-                                <p>Link is expired. Please request a new reset link.</p>
+                                <p>Link has expired. Please request a new reset link.</p>
                             </div>
                         </div>
                     </div>
