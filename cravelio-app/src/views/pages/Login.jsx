@@ -15,8 +15,13 @@ class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            email: '',
+            password: '',
+            inputEmail: '',
             loading: '',
-            error: ''
+            success: '',
+            error: '',
+            notVerified: ''
         }
     }
     
@@ -26,13 +31,12 @@ class Login extends Component {
             loading: true
         })
 
-        let password = encrypt(this.password.value)
         axios.get (
             URL_API + 'login',
             {
                 params: {
-                    email: this.email.value,
-                    password: password
+                    email: this.state.email,
+                    password: encrypt(this.state.password)
                 }
             }
         ).then((res)=> {
@@ -47,24 +51,51 @@ class Login extends Component {
                     }) 
                 }, 3000)
             } else {
-                let {user_id, first_name, last_name, email, role, phone_number} = res.data.results[0]
+                let {user_id, first_name, last_name, email, role, phone_number, is_verified} = res.data.results[0]
 
-                let d = new Date()
-                d.setTime(d.getTime() + (1*24*60*60*1000))
-                const cookie = new Cookies()
-
-                cookie.set(
-                    'userData',
-                    {
-                        user_id, first_name, last_name, email, role, phone_number
-                    },
-                    {
-                        path: "/", expires: d
-                    }
-                )
-
-                this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number)
+                if(is_verified === 1){
+                    let d = new Date()
+                    d.setTime(d.getTime() + (1*24*60*60*1000))
+                    const cookie = new Cookies()
+    
+                    cookie.set(
+                        'userData',
+                        {
+                            user_id, first_name, last_name, email, role, phone_number
+                        },
+                        {
+                            path: "/", expires: d
+                        }
+                    )
+    
+                    this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number)
+                
+                } else {
+                    this.setState({
+                        loading: false,
+                        notVerified: true,
+                        inputEmail: email
+                    })
+                }
             }
+        })
+    }
+
+    onVerifyClick = () => {
+        axios.post(
+            URL_API + 'send-verification-link', {
+                email: this.state.inputEmail
+            }
+        ).then(res => {
+            this.setState({
+                notVerified: '',
+                success: `Verification link has been sent to ${this.state.inputEmail}. Please check your inbox.`
+            })
+            setTimeout(() => { 
+                this.setState({
+                    success: ''
+                }) 
+            }, 10000)
         })
     }
 
@@ -85,7 +116,6 @@ class Login extends Component {
                 Login
             </button>
         )
-
     }
 
     notification = () => {
@@ -93,6 +123,18 @@ class Login extends Component {
             return (
                 <div className='alert alert-danger mt-4'>
                     {this.state.error}
+                </div>
+            )
+        } else if(this.state.notVerified){
+            return (
+                <div className='alert alert-danger mt-4'>
+                    Please verify your account. Click <span onClick={this.onVerifyClick} className="send-verify">here</span> to resend verification link.
+                </div>
+            )
+        } else if(this.state.success){
+            return (
+                <div className='alert alert-success mt-4'>
+                    {this.state.success}
                 </div>
             )
         } else {
@@ -111,8 +153,8 @@ class Login extends Component {
                                 <div className="card-body">
                                     <h2>Login</h2>
                                     <form onSubmit={this.onLoginSubmit}>
-                                        <div className="input-group"><input ref={(input)=>{this.email = input}} type="email" className="form-control mt-3" placeholder="Email"/></div>
-                                        <div className="input-group"><input ref={(input)=>{this.password = input}} type="password" className="form-control mt-3" placeholder="Password"/></div>
+                                        <div className="input-group"><input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/></div>
+                                        <div className="input-group"><input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/></div>
                                         {this.loadingButton()}
                                     </form>
                                     <Link to="/forgot-password">
@@ -141,4 +183,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps,{onLoginUser})(Login)
-

@@ -1,3 +1,8 @@
 .login-top {
     margin-top: 180px
 }
+
+.send-verify {
+    cursor: pointer;
+    text-decoration: underline
+}

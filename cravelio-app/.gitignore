@@ -12,7 +12,8 @@
 /build
 
 # secret key
-secretKey.js
+cryptoSecretKey.js
+emailSecretKey.js
 
 # misc
 .DS_Store

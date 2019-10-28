@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const moment = require('moment')
 const URL_APP = require('../configs/urlApp')
 const mailPassword = require('../configs/mailPassword')
-const emailSecretKey = require('../configs/secretKey')
+const emailSecretKey = require('../configs/emailSecretKey')
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
@@ -43,9 +43,10 @@ module.exports = {
     },
 
     createUser: (req, res) => {
-        let sql = `insert into users (first_name, last_name, email, password, is_verified, created_at)
+        let sql = `insert into users (first_name, last_name, email, password, is_verified, created_at, updated_at)
         values ('${req.body.first_name}', '${req.body.last_name}', '${req.body.email}', 
-        '${req.body.password}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
+        '${req.body.password}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', 
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
             if (err) throw err

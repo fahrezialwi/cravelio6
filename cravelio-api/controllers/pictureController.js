@@ -7,7 +7,7 @@ module.exports = {
             sql = `${sql} where picture_id = ${req.params.id}`
         }
         if (req.query.trip_id){
-            sql = `${sql} where trip_id = '${req.query.trip_id}' and not is_main = 1`
+            sql = `${sql} where trip_id = '${req.query.trip_id}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err

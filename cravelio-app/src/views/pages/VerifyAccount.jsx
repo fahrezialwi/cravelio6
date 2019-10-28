@@ -52,7 +52,6 @@ class VerifyAccount extends Component {
                         <div className="container container-height">
                             <div className="row row-top">
                                 <div className="col-12 text-center">
-                                    <h2>Congratulations</h2>
                                     <p>Your account has been verified. Click <Link to="/login">here</Link> to login.</p>
                                 </div>
                             </div>

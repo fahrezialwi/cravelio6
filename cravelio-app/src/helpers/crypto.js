@@ -1,8 +1,8 @@
 import crypto from 'crypto'
-import secretKey from '../configs/secretKey'
+import cryptoSecretKey from '../configs/cryptoSecretKey'
 
 let encrypt = (password) => {
-    return crypto.createHmac('sha256', secretKey).update(password).digest('hex')
+    return crypto.createHmac('sha256', cryptoSecretKey).update(password).digest('hex')
 }
 
 export default encrypt
