@@ -35,7 +35,7 @@ class Pictures extends Component {
             }
         ).then((res) => {
             let result =  res.data.results.map(val => {
-                return val.picture_link
+                return `${URL_API}files/trip/${val.picture_link}`
             })
             this.setState({
                 pictures: result
@@ -53,7 +53,7 @@ class Pictures extends Component {
                     <div onClick={() => this.setToogler(!this.state.toogler, 1)} className="left-image">
                         <img 
                             alt="1" 
-                            src={this.state.pictures[0]} 
+                            src={this.state.pictures[0]}
                             className="zooming-image" 
                             style={{top: "0px"}}
                             height="425.3333333333333" 
@@ -65,7 +65,7 @@ class Pictures extends Component {
                         <div onClick={() => this.setToogler(!this.state.toogler, 2)} className="middle-image">
                             <img 
                                 alt="2" 
-                                src={this.state.pictures[1]} 
+                                src={this.state.pictures[1]}
                                 className="zooming-image"
                                 style={{top: "0px"}}
                                 width="318"
@@ -94,7 +94,7 @@ class Pictures extends Component {
                         <div onClick={() => this.setToogler(!this.state.toogler, 5)} className="middle-image">
                             <img 
                             alt="5" 
-                            src={this.state.pictures[4]} 
+                            src={this.state.pictures[4]}
                             className="zooming-image"
                             style={{top: "0px"}}
                             width="318"/>

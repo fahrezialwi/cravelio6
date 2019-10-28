@@ -6,6 +6,9 @@
 # database setting
 /database
 
+# uploaded images
+/uploads
+
 # configs
 emailSecretKey.js
 mailPassword.js

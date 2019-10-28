@@ -33,7 +33,12 @@ class Reviews extends Component {
                 return review.star
             })
 
-            this.props.review(average(arrReview).toFixed(1),res.data.results.length)
+            let averageResult = average(arrReview)
+            if(isNaN(average)){
+                averageResult = 0
+            }
+
+            this.props.review(averageResult.toFixed(1),res.data.results.length)
         })
     }
 

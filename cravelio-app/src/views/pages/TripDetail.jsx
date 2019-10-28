@@ -9,7 +9,7 @@ import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Detail from '../components/trip-detail/Detail'
 import Description from '../components/trip-detail/Description'
-import Pictures from '../components/trip-detail/Pictures'
+import Jumbotron from '../components/trip-detail/Jumbotron'
 import Reviews from '../components/trip-detail/Reviews'
 import Itinerary from '../components/trip-detail/Itinerary'
 import PriceIncludes from '../components/trip-detail/PriceIncludes'
@@ -137,7 +137,7 @@ class TripDetail extends Component {
             return (
                 <div>
                     <Header/>
-                    <Pictures
+                    <Jumbotron
                         tripId={this.state.trip.trip_id}
                         favorite={this.props.userId ? this.state.favorite : false}
                         favoriteClick={this.onFavoriteClick}

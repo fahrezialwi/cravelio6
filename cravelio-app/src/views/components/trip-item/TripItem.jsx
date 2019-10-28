@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import formatCurrency from '../../../helpers/formatCurrency'
+import URL_API from '../../../configs/urlAPI'
 import '../../styles/trip-item.css'
 
 class  TripItem extends Component {
@@ -11,7 +12,7 @@ class  TripItem extends Component {
                 <Link to={`/trip/${path}`}>
                     <div className="card-decoration">
                         <div className="card-image">
-                            <img src={picture_link} alt={trip_name} className="image-cover"/>
+                            <img src={`${URL_API}files/trip/${picture_link}`} alt={trip_name} className="image-cover"/>
                         </div>
                         <div className="pt-2">
                             <div className="card-tag">{duration}</div>
