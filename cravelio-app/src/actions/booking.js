@@ -44,3 +44,20 @@ export const onClearBooking = () => {
         type: 'CLEAR_BOOKING_SUCCESS',
     }
 }
+
+// Submit Proof
+export const onSubmitProof = (bankName, accountHolderName, transferProof) => {
+    return {
+        type: 'SUBMIT_PROOF_SUCCESS',
+        payload: {
+            bankName, accountHolderName, transferProof
+        }
+    }                          
+}
+
+// Clear Proof
+export const onClearProof = () => {
+    return {
+        type: 'CLEAR_PROOF_SUCCESS',
+    }                          
+}

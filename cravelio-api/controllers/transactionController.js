@@ -1,4 +1,5 @@
 const db = require('../database')
+const fs = require('fs')
 
 module.exports = {
     getTransactions: (req, res) => {
@@ -141,8 +142,40 @@ module.exports = {
                     `insert into transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
                     values ((select transaction_id from transactions where created_at = '${req.body.created_at}'),
                     '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}', '${req.body.participants["lastName"+i]}',
-                    '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`)
+                    '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`
+                )
             }
         })
+    },
+
+    addTransferProof: (req, res) => {
+        try {
+            if(req.validation) throw req.validation
+            if(req.file.size > 5000000) throw {error: true, message: 'Image size too large'}
+
+            let data = JSON.parse(req.body.data)
+
+            db.query(
+                `update transactions set transfer_bank_name = '${data.transfer_bank_name}', transfer_account_holder = '${data.transfer_account_holder}',
+                transfer_proof = '${req.file.filename}' where transaction_id = ${req.params.id}`, (err, result) => {
+
+                try {
+                    if (err) throw err
+                    res.send({
+                        status: 201,
+                        message: 'Proof uploaded',
+                        results: result
+                    })
+                } catch (error) {
+                    // delete file when query/database error
+                    fs.unlinkSync(req.file.path)
+                    console.log(error)                
+                }
+            })
+        } catch (error) {
+            // delete file if file size more than 5MB
+            fs.unlinkSync(req.file.path)
+            console.log(error)
+        }
     }
 }

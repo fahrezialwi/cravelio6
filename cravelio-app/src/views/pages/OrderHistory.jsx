@@ -49,8 +49,8 @@ class OrderHistory extends Component {
                     <td>
                         {
                             transaction.transfer_proof ?
-                            <a href={transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
-                                <img src={transaction.transfer_proof} alt={transaction.transaction_id} width="100"/>
+                            <a href={URL_API + 'files/transfer/' + transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
+                                <img src={URL_API + 'files/transfer/' + transaction.transfer_proof} alt={transaction.transaction_id} width="100"/>
                             </a> :
                             '(not yet upload)'
                         }

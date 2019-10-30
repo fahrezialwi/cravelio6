@@ -53,6 +53,20 @@ const bookingReducer = (state = init, action) => {
                 promoValue: '',
                 totalPrice: ''
             }
+        case "SUBMIT_PROOF_SUCCESS":
+            return {
+                ...state,
+                bankName: action.payload.bankName,
+                accountHolderName: action.payload.accountHolderName,
+                transferProof: action.payload.transferProof
+        }
+        case "CLEAR_PROOF_SUCCESS":
+            return {
+                ...state,
+                bankName: '',
+                accountHolderName: '',
+                transferProof: ''
+        }
         default:
             return state
     }

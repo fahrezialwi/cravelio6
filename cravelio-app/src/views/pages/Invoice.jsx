@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { onSubmitProof } from '../../actions/booking'
 import axios from 'axios'
 import moment from 'moment'
 import formatCurrency from '../../helpers/formatCurrency'
@@ -13,7 +14,10 @@ class Invoice extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            transaction: ''
+            transaction: '',
+            bankName: 'BCA',
+            accountHolderName: '',
+            transferProof: ''
         }
     }
 
@@ -46,27 +50,35 @@ class Invoice extends Component {
 
     renderUpload = () => {
         if(!this.state.transaction.transfer_proof){
-            return (
-                <div className="col-4">
-                    Select Bank
-                    <select className="form-control mb-2">
-                        <option>BCA</option>
-                        <option>Mandiri</option>
-                    </select>
-                    Account Holder Name
-                    <input type="text" className="form-control mb-2"/>
-                    Proof of Transfer
-                    <input type="file" className="form-control"/>
-                </div>
-            )
+            if(this.state.transaction.status === "Cancelled"){
+                return (
+                    <div className="col-12">
+                        <p>Transaction cancelled.</p>
+                    </div> 
+                )
+            } else {
+                return (
+                    <div className="col-4">
+                        Select Bank
+                        <select onChange={e => this.setState({bankName: e.target.value})} className="form-control mb-2">
+                            <option>BCA</option>
+                            <option>Mandiri</option>
+                        </select>
+                        Account Holder Name
+                        <input onChange={e => this.setState({accountHolderName: e.target.value})} type="text" className="form-control mb-2"/>
+                        Proof of Transfer
+                        <input onChange={e => this.setState({transferProof: e.target.files[0]})} type="file" className="form-control"/>
+                    </div>
+                )
+            }
         } else {
             return (
                 <div className="col-12">
-                    <p>You already upload your proof</p>
+                    <p>Transfer proof</p>
                     <div className="row">
                         <div className="col-2">
-                            <a href={this.state.transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
-                                <img src={this.state.transaction.transfer_proof} alt={this.state.transaction.transaction_id} width="150"/>
+                            <a href={URL_API + 'files/transfer/' + this.state.transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
+                                <img src={URL_API + 'files/transfer/' + this.state.transaction.transfer_proof} alt={this.state.transaction.transaction_id} width="150"/>
                             </a>
                         </div>
                         <div className="col-10">
@@ -81,13 +93,46 @@ class Invoice extends Component {
 
     renderButton = () => {
         if(!this.state.transaction.transfer_proof){
-            return (
-                <Link to="/complete">
-                    <button className="btn btn-dark btn-block">Submit</button>
-                </Link>
-            )
+            if(this.state.transaction.status === "Cancelled"){
+                return null
+            } else {
+                return (
+                    <button onClick={() => this.onSubmitButton()} className="btn btn-dark btn-block">Submit</button>
+                )
+            }
         } else {
             return null
+        }
+    }
+
+    onSubmitButton = () => {
+        if(this.state.accountHolderName){
+            if (this.state.transferProof){
+                let fd = new FormData()
+                let data = {
+                    transfer_bank_name: this.state.bankName,
+                    transfer_account_holder: this.state.accountHolderName
+                }
+
+                fd.append('browse_file', this.state.transferProof, this.state.transferProof.name)
+                fd.append('data', JSON.stringify(data))
+
+                axios.patch(
+                    URL_API + `transactions/${this.props.match.params.id}`, fd
+                ).then(res => {
+                    alert('Upload proof success')
+
+                    this.props.onSubmitProof(this.state.bankName, this.state.accountHolderName, this.state.transferProof)
+                    this.props.history.push("/complete")
+
+                }).catch(err => {
+                    console.log(err)
+                })
+            } else {
+                alert('Please select an image')
+            }
+        } else {
+            alert('Please type account holder name')
         }
     }
 
@@ -163,4 +208,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Invoice)
+export default connect(mapStateToProps,{onSubmitProof})(Invoice)
