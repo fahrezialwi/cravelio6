@@ -1,6 +1,6 @@
-var express = require('express')
-var bodyParser = require ('body-parser')
-var cors = require ('cors')
+let express = require('express')
+let bodyParser = require ('body-parser')
+let cors = require ('cors')
 
 const app = express()
 const port = 1010

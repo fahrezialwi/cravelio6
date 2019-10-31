@@ -12,3 +12,6 @@
 # configs
 emailSecretKey.js
 mailPassword.js
+
+# sql
+/sql

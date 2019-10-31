@@ -146,11 +146,8 @@ class Invoice extends Component {
                             <div className="row row-top">
                                 <div className="col-12">
                                     <h2>Invoice #{this.state.transaction.transaction_id}</h2>
-                                    <p className="mb-1">Due Amount: {formatCurrency(this.state.transaction.total_payment)}</p>
+                                    <p className="mb-1">Due Date: {moment(this.state.transaction.created_at).add(1, 'days').format('MMMM DD, YYYY')} at {moment(this.state.transaction.created_at).add(1, 'days').format('HH:mm')}</p>
                                     <p className="mb-1">Status: {this.state.transaction.status}</p>
-                                    <p>
-                                        Please pay before {moment(this.state.transaction.created_at).add(1, 'days').format('MMMM DD, YYYY')} at {moment(this.state.transaction.created_at).add(1, 'days').format('HH:mm')}
-                                    </p>
                                 </div>
                             </div>
                             <div className="row">
@@ -181,6 +178,20 @@ class Invoice extends Component {
                             </div>
                             <div className="row">
                                 {this.renderUpload()}
+                                {
+                                    this.state.bankName === 'BCA' ?
+                                    <div className="col-8">
+                                        <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                        <div>Cravelio BCA Account Number</div>
+                                        <div>6123456789</div>
+                                    </div>
+                                    :
+                                    <div className="col-8">
+                                        <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                        <div>Cravelio Mandiri Account Number</div>
+                                        <div>5123456789</div>
+                                    </div>
+                                }
                             </div>
                             <div className="row row-bottom">
                                 <div className="col-3 ml-auto">

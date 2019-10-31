@@ -1,4 +1,7 @@
-var multer = require('multer')
+let multer = require('multer')
+let crypto = require("crypto")
+let moment = require("moment")
+let id = crypto.randomBytes(8).toString("hex")
 
 let multerStorageConfig =  multer.diskStorage({
     destination: (req, file, cb) => {
@@ -7,9 +10,9 @@ let multerStorageConfig =  multer.diskStorage({
 
     filename: (req, file, cb) => {
         if(file.mimetype.split('/')[1] == 'jpeg'){
-            cb(null, `proof-${Date.now()}.jpg`)
+            cb(null, `${moment(Date.now()).format("YYYYMMDD")}-${id}.jpg`)
         } else {
-            cb(null, `proof-${Date.now()}.${file.mimetype.split('/')[1]}`)
+            cb(null, `${moment(Date.now()).format("YYYYMMDD")}-${id}.${file.mimetype.split('/')[1]}`)
         }
     }
 })
@@ -26,9 +29,9 @@ let fileFilterConfig = (req, file, cb) => {
     }
 }
 
-let upload = multer({
+let uploadProof = multer({
     storage: multerStorageConfig,
     fileFilter: fileFilterConfig
 })
 
-module.exports = upload
+module.exports = uploadProof
