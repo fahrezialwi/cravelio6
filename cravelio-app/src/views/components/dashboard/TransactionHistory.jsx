@@ -41,8 +41,8 @@ class TransactionHistory extends Component {
                     <td>
                         {
                             transaction.transfer_proof ?
-                            <a href={transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
-                                <img src={transaction.transfer_proof} alt={transaction.transaction_id} width="100"/>
+                            <a href={URL_API + 'files/transfer/' + transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
+                                <img src={URL_API + 'files/transfer/' + transaction.transfer_proof} alt={transaction.transaction_id} width="100"/>
                             </a> :
                             '(not yet upload)'
                         }
@@ -55,30 +55,28 @@ class TransactionHistory extends Component {
 
     render() {
         return (
-            <div className="card-body">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th className="align-middle">Invoice ID</th>
-                                        <th className="align-middle">Trip Name</th>
-                                        <th className="align-middle">User</th>
-                                        <th className="align-middle">Phone Number</th>
-                                        <th className="align-middle">Pax</th>
-                                        <th className="align-middle">Status</th>
-                                        <th className="align-middle">Bank Name</th>
-                                        <th className="align-middle">Account Holder Name</th>
-                                        <th className="align-middle">Transfer Proof</th>
-                                        <th className="align-middle">Date Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.transactionList()}
-                                </tbody>
-                            </table>
-                        </div>
+            <div className="row row-top">
+                <div className="col-12">
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th className="align-middle">Invoice ID</th>
+                                    <th className="align-middle">Trip Name</th>
+                                    <th className="align-middle">User</th>
+                                    <th className="align-middle">Phone Number</th>
+                                    <th className="align-middle">Pax</th>
+                                    <th className="align-middle">Status</th>
+                                    <th className="align-middle">Bank Name</th>
+                                    <th className="align-middle">Account Holder Name</th>
+                                    <th className="align-middle">Transfer Proof</th>
+                                    <th className="align-middle">Date Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.transactionList()}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

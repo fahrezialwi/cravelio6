@@ -1,5 +1,13 @@
+.list-dashboard {
+    color: black !important
+}
+
 .list-dashboard:hover {
     cursor: pointer
+}
+
+.list-dashboard:visited {
+    text-decoration: none
 }
 
 .list-active {

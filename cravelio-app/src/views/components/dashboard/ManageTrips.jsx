@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 import URL_API from '../../../configs/urlAPI'
 
 class ManageTrip extends Component {
@@ -35,8 +36,8 @@ class ManageTrip extends Component {
                     <td>{trip.price}</td>
                     <td>{trip.category}</td>
                     <td>{trip.duration}</td>
-                    <td><img src={trip.picture_main} alt={trip.name} width="100"/></td>
-                    <td><button className="btn btn-dark">Edit</button></td>
+                    <td><img src={URL_API + "files/trip/" + trip.picture_link} alt={trip.name} width="100"/></td>
+                    <td><Link to={"/dashboard/manage-trips/edit-trip/" + trip.trip_id}><button className="btn btn-dark">Edit</button></Link></td>
                     <td><button className="btn btn-dark">Delete</button></td>
                 </tr>
             )
@@ -48,6 +49,9 @@ class ManageTrip extends Component {
             <div className="card-body">
                 <div className="row">
                     <div className="col-12">
+                        <Link to="/dashboard/manage-trips/add-trip">
+                            <button className="btn btn-dark">Add Trip</button>
+                        </Link>
                         <div className="table-responsive">
                             <table className="table">
                                 <thead>

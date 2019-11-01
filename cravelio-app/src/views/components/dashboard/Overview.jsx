@@ -144,42 +144,38 @@ class Overview extends Component {
 
     render() {
         return (
-            <div className="card-body">
-                <div className="row mb-4">
-                    <div className="col-12">
-                        <h5>Transaction Volume</h5>
-                        <div className="row">
-                            <div className="col-6">
-                                <p>Total transaction: {this.state.transactionsOfYear.length}</p>
-                            </div>
-                            <div className="col-6 text-right">
-                                Year
-                                <select className="ml-2" onChange={e => this.getBarData(e.target.value)}>
-                                    {this.yearList()}
-                                </select>
-                            </div>
+            <div className="row mb-4">
+                <div className="col-12">
+                    <h5>Transaction Volume</h5>
+                    <div className="row">
+                        <div className="col-6">
+                            <p>Total transaction: {this.state.transactionsOfYear.length}</p>
                         </div>
-                        <Bar
+                        <div className="col-6 text-right">
+                            Year
+                            <select className="ml-2" onChange={e => this.getBarData(e.target.value)}>
+                                {this.yearList()}
+                            </select>
+                        </div>
+                    </div>
+                    <Bar
                         data={this.state.barData}
                         width={100}
                         height={50}
-                        options={{
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        stepSize: 1
-                                    }
-                                    }]
-                            }
-                        }}
-                        />
-                    </div>
+                        // options={{
+                        //     scales: {
+                        //         yAxes: [{
+                        //             ticks: {
+                        //                 stepSize: 1
+                        //             }
+                        //             }]
+                        //     }
+                        // }}
+                    />
                 </div>
-                <div className="row">
-                    <div className="col-12">
-                        <h5>Top 3 Trip</h5>
-                        <Doughnut data={this.state.doughtnutData} />
-                    </div>
+                <div className="col-12">
+                    <h5>Top 3 Trip</h5>
+                    <Doughnut data={this.state.doughtnutData} />
                 </div>
             </div>
         )

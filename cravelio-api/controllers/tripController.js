@@ -6,6 +6,9 @@ module.exports = {
         if(req.params.path){
             sql += ` and t.path = '${req.params.path}'`
         }
+        if(req.query.trip_id){
+            sql += ` and t.trip_id = '${req.query.trip_id}'`
+        }
         db.query(sql, (err, result) => {
             if (err) throw err
             if (result.length > 0){
@@ -19,6 +22,7 @@ module.exports = {
                         price: val.price,
                         duration: val.duration,
                         category: val.category,
+                        region: val.region,
                         quota: val.quota,
                         description: val.description,
                         itinerary: val.itinerary,

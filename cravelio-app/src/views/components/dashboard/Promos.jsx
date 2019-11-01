@@ -41,24 +41,22 @@ class Promos extends Component {
 
     render() {
         return (
-            <div className="card-body">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Promo Code</th>
-                                        <th>Promo Discount (%)</th>
-                                        <th colSpan="2">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.promoList()}
-                                </tbody>
-                            </table>
-                        </div>
+            <div className="row">
+                <div className="col-12">
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Promo Code</th>
+                                    <th>Promo Discount (%)</th>
+                                    <th colSpan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.promoList()}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -51,23 +51,21 @@ class Schedules extends Component {
 
     render() {
         return (
-            <div className="card-body">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Name</th>
+            <div className="row row-top">
+                <div className="col-12">
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.tripList()}
-                                </tbody>
-                            </table>
-                        </div>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.tripList()}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
