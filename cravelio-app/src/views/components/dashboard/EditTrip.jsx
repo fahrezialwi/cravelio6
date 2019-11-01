@@ -58,7 +58,6 @@ class EditTrip extends Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div className="card-body">
                 <div className="row">
@@ -69,9 +68,6 @@ class EditTrip extends Component {
                     </div>
                     <div className="col-12 mb-3">
                         <h2>Edit Trip</h2>
-                    </div>
-                    <div className="col-8 mb-3">
-                        <img src={this.state.profilePicture} alt="profile" width="200"/>
                     </div>
                     <div className="col-8 mb-3">
                         Trip Name
@@ -190,7 +186,7 @@ class EditTrip extends Component {
                         />
                     </div>
                     <div className="col-8 mb-5">
-                        <button onClick={() => this.onEditClick()} className="btn btn-dark">Save</button>
+                        <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
                     </div>
                 </div>
             </div>
