@@ -72,7 +72,7 @@ module.exports = {
         })
     },
 
-    addFavorite: (req, res) => {
+    createFavorite: (req, res) => {
         let sql = `insert into favorites values (0, ${req.body.trip_id}, ${req.body.user_id}, 0)`
 
         db.query(sql, (err, result) => {

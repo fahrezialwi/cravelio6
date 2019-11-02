@@ -4,4 +4,6 @@ const { tripController } = require('../controllers')
 
 router.get('/trips', tripController.getTrips)
 router.get('/trips/:path', tripController.getTrips)
+router.post('/trips', tripController.createTrip)
+router.patch('/trips/:id', tripController.editTrip)
 module.exports = router

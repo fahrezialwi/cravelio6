@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     Collapse,
     Navbar,
@@ -149,4 +149,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps,{onLogoutUser})(Header))
+export default connect(mapStateToProps,{onLogoutUser})(Header)

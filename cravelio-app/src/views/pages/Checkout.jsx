@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect, withRouter } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { onCheckout } from '../../actions/booking'
 import Header from '../components/header/Header'
@@ -659,4 +659,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps,{onCheckout})(Checkout))
+export default connect(mapStateToProps,{onCheckout})(Checkout)

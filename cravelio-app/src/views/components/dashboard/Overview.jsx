@@ -174,7 +174,7 @@ class Overview extends Component {
                     />
                 </div>
                 <div className="col-12">
-                    <h5>Top 3 Trip</h5>
+                    <h5>Top 3 Best-Selling Trip</h5>
                     <Doughnut data={this.state.doughtnutData} />
                 </div>
             </div>

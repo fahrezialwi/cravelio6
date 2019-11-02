@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { Redirect, withRouter } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
 import { onBookingTrip } from '../../actions/booking'
 import { onClearBooking } from '../../actions/booking'
@@ -205,4 +205,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps,{onBookingTrip,onClearBooking})(TripDetail))
+export default connect(mapStateToProps,{onBookingTrip,onClearBooking})(TripDetail)

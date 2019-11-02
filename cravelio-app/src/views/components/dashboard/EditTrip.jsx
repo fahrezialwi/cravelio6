@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
 import URL_API from '../../../configs/urlAPI'
 
 class EditTrip extends Component {
@@ -18,11 +14,11 @@ class EditTrip extends Component {
             tripName: '',
             pictureLink: '',
             meetingPoint: '',
-            price: 0,
+            price: '',
             duration: '',
             category: '',
             region: '',
-            quota: 0,
+            quota: '',
             description: '',
             itinerary: '',
             priceIncludes: '',
@@ -60,6 +56,29 @@ class EditTrip extends Component {
                 priceExcludes: res.data.results[0].price_excludes,
                 faq: res.data.results[0].faq
             })    
+        })
+    }
+
+    onSaveClick = () => {
+        axios.patch(
+            URL_API + `trips/${this.props.match.params.id}`, {
+                path: this.state.path,
+                trip_name: this.state.tripName,
+                meeting_point: this.state.meetingPoint,
+                price: this.state.price,
+                duration: this.state.duration,
+                category: this.state.category,
+                region: this.state.region,
+                quota: this.state.quota,
+                description: this.state.description,
+                itinerary: this.state.itinerary,
+                price_includes: this.state.priceIncludes,
+                price_excludes: this.state.priceExcludes,
+                faq: this.state.faq
+            }
+        ).then(res => {
+            alert("Trip updated")
+            this.props.history.push("/dashboard/manage-trips")
         })
     }
 

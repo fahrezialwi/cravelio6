@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { withRouter, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import URL_API from '../../configs/urlAPI'
@@ -209,4 +209,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Register))
+export default connect(mapStateToProps)(Register)

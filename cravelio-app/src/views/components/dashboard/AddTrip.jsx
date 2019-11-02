@@ -14,11 +14,11 @@ class AddTrip extends Component {
             tripName: '',
             pictureLink: '',
             meetingPoint: '',
-            price: 0,
+            price: '',
             duration: '',
             category: '',
             region: '',
-            quota: 0,
+            quota: '',
             description: '',
             itinerary: '',
             priceIncludes: '',
@@ -32,7 +32,6 @@ class AddTrip extends Component {
             URL_API + 'trips', {
                 path: this.state.path,
                 trip_name: this.state.tripName,
-                picture_link: this.state.pictureLink,
                 meeting_point: this.state.meetingPoint,
                 price: this.state.price,
                 duration: this.state.duration,
@@ -47,6 +46,7 @@ class AddTrip extends Component {
             }
         ).then(res => {
             alert("Trip added")
+            this.props.history.push("/dashboard/manage-trips")
         })
     }
 

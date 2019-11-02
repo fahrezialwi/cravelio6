@@ -24,5 +24,13 @@ module.exports = {
                 })
             }
         })
+    },
+
+    createPictures: (req, res) => {
+
+    },
+
+    editPictures: (req, res) => {
+        
     }
 }
