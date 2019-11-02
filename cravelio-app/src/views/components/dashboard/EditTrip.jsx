@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import URL_API from '../../../configs/urlAPI'
 
 class EditTrip extends Component {
@@ -61,11 +67,6 @@ class EditTrip extends Component {
         return (
             <div className="card-body">
                 <div className="row">
-                    <div className="col-12">
-                        <Link to="/dashboard/manage-trips">
-                            <button className="btn btn-dark">Back</button>
-                        </Link>
-                    </div>
                     <div className="col-12 mb-3">
                         <h2>Edit Trip</h2>
                     </div>
@@ -95,6 +96,7 @@ class EditTrip extends Component {
                         Description
                         <textarea
                             value={this.state.description}
+                            rows={7}
                             onChange={e => this.setState({description: e.target.value})}
                             className="form-control"
                         />
@@ -155,38 +157,37 @@ class EditTrip extends Component {
                     </div>
                     <div className="col-8 mb-3">
                         Itinerary
-                        <textarea
+                        <ReactQuill
                             value={this.state.itinerary}
-                            onChange={e => this.setState({itinerary: e.target.value})}
-                            className="form-control"
+                            onChange={value => this.setState({itinerary: value})}
                         />
                     </div>
                     <div className="col-8 mb-3">
                         Price Includes
-                        <textarea
+                        <ReactQuill
                             value={this.state.priceIncludes}
-                            onChange={e => this.setState({priceIncludes: e.target.value})}
-                            className="form-control"
+                            onChange={value => this.setState({priceIncludes: value})}
                         />
                     </div>
                     <div className="col-8 mb-3">
                         Price Excludes
-                        <textarea
+                        <ReactQuill
                             value={this.state.priceExcludes}
-                            onChange={e => this.setState({priceExcludes: e.target.value})}
-                            className="form-control"
+                            onChange={value => this.setState({priceExcludes: value})}
                         />
                     </div>
                     <div className="col-8 mb-3">
                         FAQ
-                        <textarea
+                        <ReactQuill
                             value={this.state.faq}
-                            onChange={e => this.setState({faq: e.target.value})}
-                            className="form-control"
+                            onChange={value => this.setState({faq: value})}
                         />
                     </div>
                     <div className="col-8 mb-5">
                         <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
+                        <Link to="/dashboard/manage-trips">
+                            <button className="btn btn-dark ml-2">Cancel</button>
+                        </Link>
                     </div>
                 </div>
             </div>

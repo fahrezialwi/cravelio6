@@ -48,10 +48,12 @@ class ManageTrip extends Component {
         return (
             <div className="card-body">
                 <div className="row">
-                    <div className="col-12">
+                    <div className="col-12 text-right mb-3">
                         <Link to="/dashboard/manage-trips/add-trip">
-                            <button className="btn btn-dark">Add Trip</button>
+                            <button className="btn btn-dark mr-2">Add Trip</button>
                         </Link>
+                    </div>
+                    <div className="col-12">
                         <div className="table-responsive">
                             <table className="table">
                                 <thead>
