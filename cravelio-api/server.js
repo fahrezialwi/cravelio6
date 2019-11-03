@@ -6,8 +6,8 @@ const app = express()
 const port = 1010
 const routers = require('./routers')
 
-
 app.use(bodyParser.json())
+app.use(bodyParser.text())
 app.use(cors())
 
 app.get('/', (req, res) => res.send("Welcome to Cravelio API"))

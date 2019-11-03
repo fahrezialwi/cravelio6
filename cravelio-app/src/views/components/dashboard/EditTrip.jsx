@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import { FilePond, registerPlugin } from 'react-filepond'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond/dist/filepond.min.css'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 import URL_API from '../../../configs/urlAPI'
+
+registerPlugin(FilePondPluginImagePreview)
 
 class EditTrip extends Component {
 
@@ -23,16 +29,20 @@ class EditTrip extends Component {
             itinerary: '',
             priceIncludes: '',
             priceExcludes: '',
-            faq: ''
+            faq: '',
+            pictures: [],
+            files: []
+            
+            
         }
     }
 
     componentDidMount() {
-        this.getData()
-       
+        this.getTripData()
+        this.getPicturesData()
     }
 
-    getData = () => {
+    getTripData = () => {
         axios.get(
             URL_API + 'trips', {
                 params: {
@@ -59,7 +69,28 @@ class EditTrip extends Component {
         })
     }
 
+    getPicturesData = () => {
+        axios.get(
+            URL_API + 'pictures', {
+                params: {
+                    trip_id: this.props.match.params.id
+                }
+            }
+        ).then(res => {
+            let pictures = res.data.results.map((picture, index) => {
+                return (
+                    <img src = {URL_API + "files/trip/" + picture.picture_link} width = "100" alt={picture.id} key={index}/>
+                )
+            })
+
+            this.setState({
+                pictures
+            })
+        })
+    }
+
     onSaveClick = () => {
+
         axios.patch(
             URL_API + `trips/${this.props.match.params.id}`, {
                 path: this.state.path,
@@ -83,6 +114,7 @@ class EditTrip extends Component {
     }
 
     render() {
+        console.log(this.pond)
         return (
             <div className="card-body">
                 <div className="row">
@@ -202,6 +234,59 @@ class EditTrip extends Component {
                             onChange={value => this.setState({faq: value})}
                         />
                     </div>
+
+                    <div className="col-8 mb-5">
+                        {this.state.pictures}
+                    </div>
+
+
+                    <div className="col-8 mb-5">
+                        <FilePond 
+                            ref={ref => this.pond = ref}
+                            files={this.state.files}
+                            allowMultiple={true}
+                            onprocessfiles={() => this.getPicturesData()}
+                            server={{
+                                process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                                    const fd = new FormData()
+                                    fd.append(fieldName, file, file.name)
+                                    fd.append("trip_id", this.props.match.params.id)
+                        
+                                    const request = new XMLHttpRequest()
+                                    request.open('POST', URL_API + 'pictures')
+                        
+                                    request.upload.onprogress = (e) => {
+                                        progress(e.lengthComputable, e.loaded, e.total);
+                                    }
+                    
+                                    request.onload = function() {
+                                        if (request.status >= 200 && request.status < 300) {
+                                            load(request.responseText)
+                                        } else {
+                                            error('Upload error')
+                                        }
+                                    }
+                                    request.send(fd)
+                                    return {
+                                        abort: () => {
+                                            request.abort()
+                                            abort()
+                                        }
+                                    }
+                                },
+
+                                revert: (uniqueFileId, load, error) => {
+                                    const request = new XMLHttpRequest()
+                                    request.open('DELETE', URL_API + 'pictures')
+                                    request.send(uniqueFileId)
+                                    error('Delete error')
+                                    load()
+                                }
+                            }}
+                        >
+                        </FilePond>
+                    </div>
+
                     <div className="col-8 mb-5">
                         <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
                         <Link to="/dashboard/manage-trips">

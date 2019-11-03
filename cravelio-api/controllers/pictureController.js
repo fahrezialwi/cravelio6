@@ -1,4 +1,5 @@
 const db = require('../database')
+const fs = require('fs')
 
 module.exports = {
     getPictures: (req, res) => {
@@ -26,11 +27,31 @@ module.exports = {
         })
     },
 
-    createPictures: (req, res) => {
+    createPicture: (req, res) => {
+        let sql = `insert into pictures (picture_id, picture_link, trip_id, is_main) values
+        (0, '${req.files[0].filename}', ${req.body.trip_id}, 0)`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err  
+            res.send(req.files[0].filename)
+        })
+    },
+
+    setMainPicture: (req, res) => {
 
     },
 
-    editPictures: (req, res) => {
-        
+    deletePicture: (req, res) => {
+        let sql = `delete from pictures where picture_link = '${req.body}'`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err  
+            fs.unlinkSync(`./uploads/trip-pictures/${req.body}`)
+            res.send({
+                status: 200,
+                message: 'Delete success',
+                results: result
+            })
+        })
     }
 }
