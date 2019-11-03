@@ -1,4 +1,5 @@
 const db = require('../database')
+const moment = require('moment')
 
 module.exports = {
     getFavorites: (req, res) => {
@@ -48,6 +49,9 @@ module.exports = {
             if (req.query.path){
                 sql = `${sql} t.path = '${req.query.path}' and`
             }
+            if (req.query.year){
+                sql = `${sql} year(f.created_at) = ${req.query.year} and`
+            }
             if (req.query.user_id){
                 sql = `${sql} f.user_id = ${req.query.user_id} and`
             }    
@@ -73,7 +77,9 @@ module.exports = {
     },
 
     createFavorite: (req, res) => {
-        let sql = `insert into favorites values (0, ${req.body.trip_id}, ${req.body.user_id}, 0)`
+        let sql = `insert into favorites values (0, ${req.body.trip_id}, ${req.body.user_id}, 0,
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -93,7 +99,9 @@ module.exports = {
     },
 
     deleteFavorite: (req, res) => {
-        let sql = `update favorites set is_deleted = 1 where favorite_id = ${req.params.id}` 
+        let sql = `update favorites set is_deleted = 1,
+        updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'
+        where favorite_id = ${req.params.id}` 
 
         db.query(sql, (err, result) => {
             if (err) throw err

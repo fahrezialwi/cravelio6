@@ -23,10 +23,10 @@ class Pictures extends Component {
     }
 
     componentDidMount() {
-        this.getPictures()
+        this.getPicturesData()
     }
 
-    getPictures = () => {
+    getPicturesData = () => {
         axios.get(
             URL_API + 'pictures', {
                 params: {

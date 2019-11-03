@@ -46,24 +46,6 @@ module.exports = {
             }
         })
     },
-    
-    // createTrip: (req, res) => {
-    //     let sql = `insert into trips (trip_id, path, trip_name, meeting_point, price, duration, category,
-    //     region, quota, description, itinerary, price_includes, price_excludes, faq, created_at, updated_at)
-    //     values (0, '${req.body.path}', ${db.escape(req.body.trip_name)}, ${db.escape(req.body.meeting_point)}, ${req.body.price}, 
-    //     '${req.body.duration}', ${db.escape(req.body.category)}, ${db.escape(req.body.region)}, ${req.body.quota}, '${req.body.description}',
-    //     ${db.escape(req.body.itinerary)}, ${db.escape(req.body.price_includes)}, ${db.escape(req.body.price_excludes)}, ${db.escape(req.body.faq)},
-    //     '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
-
-    //     db.query(sql, (err, result) => {
-    //         if (err) throw err
-    //         res.send({
-    //             status: 200,
-    //             message: 'Trip created',
-    //             results: result
-    //         })
-    //     })
-    // },
 
     createTrip: (req, res) => {
         let sql = `insert into trips (trip_id, created_at, updated_at)

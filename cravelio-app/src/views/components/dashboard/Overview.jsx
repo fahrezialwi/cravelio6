@@ -11,118 +11,26 @@ class Overview extends Component {
         this.state = {
             allTransactions: [],
             transactionsOfYear: [],
+            favoritesOfYear: [],
             defaultYear: '',
-            barData: {},
-            doughtnutData: {}
+            transactionVolumeData: {},
+            bestSellingData: {},
+            mostFavoredData: {}
         }
     }
 
     componentDidMount(){
-        this.getData()
-        this.getBarData(new Date().getFullYear())
+        this.getAllTransactions()
+        this.getDataPerYear(new Date().getFullYear())
     }
 
-    getData = () => {
+    getAllTransactions = () => {
         axios.get (
             URL_API + 'transactions'
         ).then((res)=> {
             this.setState({
                 allTransactions: res.data.results
             })
-        })
-    }
-
-    getBarData = (year) => {
-        axios.get (
-            URL_API + 'transactions', {
-                params: {
-                    year: year
-                }
-            }
-        ).then((res)=> {
-            this.setState({
-                transactionsOfYear: res.data.results
-            })
-            this.convertToGraph(res.data.results, year)
-        })
-    }
-
-    convertToGraph = (res, year) => {
-
-        // Bar data
-        let barData = {
-            labels: [`January ${year}`, `February ${year}`, `March ${year}`, `April ${year}`, `May ${year}`, `June ${year}`, `July ${year}`, `August ${year}`, `September ${year}`, `October ${year}`, `November ${year}`, `December ${year}`],
-            datasets: [
-                {
-                    label: 'Transaction',
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    borderWidth: 1,
-                    hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                    hoverBorderColor: 'rgba(255,99,132,1)',
-                    data: []
-                }
-            ]
-        }
-
-        let arrMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        let month = res.map(val => {
-            return new Date(val.created_at).getMonth()
-        })
-        for (let i = 0; i < 12; i++){
-            arrMonth[i] = month.filter((val) => (val === i)).length
-        }
-        barData.datasets[0].data = arrMonth
-
-        // Doughtnut data
-        let doughtnutData = {
-            labels: [],
-            datasets: [{
-                data: [],
-                backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
-                ],
-                hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
-                ]
-            }]
-        }
-
-        let trip = res.map(val => {
-            return val.trip_name
-        })
-
-        let arr = []
-        for (let i = 0 ; i < trip.length ; i++){
-            let flag = 0
-            for (let j = 0 ; j < arr.length ; j++){
-                if (arr[j].tripName.includes(trip[i])){
-                    arr[j].value += 1
-                    flag = 1
-                }
-            }
-            if(flag === 0){
-                arr.push({tripName: trip[i], value: 1}) 
-            }
-        }
-
-        let processedArr = arr.sort((a, b) => (b.value - a.value)).slice(0, 3)
-  
-        doughtnutData.labels = processedArr.map(val => {
-            return val.tripName
-        })
-
-        doughtnutData.datasets[0].data = processedArr.map(val => {
-            return val.value
-        })
-
-        this.setState({
-            barData: barData,
-            doughtnutData: doughtnutData
         })
     }
 
@@ -142,10 +50,161 @@ class Overview extends Component {
         })
     }
 
+    getDataPerYear = (year) => {
+        axios.get (
+            URL_API + 'transactions', {
+                params: {
+                    year: year
+                }
+            }
+        ).then((res)=> {
+            axios.get(
+                URL_API + 'all_favorites', {
+                    params: {
+                        year: year
+                    }
+                }
+            ).then(res2 => {
+                this.setState({
+                    transactionsOfYear: res.data.results,
+                    favoritesOfYear: res2.data.results
+                })
+
+                this.convertToGraph(res.data.results, res2.data.results, year)
+            })
+        })
+    }
+
+    convertToGraph = (transactionsData, favoritesData, year) => {
+
+        // Transaction volume data
+        let transactionVolumeData = {
+            labels: [`January ${year}`, `February ${year}`, `March ${year}`, `April ${year}`, `May ${year}`, `June ${year}`, `July ${year}`, `August ${year}`, `September ${year}`, `October ${year}`, `November ${year}`, `December ${year}`],
+            datasets: [
+                {
+                    label: 'Transaction',
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 1,
+                    hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                    hoverBorderColor: 'rgba(255,99,132,1)',
+                    data: []
+                }
+            ]
+        }
+
+        let arrMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let month = transactionsData.map(val => {
+            return new Date(val.created_at).getMonth()
+        })
+        for (let i = 0; i < 12; i++){
+            arrMonth[i] = month.filter((val) => (val === i)).length
+        }
+        transactionVolumeData.datasets[0].data = arrMonth
+
+        // Best-selling data
+        let bestSellingData = {
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56'
+                ],
+                hoverBackgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56'
+                ]
+            }]
+        }
+
+        let trip = transactionsData.map(val => {
+            return val.trip_name
+        })
+
+        let arr = []
+        for (let i = 0 ; i < trip.length ; i++){
+            let flag = 0
+            for (let j = 0 ; j < arr.length ; j++){
+                if (arr[j].tripName.includes(trip[i])){
+                    arr[j].value += 1
+                    flag = 1
+                }
+            }
+            if(flag === 0){
+                arr.push({tripName: trip[i], value: 1}) 
+            }
+        }
+
+        let processedArr = arr.sort((a, b) => (b.value - a.value)).slice(0, 3)
+  
+        bestSellingData.labels = processedArr.map(val => {
+            return val.tripName
+        })
+
+        bestSellingData.datasets[0].data = processedArr.map(val => {
+            return val.value
+        })
+
+        // Most favored data
+        let mostFavoredData = {
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56'
+                ],
+                hoverBackgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56'
+                ]
+            }]
+        }
+
+        let trip2 = favoritesData.map(val => {
+            return val.trip_name
+        })
+
+        let arr2 = []
+        for (let i = 0 ; i < trip2.length ; i++){
+            let flag = 0
+            for (let j = 0 ; j < arr2.length ; j++){
+                if (arr2[j].tripName.includes(trip2[i])){
+                    arr2[j].value += 1
+                    flag = 1
+                }
+            }
+            if(flag === 0){
+                arr2.push({tripName: trip2[i], value: 1}) 
+            }
+        }
+
+        let processedArr2 = arr2.sort((a, b) => (b.value - a.value)).slice(0, 3)
+    
+        mostFavoredData.labels = processedArr2.map(val => {
+            return val.tripName
+        })
+
+        mostFavoredData.datasets[0].data = processedArr2.map(val => {
+            return val.value
+        })
+
+        this.setState({
+            transactionVolumeData,
+            bestSellingData,
+            mostFavoredData
+        })
+    }
+
     render() {
         return (
             <div className="row mb-4">
-                <div className="col-12">
+                <div className="col-12 mb-5">
                     <h5>Transaction Volume</h5>
                     <div className="row">
                         <div className="col-6">
@@ -153,29 +212,24 @@ class Overview extends Component {
                         </div>
                         <div className="col-6 text-right">
                             Year
-                            <select className="ml-2" onChange={e => this.getBarData(e.target.value)}>
+                            <select className="ml-2" onChange={e => this.getDataPerYear(e.target.value)}>
                                 {this.yearList()}
                             </select>
                         </div>
                     </div>
                     <Bar
-                        data={this.state.barData}
+                        data={this.state.transactionVolumeData}
                         width={100}
                         height={50}
-                        // options={{
-                        //     scales: {
-                        //         yAxes: [{
-                        //             ticks: {
-                        //                 stepSize: 1
-                        //             }
-                        //             }]
-                        //     }
-                        // }}
                     />
                 </div>
-                <div className="col-12">
+                <div className="col-6">
                     <h5>Top 3 Best-Selling Trip</h5>
-                    <Doughnut data={this.state.doughtnutData} />
+                    <Doughnut data={this.state.bestSellingData}/>
+                </div>
+                <div className="col-6">
+                    <h5>Top 3 Most Favored Trip</h5>
+                    <Doughnut data={this.state.mostFavoredData}/>
                 </div>
             </div>
         )
