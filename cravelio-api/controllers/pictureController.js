@@ -37,16 +37,44 @@ module.exports = {
         })
     },
 
-    setMainPicture: (req, res) => {
-
-    },
-
-    deletePicture: (req, res) => {
+    cancelCreatePicture: (req, res) => {
         let sql = `delete from pictures where picture_link = '${req.body}'`
 
         db.query(sql, (err, result) => {
             if (err) throw err  
             fs.unlinkSync(`./uploads/trip-pictures/${req.body}`)
+            res.send({
+                status: 200,
+                message: 'Delete success',
+                results: result
+            })
+        })
+    },
+
+    setMainPicture: (req, res) => {
+        let sql = `update pictures set is_main = 0 where trip_id = ${req.body.trip_id}`
+        let sql2 = `update pictures set is_main = 1 where picture_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err  
+
+            db.query(sql2, (err2, result2) => {
+                if (err2) throw err2
+                res.send({
+                    status: 201,
+                    message: 'Update success',
+                    results: result2
+                })
+            })
+        })
+    },
+
+    deletePicture: (req, res) => {
+        let sql = `delete from pictures where picture_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err  
+            fs.unlinkSync(`./uploads/trip-pictures/${req.body.picture_link}`)
             res.send({
                 status: 200,
                 message: 'Delete success',

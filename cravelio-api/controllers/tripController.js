@@ -18,6 +18,7 @@ module.exports = {
                         trip_id: val.trip_id,
                         path: val.path,
                         trip_name: val.trip_name,
+                        picture_id: val.picture_id,
                         picture_link: val.picture_link,
                         meeting_point: val.meeting_point,
                         price: val.price,
@@ -46,13 +47,28 @@ module.exports = {
         })
     },
     
+    // createTrip: (req, res) => {
+    //     let sql = `insert into trips (trip_id, path, trip_name, meeting_point, price, duration, category,
+    //     region, quota, description, itinerary, price_includes, price_excludes, faq, created_at, updated_at)
+    //     values (0, '${req.body.path}', ${db.escape(req.body.trip_name)}, ${db.escape(req.body.meeting_point)}, ${req.body.price}, 
+    //     '${req.body.duration}', ${db.escape(req.body.category)}, ${db.escape(req.body.region)}, ${req.body.quota}, '${req.body.description}',
+    //     ${db.escape(req.body.itinerary)}, ${db.escape(req.body.price_includes)}, ${db.escape(req.body.price_excludes)}, ${db.escape(req.body.faq)},
+    //     '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
+
+    //     db.query(sql, (err, result) => {
+    //         if (err) throw err
+    //         res.send({
+    //             status: 200,
+    //             message: 'Trip created',
+    //             results: result
+    //         })
+    //     })
+    // },
+
     createTrip: (req, res) => {
-        let sql = `insert into trips (trip_id, path, trip_name, meeting_point, price, duration, category,
-        region, quota, description, itinerary, price_includes, price_excludes, faq, created_at, updated_at)
-        values (0, '${req.body.path}', '${req.body.trip_name}', '${req.body.meeting_point}', ${req.body.price}, 
-        '${req.body.duration}', '${req.body.category}', '${req.body.region}', ${req.body.quota}, '${req.body.description}',
-        '${req.body.itinerary}', '${req.body.price_includes}', '${req.body.price_excludes}', '${req.body.faq}',
-        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
+        let sql = `insert into trips (trip_id, created_at, updated_at)
+        values (0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -65,11 +81,11 @@ module.exports = {
     },
 
     editTrip: (req, res) => {
-        let sql = `update trips set path = '${req.body.path}', trip_name = '${req.body.trip_name}',
-        meeting_point = '${req.body.meeting_point}', price = ${req.body.price}, duration = '${req.body.duration}',
-        category = '${req.body.category}', region = '${req.body.region}', quota = ${req.body.quota},
-        description = '${req.body.description}', itinerary = '${req.body.itinerary}', price_includes = '${req.body.price_includes}',
-        price_excludes = '${req.body.price_excludes}', faq = '${req.body.faq}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'
+        let sql = `update trips set path = '${req.body.path}', trip_name = ${db.escape(req.body.trip_name)},
+        meeting_point = ${db.escape(req.body.meeting_point)}, price = ${req.body.price}, duration = '${req.body.duration}',
+        category = ${db.escape(req.body.category)}, region = ${db.escape(req.body.region)}, quota = ${req.body.quota},
+        description = ${db.escape(req.body.description)}, itinerary = ${db.escape(req.body.itinerary)}, price_includes = ${db.escape(req.body.price_includes)},
+        price_excludes = ${db.escape(req.body.price_excludes)}, faq = ${db.escape(req.body.faq)}, updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'
         where trip_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
@@ -77,6 +93,19 @@ module.exports = {
             res.send({
                 status: 200,
                 message: 'Trip updated',
+                results: result
+            })
+        })
+    },
+
+    deleteTrip: (req, res) => {
+        let sql = `delete from trips where trip_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+            res.send({
+                status: 201,
+                message: 'Trip deleted',
                 results: result
             })
         })

@@ -26,6 +26,35 @@ class ManageTrip extends Component {
         })
     }
 
+    onDeleteClick = (tripId) => {
+        let conf = window.confirm("Are you sure want to delete this trip?")
+        if(conf){
+            axios.delete(
+                URL_API + `trips/${tripId}`
+            ).then(res => {
+                axios.get(
+                    URL_API + 'pictures', {
+                        params: {
+                            trip_id: tripId
+                        }
+                    }
+                ).then(res => {
+                    for (let i = 0; i < res.data.results.length; i++){
+                        axios.delete(
+                            URL_API + `pictures/${res.data.results[i].picture_id}`,{
+                                data: {
+                                    picture_link: res.data.results[i].picture_link
+                                }
+                            }
+                        )
+                    }
+
+                    this.getData()
+                })
+            })
+        }
+    }
+
     tripList = () => {
         return this.state.trips.map((trip, index) => {
             return (
@@ -38,7 +67,7 @@ class ManageTrip extends Component {
                     <td>{trip.duration}</td>
                     <td><img src={URL_API + "files/trip/" + trip.picture_link} alt={trip.name} width="100"/></td>
                     <td><Link to={"/dashboard/manage-trips/edit-trip/" + trip.trip_id}><button className="btn btn-dark">Edit</button></Link></td>
-                    <td><button className="btn btn-dark">Delete</button></td>
+                    <td><button onClick = {() => this.onDeleteClick(trip.trip_id)} className="btn btn-dark">Delete</button></td>
                 </tr>
             )
         })

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -16,8 +15,10 @@ class EditTrip extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            tripId: '',
             path: '',
             tripName: '',
+            pictureId: '',
             pictureLink: '',
             meetingPoint: '',
             price: '',
@@ -32,8 +33,6 @@ class EditTrip extends Component {
             faq: '',
             pictures: [],
             files: []
-            
-            
         }
     }
 
@@ -51,8 +50,10 @@ class EditTrip extends Component {
             }
         ).then(res => {
             this.setState({
+                tripId: res.data.results[0].trip_id,
                 path: res.data.results[0].path,
                 tripName: res.data.results[0].trip_name,
+                pictureId: res.data.results[0].picture_id,
                 pictureLink: res.data.results[0].picture_link,
                 meetingPoint: res.data.results[0].meeting_point,
                 price: res.data.results[0].price,
@@ -77,44 +78,87 @@ class EditTrip extends Component {
                 }
             }
         ).then(res => {
-            let pictures = res.data.results.map((picture, index) => {
-                return (
-                    <img src = {URL_API + "files/trip/" + picture.picture_link} width = "100" alt={picture.id} key={index}/>
-                )
-            })
-
             this.setState({
-                pictures
+                pictures: res.data.results
             })
         })
+    }
+
+    pictureList = () => {
+       return this.state.pictures.map((picture, index) => {
+            return (
+                <div key={index}>
+                    <input 
+                        type="radio"
+                        onChange={() => this.setState({pictureId: picture.picture_id})}
+                        defaultChecked={picture.is_main}
+                        name="isMain"
+                        id={picture.picture_id}
+                    />
+                    <label htmlFor={picture.picture_id}>
+                        <img src={URL_API + "files/trip/" + picture.picture_link} width = "100" alt={picture.picture_id}/>
+                    </label>
+                    <button onClick={() => this.onDeleteClick(picture.picture_id, picture.picture_link)}>Delete</button>
+                </div>
+            )
+        })
+    }
+
+    onDeleteClick = (pictureId, pictureLink) => {
+        if(this.state.pictures.length > 5){
+            axios.delete(
+                URL_API + `pictures/${pictureId}`,{
+                    data: {
+                        picture_link: pictureLink
+                    }
+                }
+            ).then(res => {
+                alert("Picture deleted")
+                this.getPicturesData()
+            })
+        } else {
+            alert("Pictures can not less than 5")
+        }
     }
 
     onSaveClick = () => {
+        if(this.state.pictures.length >= 5){
+            axios.patch(
+                URL_API + `trips/${this.state.tripId}`, {
+                    path: this.state.path,
+                    trip_name: this.state.tripName,
+                    meeting_point: this.state.meetingPoint,
+                    price: this.state.price,
+                    duration: this.state.duration,
+                    category: this.state.category,
+                    region: this.state.region,
+                    quota: this.state.quota,
+                    description: this.state.description,
+                    itinerary: this.state.itinerary,
+                    price_includes: this.state.priceIncludes,
+                    price_excludes: this.state.priceExcludes,
+                    faq: this.state.faq
+                }
+            ).then(res => {
+                axios.patch(
+                    URL_API + `pictures/${this.state.pictureId}`, {
+                        trip_id: this.state.tripId
+                    }
+                ).then(res => {
+                    alert("Trip updated")
+                    this.props.history.push("/dashboard/manage-trips")
+                })
+            })
+        } else {
+            alert("Pictures can not less than 5")
+        }
+    }
 
-        axios.patch(
-            URL_API + `trips/${this.props.match.params.id}`, {
-                path: this.state.path,
-                trip_name: this.state.tripName,
-                meeting_point: this.state.meetingPoint,
-                price: this.state.price,
-                duration: this.state.duration,
-                category: this.state.category,
-                region: this.state.region,
-                quota: this.state.quota,
-                description: this.state.description,
-                itinerary: this.state.itinerary,
-                price_includes: this.state.priceIncludes,
-                price_excludes: this.state.priceExcludes,
-                faq: this.state.faq
-            }
-        ).then(res => {
-            alert("Trip updated")
-            this.props.history.push("/dashboard/manage-trips")
-        })
+    onCancelClick = () => {
+        this.props.history.push("/dashboard/manage-trips")
     }
 
     render() {
-        console.log(this.pond)
         return (
             <div className="card-body">
                 <div className="row">
@@ -236,9 +280,8 @@ class EditTrip extends Component {
                     </div>
 
                     <div className="col-8 mb-5">
-                        {this.state.pictures}
+                        {this.pictureList()}
                     </div>
-
 
                     <div className="col-8 mb-5">
                         <FilePond 
@@ -250,7 +293,7 @@ class EditTrip extends Component {
                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                     const fd = new FormData()
                                     fd.append(fieldName, file, file.name)
-                                    fd.append("trip_id", this.props.match.params.id)
+                                    fd.append("trip_id", this.state.tripId)
                         
                                     const request = new XMLHttpRequest()
                                     request.open('POST', URL_API + 'pictures')
@@ -289,9 +332,7 @@ class EditTrip extends Component {
 
                     <div className="col-8 mb-5">
                         <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
-                        <Link to="/dashboard/manage-trips">
-                            <button className="btn btn-dark ml-2">Cancel</button>
-                        </Link>
+                        <button onClick={() => this.onCancelClick()} className="btn btn-dark ml-2">Cancel</button>
                     </div>
                 </div>
             </div>
