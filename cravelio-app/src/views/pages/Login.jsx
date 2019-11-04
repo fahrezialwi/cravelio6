@@ -171,14 +171,19 @@ class Login extends Component {
                 </div>
             )
         } else {
-            return <Redirect to='/'/>
+            if(this.props.role === 'user'){
+                return <Redirect to='/'/>
+            } else {
+                return <Redirect to='/dashboard'/>
+            }
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.auth.userId
+        userId: state.auth.userId,
+        role: state.auth.role
     }
 }
 

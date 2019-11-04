@@ -94,16 +94,20 @@ class TripDetail extends Component {
 
     onBookClick = () => {
         if(this.props.userId){
-            this.props.onBookingTrip(
-                this.state.trip.trip_id,
-                this.state.trip.trip_name,
-                this.state.trip.price,
-                this.state.startDate,
-                this.state.endDate,
-                this.state.pax
-            )
+            if(this.props.role === 'user'){
+                this.props.onBookingTrip(
+                    this.state.trip.trip_id,
+                    this.state.trip.trip_name,
+                    this.state.trip.price,
+                    this.state.startDate,
+                    this.state.endDate,
+                    this.state.pax
+                )
 
-            this.props.history.push("/checkout")
+                this.props.history.push("/checkout")
+            } else {
+                alert("Admin cannot book trip")
+            }
         } else {
             this.props.history.push("/login")
         }
@@ -201,7 +205,8 @@ const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
         firstName: state.auth.firstName,
-        lastName: state.auth.lastName
+        lastName: state.auth.lastName,
+        role: state.auth.role
     }
 }
 

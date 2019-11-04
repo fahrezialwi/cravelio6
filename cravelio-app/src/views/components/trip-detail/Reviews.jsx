@@ -34,7 +34,7 @@ class Reviews extends Component {
             })
 
             let averageResult = average(arrReview)
-            if(isNaN(average)){
+            if(isNaN(averageResult)){
                 averageResult = 0
             }
 
