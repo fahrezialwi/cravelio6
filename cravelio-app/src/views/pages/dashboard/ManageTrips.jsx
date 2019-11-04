@@ -13,10 +13,10 @@ class ManageTrip extends Component {
     }
 
     componentDidMount(){
-        this.getData()
+        this.getTripsData()
     }
 
-    getData = () => {
+    getTripsData = () => {
         axios.get (
             URL_API + 'trips'
         ).then((res)=> {

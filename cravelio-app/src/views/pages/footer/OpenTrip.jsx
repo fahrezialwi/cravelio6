@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
-class HowToBook extends Component {
+class OpenTrip extends Component {
     render() {
         return (
             <div>
                 <Header/>
                 <div className="container container-height">
                     <div className="row pt-5">
-                        How To Book Component
+                        Open Trip Component
                     </div>
                 </div>
                 <Footer/>
@@ -18,4 +18,4 @@ class HowToBook extends Component {
     }
 }
 
-export default HowToBook
+export default OpenTrip

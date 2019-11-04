@@ -36,12 +36,12 @@ class TripDetail extends Component {
     }
 
     componentDidMount() {
-        this.getTripsData()
-        this.getFavoritesData()
+        this.getTripData()
+        this.getFavoriteData()
         this.props.onClearBooking()
     }
 
-    getTripsData = () => {
+    getTripData = () => {
         axios.get(
             URL_API + `trips/${this.props.location.pathname.split("/").pop()}`
         ).then(res => {      
@@ -51,7 +51,7 @@ class TripDetail extends Component {
         })
     }
 
-    getFavoritesData = () => {
+    getFavoriteData = () => {
         if(this.props.userId){
             axios.get(
                 URL_API + 'favorites', {

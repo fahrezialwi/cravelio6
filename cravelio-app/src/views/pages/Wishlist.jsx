@@ -16,10 +16,10 @@ class Wishlist extends Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getFavoritesData()
     }
 
-    getData = () => {
+    getFavoritesData = () => {
         axios.get(
             URL_API + 'favorites', {
                 params: {

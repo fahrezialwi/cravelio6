@@ -16,6 +16,10 @@ class Home extends Component {
     }
     
     componentDidMount() {
+        this.getTripsData()
+    }
+
+    getTripsData = () => {
         axios.get(
             URL_API + 'trips'
         ).then((res) => {

@@ -13,10 +13,10 @@ class PaymentsPending extends Component {
     }
 
     componentDidMount(){
-        this.getData()
+        this.getTransactionsData()
     }
 
-    getData = () => {
+    getTransactionsData = () => {
         axios.get (
             URL_API + 'transactions', {
                 params: {

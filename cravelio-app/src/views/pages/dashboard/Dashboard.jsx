@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Switch, Route, Link } from 'react-router-dom'
-import HeaderDashboard from '../components/header/HeaderDashboard'
-import Footer from '../components/footer/Footer'
-import Overview from '../components/dashboard/Overview'
-import PaymentsPending from '../components/dashboard/PaymentsPending'
-import TransactionHistory from '../components/dashboard/TransactionHistory'
-import ManageTrips from '../components/dashboard/ManageTrips'
-import AddTrip from '../components/dashboard/AddTrip'
-import EditTrip from '../components/dashboard/EditTrip'
-import Schedules from '../components/dashboard/Schedules'
-import Promos from '../components/dashboard/Promos'
-import '../styles/dashboard.css'
+import HeaderDashboard from '../../components/header/HeaderDashboard'
+import Footer from '../../components/footer/Footer'
+import Overview from './Overview'
+import PaymentsPending from './PaymentsPending'
+import TransactionHistory from './TransactionHistory'
+import ManageTrips from './ManageTrips'
+import AddTrip from './AddTrip'
+import EditTrip from './EditTrip'
+import Schedules from './Schedules'
+import EditSchedule from './EditSchedule'
+import Promos from './Promos'
+import '../../styles/dashboard.css'
 
 class Dashboard extends Component {
 
@@ -59,7 +60,8 @@ class Dashboard extends Component {
                                     <Route path='/dashboard/manage-trips' exact component={ManageTrips}/>
                                     <Route path='/dashboard/manage-trips/add-trip' component={AddTrip}/>
                                     <Route path='/dashboard/manage-trips/edit-trip/:id' component={EditTrip}/>
-                                    <Route path='/dashboard/schedules' component={Schedules}/>
+                                    <Route path='/dashboard/schedules' exact component={Schedules}/>
+                                    <Route path='/dashboard/schedules/edit-schedule/:id' component={EditSchedule}/>
                                     <Route path='/dashboard/promos' component={Promos}/>
                                 </Switch>
                             </div>

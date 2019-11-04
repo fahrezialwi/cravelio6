@@ -26,11 +26,11 @@ class EditProfile extends Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getUserData()
        
     }
 
-    getData = () => {
+    getUserData = () => {
         axios.get(
             URL_API + `users/${this.props.userId}`
         ).then(res => {

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
-class PrivacyPolicy extends Component {
+class TermsConditions extends Component {
     render() {
         return (
             <div>
                 <Header/>
                 <div className="container container-height">
                     <div className="row pt-5">
-                        Privacy Policy Component
+                        Terms & Conditions Component
                     </div>
                 </div>
                 <Footer/>
@@ -18,4 +18,4 @@ class PrivacyPolicy extends Component {
     }
 }
 
-export default PrivacyPolicy
+export default TermsConditions

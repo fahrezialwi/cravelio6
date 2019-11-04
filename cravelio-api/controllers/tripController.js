@@ -1,4 +1,5 @@
 const db = require('../database')
+const moment = require('moment')
 
 module.exports = {
     getTrips: (req, res) => {
@@ -100,7 +101,8 @@ module.exports = {
 
     createTrip: (req, res) => {
         let sql = `insert into trips (trip_id, created_at, updated_at)
-        values (0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+        values (0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -117,8 +119,8 @@ module.exports = {
         meeting_point = ${db.escape(req.body.meeting_point)}, price = ${req.body.price}, duration = '${req.body.duration}',
         category = ${db.escape(req.body.category)}, region = ${db.escape(req.body.region)}, quota = ${req.body.quota},
         description = ${db.escape(req.body.description)}, itinerary = ${db.escape(req.body.itinerary)}, price_includes = ${db.escape(req.body.price_includes)},
-        price_excludes = ${db.escape(req.body.price_excludes)}, faq = ${db.escape(req.body.faq)}, updated_at = CURRENT_TIMESTAMP
-        where trip_id = ${req.params.id}`
+        price_excludes = ${db.escape(req.body.price_excludes)}, faq = ${db.escape(req.body.faq)},
+        updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}' where trip_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err

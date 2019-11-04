@@ -7,15 +7,15 @@ class Promos extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            promos : []
+            promos: []
         }
     }
 
     componentDidMount(){
-        this.getData()
+        this.getPromosData()
     }
 
-    getData = () => {
+    getPromosData = () => {
         axios.get (
             URL_API + 'promos'
         ).then((res)=> {

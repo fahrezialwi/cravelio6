@@ -1,4 +1,5 @@
 const db = require('../database')
+const moment = require('moment')
 
 module.exports = {
     getFavorites: (req, res) => {
@@ -77,7 +78,8 @@ module.exports = {
 
     createFavorite: (req, res) => {
         let sql = `insert into favorites values (0, ${req.body.trip_id}, ${req.body.user_id}, 0,
-        CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -98,7 +100,7 @@ module.exports = {
 
     deleteFavorite: (req, res) => {
         let sql = `update favorites set is_deleted = 1,
-        updated_at = CURRENT_TIMESTAMP
+        updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'
         where favorite_id = ${req.params.id}` 
 
         db.query(sql, (err, result) => {

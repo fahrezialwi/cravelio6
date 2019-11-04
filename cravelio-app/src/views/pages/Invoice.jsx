@@ -22,10 +22,10 @@ class Invoice extends Component {
     }
 
     componentDidMount(){
-        this.getData()
+        this.getTransactionData()
     }
 
-    getData = () => {
+    getTransactionData = () => {
         axios.get (
             URL_API + `transactions/${this.props.match.params.id}`
         ).then((res)=> {

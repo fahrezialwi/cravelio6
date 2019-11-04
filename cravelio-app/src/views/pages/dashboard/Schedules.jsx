@@ -13,15 +13,18 @@ class Schedules extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            events: []
+            events: [],
+            trips: [],
+            selectedTrip: 1
         }
     }
 
     componentDidMount(){
-        this.getData()
+        this.getSchedulesData()
+        this.getTripsData()
     }
 
-    getData = () => {
+    getSchedulesData = () => {
         axios.get(
             URL_API + 'schedules'
         ).then(res => {
@@ -39,10 +42,32 @@ class Schedules extends Component {
         })
     }
 
+    getTripsData = () => {
+        axios.get(
+            URL_API + 'trips'
+        ).then(res => {
+            this.setState({
+                trips: res.data.results
+            })
+        })
+    }
+
+    tripList = () => {
+        return this.state.trips.map(trip => {
+            return (
+                <option value={trip.trip_id} key={trip.trip_id}>{trip.trip_name}</option>
+            )
+        })
+    }
+
+    onEditClick = (selectedTrip) => {
+        this.props.history.push(`/dashboard/schedules/edit-schedule/${selectedTrip}`)
+    }
+
     render() {
         return (
             <div className="row row-top">
-                <div className="col-12">
+                <div className="col-12 mb-5">
                     <ExampleControlSlot.Entry waitForOutlet>
                     </ExampleControlSlot.Entry>
                     <Calendar
@@ -56,6 +81,21 @@ class Schedules extends Component {
                         resizable
                         style={{height: "100vh"}}
                     />
+                </div>
+                <div className="col-12 mb-5">
+                    <h5>Edit Schedule</h5>
+                    <div className="input-group">
+                        <select
+                            onChange={e => this.setState({selectedTrip: e.target.value})}
+                            className="form-control"
+                            defaultValue={this.state.selectedTrip}
+                        >
+                            {this.tripList()}
+                        </select>
+                        <div className="ml-3">
+                            <button onClick={() => this.onEditClick(this.state.selectedTrip)} className="btn btn-dark">Edit</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

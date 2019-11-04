@@ -1,6 +1,7 @@
 const db = require('../database')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
+const moment = require('moment')
 const URL_APP = require('../configs/urlApp')
 const mailPassword = require('../configs/mailPassword')
 const emailSecretKey = require('../configs/emailSecretKey')
@@ -44,7 +45,8 @@ module.exports = {
     createUser: (req, res) => {
         let sql = `insert into users (first_name, last_name, email, password, is_verified, created_at, updated_at)
         values ('${req.body.first_name}', '${req.body.last_name}', '${req.body.email}', 
-        '${req.body.password}', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+        '${req.body.password}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',
+        '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -77,7 +79,7 @@ module.exports = {
     editUser: (req, res) => {
         let sql = `update users set first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
-        password = '${req.body.password}', updated_at = CURRENT_TIMESTAMP`
+        password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'`
 
         if(req.body.profile_picture){
             sql += ` profile_picture = '${req.body.profile_picture}',`
