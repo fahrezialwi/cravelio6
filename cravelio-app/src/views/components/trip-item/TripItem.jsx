@@ -4,9 +4,11 @@ import formatCurrency from '../../../helpers/formatCurrency'
 import URL_API from '../../../configs/urlAPI'
 import '../../styles/trip-item.css'
 
-class  TripItem extends Component {
+class TripItem extends Component {
+    
     render() {
-        let {trip_id, path, trip_name, price, duration, category, picture_link} = this.props.trip
+        let {trip_id, path, trip_name, price, duration, category, picture_link, schedules} = this.props.trip
+        console.log(schedules)
         return (
             <div className="col-lg-3 col-md-6 col-sm-12 list-padding" key={trip_id}>
                 <Link to={`/trip/${path}`}>
@@ -15,8 +17,14 @@ class  TripItem extends Component {
                             <img src={`${URL_API}files/trip/${picture_link}`} alt={trip_name} className="image-cover"/>
                         </div>
                         <div className="pt-2">
-                            <div className="card-tag">{duration}</div>
-                            <div className="card-tag ml-2">{category}</div>
+                            <div className="card-tag">{duration.toUpperCase()}</div>
+                            <div className="card-tag ml-2">{category.toUpperCase()}</div>
+                            {
+                                !schedules[0].schedule_id ?
+                                <div className="card-tag ml-2">NOT AVAILABLE</div>
+                                :
+                                null
+                            }
                             <h6 className="card-title mt-2 mb-1">{trip_name}</h6>
                             <div className="card-price">{formatCurrency(price)}</div>
                         </div>

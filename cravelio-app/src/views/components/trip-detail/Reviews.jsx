@@ -57,24 +57,32 @@ class Reviews extends Component {
     }
 
     reviewList = () => {
-        return this.state.reviews.map(review => {
-            return (
-                <div className="col-12" key={review.review_id}>
-                    <div className="row mb-4">
-                        <div className="col-1">
-                            <h4>{review.star}</h4>
-                        </div>
-                        <div className="col-11">
-                            <h4 className="d-inline-block mr-2">{review.first_name} {review.last_name}</h4>
-                            on {moment(review.updated_at).format('MMM Do, YYYY')}
-                            <h5>{review.review_title}</h5>
-                            <p>{review.review_content}</p>
-                            {this.pictureList(review.pictures)}
+        if(this.state.reviews.length > 0){
+            return this.state.reviews.map(review => {
+                return (
+                    <div className="col-12" key={review.review_id}>
+                        <div className="row mb-4">
+                            <div className="col-1">
+                                <h4>{review.star}</h4>
+                            </div>
+                            <div className="col-11">
+                                <h4 className="d-inline-block mr-2">{review.first_name} {review.last_name}</h4>
+                                on {moment(review.updated_at).format('MMM Do, YYYY')}
+                                <h5>{review.review_title}</h5>
+                                <p>{review.review_content}</p>
+                                {this.pictureList(review.pictures)}
+                            </div>
                         </div>
                     </div>
+                )
+            })
+        } else {
+            return (
+                <div className="col-12 text-center">
+                    No reviews
                 </div>
             )
-        })
+        }
     }
 
     render() {

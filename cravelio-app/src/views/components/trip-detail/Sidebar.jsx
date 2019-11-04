@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import moment from 'moment'
-import URL_API from '../../../configs/urlAPI'
 import formatCurrency from '../../../helpers/formatCurrency'
 import '../../styles/sidebar.css'
 
@@ -22,48 +20,31 @@ import '../../styles/sidebar.css'
 
 class Sidebar extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            schedules: []
-        }
-    }
-
-    componentDidMount() {
-        this.getData()
-    }
-
-    getData = () => {
-        axios.get(
-            URL_API + 'schedules', {
-                params: {
-                    trip_id: this.props.trip.trip_id
-                }
-            }
-        ).then((res) => {    
-            this.setState({
-                schedules: res.data.results
-            }) 
-        })
-    }
-
     scheduleList = () => {
-        return this.state.schedules.map(schedule => {
+        if(this.props.trip.schedules[0].schedule_id){
+            return this.props.trip.schedules.map(schedule => {
+                return (
+                    <div key={schedule.schedule_id}>
+                        <input 
+                            type="radio"
+                            className="mr-2"
+                            name="date"
+                            onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date)}
+                            id={schedule.schedule_id}
+                        />
+                        <label className="mb-0" htmlFor={schedule.schedule_id}>
+                            {moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}
+                        </label>
+                    </div>
+                )
+            })
+        } else {
             return (
-                <div key={schedule.schedule_id}>
-                    <input 
-                        type="radio"
-                        className="mr-2"
-                        name="date"
-                        onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date)}
-                        id={schedule.schedule_id}
-                    />
-                    <label className="mb-0" htmlFor={schedule.schedule_id}>
-                        {moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}
-                    </label>
+                <div className="col-12 text-center">
+                    No schedules
                 </div>
             )
-        })
+        }
     }
 
     render() {

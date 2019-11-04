@@ -30,27 +30,28 @@ class TripDetail extends Component {
             reviewCount: '',
             startDate: '',
             endDate: '',
-            pax: 1
+            pax: 1,
+            // schedules: []
         }
     }
 
     componentDidMount() {
-        this.getData()
-        this.getFavoriteData()
+        this.getTripsData()
+        this.getFavoritesData()
         this.props.onClearBooking()
     }
 
-    getData = () => {
+    getTripsData = () => {
         axios.get(
             URL_API + `trips/${this.props.location.pathname.split("/").pop()}`
         ).then(res => {      
             this.setState({
                 trip: res.data.results[0]
-            })    
+            })
         })
     }
 
-    getFavoriteData = () => {
+    getFavoritesData = () => {
         if(this.props.userId){
             axios.get(
                 URL_API + 'favorites', {

@@ -51,7 +51,10 @@ class PaymentsPending extends Component {
                         }
                     </td>
                     <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
-                    <td><button className="btn btn-dark btn-block" disabled={!transaction.transfer_proof}>Approve</button></td>
+                    <td>
+                        <button className="btn btn-dark btn-block" disabled={!transaction.transfer_proof}>Approve</button>
+                        <button className="btn btn-dark btn-block" disabled={!transaction.transfer_proof}>Reject</button>             
+                    </td>
                 </tr>
             )
         })
