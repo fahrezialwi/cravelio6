@@ -146,7 +146,8 @@ class EditTrip extends Component {
                     }
                 ).then(res => {
                     alert("Trip updated")
-                    this.props.history.push("/dashboard/manage-trips")
+                    this.forceUpdate()
+                    window.scrollTo(0, 0)
                 })
             })
         } else {

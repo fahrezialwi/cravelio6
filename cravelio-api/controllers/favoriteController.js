@@ -89,12 +89,13 @@ module.exports = {
             if (result.length > 0) {          
                 res.send({
                     status: 200,
+                    message: 'Create favorite success',
                     results: result
                 })
             } else {
                 res.send({
                     status: 401,
-                    message: 'Add error',
+                    message: 'Create favorite error',
                     results: result
                 })
             }
@@ -111,12 +112,13 @@ module.exports = {
             if (result.length > 0) {          
                 res.send({
                     status: 200,
+                    message: 'Delete favorite success',
                     results: result
                 })
             } else {
                 res.send({
                     status: 401,
-                    message: 'Delete error',
+                    message: 'Delete favorite error',
                     results: result
                 })
             }

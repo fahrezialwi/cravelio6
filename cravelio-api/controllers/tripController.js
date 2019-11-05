@@ -42,7 +42,7 @@ module.exports = {
             if (err) throw err
             res.send({
                 status: 200,
-                message: 'Trip created',
+                message: 'Create trip success',
                 results: result
             })
         })
@@ -60,7 +60,7 @@ module.exports = {
             if (err) throw err
             res.send({
                 status: 200,
-                message: 'Trip updated',
+                message: 'Edit trip success',
                 results: result
             })
         })
@@ -73,7 +73,7 @@ module.exports = {
             if (err) throw err
             res.send({
                 status: 201,
-                message: 'Trip deleted',
+                message: 'Delete trip success',
                 results: result
             })
         })

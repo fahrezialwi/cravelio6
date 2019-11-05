@@ -41,8 +41,7 @@ class Confirmation extends Component {
                     promo_percentage: this.props.promoPercentage,
                     promo_value: this.props.promoValue,
                     total_payment: this.props.totalPrice,
-                    status: 'Pending',
-                    created_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')
+                    status: 'Pending'
                 }
             ).then(res => {
                 setTimeout(() => { 

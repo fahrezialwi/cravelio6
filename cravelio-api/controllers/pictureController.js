@@ -45,7 +45,7 @@ module.exports = {
             fs.unlinkSync(`./uploads/trip-pictures/${req.body}`)
             res.send({
                 status: 200,
-                message: 'Delete success',
+                message: 'Cancel create picture success',
                 results: result
             })
         })
@@ -62,7 +62,7 @@ module.exports = {
                 if (err2) throw err2
                 res.send({
                     status: 201,
-                    message: 'Update success',
+                    message: 'Set main picture success',
                     results: result2
                 })
             })
@@ -77,7 +77,7 @@ module.exports = {
             fs.unlinkSync(`./uploads/trip-pictures/${req.body.picture_link}`)
             res.send({
                 status: 200,
-                message: 'Delete success',
+                message: 'Delete picture success',
                 results: result
             })
         })

@@ -89,7 +89,12 @@ class EditSchedule extends Component {
                             />
                         </td>
                         <td>
-                            <button onClick={() => this.onDeleteClick(schedule.schedule_id)} className="btn btn-dark">Delete</button>
+                            {
+                                'schedule_id' in schedule ?
+                                <button onClick={() => this.onDeleteClick(schedule.schedule_id)} className="btn btn-dark">Delete</button>
+                                :
+                                null
+                            }
                         </td>
                     </tr>
                 )
@@ -141,15 +146,15 @@ class EditSchedule extends Component {
         }
         
         alert("Schedule saved")
-        this.props.history.push("/dashboard/schedules")
+                            this.forceUpdate()
+                    window.scrollTo(0, 0)
     }
 
-    onBackClick = () => {
+    onCancelClick = () => {
         this.props.history.push("/dashboard/schedules")
     }
 
     render() {
-        console.log(this.state.schedule)
         return (
             <div className="row">
                 <div className="col-12">
@@ -161,20 +166,22 @@ class EditSchedule extends Component {
                         <div className="col-12 text-right mb-2">
                             <button onClick={() => this.onAddClick()} className="btn btn-dark">Add New Schedule</button>
                         </div>
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.scheduleList()}
-                                </tbody>
-                            </table>
+                        <div className="col-12">
+                            <div className="table-responsive">
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.scheduleList()}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         {
                             this.state.schedule.length === 0 ?
@@ -186,7 +193,7 @@ class EditSchedule extends Component {
                         }
                         <div className="col-12">
                             <button onClick={() => this.onSaveClick()} className="btn btn-dark mr-3">Save</button>
-                            <button onClick={() => this.onBackClick()} className="btn btn-dark">Back</button>
+                            <button onClick={() => this.onCancelClick()} className="btn btn-dark">Cancel</button>
                         </div>
                     </div>
                 </div>

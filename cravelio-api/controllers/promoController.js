@@ -27,11 +27,42 @@ module.exports = {
     },
 
     createPromo: (req, res) => {
-        db.query(`insert into promos (promo_code, promo_discount) values ('${req.body.promo_code}', ${req.body.promo_discount})`, (err, result) => {
+        let sql = `insert into promos (promo_id, promo_code, promo_discount) 
+        values (0, '${req.body.promo_code}', ${req.body.promo_discount})`
+
+        db.query(sql, (err, result) => {
             if (err) throw err
             res.send({
                 status: 201,
-                message: 'Promo created'
+                message: 'Create promo success'
+            })
+        })
+    },
+
+    editPromo: (req, res) => {
+        let sql = `update promos set promo_code = '${req.body.promo_code}', 
+        promo_discount = ${req.body.promo_discount} where promo_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+
+            res.send({
+                status: 201,
+                message: 'Edit promo success',
+                results: result
+            })
+        })
+    },
+
+    deletePromo: (req, res) => {
+        let sql = `delete from promos where promo_id = ${req.params.id}`
+        db.query(sql, (err, result) => {
+            if (err) throw err
+
+            res.send({
+                status: 200,
+                message: 'Delete promo success',
+                results: result
             })
         })
     }

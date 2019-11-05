@@ -33,7 +33,7 @@ module.exports = {
         })
     },
 
-    addSchedule: (req, res) => {
+    createSchedule: (req, res) => {
         let sql = `insert into schedules (schedule_id, start_date, end_date, trip_id, quota_left) 
         values (0, '${req.body.start_date}', '${req.body.end_date}', ${req.body.trip_id},
         ${req.body.quota_left})`
@@ -43,7 +43,7 @@ module.exports = {
 
             res.send({
                 status: 201,
-                message: 'Add schedule success',
+                message: 'Create schedule success',
                 results: result
             })
         })
@@ -58,7 +58,7 @@ module.exports = {
 
             res.send({
                 status: 201,
-                message: 'Add schedule success',
+                message: 'Edit schedule success',
                 results: result
             })
         })
@@ -71,7 +71,7 @@ module.exports = {
 
             res.send({
                 status: 200,
-                message: 'Delete success',
+                message: 'Delete schedule success',
                 results: result
             })
         })

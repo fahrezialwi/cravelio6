@@ -46,7 +46,7 @@ class EditProfile extends Component {
         })
     }
 
-    onEditClick = () => {
+    onSaveClick = () => {
         if (this.state.firstName && this.state.lastName && this.state.email && this.state.password) {
             if (this.state.password === this.state.repeatPassword) {
                 axios.put(
@@ -68,6 +68,7 @@ class EditProfile extends Component {
                     })
                     this.refs.password.value = ''
                     this.refs.repeatPassword.value = ''
+                    window.scrollTo(0, 0)
                 }).catch(err => {
                     console.log(err)
                 })
@@ -173,7 +174,7 @@ class EditProfile extends Component {
                                 />
                             </div>
                             <div className="col-8 mb-5">
-                                <button onClick={() => this.onEditClick()} className="btn btn-dark">Save</button>
+                                <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
                             </div>
                         </div>
                     </div>

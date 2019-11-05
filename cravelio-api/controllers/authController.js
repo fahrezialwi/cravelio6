@@ -52,7 +52,8 @@ module.exports = {
             if (err) throw err
             res.send({
                 status: 201,
-                message: 'Your account has been created'
+                message: 'Create user success',
+                results: result
             })
         })
     },

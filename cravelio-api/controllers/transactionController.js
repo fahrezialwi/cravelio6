@@ -1,5 +1,6 @@
 const db = require('../database')
 const fs = require('fs')
+const moment = require('moment')
 
 module.exports = {
     getTransactions: (req, res) => {
@@ -128,21 +129,20 @@ module.exports = {
             ${req.body.user_id}, '${req.body.contact_first_name}', '${req.body.contact_last_name}',
             '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},
-            '${req.body.status}', '${req.body.created_at}')`, (err, result) => {
+            '${req.body.status}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
             
             if (err) throw err
             res.send({
                 status: 201,
-                message: 'Transaction created',
+                message: 'Create transaction success',
                 results: result
             })
             
             for (let i = 1; i <= req.body.pax ; i++) {
                 db.query(
                     `insert into transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
-                    values ((select transaction_id from transactions where created_at = '${req.body.created_at}'),
-                    '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}', '${req.body.participants["lastName"+i]}',
-                    '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`
+                    values (${result.insertId}, '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}',
+                    '${req.body.participants["lastName"+i]}', '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`
                 )
             }
         })
@@ -163,7 +163,7 @@ module.exports = {
                     if (err) throw err
                     res.send({
                         status: 201,
-                        message: 'Proof uploaded',
+                        message: 'Add proof success',
                         results: result
                     })
                 } catch (error) {
