@@ -2,19 +2,19 @@ const db = require('../database')
 
 module.exports = {
     getReviews: (req, res) => {
-        let sql = `select reviews.review_id, trip_id, reviews.user_id, first_name, last_name,
-        review_title, review_content, star, picture_link, reviews.created_at, reviews.updated_at from reviews
-        join users on reviews.user_id = users.user_id
-        left join reviews_picture on reviews.review_id = reviews_picture.review_id`
+        let sql = `SELECT reviews.review_id, trip_id, reviews.user_id, first_name, last_name,
+        review_title, review_content, star, picture_link, reviews.created_at, reviews.updated_at FROM reviews
+        JOIN users ON reviews.user_id = users.user_id
+        LEFT JOIN reviews_picture ON reviews.review_id = reviews_picture.review_id`
 
         if (req.params.id) {
-            sql = `${sql} where reviews.review_id = ${req.params.id}`
+            sql = `${sql} WHERE reviews.review_id = ${req.params.id}`
         }
         if (req.query.trip_id) {
-            sql = `${sql} where trip_id = ${req.query.trip_id}`
+            sql = `${sql} WHERE trip_id = ${req.query.trip_id}`
         }
         if (req.query.user_id) {
-            sql = `${sql} where reviews.user_id = ${req.query.user_id}`
+            sql = `${sql} WHERE reviews.user_id = ${req.query.user_id}`
         }
 
         db.query(sql, (err,result) => {

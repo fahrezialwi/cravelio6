@@ -3,12 +3,12 @@ const fs = require('fs')
 
 module.exports = {
     getPictures: (req, res) => {
-        let sql = `select * from pictures`
+        let sql = `SELECT * FROM pictures`
         if (req.params.id) {
-            sql = `${sql} where picture_id = ${req.params.id}`
+            sql = `${sql} WHERE picture_id = ${req.params.id}`
         }
         if (req.query.trip_id) {
-            sql = `${sql} where trip_id = '${req.query.trip_id}'`
+            sql = `${sql} WHERE trip_id = '${req.query.trip_id}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     createPicture: (req, res) => {
-        let sql = `insert into pictures (picture_id, picture_link, trip_id, is_main) values
+        let sql = `INSERT INTO pictures (picture_id, picture_link, trip_id, is_main) values
         (0, '${req.files[0].filename}', ${req.body.trip_id}, 0)`
 
         db.query(sql, (err, result) => {
@@ -38,7 +38,7 @@ module.exports = {
     },
 
     cancelCreatePicture: (req, res) => {
-        let sql = `delete from pictures where picture_link = '${req.body}'`
+        let sql = `DELETE FROM pictures WHERE picture_link = '${req.body}'`
 
         db.query(sql, (err, result) => {
             if (err) throw err  
@@ -52,8 +52,8 @@ module.exports = {
     },
 
     setMainPicture: (req, res) => {
-        let sql = `update pictures set is_main = 0 where trip_id = ${req.body.trip_id}`
-        let sql2 = `update pictures set is_main = 1 where picture_id = ${req.params.id}`
+        let sql = `UPDATE pictures SET is_main = 0 WHERE trip_id = ${req.body.trip_id}`
+        let sql2 = `UPDATE pictures SET is_main = 1 WHERE picture_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err  
@@ -70,7 +70,7 @@ module.exports = {
     },
 
     deletePicture: (req, res) => {
-        let sql = `delete from pictures where picture_id = ${req.params.id}`
+        let sql = `DELETE FROM pictures WHERE picture_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err  

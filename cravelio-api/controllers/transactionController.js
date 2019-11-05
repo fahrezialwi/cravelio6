@@ -4,20 +4,20 @@ const moment = require('moment')
 
 module.exports = {
     getTransactions: (req, res) => {
-        let sql = `select * from transactions as tr
-        join transactions_detail as td on tr.transaction_id = td.transaction_id`
+        let sql = `SELECT * FROM transactions AS tr
+        JOIN transactions_detail AS td ON tr.transaction_id = td.transaction_id`
 
         if (req.params.id) {
-            sql = `${sql} where tr.transaction_id = ${req.params.id}`
+            sql = `${sql} WHERE tr.transaction_id = ${req.params.id}`
         }
         if (req.query.status) {
-            sql = `${sql} where tr.status = '${req.query.status}'`
+            sql = `${sql} WHERE tr.status = '${req.query.status}'`
         }
         if (req.query.year) {
-            sql = `${sql} where year(tr.created_at) = ${req.query.year}`
+            sql = `${sql} WHERE year(tr.created_at) = ${req.query.year}`
         }
         if (req.query.user_id) {
-            sql = `${sql} where tr.user_id = ${req.query.user_id}`
+            sql = `${sql} WHERE tr.user_id = ${req.query.user_id}`
         }
 
         db.query(sql, (err,result) => {
@@ -122,10 +122,10 @@ module.exports = {
 
     createTransaction: (req, res) => {
         db.query(
-            `insert into transactions (trip_id, trip_name, trip_price, start_date, end_date,
+            `INSERT INTO transactions (trip_id, trip_name, trip_price, start_date, end_date,
             user_id, contact_first_name, contact_last_name, contact_phone_number, contact_email,
             pax, promo_code, promo_percentage, promo_value, total_payment, status, created_at)
-            values (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price},'${req.body.start_date}', '${req.body.end_date}',
+            VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price},'${req.body.start_date}', '${req.body.end_date}',
             ${req.body.user_id}, '${req.body.contact_first_name}', '${req.body.contact_last_name}',
             '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},
@@ -140,8 +140,8 @@ module.exports = {
             
             for (let i = 1; i <= req.body.pax ; i++) {
                 db.query(
-                    `insert into transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
-                    values (${result.insertId}, '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}',
+                    `INSERT INTO transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
+                    VALUES (${result.insertId}, '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}',
                     '${req.body.participants["lastName"+i]}', '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`
                 )
             }
@@ -156,8 +156,8 @@ module.exports = {
             let data = JSON.parse(req.body.data)
 
             db.query(
-                `update transactions set transfer_bank_name = '${data.transfer_bank_name}', transfer_account_holder = '${data.transfer_account_holder}',
-                transfer_proof = '${req.file.filename}' where transaction_id = ${req.params.id}`, (err, result) => {
+                `UPDATE transactions SET transfer_bank_name = '${data.transfer_bank_name}', transfer_account_holder = '${data.transfer_account_holder}',
+                transfer_proof = '${req.file.filename}' WHERE transaction_id = ${req.params.id}`, (err, result) => {
 
                 try {
                     if (err) throw err

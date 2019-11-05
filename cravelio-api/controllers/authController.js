@@ -18,12 +18,12 @@ let transporter = nodemailer.createTransport({
 
 module.exports = {
     getUsers: (req, res) => {
-        let sql = `select * from users`
+        let sql = `SELECT * FROM users`
         if (req.params.id) {
-            sql = `${sql} where user_id = ${req.params.id}`
+            sql = `${sql} WHERE user_id = ${req.params.id}`
         }
         if (req.query.email) {
-            sql = `${sql} where email = '${req.query.email}'`
+            sql = `${sql} WHERE email = '${req.query.email}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -43,8 +43,8 @@ module.exports = {
     },
 
     createUser: (req, res) => {
-        let sql = `insert into users (first_name, last_name, email, password, is_verified, created_at, updated_at)
-        values ('${req.body.first_name}', '${req.body.last_name}', '${req.body.email}', 
+        let sql = `INSERT INTO users (first_name, last_name, email, password, is_verified, created_at, updated_at)
+        VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.email}', 
         '${req.body.password}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
@@ -59,7 +59,7 @@ module.exports = {
     },
 
     loginUser: (req, res) => {
-        db.query(`select * from users where email = '${req.query.email}' and password = '${req.query.password}'`, (err, result) => {
+        db.query(`SELECT * FROM users WHERE email = '${req.query.email}' AND password = '${req.query.password}'`, (err, result) => {
 
             if (err) throw err
             if (result.length > 0) {
@@ -78,7 +78,7 @@ module.exports = {
     },
 
     editUser: (req, res) => {
-        let sql = `update users set first_name = '${req.body.first_name}',
+        let sql = `UPDATE users SET first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
         password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'`
 
@@ -99,7 +99,7 @@ module.exports = {
         }
 
         sql = sql.slice(0, -1)
-        sql += ` where user_id = '${req.params.id}'`
+        sql += ` WHERE user_id = '${req.params.id}'`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -163,7 +163,7 @@ module.exports = {
         let token = req.body.token
         let data = jwt.verify(token, emailSecretKey)
 
-        db.query(`update users set is_verified = 1 where email = '${data.email}'`, (err, result) => {
+        db.query(`UPDATE users SET is_verified = 1 WHERE email = '${data.email}'`, (err, result) => {
             if (err) throw err
             res.send('Your account has been verified')
         })
@@ -214,7 +214,7 @@ module.exports = {
         let token = req.body.token
         let data = jwt.verify(token, emailSecretKey)
 
-        db.query(`update users set password = '${req.body.password}' where email = '${data.email}'`, (err, result) => {
+        db.query(`UPDATE users SET password = '${req.body.password}' WHERE email = '${data.email}'`, (err, result) => {
 
             if (err) throw err
             if (result.length > 0) {

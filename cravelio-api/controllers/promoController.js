@@ -2,12 +2,12 @@ const db = require('../database')
 
 module.exports = {
     getPromos: (req, res) => {
-        let sql = `select * from promos`
+        let sql = `SELECT * FROM promos`
         if (req.params.id) {
-            sql = `${sql} where user_id = ${req.params.id}`
+            sql = `${sql} WHERE user_id = ${req.params.id}`
         }
         if (req.query.promo_code) {
-            sql = `${sql} where promo_code = '${req.query.promo_code}'`
+            sql = `${sql} WHERE promo_code = '${req.query.promo_code}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -27,8 +27,8 @@ module.exports = {
     },
 
     createPromo: (req, res) => {
-        let sql = `insert into promos (promo_id, promo_code, promo_discount) 
-        values (0, '${req.body.promo_code}', ${req.body.promo_discount})`
+        let sql = `INSERT INTO promos (promo_id, promo_code, promo_discount) 
+        VALUES (0, '${req.body.promo_code}', ${req.body.promo_discount})`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -40,8 +40,8 @@ module.exports = {
     },
 
     editPromo: (req, res) => {
-        let sql = `update promos set promo_code = '${req.body.promo_code}', 
-        promo_discount = ${req.body.promo_discount} where promo_id = ${req.params.id}`
+        let sql = `UPDATE promos SET promo_code = '${req.body.promo_code}', 
+        promo_discount = ${req.body.promo_discount} WHERE promo_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -55,7 +55,7 @@ module.exports = {
     },
 
     deletePromo: (req, res) => {
-        let sql = `delete from promos where promo_id = ${req.params.id}`
+        let sql = `DELETE FROM promos WHERE promo_id = ${req.params.id}`
         db.query(sql, (err, result) => {
             if (err) throw err
 
