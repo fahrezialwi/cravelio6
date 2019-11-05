@@ -52,38 +52,58 @@ class Invoice extends Component {
         if (!this.state.transaction.transfer_proof) {
             if (this.state.transaction.status === "Cancelled") {
                 return (
-                    <div className="col-12">
-                        <p>Transaction cancelled.</p>
-                    </div> 
+                    <div className="row">
+                        <div className="col-4">
+                            <p>Transaction cancelled.</p>
+                        </div>
+                    </div>
                 )
             } else {
                 return (
-                    <div className="col-4">
-                        Select Bank
-                        <select onChange={e => this.setState({bankName: e.target.value})} className="form-control mb-2">
-                            <option>BCA</option>
-                            <option>Mandiri</option>
-                        </select>
-                        Account Holder Name
-                        <input onChange={e => this.setState({accountHolderName: e.target.value})} type="text" className="form-control mb-2"/>
-                        Proof of Transfer
-                        <input onChange={e => this.setState({transferProof: e.target.files[0]})} type="file" className="form-control"/>
+                    <div className="row">
+                        <div className="col-4">
+                            Select Bank
+                            <select onChange={e => this.setState({bankName: e.target.value})} className="form-control mb-2">
+                                <option>BCA</option>
+                                <option>Mandiri</option>
+                            </select>
+                            Account Holder Name
+                            <input onChange={e => this.setState({accountHolderName: e.target.value})} type="text" className="form-control mb-2"/>
+                            Proof of Transfer
+                            <input onChange={e => this.setState({transferProof: e.target.files[0]})} type="file" className="form-control"/>
+                        </div>
+                        {
+                            this.state.bankName === 'BCA' ?
+                            <div className="col-8">
+                                <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                <div>Cravelio BCA Account Number</div>
+                                <div>6123456789</div>
+                            </div>
+                            :
+                            <div className="col-8">
+                                <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                <div>Cravelio Mandiri Account Number</div>
+                                <div>5123456789</div>
+                            </div>
+                        }
                     </div>
                 )
             }
         } else {
             return (
-                <div className="col-12">
-                    <p>Transfer proof</p>
-                    <div className="row">
-                        <div className="col-2">
-                            <a href={URL_API + 'files/transfer/' + this.state.transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
-                                <img src={URL_API + 'files/transfer/' + this.state.transaction.transfer_proof} alt={this.state.transaction.transaction_id} width="150"/>
-                            </a>
-                        </div>
-                        <div className="col-10">
-                            <div>Bank Name: {this.state.transaction.transfer_bank_name}</div>
-                            <div>Account Holder Name: {this.state.transaction.transfer_account_holder}</div>
+                <div className="row">
+                    <div className="col-12">
+                        <p>Transfer proof</p>
+                        <div className="row">
+                            <div className="col-2">
+                                <a href={URL_API + 'files/transfer/' + this.state.transaction.transfer_proof} target="_blank" rel="noopener noreferrer">
+                                    <img src={URL_API + 'files/transfer/' + this.state.transaction.transfer_proof} alt={this.state.transaction.transaction_id} width="150"/>
+                                </a>
+                            </div>
+                            <div className="col-10">
+                                <div>Bank Name: {this.state.transaction.transfer_bank_name}</div>
+                                <div>Account Holder Name: {this.state.transaction.transfer_account_holder}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -176,23 +196,7 @@ class Invoice extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                {this.renderUpload()}
-                                {
-                                    this.state.bankName === 'BCA' ?
-                                    <div className="col-8">
-                                        <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
-                                        <div>Cravelio BCA Account Number</div>
-                                        <div>6123456789</div>
-                                    </div>
-                                    :
-                                    <div className="col-8">
-                                        <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
-                                        <div>Cravelio Mandiri Account Number</div>
-                                        <div>5123456789</div>
-                                    </div>
-                                }
-                            </div>
+                            {this.renderUpload()}
                             <div className="row row-bottom">
                                 <div className="col-3 ml-auto">
                                     {this.renderButton()}

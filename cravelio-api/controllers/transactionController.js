@@ -8,17 +8,19 @@ module.exports = {
         JOIN transactions_detail AS td ON tr.transaction_id = td.transaction_id`
 
         if (req.params.id) {
-            sql = `${sql} WHERE tr.transaction_id = ${req.params.id}`
+            sql += ` WHERE tr.transaction_id = ${req.params.id}`
         }
         if (req.query.status) {
-            sql = `${sql} WHERE tr.status = '${req.query.status}'`
+            sql += ` WHERE tr.status = '${req.query.status}'`
         }
         if (req.query.year) {
-            sql = `${sql} WHERE year(tr.created_at) = ${req.query.year}`
+            sql += ` WHERE year(tr.created_at) = ${req.query.year}`
         }
         if (req.query.user_id) {
-            sql = `${sql} WHERE tr.user_id = ${req.query.user_id}`
+            sql += ` WHERE tr.user_id = ${req.query.user_id}`
         }
+
+        sql += ` ORDER BY tr.created_at DESC`
 
         db.query(sql, (err,result) => {
             if (err) throw err
@@ -56,6 +58,7 @@ module.exports = {
                         transfer_bank_name: result[0].transfer_bank_name,
                         transfer_account_holder: result[0].transfer_account_holder,
                         transfer_proof: result[0].transfer_proof,
+                        has_review: result[0].has_review,
                         created_at: result[0].created_at
                     })
                     iterator++
@@ -99,6 +102,7 @@ module.exports = {
                         transfer_bank_name: result[i].transfer_bank_name,
                         transfer_account_holder: result[i].transfer_account_holder,
                         transfer_proof: result[i].transfer_proof,
+                        has_review: result[i].has_review,
                         created_at: result[i].created_at
                     })
                     iterator++
@@ -124,12 +128,12 @@ module.exports = {
         db.query(
             `INSERT INTO transactions (trip_id, trip_name, trip_price, start_date, end_date,
             user_id, contact_first_name, contact_last_name, contact_phone_number, contact_email,
-            pax, promo_code, promo_percentage, promo_value, total_payment, status, created_at)
+            pax, promo_code, promo_percentage, promo_value, total_payment, status, has_review, created_at)
             VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price},'${req.body.start_date}', '${req.body.end_date}',
             ${req.body.user_id}, '${req.body.contact_first_name}', '${req.body.contact_last_name}',
             '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},
-            '${req.body.status}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
+            '${req.body.status}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
             
             if (err) throw err
             res.send({

@@ -12,6 +12,7 @@ import ResetPassword from './pages/main/ResetPassword'
 import EditProfile from './pages/main/EditProfile'
 import Wishlist from './pages/main/Wishlist'
 import OrderHistory from './pages/main/OrderHistory'
+import Review from './pages/main/Review'
 import TripDetail from './pages/main/TripDetail'
 import Checkout from './pages/main/Checkout'
 import Confirmation from './pages/main/Confirmation'
@@ -67,6 +68,7 @@ class App extends Component {
                         <Route path='/edit-profile' component={EditProfile}/>
                         <Route path='/wishlist' component={Wishlist}/>
                         <Route path='/order-history' component={OrderHistory}/>
+                        <Route path='/review' component={Review}/>
                         <Route path='/trip' component={TripDetail}/>
                         <Route path='/checkout' component={Checkout}/>
                         <Route path='/confirmation' component={Confirmation}/>

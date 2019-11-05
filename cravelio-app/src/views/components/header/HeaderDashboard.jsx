@@ -43,84 +43,27 @@ class Header extends Component {
                 </Nav>
             )
         } else {
-            if (this.props.role === 'admin') {
-                return (
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <Link className="nav-link" to="/dashboard">Admin Dashboard</Link>
-                        </NavItem>
-                        <UncontrolledDropdown nav inNavbar>
-                            <DropdownToggle nav caret className="navbar-dropdown">
-                            <div className="d-inline-block">
-                                {`Hello, ${this.props.firstName}`}
+            return (
+                <Nav className="ml-auto" navbar>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret className="navbar-dropdown">
+                        <div className="d-inline-block">
+                            {`Hello, ${this.props.firstName}`}
+                        </div>
+                        </DropdownToggle>
+                        <DropdownMenu right>
+                            <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
+                                <div>{this.props.firstName} {this.props.lastName}</div>
+                                <div style={{fontSize: "14px"}}>({this.props.email})</div>
                             </div>
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
-                                    <div>{this.props.firstName} {this.props.lastName}</div>
-                                    <div style={{fontSize: "14px"}}>({this.props.email})</div>
-                                </div>
-                                <DropdownItem divider />
-                                <Link to="/edit-profile">
-                                    <DropdownItem className="text-light-dark">
-                                        Edit Profile
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/wishlist">
-                                    <DropdownItem className="text-light-dark">
-                                        Wishlist
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/order-history">
-                                    <DropdownItem className="text-light-dark">
-                                        Order History
-                                    </DropdownItem>
-                                </Link>
-                                <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
-                                    Logout
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                    </Nav>
-                )
-            } else {
-                return (
-                    <Nav className="ml-auto" navbar>
-                        <UncontrolledDropdown nav inNavbar>
-                            <DropdownToggle nav caret className="navbar-dropdown">
-                            <div className="d-inline-block">
-                                {`Hello, ${this.props.firstName}`}
-                            </div>
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
-                                    <div>{this.props.firstName} {this.props.lastName}</div>
-                                    <div style={{fontSize: "14px"}}>({this.props.email})</div>
-                                </div>
-                                <DropdownItem divider />
-                                <Link to="/edit-profile">
-                                    <DropdownItem className="text-light-dark">
-                                        Edit Profile
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/wishlist">
-                                    <DropdownItem className="text-light-dark">
-                                        Wishlist
-                                    </DropdownItem>
-                                </Link>
-                                <Link to="/order-history">
-                                    <DropdownItem className="text-light-dark">
-                                        Order History
-                                    </DropdownItem>
-                                </Link>
-                                <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
-                                    Logout
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                    </Nav>
-                )
-            }
+                            <DropdownItem divider />
+                            <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
+                                Logout
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </Nav>
+            )
         }
     }
 
