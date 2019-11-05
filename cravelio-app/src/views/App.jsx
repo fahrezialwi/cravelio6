@@ -29,6 +29,7 @@ import TermsConditions from './pages/footer/TermsConditions'
 import Dashboard from './pages/dashboard/Dashboard'
 import NotFound from './pages/main/NotFound'
 import ScrollToTop from './components/general/ScrollToTop'
+import crispChat from '../helpers/crispChat'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/global.css'
 
@@ -41,6 +42,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        crispChat()
         const cookie = new Cookies()
         let userCookie = cookie.get('userData')
         

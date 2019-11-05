@@ -3,13 +3,13 @@
 # dependencies
 /node_modules
 
-# database setting
+# database config
 /database
 
 # uploaded images
 /uploads
 
-# configs
+# password
 emailSecretKey.js
 mailPassword.js
 
