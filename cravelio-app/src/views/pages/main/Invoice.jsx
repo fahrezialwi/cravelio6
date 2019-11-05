@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { onSubmitProof } from '../../actions/booking'
+import { onSubmitProof } from '../../../actions/booking'
 import axios from 'axios'
 import moment from 'moment'
-import formatCurrency from '../../helpers/formatCurrency'
-import URL_API from '../../configs/urlAPI'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import formatCurrency from '../../../helpers/formatCurrency'
+import URL_API from '../../../configs/urlAPI'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
 class Invoice extends Component {
 
@@ -21,7 +21,7 @@ class Invoice extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTransactionData()
     }
 
@@ -49,8 +49,8 @@ class Invoice extends Component {
     }
 
     renderUpload = () => {
-        if(!this.state.transaction.transfer_proof){
-            if(this.state.transaction.status === "Cancelled"){
+        if (!this.state.transaction.transfer_proof) {
+            if (this.state.transaction.status === "Cancelled") {
                 return (
                     <div className="col-12">
                         <p>Transaction cancelled.</p>
@@ -92,8 +92,8 @@ class Invoice extends Component {
     }
 
     renderButton = () => {
-        if(!this.state.transaction.transfer_proof){
-            if(this.state.transaction.status === "Cancelled"){
+        if (!this.state.transaction.transfer_proof) {
+            if (this.state.transaction.status === "Cancelled") {
                 return null
             } else {
                 return (
@@ -106,8 +106,8 @@ class Invoice extends Component {
     }
 
     onSubmitButton = () => {
-        if(this.state.accountHolderName){
-            if (this.state.transferProof){
+        if (this.state.accountHolderName) {
+            if (this.state.transferProof) {
                 let fd = new FormData()
                 let data = {
                     transfer_bank_name: this.state.bankName,
@@ -137,8 +137,8 @@ class Invoice extends Component {
     }
 
     render() {
-        if(this.state.transaction){
-            if(this.props.userId === this.state.transaction.user_id){
+        if (this.state.transaction) {
+            if (this.props.userId === this.state.transaction.user_id) {
                 return (
                     <div>
                         <Header/>

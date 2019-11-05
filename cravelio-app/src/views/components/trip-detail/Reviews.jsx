@@ -13,10 +13,10 @@ class Reviews extends Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getReviewsData()
     }
 
-    getData = () => {
+    getReviewsData = () => {
         axios.get(
             URL_API + 'reviews', {
                 params: {
@@ -34,7 +34,7 @@ class Reviews extends Component {
             })
 
             let averageResult = average(arrReview)
-            if(isNaN(averageResult)){
+            if (isNaN(averageResult)) {
                 averageResult = 0
             }
 
@@ -44,12 +44,12 @@ class Reviews extends Component {
 
     pictureList = (pictures) => {
         return pictures.map((picture, index) => {
-            if (picture === null){
+            if (picture === null) {
                 return null
             } else {
                 return (
                     <a href={picture} key={index} target="_blank" rel="noopener noreferrer">
-                        <img src={picture} className="mr-3" width="100" alt={index}/>
+                        <img src={URL_API + 'files/review/' + picture} className="mr-3" width="100" alt={index}/>
                     </a>
                 )
             }
@@ -57,7 +57,7 @@ class Reviews extends Component {
     }
 
     reviewList = () => {
-        if(this.state.reviews.length > 0){
+        if (this.state.reviews.length > 0) {
             return this.state.reviews.map(review => {
                 return (
                     <div className="col-12" key={review.review_id}>

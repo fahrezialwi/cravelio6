@@ -21,7 +21,7 @@ class Detail extends Component {
                     <div className="col-12 mt-1">
                         <div className="row">
                             <div className="col-3 pr-0 text-bold">Quota</div>
-                            <div className="col-9 pl-0">{this.props.trip.quota} person</div>
+                            <div className="col-9 pl-0">{this.props.trip.quota} pax</div>
                         </div>
                     </div>               
                 </div>

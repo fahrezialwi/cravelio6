@@ -17,7 +17,7 @@ import '../../styles/dashboard.css'
 class Dashboard extends Component {
 
     render() {
-        if(this.props.role === 'admin'){
+        if (this.props.role === 'admin') {
             return (
                 <div>
                     <HeaderDashboard/>

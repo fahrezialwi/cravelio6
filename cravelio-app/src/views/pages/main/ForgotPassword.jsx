@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import URL_API from '../../configs/urlAPI'
-import '../styles/login.css'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import '../../styles/login.css'
 
 class ForgotPassword extends Component {
 
@@ -18,7 +18,7 @@ class ForgotPassword extends Component {
     
     onSendClick = (e) => {
         e.preventDefault()
-        if(this.state.email){
+        if (this.state.email) {
             axios.post(
                 URL_API + 'send-password-link', {
                     email: this.state.email
@@ -32,7 +32,7 @@ class ForgotPassword extends Component {
     }
 
     render() {
-        if(!this.props.userId){
+        if (!this.props.userId) {
             return (
                 <div>
                     <Header/>

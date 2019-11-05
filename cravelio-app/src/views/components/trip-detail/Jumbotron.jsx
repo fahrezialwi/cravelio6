@@ -44,7 +44,7 @@ class Pictures extends Component {
     }
 
     render() {
-        if(this.state.pictures){
+        if (this.state.pictures) {
             return (
                 <div className="main-image">
                     <div onClick={() => this.props.favoriteClick()} className={"favorite" + (this.props.favorite ? ' favorite-selected' : '')}>Favorite</div>

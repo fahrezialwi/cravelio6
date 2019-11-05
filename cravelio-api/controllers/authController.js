@@ -19,15 +19,15 @@ let transporter = nodemailer.createTransport({
 module.exports = {
     getUsers: (req, res) => {
         let sql = `select * from users`
-        if (req.params.id){
+        if (req.params.id) {
             sql = `${sql} where user_id = ${req.params.id}`
         }
-        if (req.query.email){
+        if (req.query.email) {
             sql = `${sql} where email = '${req.query.email}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err
-            if (result.length > 0){
+            if (result.length > 0) {
                 res.send({
                     status: 200,
                     results: result
@@ -61,7 +61,7 @@ module.exports = {
         db.query(`select * from users where email = '${req.query.email}' and password = '${req.query.password}'`, (err, result) => {
 
             if (err) throw err
-            if (result.length > 0){
+            if (result.length > 0) {
                 res.send({
                     status: 200,
                     results: result
@@ -81,19 +81,19 @@ module.exports = {
         last_name = '${req.body.last_name}', email = '${req.body.email}',
         password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'`
 
-        if(req.body.profile_picture){
+        if (req.body.profile_picture) {
             sql += ` profile_picture = '${req.body.profile_picture}',`
         }
 
-        if(req.body.birth_date){
+        if (req.body.birth_date) {
             sql += ` birth_date = '${req.body.birth_date}',`
         }
 
-        if(req.body.address){
+        if (req.body.address) {
             sql += ` address = '${req.body.address}',`
         }
 
-        if(req.body.phone_number){
+        if (req.body.phone_number) {
             sql += ` phone_number = '${req.body.phone_number}',`
         }
 
@@ -102,7 +102,7 @@ module.exports = {
 
         db.query(sql, (err, result) => {
             if (err) throw err
-            if (result.length > 0){
+            if (result.length > 0) {
                 res.send({
                     status: 200,
                     results: result
@@ -145,7 +145,7 @@ module.exports = {
         let token = req.query.token
         let data = jwt.verify(token, emailSecretKey)
         
-        if(new Date(data.expiry) > new Date()){
+        if (new Date(data.expiry) > new Date()) {
             res.send({
                 status: 200,
                 message: 'Link is active'
@@ -196,7 +196,7 @@ module.exports = {
         let token = req.query.token
         let data = jwt.verify(token, emailSecretKey)
         
-        if(new Date(data.expiry) > new Date()){
+        if (new Date(data.expiry) > new Date()) {
             res.send({
                 status: 200,
                 message: 'Link is active'
@@ -216,7 +216,7 @@ module.exports = {
         db.query(`update users set password = '${req.body.password}' where email = '${data.email}'`, (err, result) => {
 
             if (err) throw err
-            if (result.length > 0){
+            if (result.length > 0) {
                 res.send({
                     status: 200,
                     results: result

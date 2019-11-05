@@ -8,7 +8,7 @@ let multerStorageConfig =  multer.diskStorage({
     },
 
     filename: (req, file, cb) => {
-        if(file.mimetype.split('/')[1] == 'jpeg'){
+        if (file.mimetype.split('/')[1] == 'jpeg') {
             cb(null, `${moment(Date.now()).format("YYYYMMDDHHmmss")}-${crypto.randomBytes(8).toString("hex")}.jpg`)
         } else {
             cb(null, `${moment(Date.now()).format("YYYYMMDDHHmmss")}-${crypto.randomBytes(8).toString("hex")}.${file.mimetype.split('/')[1]}`)
@@ -17,7 +17,7 @@ let multerStorageConfig =  multer.diskStorage({
 })
 
 let fileFilterConfig = (req, file, cb) => {
-    if (file.mimetype.split('/')[1] == 'jpeg' || file.mimetype.split('/')[1] == 'png'){
+    if (file.mimetype.split('/')[1] == 'jpeg' || file.mimetype.split('/')[1] == 'png') {
         cb(null, true)
     } else {
         req.validation = {

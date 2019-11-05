@@ -3,10 +3,10 @@ import axios from 'axios'
 import querystring from 'query-string'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import URL_API from '../../configs/urlAPI'
-import '../styles/login.css'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import '../../styles/login.css'
 
 class VerifyAccount extends Component {
 
@@ -29,7 +29,7 @@ class VerifyAccount extends Component {
                 }
             }
         ).then(res => {
-            if(res.data.status === 404) {
+            if (res.data.status === 404) {
                 this.setState({
                     expired: true
                 })
@@ -44,8 +44,8 @@ class VerifyAccount extends Component {
     }
 
     render() {
-          if(!this.state.expired){
-            if(!this.props.userId){
+          if (!this.state.expired) {
+            if (!this.props.userId) {
                 return (
                     <div>
                         <Header/>

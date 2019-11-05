@@ -105,7 +105,7 @@ class EditTrip extends Component {
     }
 
     onDeleteClick = (pictureId, pictureLink) => {
-        if(this.state.pictures.length > 5){
+        if (this.state.pictures.length > 5) {
             axios.delete(
                 URL_API + `pictures/${pictureId}`,{
                     data: {
@@ -122,7 +122,7 @@ class EditTrip extends Component {
     }
 
     onSaveClick = () => {
-        if(this.state.pictures.length >= 5){
+        if (this.state.pictures.length >= 5) {
             axios.patch(
                 URL_API + `trips/${this.state.tripId}`, {
                     path: this.state.path,

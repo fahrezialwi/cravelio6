@@ -21,19 +21,20 @@ import '../../styles/sidebar.css'
 class Sidebar extends Component {
 
     scheduleList = () => {
-        if(this.props.trip.schedules[0].schedule_id){
-            return this.props.trip.schedules.map(schedule => {
+        if (this.props.schedule.length > 0) {
+            return this.props.schedule.map(schedule => {
                 return (
                     <div key={schedule.schedule_id}>
                         <input 
                             type="radio"
                             className="mr-2"
                             name="date"
-                            onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date)}
+                            onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date, schedule.quota_left)}
                             id={schedule.schedule_id}
                         />
                         <label className="mb-0" htmlFor={schedule.schedule_id}>
-                            {moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}
+                            {moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}<br/>
+                            ({schedule.quota_left} pax left)
                         </label>
                     </div>
                 )
@@ -62,12 +63,17 @@ class Sidebar extends Component {
                             {this.scheduleList()}
                         </div>
                     </div>
-                    <div className="row mb-3">
-                        <div className="col-12">
-                            <h6>Pax</h6>
-                            <input type="number" className="form-control" defaultValue="1" min="1" onChange={e => this.props.pax(parseInt(e.target.value))}/>
+                    {
+                        this.props.date ?
+                        <div className="row mb-3">
+                            <div className="col-12">
+                                <h6>Pax</h6>
+                                <input type="number" className="form-control" defaultValue="1" min="1" max={this.props.quotaLeft} onChange={e => this.props.pax(parseInt(e.target.value))}/>
+                            </div>
                         </div>
-                    </div>
+                        :
+                        null
+                    }
                     <div className="row">
                         <div className="col-12">
                             <button onClick={() => this.props.bookClick()} className="btn btn-dark btn-block" disabled={!this.props.date}>Book</button>

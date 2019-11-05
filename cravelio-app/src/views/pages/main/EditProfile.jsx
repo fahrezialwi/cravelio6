@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
-import URL_API from '../../configs/urlAPI'
-import encrypt from '../../helpers/crypto'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import encrypt from '../../../helpers/crypto'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
 class EditProfile extends Component {
 
@@ -47,8 +47,8 @@ class EditProfile extends Component {
     }
 
     onEditClick = () => {
-        if(this.state.firstName && this.state.lastName && this.state.email && this.state.password){
-            if(this.state.password === this.state.repeatPassword){
+        if (this.state.firstName && this.state.lastName && this.state.email && this.state.password) {
+            if (this.state.password === this.state.repeatPassword) {
                 axios.put(
                     URL_API + `users/${this.props.userId}`, {
                         profile_picture: this.state.profilePicture,
@@ -80,7 +80,7 @@ class EditProfile extends Component {
     }
 
     render() {
-        if(this.props.userId){
+        if (this.props.userId) {
             return (
                 <div>
                     <Header/>

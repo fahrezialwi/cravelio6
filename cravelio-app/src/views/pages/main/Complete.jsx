@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { onClearProof } from '../../actions/booking'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import { onClearProof } from '../../../actions/booking'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
 class Complete extends Component {
 
@@ -13,7 +13,7 @@ class Complete extends Component {
     }
 
     render() {
-        if(this.props.transferProof){
+        if (this.props.transferProof) {
             return (
                 <div>
                     <Header/>

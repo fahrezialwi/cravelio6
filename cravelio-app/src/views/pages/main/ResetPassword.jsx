@@ -3,11 +3,11 @@ import axios from 'axios'
 import querystring from 'query-string'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import URL_API from '../../configs/urlAPI'
-import encryptPassword from '../../helpers/crypto'
-import '../styles/login.css'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import encryptPassword from '../../../helpers/crypto'
+import '../../styles/login.css'
 
 class ResetPassword extends Component {
 
@@ -32,7 +32,7 @@ class ResetPassword extends Component {
                 }
             }
         ).then(res => {
-            if(res.data.status === 404) {
+            if (res.data.status === 404) {
                 this.setState({
                     expired: true
                 })
@@ -42,7 +42,7 @@ class ResetPassword extends Component {
 
     onResetClick = (e) => {
         e.preventDefault()
-        if(this.state.password ===  this.state.repeatPassword){
+        if (this.state.password ===  this.state.repeatPassword) {
             axios.patch(
                 URL_API + 'reset-password', {
                     token: querystring.parse(this.props.location.search).key,
@@ -58,8 +58,8 @@ class ResetPassword extends Component {
     }
 
     render() {
-          if(!this.state.expired){
-            if(!this.props.userId){
+          if (!this.state.expired) {
+            if (!this.props.userId) {
                 return (
                     <div>
                         <Header/>

@@ -3,15 +3,15 @@ const db = require('../database')
 module.exports = {
     getPromos: (req, res) => {
         let sql = `select * from promos`
-        if (req.params.id){
+        if (req.params.id) {
             sql = `${sql} where user_id = ${req.params.id}`
         }
-        if (req.query.promo_code){
+        if (req.query.promo_code) {
             sql = `${sql} where promo_code = '${req.query.promo_code}'`
         }
         db.query(sql, (err, result) => {
             if (err) throw err
-            if (result.length > 0){
+            if (result.length > 0) {
                 res.send({
                     status: 200,
                     results: result

@@ -31,7 +31,7 @@ class Header extends Component {
     }
 
     userMenu = () => {
-        if(!this.props.userId){
+        if (!this.props.userId) {
             return (
                 <Nav className="ml-auto" navbar>
                     <NavItem>
@@ -43,7 +43,7 @@ class Header extends Component {
                 </Nav>
             )
         } else {
-            if(this.props.role === 'admin'){
+            if (this.props.role === 'admin') {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>

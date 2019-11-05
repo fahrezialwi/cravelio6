@@ -19,7 +19,7 @@ class Schedules extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getSchedulesData()
         this.getTripsData()
     }
@@ -68,21 +68,6 @@ class Schedules extends Component {
         return (
             <div className="row row-top">
                 <div className="col-12 mb-5">
-                    <ExampleControlSlot.Entry waitForOutlet>
-                    </ExampleControlSlot.Entry>
-                    <Calendar
-                        popup
-                        defaultDate={new Date()}
-                        defaultView="month"
-                        views={["month", "agenda"]}
-                        showMultiDayTimes={true} 
-                        events={this.state.events}
-                        localizer={localizer}
-                        resizable
-                        style={{height: "100vh"}}
-                    />
-                </div>
-                <div className="col-12 mb-5">
                     <h5>Edit Schedule</h5>
                     <div className="input-group">
                         <select
@@ -96,6 +81,22 @@ class Schedules extends Component {
                             <button onClick={() => this.onEditClick(this.state.selectedTrip)} className="btn btn-dark">Edit</button>
                         </div>
                     </div>
+                </div>
+                <div className="col-12 mb-5">
+                    <h5>All Schedules</h5>
+                    <ExampleControlSlot.Entry waitForOutlet>
+                    </ExampleControlSlot.Entry>
+                    <Calendar
+                        popup
+                        defaultDate={new Date()}
+                        defaultView="month"
+                        views={["month", "agenda"]}
+                        showMultiDayTimes={true} 
+                        events={this.state.events}
+                        localizer={localizer}
+                        resizable
+                        style={{height: "100vh"}}
+                    />
                 </div>
             </div>
         )

@@ -19,7 +19,7 @@ class Overview extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getAllTransactions()
         this.getDataPerYear(new Date().getFullYear())
     }
@@ -37,8 +37,8 @@ class Overview extends Component {
     yearList = () => {
         let arrYear = []
         let data = this.state.allTransactions
-        for (let i = 0 ; i < data.length ; i++){
-            if (!arrYear.includes(new Date(data[i].created_at).getFullYear())){
+        for (let i = 0 ; i < data.length ; i++) {
+            if (!arrYear.includes(new Date(data[i].created_at).getFullYear())) {
                 arrYear.push(new Date(data[i].created_at).getFullYear())
             }
         }
@@ -97,7 +97,7 @@ class Overview extends Component {
         let month = transactionsData.map(val => {
             return new Date(val.created_at).getMonth()
         })
-        for (let i = 0; i < 12; i++){
+        for (let i = 0; i < 12; i++) {
             arrMonth[i] = month.filter((val) => (val === i)).length
         }
         transactionVolumeData.datasets[0].data = arrMonth
@@ -125,15 +125,15 @@ class Overview extends Component {
         })
 
         let arr = []
-        for (let i = 0 ; i < trip.length ; i++){
+        for (let i = 0 ; i < trip.length ; i++) {
             let flag = 0
-            for (let j = 0 ; j < arr.length ; j++){
-                if (arr[j].tripName.includes(trip[i])){
+            for (let j = 0 ; j < arr.length ; j++) {
+                if (arr[j].tripName.includes(trip[i])) {
                     arr[j].value += 1
                     flag = 1
                 }
             }
-            if(flag === 0){
+            if (flag === 0) {
                 arr.push({tripName: trip[i], value: 1}) 
             }
         }
@@ -171,15 +171,15 @@ class Overview extends Component {
         })
 
         let arr2 = []
-        for (let i = 0 ; i < trip2.length ; i++){
+        for (let i = 0 ; i < trip2.length ; i++) {
             let flag = 0
-            for (let j = 0 ; j < arr2.length ; j++){
-                if (arr2[j].tripName.includes(trip2[i])){
+            for (let j = 0 ; j < arr2.length ; j++) {
+                if (arr2[j].tripName.includes(trip2[i])) {
                     arr2[j].value += 1
                     flag = 1
                 }
             }
-            if(flag === 0){
+            if (flag === 0) {
                 arr2.push({tripName: trip2[i], value: 1}) 
             }
         }

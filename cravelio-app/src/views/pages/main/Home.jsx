@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import TripItem from '../components/trip-item/TripItem'
-import URL_API from '../../configs/urlAPI'
-import '../styles/home.css'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import TripItem from '../../components/trip-item/TripItem'
+import URL_API from '../../../configs/urlAPI'
+import '../../styles/home.css'
 
 class Home extends Component {
 

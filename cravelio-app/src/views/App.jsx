@@ -3,21 +3,21 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from  'react-redux'
 import { keepLogin } from '../actions/auth'
 import Cookies from 'universal-cookie'
-import Home from './pages/Home'
-import Register from './pages/Register'
-import Login from './pages/Login'
-import VerifyAccount from './pages/VerifyAccount'
-import ForgotPassword from './pages/ForgotPassword'
-import ResetPassword from './pages/ResetPassword'
-import EditProfile from './pages/EditProfile'
-import Wishlist from './pages/Wishlist'
-import OrderHistory from './pages/OrderHistory'
-import TripDetail from './pages/TripDetail'
-import Checkout from './pages/Checkout'
-import Confirmation from './pages/Confirmation'
-import Invoice from './pages/Invoice'
-import Complete from './pages/Complete'
-import ContactUs from './pages/ContactUs'
+import Home from './pages/main/Home'
+import Register from './pages/main/Register'
+import Login from './pages/main/Login'
+import VerifyAccount from './pages/main/VerifyAccount'
+import ForgotPassword from './pages/main/ForgotPassword'
+import ResetPassword from './pages/main/ResetPassword'
+import EditProfile from './pages/main/EditProfile'
+import Wishlist from './pages/main/Wishlist'
+import OrderHistory from './pages/main/OrderHistory'
+import TripDetail from './pages/main/TripDetail'
+import Checkout from './pages/main/Checkout'
+import Confirmation from './pages/main/Confirmation'
+import Invoice from './pages/main/Invoice'
+import Complete from './pages/main/Complete'
+import ContactUs from './pages/footer/ContactUs'
 import HowToBook from './pages/footer/HowToBook'
 import HelpCenter from './pages/footer/HelpCenter'
 import Careers from './pages/footer/Careers'
@@ -27,7 +27,7 @@ import PrivateTrip from './pages/footer/PrivateTrip'
 import PrivacyPolicy from './pages/footer/PrivacyPolicy'
 import TermsConditions from './pages/footer/TermsConditions'
 import Dashboard from './pages/dashboard/Dashboard'
-import NotFound from './pages/NotFound'
+import NotFound from './pages/main/NotFound'
 import ScrollToTop from './components/general/ScrollToTop'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/global.css'
@@ -44,14 +44,14 @@ class App extends Component {
         const cookie = new Cookies()
         let userCookie = cookie.get('userData')
         
-        if(userCookie){
+        if (userCookie) {
             this.props.keepLogin(userCookie)
         }
         this.setState({check: true})
     }
 
     render() {
-        if(this.state.check){
+        if (this.state.check) {
             return (
                 <BrowserRouter>
                     <ScrollToTop/>

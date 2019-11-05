@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { onCheckout } from '../../actions/booking'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import { onCheckout } from '../../../actions/booking'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 import axios from 'axios'
 import moment from 'moment'
-import URL_API from '../../configs/urlAPI'
-import formatCurrency from '../../helpers/formatCurrency'
-import '../styles/checkout.css'
+import URL_API from '../../../configs/urlAPI'
+import formatCurrency from '../../../helpers/formatCurrency'
+import '../../styles/checkout.css'
 
 class Checkout extends Component {
 
@@ -39,43 +39,43 @@ class Checkout extends Component {
             email: this.props.email
         })
 
-        if(this.props.phoneNumber){
+        if (this.props.phoneNumber) {
             this.setState({
                 phoneNumber: this.props.phoneNumber
             }) 
         }
 
-        if(this.props.contactFirstName){
+        if (this.props.contactFirstName) {
             this.setState({
                 firstName: this.props.contactFirstName
             }) 
         }
 
-        if(this.props.contactLastName){
+        if (this.props.contactLastName) {
             this.setState({
                 lastName: this.props.contactLastName
             }) 
         }
 
-        if(this.props.contactPhoneNumber){
+        if (this.props.contactPhoneNumber) {
             this.setState({
                 phoneNumber: this.props.contactPhoneNumber
             }) 
         }
 
-        if(this.props.contactEmail){
+        if (this.props.contactEmail) {
             this.setState({
                 email: this.props.contactEmail
             }) 
         }
 
-        if(this.props.participants){
+        if (this.props.participants) {
             this.setState({
                 participants: this.props.participants
             }) 
         }
 
-        if(this.props.promoCode){
+        if (this.props.promoCode) {
             this.setState({
                 promoCode: this.props.promoCode,
                 promoCodeInput: this.props.promoCodeInput,
@@ -126,8 +126,8 @@ class Checkout extends Component {
 
     renderParticipants = () => {
         let participants = []
-        if(this.props.participants){
-            for (let i = 1 ; i <= this.props.pax ; i++){
+        if (this.props.participants) {
+            for (let i = 1 ; i <= this.props.pax ; i++) {
                 participants.push(
                     <div className="row mb-3" key={i}>
                         <div className="col-12 mb-3">
@@ -234,7 +234,7 @@ class Checkout extends Component {
                 )
             }
         } else {
-            for (let i = 1 ; i <= this.props.pax ; i++){
+            for (let i = 1 ; i <= this.props.pax ; i++) {
                 participants.push(
                     <div className="row mb-3" key={i}>
                         <div className="col-12 mb-3">
@@ -379,7 +379,7 @@ class Checkout extends Component {
     }
 
     renderPromoList = () => {
-        if(this.state.promoValue){
+        if (this.state.promoValue) {
             return (
                 <li className="list-group-item">
                     <div className="row">
@@ -420,7 +420,7 @@ class Checkout extends Component {
     }
 
     checkPromo = () => {
-        if(this.state.promoCodeInput){
+        if (this.state.promoCodeInput) {
             axios.get(
                 URL_API + 'promos', {
                     params: {
@@ -428,7 +428,7 @@ class Checkout extends Component {
                     }
                 }
             ).then(res => {
-                if (res.data.results[0] === undefined){
+                if (res.data.results[0] === undefined) {
                     this.setState({
                         promoPercentage: 0,
                         promoValue: 0,
@@ -440,7 +440,7 @@ class Checkout extends Component {
                             promoMessage: ''
                         }) 
                     }, 3000)
-                } else if (res.data.results[0]){
+                } else if (res.data.results[0]) {
                     this.setState({
                         promoCode: res.data.results[0].promo_code,
                         promoPercentage: res.data.results[0].promo_discount,
@@ -470,51 +470,51 @@ class Checkout extends Component {
 
         // Contact Details
         // First Name
-        if(!this.state.firstName){
+        if (!this.state.firstName) {
             formIsValid = false
             contactDetailsError["firstName"] = "Field cannot be empty"
         }
 
-        if(this.state.firstName.length !== 0){
-            if(!this.state.firstName.match(/^[a-zA-Z.-]+$/)){
+        if (this.state.firstName.length !== 0) {
+            if (!this.state.firstName.match(/^[a-zA-Z.-]+$/)) {
                 formIsValid = false
                 contactDetailsError["firstName"] = "Only letters allowed"
             }
         }
 
         // Last Name
-        if(!this.state.lastName){
+        if (!this.state.lastName) {
             formIsValid = false
             contactDetailsError["lastName"] = "Field cannot be empty"
         }
 
-        if(this.state.lastName.length !== 0){
-            if(!this.state.lastName.match(/^[a-zA-Z.-]+$/)){
+        if (this.state.lastName.length !== 0) {
+            if (!this.state.lastName.match(/^[a-zA-Z.-]+$/)) {
                 formIsValid = false
                 contactDetailsError["lastName"] = "Only letters allowed"
             }
         }
 
         // Phone Number
-        if(!this.state.phoneNumber){
+        if (!this.state.phoneNumber) {
             formIsValid = false
             contactDetailsError["phoneNumber"] = "Field cannot be empty"
         }
 
-        if(this.state.phoneNumber.length !== 0){
-            if(!this.state.phoneNumber.match(/^[0-9+]+$/)){
+        if (this.state.phoneNumber.length !== 0) {
+            if (!this.state.phoneNumber.match(/^[0-9+]+$/)) {
                 formIsValid = false
                 contactDetailsError["phoneNumber"] = "Only numbers allowed"
             }
         }
 
         // Email
-        if(!this.state.email){
+        if (!this.state.email) {
             formIsValid = false
             contactDetailsError["email"] = "Field cannot be empty"
         }
  
-        if(this.state.email.length !== 0){
+        if (this.state.email.length !== 0) {
             let lastAtPos = this.state.email.lastIndexOf('@')
             let lastDotPos = this.state.email.lastIndexOf('.')
  
@@ -525,53 +525,53 @@ class Checkout extends Component {
         }
 
         // Participants
-        for (let i = 1 ; i <= this.props.pax ; i++){
+        for (let i = 1 ; i <= this.props.pax ; i++) {
             // Title
-            if(!fields[`title${i}`]){
+            if (!fields[`title${i}`]) {
                 formIsValid = false
                 participantsError[`title${i}`] = "Please select title"
             }
 
             // First Name
-            if(!fields[`firstName${i}`]){
+            if (!fields[`firstName${i}`]) {
                 formIsValid = false
                 participantsError[`firstName${i}`] = "Field cannot be empty"
             }
 
-            if(typeof fields[`firstName${i}`] !== "undefined"){
-                if(!fields[`firstName${i}`].match(/^[a-zA-Z.-]+$/)){
+            if (typeof fields[`firstName${i}`] !== "undefined") {
+                if (!fields[`firstName${i}`].match(/^[a-zA-Z.-]+$/)) {
                     formIsValid = false
                     participantsError[`firstName${i}`] = "Only letters allowed"
                 }
             }
 
             // Last Name
-            if(!fields[`lastName${i}`]){
+            if (!fields[`lastName${i}`]) {
                 formIsValid = false
                 participantsError[`lastName${i}`] = "Field cannot be empty"
             }
 
-            if(typeof fields[`lastName${i}`] !== "undefined"){
-                if(!fields[`lastName${i}`].match(/^[a-zA-Z.-]+$/)){
+            if (typeof fields[`lastName${i}`] !== "undefined") {
+                if (!fields[`lastName${i}`].match(/^[a-zA-Z.-]+$/)) {
                     formIsValid = false
                     participantsError[`lastName${i}`] = "Only letters allowed"
                 }
             }
 
             // ID Type
-            if(!fields[`idType${i}`]){
+            if (!fields[`idType${i}`]) {
                 formIsValid = false
                 participantsError[`idType${i}`] = "Please select ID type"
             }
 
             // ID Number
-            if(!fields[`idNumber${i}`]){
+            if (!fields[`idNumber${i}`]) {
                 formIsValid = false
                 participantsError[`idNumber${i}`] = "Field cannot be empty"
             }
 
-            if(typeof fields[`idNumber${i}`] !== "undefined"){
-                if(!fields[`idNumber${i}`].match(/^[0-9]+$/)){
+            if (typeof fields[`idNumber${i}`] !== "undefined") {
+                if (!fields[`idNumber${i}`].match(/^[0-9]+$/)) {
                     formIsValid = false
                     participantsError[`idNumber${i}`] = "Only numbers allowed"
                 }
@@ -586,7 +586,7 @@ class Checkout extends Component {
     }
 
     checkAllData = () => {
-        if(this.validationHandler()) {
+        if (this.validationHandler()) {
             this.props.onCheckout(
                 this.state.firstName,
                 this.state.lastName,
@@ -604,7 +604,7 @@ class Checkout extends Component {
     }
 
     render() {
-        if(this.props.userId && this.props.tripName){
+        if (this.props.userId && this.props.tripName) {
             return (
                 <div>
                     <Header/>

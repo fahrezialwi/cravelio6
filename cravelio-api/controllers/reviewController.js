@@ -7,13 +7,13 @@ module.exports = {
         join users on reviews.user_id = users.user_id
         left join reviews_picture on reviews.review_id = reviews_picture.review_id`
 
-        if (req.params.id){
+        if (req.params.id) {
             sql = `${sql} where reviews.review_id = ${req.params.id}`
         }
-        if (req.query.trip_id){
+        if (req.query.trip_id) {
             sql = `${sql} where trip_id = ${req.query.trip_id}`
         }
-        if (req.query.user_id){
+        if (req.query.user_id) {
             sql = `${sql} where reviews.user_id = ${req.query.user_id}`
         }
 
@@ -24,7 +24,7 @@ module.exports = {
             let iterator = 0
 
             for (let i = 0; i < result.length; i++) {
-                if (i == 0){
+                if (i == 0) {
                     data.push({
                         review_id: result[0].review_id,
                         trip_id: result[0].trip_id,
@@ -42,7 +42,7 @@ module.exports = {
                     continue
                 }
 
-                if (result[i].review_id == result[i-1].review_id){
+                if (result[i].review_id == result[i-1].review_id) {
                     data[iterator - 1].pictures.push(result[i].picture_link)
                 } else {
                     data.push({
@@ -62,7 +62,7 @@ module.exports = {
                 }
             }
 
-            if (result.length > 0){          
+            if (result.length > 0) {          
                 res.send({
                     status: 200,
                     results: data

@@ -88,7 +88,7 @@ class AddTrip extends Component {
     }
 
     onDeleteClick = (pictureId, pictureLink) => {
-        if(this.state.pictures.length > 5){
+        if (this.state.pictures.length > 5) {
             axios.delete(
                 URL_API + `pictures/${pictureId}`,{
                     data: {
@@ -105,8 +105,8 @@ class AddTrip extends Component {
     }
 
     onAddClick = () => {
-        if(this.state.pictures.length >= 5){
-            if(this.state.pictureId){
+        if (this.state.pictures.length >= 5) {
+            if (this.state.pictureId) {
                 axios.patch(
                     URL_API + `trips/${this.state.tripId}`, {
                         path: this.state.path,
@@ -145,7 +145,7 @@ class AddTrip extends Component {
         axios.delete(
             URL_API + `trips/${this.state.tripId}`
         ).then(res => {
-            for (let i = 0; i < this.state.pictures.length; i++){
+            for (let i = 0; i < this.state.pictures.length; i++) {
                 axios.delete(
                     URL_API + `pictures/${this.state.pictures[i].picture_id}`,{
                         data: {

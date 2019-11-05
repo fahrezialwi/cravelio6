@@ -11,7 +11,7 @@ class Promos extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getPromosData()
     }
 

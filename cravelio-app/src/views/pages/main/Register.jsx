@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import URL_API from '../../configs/urlAPI'
-import encrypt from '../../helpers/crypto'
-import '../styles/register.css'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import encrypt from '../../../helpers/crypto'
+import '../../styles/register.css'
 
 class Register extends Component {
 
@@ -35,7 +35,7 @@ class Register extends Component {
         password = encrypt(password)
         repeatPassword = encrypt(repeatPassword)
 
-        if(!firstName|| !lastName || !email || !password || !repeatPassword){
+        if (!firstName|| !lastName || !email || !password || !repeatPassword) {
             this.setState({
                 loading: false,
                 error: 'Please fill all input forms.'
@@ -46,7 +46,7 @@ class Register extends Component {
                 }) 
             }, 3000)
         } else {
-            if(password === repeatPassword){
+            if (password === repeatPassword) {
                 axios.get(
                     URL_API + 'users', 
                     {
@@ -55,7 +55,7 @@ class Register extends Component {
                         }
                     }
                 ).then((res) => {
-                    if(res.data.status === 200){
+                    if (res.data.status === 200) {
                         this.setState({
                             loading: false,
                             error: 'Email address has already been used.'
@@ -120,7 +120,7 @@ class Register extends Component {
     }
 
     loadingButton = () => {
-        if(this.state.loading){
+        if (this.state.loading) {
             return (
                 <div className='spinner-grow' role='status'>
                     <span className='sr-only'></span>
@@ -140,14 +140,14 @@ class Register extends Component {
     }
 
     notification = () => {
-        if(this.state.error){
+        if (this.state.error) {
             return (
                 <div className='alert alert-danger mt-4'>
                     {this.state.error}
                 </div>
             )
 
-        } else if(this.state.success){
+        } else if (this.state.success) {
             return (
                 <div className='alert alert-success mt-4'>
                     {this.state.success}
@@ -160,7 +160,7 @@ class Register extends Component {
     }
 
     render() {
-        if(!this.props.userId){
+        if (!this.props.userId) {
             return (
                 <div>
                 <Header/>

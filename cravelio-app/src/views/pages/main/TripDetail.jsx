@@ -3,20 +3,20 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
-import { onBookingTrip } from '../../actions/booking'
-import { onClearBooking } from '../../actions/booking'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import Detail from '../components/trip-detail/Detail'
-import Description from '../components/trip-detail/Description'
-import Jumbotron from '../components/trip-detail/Jumbotron'
-import Reviews from '../components/trip-detail/Reviews'
-import Itinerary from '../components/trip-detail/Itinerary'
-import PriceIncludes from '../components/trip-detail/PriceIncludes'
-import PriceExcludes from '../components/trip-detail/PriceExcludes'
-import FrequentQuestion from '../components/trip-detail/FrequentQuestion'
-import Sidebar from '../components/trip-detail/Sidebar'
-import URL_API from '../../configs/urlAPI'
+import { onBookingTrip } from '../../../actions/booking'
+import { onClearBooking } from '../../../actions/booking'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import Detail from '../../components/trip-detail/Detail'
+import Description from '../../components/trip-detail/Description'
+import Jumbotron from '../../components/trip-detail/Jumbotron'
+import Reviews from '../../components/trip-detail/Reviews'
+import Itinerary from '../../components/trip-detail/Itinerary'
+import PriceIncludes from '../../components/trip-detail/PriceIncludes'
+import PriceExcludes from '../../components/trip-detail/PriceExcludes'
+import FrequentQuestion from '../../components/trip-detail/FrequentQuestion'
+import Sidebar from '../../components/trip-detail/Sidebar'
+import URL_API from '../../../configs/urlAPI'
 
 class TripDetail extends Component {
 
@@ -26,18 +26,20 @@ class TripDetail extends Component {
             trip: '',
             favorite: false,
             favoriteId: '',
+            schedule: [],
             reviewAvg: '',
             reviewCount: '',
             startDate: '',
             endDate: '',
-            pax: 1,
-            // schedules: []
+            quotaLeft: '',
+            pax: 1
         }
     }
 
     componentDidMount() {
         this.getTripData()
         this.getFavoriteData()
+        this.getScheduleData()
         this.props.onClearBooking()
     }
 
@@ -52,7 +54,7 @@ class TripDetail extends Component {
     }
 
     getFavoriteData = () => {
-        if(this.props.userId){
+        if (this.props.userId) {
             axios.get(
                 URL_API + 'favorites', {
                     params: {
@@ -61,7 +63,7 @@ class TripDetail extends Component {
                     }
                 }
             ).then(res => {   
-                if(res.data.results.length !== 0){
+                if (res.data.results.length !== 0) {
                     this.setState({
                         favorite: true,
                         favoriteId: res.data.results[0].favorite_id
@@ -75,15 +77,29 @@ class TripDetail extends Component {
         }
     }
 
+    getScheduleData = () => {
+        axios.get(
+            URL_API + 'schedules', {
+                params: {
+                    path: this.props.location.pathname.split("/").pop()
+                }
+            }
+        ).then(res => {   
+            this.setState({
+                schedule: res.data.results
+            })    
+        })
+    }
+
     reviewHandler = (reviewAvg, reviewCount) => {
         this.setState({
             reviewAvg, reviewCount
         })
     }
 
-    dateHandler = (startDate, endDate) => {
+    dateHandler = (startDate, endDate, quotaLeft) => {
         this.setState({
-            startDate, endDate
+            startDate, endDate, quotaLeft
         })
     }
 
@@ -94,8 +110,8 @@ class TripDetail extends Component {
     }
 
     onBookClick = () => {
-        if(this.props.userId){
-            if(this.props.role === 'user'){
+        if (this.props.userId) {
+            if (this.props.role === 'user') {
                 this.props.onBookingTrip(
                     this.state.trip.trip_id,
                     this.state.trip.trip_name,
@@ -115,8 +131,8 @@ class TripDetail extends Component {
     }
 
     onFavoriteClick = () => {
-        if(this.props.userId){
-            if(this.state.favorite){
+        if (this.props.userId) {
+            if (this.state.favorite) {
                 axios.patch(
                     URL_API + `favorites/${this.state.favoriteId}`
                 ).then(res => {
@@ -138,7 +154,7 @@ class TripDetail extends Component {
     }
 
     render() {
-        if(this.state.trip){
+        if (this.state.trip) {
             return (
                 <div>
                     <Header/>
@@ -175,8 +191,10 @@ class TripDetail extends Component {
                                     reviewAvg={this.state.reviewAvg}
                                     reviewCount={this.state.reviewCount}
                                     trip={this.state.trip}
-                                    date={this.state.startDate}
+                                    schedule={this.state.schedule}
                                     pickDate={this.dateHandler}
+                                    date={this.state.startDate}
+                                    quotaLeft={this.state.quotaLeft}
                                     pax={this.paxHandler}
                                     bookClick={this.onBookClick}
                                 />
@@ -186,7 +204,7 @@ class TripDetail extends Component {
                     <Footer/>
                 </div>
             )
-        } else if(this.state.trip === undefined) {
+        } else if (this.state.trip === undefined) {
             return <Redirect to='/404'/>
         } else {
             return (

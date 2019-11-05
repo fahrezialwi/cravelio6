@@ -12,7 +12,7 @@ class TransactionHistory extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTransactionsData()
     }
 

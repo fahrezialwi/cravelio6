@@ -6,16 +6,16 @@ module.exports = {
         let sql = `select * from transactions as tr
         join transactions_detail as td on tr.transaction_id = td.transaction_id`
 
-        if (req.params.id){
+        if (req.params.id) {
             sql = `${sql} where tr.transaction_id = ${req.params.id}`
         }
-        if (req.query.status){
+        if (req.query.status) {
             sql = `${sql} where tr.status = '${req.query.status}'`
         }
-        if (req.query.year){
+        if (req.query.year) {
             sql = `${sql} where year(tr.created_at) = ${req.query.year}`
         }
-        if (req.query.user_id){
+        if (req.query.user_id) {
             sql = `${sql} where tr.user_id = ${req.query.user_id}`
         }
 
@@ -26,7 +26,7 @@ module.exports = {
             let iterator = 0
 
             for (let i = 0; i < result.length; i++) {
-                if (i == 0){
+                if (i == 0) {
                     data.push({
                         transaction_id: result[0].transaction_id,
                         trip_id: result[0].trip_id,
@@ -61,7 +61,7 @@ module.exports = {
                     continue
                 }
 
-                if (result[i].transaction_id == result[i-1].transaction_id){
+                if (result[i].transaction_id == result[i-1].transaction_id) {
                     data[iterator - 1].participants.push({
                         title: result[i].title,
                         first_name: result[i].first_name,
@@ -104,7 +104,7 @@ module.exports = {
                 }
             }
 
-            if (result.length > 0){          
+            if (result.length > 0) {          
                 res.send({
                     status: 200,
                     results: data
@@ -137,7 +137,7 @@ module.exports = {
                 results: result
             })
             
-            for (let i = 1; i <= req.body.pax ; i++){
+            for (let i = 1; i <= req.body.pax ; i++) {
                 db.query(
                     `insert into transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
                     values ((select transaction_id from transactions where created_at = '${req.body.created_at}'),
@@ -150,8 +150,8 @@ module.exports = {
 
     addTransferProof: (req, res) => {
         try {
-            if(req.validation) throw req.validation
-            if(req.file.size > 5000000) throw {error: true, message: 'Image size too large'}
+            if (req.validation) throw req.validation
+            if (req.file.size > 5000000) throw {error: true, message: 'Image size too large'}
 
             let data = JSON.parse(req.body.data)
 

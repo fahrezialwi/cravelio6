@@ -12,7 +12,7 @@ class ManageTrip extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTripsData()
     }
 
@@ -28,7 +28,7 @@ class ManageTrip extends Component {
 
     onDeleteClick = (tripId) => {
         let conf = window.confirm("Are you sure want to delete this trip?")
-        if(conf){
+        if (conf) {
             axios.delete(
                 URL_API + `trips/${tripId}`
             ).then(res => {
@@ -39,7 +39,7 @@ class ManageTrip extends Component {
                         }
                     }
                 ).then(res => {
-                    for (let i = 0; i < res.data.results.length; i++){
+                    for (let i = 0; i < res.data.results.length; i++) {
                         axios.delete(
                             URL_API + `pictures/${res.data.results[i].picture_id}`,{
                                 data: {
@@ -49,7 +49,7 @@ class ManageTrip extends Component {
                         )
                     }
 
-                    this.getData()
+                    this.getTripsData()
                 })
             })
         }

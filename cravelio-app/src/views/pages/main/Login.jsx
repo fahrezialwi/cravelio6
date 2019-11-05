@@ -3,12 +3,12 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import { onLoginUser } from '../../actions/auth'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import URL_API from '../../configs/urlAPI'
-import encrypt from '../../helpers/crypto'
-import '../styles/login.css'
+import { onLoginUser } from '../../../actions/auth'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import encrypt from '../../../helpers/crypto'
+import '../../styles/login.css'
 
 class Login extends Component {
 
@@ -40,7 +40,7 @@ class Login extends Component {
                 }
             }
         ).then((res)=> {
-            if (res.data.status === 401){
+            if (res.data.status === 401) {
                 this.setState({
                     loading: false,
                     error: 'Incorrect email or password.'
@@ -53,7 +53,7 @@ class Login extends Component {
             } else {
                 let {user_id, first_name, last_name, email, role, phone_number, is_verified} = res.data.results[0]
 
-                if(is_verified === 1){
+                if (is_verified === 1) {
                     let d = new Date()
                     d.setTime(d.getTime() + (1*24*60*60*1000))
                     const cookie = new Cookies()
@@ -100,7 +100,7 @@ class Login extends Component {
     }
 
     loadingButton = () => {
-        if(this.state.loading){
+        if (this.state.loading) {
             return (
                 <div className='spinner-grow' role='status'>
                     <span className='sr-only'></span>
@@ -119,19 +119,19 @@ class Login extends Component {
     }
 
     notification = () => {
-        if(this.state.error){
+        if (this.state.error) {
             return (
                 <div className='alert alert-danger mt-4'>
                     {this.state.error}
                 </div>
             )
-        } else if(this.state.notVerified){
+        } else if (this.state.notVerified) {
             return (
                 <div className='alert alert-danger mt-4'>
                     Please verify your account. Click <span onClick={this.onVerifyClick} className="send-verify">here</span> to resend verification link.
                 </div>
             )
-        } else if(this.state.success){
+        } else if (this.state.success) {
             return (
                 <div className='alert alert-success mt-4'>
                     {this.state.success}
@@ -143,7 +143,7 @@ class Login extends Component {
     }
 
     render() {
-        if(!this.props.userId){
+        if (!this.props.userId) {
             return (
                 <div>
                     <Header/>
@@ -171,7 +171,7 @@ class Login extends Component {
                 </div>
             )
         } else {
-            if(this.props.role === 'user'){
+            if (this.props.role === 'user') {
                 return <Redirect to='/'/>
             } else {
                 return <Redirect to='/dashboard'/>

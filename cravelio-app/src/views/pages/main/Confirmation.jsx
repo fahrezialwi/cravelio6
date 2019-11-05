@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { onClearBooking } from '../../actions/booking'
+import { onClearBooking } from '../../../actions/booking'
 import axios from 'axios'
 import moment from 'moment'
-import formatCurrency from '../../helpers/formatCurrency'
-import URL_API from '../../configs/urlAPI'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import formatCurrency from '../../../helpers/formatCurrency'
+import URL_API from '../../../configs/urlAPI'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
 class Confirmation extends Component {
 
@@ -55,7 +55,7 @@ class Confirmation extends Component {
 
     renderParticipants = () => {
         let participants = []
-        for (let i = 1 ; i <= this.props.pax ; i++){
+        for (let i = 1 ; i <= this.props.pax ; i++) {
             participants.push(
                 <tr key={i}>
                     <td>{i}</td>
@@ -69,8 +69,8 @@ class Confirmation extends Component {
     }
 
     render() {
-        if(this.props.userId && this.props.participants){
-            if(!this.state.proceed){
+        if (this.props.userId && this.props.participants) {
+            if (!this.state.proceed) {
                 return (
                     <div>
                         <Header/>

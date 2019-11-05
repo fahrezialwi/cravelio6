@@ -12,7 +12,7 @@ class PaymentsPending extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTransactionsData()
     }
 

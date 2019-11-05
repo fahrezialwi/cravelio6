@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
-import URL_API from '../../configs/urlAPI'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
 class OrderHistory extends Component {
 
@@ -16,7 +16,7 @@ class OrderHistory extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTransactionsData()
     }
 
@@ -62,8 +62,8 @@ class OrderHistory extends Component {
     }
 
     render() {
-        if(this.props.userId){
-            if(this.state.transactions.length !== 0){
+        if (this.props.userId) {
+            if (this.state.transactions.length !== 0) {
                 return (
                     <div>
                         <Header/>

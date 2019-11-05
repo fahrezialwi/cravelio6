@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import URL_API from '../../configs/urlAPI'
-import TripItem from '../components/trip-item/TripItem'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
+import URL_API from '../../../configs/urlAPI'
+import TripItem from '../../components/trip-item/TripItem'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 
 class Wishlist extends Component {
 
