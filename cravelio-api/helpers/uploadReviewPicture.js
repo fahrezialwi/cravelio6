@@ -28,9 +28,9 @@ let fileFilterConfig = (req, file, cb) => {
     }
 }
 
-let uploadReview = multer({
+let uploadReviewPicture = multer({
     storage: multerStorageConfig,
     fileFilter: fileFilterConfig
 })
 
-module.exports = uploadReview
+module.exports = uploadReviewPicture

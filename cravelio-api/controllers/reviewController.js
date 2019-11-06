@@ -1,5 +1,6 @@
 const db = require('../database')
 const moment = require('moment')
+const fs = require('fs')
 
 module.exports = {
     getReviews: (req, res) => {
@@ -84,7 +85,7 @@ module.exports = {
     },
 
     getPendingReviews: (req, res) => {
-        let sql =  `SELECT tr.transaction_id, t.trip_name, tr.total_payment, tr.created_at
+        let sql =  `SELECT tr.transaction_id, t.trip_id, t.trip_name, tr.total_payment, tr.created_at
         FROM transactions AS tr
         JOIN trips AS t ON tr.trip_id = t.trip_id
         WHERE tr.status = 'Completed' AND tr.has_review = 0`
@@ -118,11 +119,57 @@ module.exports = {
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', 
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
+        let sql2 = `UPDATE transactions SET has_review = 1 WHERE transaction_id = ${req.body.transaction_id}`
+
         db.query(sql, (err, result) => {
             if (err) throw err
+
             res.send({
                 status: 201,
                 message: 'Create review success',
+                results: result
+            })
+        })
+
+        db.query(sql2, (err2, result2) => {
+            if (err2) throw err2
+        })
+    },
+
+    updateReviewPicture: (req, res) => {
+
+        console.log(req.body)
+
+        for ( let i = 0 ; i < req.body.reviews_picture.length ; i++ ) {
+            db.query(`UPDATE reviews_picture SET review_id = ${req.body.insert_id}
+            WHERE picture_link = '${req.body.reviews_picture[i]}'`)
+        }
+
+        res.send({
+            status: 201,
+            message: 'Update review picture success'
+        })
+    },
+
+    createReviewPicture: (req, res) => {
+        let sql = `INSERT INTO reviews_picture (review_picture_id, picture_link) VALUES
+        (0, '${req.files[0].filename}')`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err  
+            res.send(req.files[0].filename)
+        })
+    },
+
+    cancelCreateReviewPicture: (req, res) => {
+        let sql = `DELETE FROM reviews_picture WHERE picture_link = '${req.body}'`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err  
+            fs.unlinkSync(`./uploads/review-pictures/${req.body}`)
+            res.send({
+                status: 200,
+                message: 'Cancel create review picture success',
                 results: result
             })
         })

@@ -282,33 +282,33 @@ class AddTrip extends Component {
                                     fd.append(fieldName, file, file.name)
                                     fd.append("trip_id", this.state.tripId)
                         
-                                    const request = new XMLHttpRequest()
-                                    request.open('POST', URL_API + 'pictures')
+                                    const xhr = new XMLHttpRequest()
+                                    xhr.open('POST', URL_API + 'pictures')
                         
-                                    request.upload.onprogress = (e) => {
-                                        progress(e.lengthComputable, e.loaded, e.total);
+                                    xhr.upload.onprogress = (e) => {
+                                        progress(e.lengthComputable, e.loaded, e.total)
                                     }
                     
-                                    request.onload = function() {
-                                        if (request.status >= 200 && request.status < 300) {
-                                            load(request.responseText)
+                                    xhr.onload = function() {
+                                        if (xhr.status >= 200 && xhr.status < 300) {
+                                            load(xhr.responseText)
                                         } else {
                                             error('Upload error')
                                         }
                                     }
-                                    request.send(fd)
+                                    xhr.send(fd)
                                     return {
                                         abort: () => {
-                                            request.abort()
+                                            xhr.abort()
                                             abort()
                                         }
                                     }
                                 },
 
                                 revert: (uniqueFileId, load, error) => {
-                                    const request = new XMLHttpRequest()
-                                    request.open('DELETE', URL_API + 'pictures')
-                                    request.send(uniqueFileId)
+                                    const xhr = new XMLHttpRequest()
+                                    xhr.open('DELETE', URL_API + 'pictures')
+                                    xhr.send(uniqueFileId)
                                     error('Delete error')
                                     load()
                                 }
