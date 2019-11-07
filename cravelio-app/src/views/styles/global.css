@@ -36,6 +36,10 @@ body {
     color: #484848
 }
 
+a {
+    color: #484848
+}
+
 a:hover {
     text-decoration: none;
     color: #ddd

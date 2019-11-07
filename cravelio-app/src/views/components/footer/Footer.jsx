@@ -15,15 +15,15 @@ class Footer extends Component {
                         <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
                             <h4>About Cravelio</h4>
                             <Link to="/contact-us">Contact Us</Link>
-                            <Link to="/how-to-book">How to Book</Link>
-                            <Link to="/help-center">Help Center</Link>
-                            <Link to="/careers">Careers</Link>
-                            <Link to="/about-us">About Us</Link>
+                            <Link to="/">How to Book</Link>
+                            <Link to="/">Help Center</Link>
+                            <Link to="/">Careers</Link>
+                            <Link to="/">About Us</Link>
                         </div>
                         <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
                             <h4>Products</h4>
-                            <Link to="/open-trip">Open Trip</Link>
-                            <Link to="/private-trip">Private Trip</Link>
+                            <Link to="/">Open Trip</Link>
+                            <Link to="/">Private Trip</Link>
                         </div>
                         <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
                             <h4>Others</h4>
