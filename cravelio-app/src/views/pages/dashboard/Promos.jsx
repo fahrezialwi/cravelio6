@@ -12,6 +12,7 @@ class Promos extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Promos - Cravelio Dashboard'
         this.getPromosData()
     }
 
@@ -65,7 +66,7 @@ class Promos extends Component {
                     <td>
                         {
                             'promo_id' in promo ?
-                            <button onClick={() => this.onDeleteClick(promo.promo_id)} className="btn btn-dark">Delete</button>
+                            <button onClick={() => this.onDeleteClick(promo.promo_id)} className="btn-main">Delete</button>
                             :
                             null
                         }
@@ -127,7 +128,7 @@ class Promos extends Component {
                     <h2>Promos</h2>
                 </div>
                 <div className="col-12 text-right mb-2">
-                    <button onClick={() => this.onAddClick()} className="btn btn-dark">Add New Promo</button>
+                    <button onClick={() => this.onAddClick()} className="btn-main">Add New Promo</button>
                 </div>
                 <div className="col-12">
                     <div className="table-responsive">
@@ -155,7 +156,7 @@ class Promos extends Component {
                     null
                 }
                 <div className="col-12">
-                    <button onClick={() => this.onSaveClick()} className="btn btn-dark mr-3">Save</button>
+                    <button onClick={() => this.onSaveClick()} className="btn-main mr-3">Save</button>
                 </div>
             </div>
         )

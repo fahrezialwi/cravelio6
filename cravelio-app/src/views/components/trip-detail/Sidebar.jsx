@@ -76,7 +76,7 @@ class Sidebar extends Component {
                     }
                     <div className="row">
                         <div className="col-12">
-                            <button onClick={() => this.props.bookClick()} className="btn btn-dark btn-block" disabled={!this.props.date}>Book</button>
+                            <button onClick={() => this.props.bookClick()} className="btn-main btn-block" disabled={!this.props.date}>Book</button>
                         </div>
                     </div>
                 </div>

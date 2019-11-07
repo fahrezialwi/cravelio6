@@ -21,6 +21,7 @@ class ResetPassword extends Component {
     }
 
     componentDidMount = () => {
+        document.title = 'Reset Password - Cravelio'
         this.checkExpiry()
     }
 
@@ -76,7 +77,7 @@ class ResetPassword extends Component {
                                                 <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
                                             </div>
                                             <button 
-                                                className='btn-block btn btn-dark mt-4'
+                                                className='btn-block btn-main mt-4'
                                                 onClick={this.onResetClick}
                                             >
                                                 Reset

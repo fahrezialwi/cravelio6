@@ -13,6 +13,7 @@ class ManageTrip extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Manage Trip - Cravelio Dashboard'
         this.getTripsData()
     }
 
@@ -66,8 +67,8 @@ class ManageTrip extends Component {
                     <td>{trip.category}</td>
                     <td>{trip.duration}</td>
                     <td><img src={URL_API + "files/trip/" + trip.picture_link} alt={trip.name} width="100"/></td>
-                    <td><Link to={"/dashboard/manage-trips/edit-trip/" + trip.trip_id}><button className="btn btn-dark">Edit</button></Link></td>
-                    <td><button onClick = {() => this.onDeleteClick(trip.trip_id)} className="btn btn-dark">Delete</button></td>
+                    <td><Link to={"/dashboard/manage-trips/edit-trip/" + trip.trip_id}><button className="btn-main">Edit</button></Link></td>
+                    <td><button onClick = {() => this.onDeleteClick(trip.trip_id)} className="btn-main">Delete</button></td>
                 </tr>
             )
         })
@@ -79,7 +80,7 @@ class ManageTrip extends Component {
                 <div className="row">
                     <div className="col-12 text-right mb-3">
                         <Link to="/dashboard/manage-trips/add-trip">
-                            <button className="btn btn-dark mr-2">Add Trip</button>
+                            <button className="btn-main mr-2">Add Trip</button>
                         </Link>
                     </div>
                     <div className="col-12">

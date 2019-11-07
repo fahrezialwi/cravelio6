@@ -16,6 +16,7 @@ class EditSchedule extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Edit Schedule - Cravelio Dashboard'
         this.getTripData()
         this.getScheduleData()
     }
@@ -91,7 +92,7 @@ class EditSchedule extends Component {
                         <td>
                             {
                                 'schedule_id' in schedule ?
-                                <button onClick={() => this.onDeleteClick(schedule.schedule_id)} className="btn btn-dark">Delete</button>
+                                <button onClick={() => this.onDeleteClick(schedule.schedule_id)} className="btn-main">Delete</button>
                                 :
                                 null
                             }
@@ -146,8 +147,8 @@ class EditSchedule extends Component {
         }
         
         alert("Schedule saved")
-                            this.forceUpdate()
-                    window.scrollTo(0, 0)
+        this.forceUpdate()
+        window.scrollTo(0, 0)
     }
 
     onCancelClick = () => {
@@ -164,7 +165,7 @@ class EditSchedule extends Component {
                             <p>Showing only schedule that haven't yet started</p>
                         </div>
                         <div className="col-12 text-right mb-2">
-                            <button onClick={() => this.onAddClick()} className="btn btn-dark">Add New Schedule</button>
+                            <button onClick={() => this.onAddClick()} className="btn-main">Add New Schedule</button>
                         </div>
                         <div className="col-12">
                             <div className="table-responsive">
@@ -192,8 +193,8 @@ class EditSchedule extends Component {
                             null
                         }
                         <div className="col-12">
-                            <button onClick={() => this.onSaveClick()} className="btn btn-dark mr-3">Save</button>
-                            <button onClick={() => this.onCancelClick()} className="btn btn-dark">Cancel</button>
+                            <button onClick={() => this.onSaveClick()} className="btn-main mr-3">Save</button>
+                            <button onClick={() => this.onCancelClick()} className="btn-main">Cancel</button>
                         </div>
                     </div>
                 </div>

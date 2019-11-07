@@ -23,9 +23,9 @@ class TripItem extends Component {
                             }
                         </div>
                         <div className="pt-2">
-                            <div className="card-tag">{duration.toUpperCase()}</div>
-                            <div className="card-tag ml-2">{category.toUpperCase()}</div>
-                            <h6 className="card-title mt-2 mb-1">{trip_name}</h6>
+                            <div className="card-tag text-pink">{duration.toUpperCase()}</div>
+                            <div className="card-tag ml-2 text-pink">{category.toUpperCase()}</div>
+                            <h6 className="card-title mt-1 mb-1">{trip_name}</h6>
                             <div className="card-price">{formatCurrency(price)}</div>
                         </div>
                     </div>

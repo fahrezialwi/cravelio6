@@ -1,5 +1,38 @@
+.navbar-main {
+    box-shadow: 2px -5px 52px -6px rgba(0,0,0,0.75);
+}
+
+.navbar-logo {
+    font-family: Cereal-Bold;
+    font-size: 22px;
+    color: #c8337c
+}
+
+.navbar-logo:active, .navbar-logo:focus, .navbar-logo:hover {
+    color: #c8337c
+}
+
 .navbar-sticky {
     position: sticky !important;
     top: 0;
-    z-index: 999
+    z-index: 1001
+}
+
+.dropdown-menu {
+    color: #484848!important;
+    min-width: 12rem!important
+}
+
+.dropdown-item:active, .dropdown-item:focus, .dropdown-item:hover {
+    background-color: #f8f9fa!important
+}
+
+.text-profile {
+    font-family: Cereal-Medium
+}
+
+.profile-picture {
+    border-radius: 50%;
+    width: 100%;
+    height: auto
 }

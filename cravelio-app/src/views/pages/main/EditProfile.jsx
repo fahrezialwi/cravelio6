@@ -7,6 +7,7 @@ import URL_API from '../../../configs/urlAPI'
 import encrypt from '../../../helpers/crypto'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
+import '../../styles/edit-profile.css'
 
 class EditProfile extends Component {
 
@@ -25,9 +26,9 @@ class EditProfile extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount() { 
+        document.title = 'Edit Profile - Cravelio'
         this.getUserData()
-       
     }
 
     getUserData = () => {
@@ -90,10 +91,14 @@ class EditProfile extends Component {
                             <div className="col-12 mb-3">
                                 <h2>Edit Profile</h2>
                             </div>
-                            <div className="col-8 mb-3">
-                                <img src={this.state.profilePicture} alt="profile" width="200"/>
+                            <div className="col-12 mb-3">
+                                <img 
+                                    src={URL_API + 'files/profile-picture/profile-picture.png'}
+                                    alt="profile"
+                                    className="edit-profile-picture"
+                                />
                             </div>
-                            <div className="col-8 mb-3">
+                            <div className="col-8 mt-5 mb-3">
                                 <div className="row">
                                     <div className="col-6">
                                         First Name
@@ -174,7 +179,7 @@ class EditProfile extends Component {
                                 />
                             </div>
                             <div className="col-8 mb-5">
-                                <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
+                                <button onClick={() => this.onSaveClick()} className="btn-main">Save</button>
                             </div>
                         </div>
                     </div>

@@ -25,6 +25,10 @@ class Login extends Component {
         }
     }
     
+    componentDidMount() {
+        document.title = 'Login - Cravelio'
+    }
+
     onLoginSubmit = (e) => {
         e.preventDefault()
         this.setState({
@@ -110,7 +114,7 @@ class Login extends Component {
 
         return (
             <button 
-                className='btn-block btn btn-dark mt-4'
+                className='btn-block btn-main mt-4'
                 onClick={this.onLoginSubmit}
             >
                 Login

@@ -20,6 +20,7 @@ class Schedules extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Schedules - Cravelio Dashboard'
         this.getSchedulesData()
         this.getTripsData()
     }
@@ -78,7 +79,7 @@ class Schedules extends Component {
                             {this.tripList()}
                         </select>
                         <div className="ml-3">
-                            <button onClick={() => this.onEditClick(this.state.selectedTrip)} className="btn btn-dark">Edit</button>
+                            <button onClick={() => this.onEditClick(this.state.selectedTrip)} className="btn-main">Edit</button>
                         </div>
                     </div>
                 </div>

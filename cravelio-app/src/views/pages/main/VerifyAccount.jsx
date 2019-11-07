@@ -18,6 +18,7 @@ class VerifyAccount extends Component {
     }
 
     componentDidMount = () => {
+        document.title = 'Verify Account - Cravelio'
         this.verifyUser()
     }
 

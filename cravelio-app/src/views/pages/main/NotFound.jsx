@@ -3,6 +3,11 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 
 class NotFound extends Component {
+
+    componentDidMount() {
+        document.title = '404 Not Found - Cravelio'
+    }
+
     render() {
         return (
             <div>

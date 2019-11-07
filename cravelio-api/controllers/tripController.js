@@ -14,6 +14,71 @@ module.exports = {
         if (req.query.trip_id) {
             sql += ` AND t.trip_id = '${req.query.trip_id}'`
         }
+
+        db.query(sql, (err, result) => {
+
+            if (err) throw err
+
+            if (result.length > 0) {
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found',
+                    results: result
+                })
+            }
+        })
+    },
+
+    getDomesticTrips: (req, res) => {
+        let sql = `SELECT *, (SELECT COUNT(*) FROM schedules AS s
+        WHERE  start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
+        AND s.trip_id = t.trip_id) AS schedule FROM trips AS t
+        JOIN pictures AS p ON t.trip_id = p.trip_id WHERE p.is_main = 1 AND t.region = 'Indonesia'`
+
+        if (req.params.path) {
+            sql += ` AND t.path = '${req.params.path}'`
+        }
+        if (req.query.trip_id) {
+            sql += ` AND t.trip_id = '${req.query.trip_id}'`
+        }
+
+        db.query(sql, (err, result) => {
+
+            if (err) throw err
+
+            if (result.length > 0) {
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found',
+                    results: result
+                })
+            }
+        })
+    },
+
+    getInternationalTrips: (req, res) => {
+        let sql = `SELECT *, (SELECT COUNT(*) FROM schedules AS s
+        WHERE  start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
+        AND s.trip_id = t.trip_id) AS schedule FROM trips AS t
+        JOIN pictures AS p ON t.trip_id = p.trip_id WHERE p.is_main = 1 AND NOT t.region = 'Indonesia'`
+
+        if (req.params.path) {
+            sql += ` AND t.path = '${req.params.path}'`
+        }
+        if (req.query.trip_id) {
+            sql += ` AND t.trip_id = '${req.query.trip_id}'`
+        }
+
         db.query(sql, (err, result) => {
 
             if (err) throw err

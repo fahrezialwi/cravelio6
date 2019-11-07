@@ -17,6 +17,7 @@ class OrderHistory extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Order History - Cravelio'
         this.getTransactionsData()
     }
 

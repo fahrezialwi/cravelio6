@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import URL_API from '../../../configs/urlAPI'
 import TripItem from '../../components/trip-item/TripItem'
@@ -16,6 +17,7 @@ class Wishlist extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Wishlist - Cravelio'
         this.getFavoritesData()
     }
 
@@ -40,20 +42,26 @@ class Wishlist extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Header/>
-                <div className="container container-height">
-                    <div className="row row-top">
-                        <div className="col-12 mb-3">
-                            <h2>Wishlist</h2>
+        if (this.props.userId) {
+            return (
+                <div>
+                    <Header/>
+                    <div className="container container-height">
+                        <div className="row row-top">
+                            <div className="col-12 mb-3">
+                                <h2>Wishlist</h2>
+                            </div>
+                            {this.favoriteList()}
                         </div>
-                        {this.favoriteList()}
                     </div>
+                    <Footer/>
                 </div>
-                <Footer/>
-            </div>
-        )
+            )
+        } else {
+            return (
+                <Redirect to="/"/>
+            )
+        }
     }
 }
 

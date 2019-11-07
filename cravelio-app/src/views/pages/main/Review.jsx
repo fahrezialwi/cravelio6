@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
 import axios from 'axios'
 import moment from 'moment'
@@ -26,6 +27,7 @@ class Review extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Review - Cravelio'
         this.getPendingReviewsData()
         this.getCompletedReviewsData()
     }
@@ -238,7 +240,7 @@ class Review extends Component {
                         >
                         </FilePond>
                     </td>
-                    <td><button onClick={() => this.onSaveClick(index, review.trip_id, review.transaction_id)} className="btn btn-dark">Save</button></td>
+                    <td><button onClick={() => this.onSaveClick(index, review.trip_id, review.transaction_id)} className="btn-main">Save</button></td>
                 </tr>
             )
         })
@@ -265,7 +267,7 @@ class Review extends Component {
                     <td>{review.review_title}</td>
                     <td>{review.review_content}</td>
                     <td>{this.reviewPictureList(review.pictures)}</td>
-                    <td><button onClick={() => this.onEditClick(review.review_id)} className="btn btn-dark">Edit</button></td>
+                    <td><button onClick={() => this.onEditClick(review.review_id)} className="btn-main">Edit</button></td>
                 </tr>
             )
         })
@@ -286,60 +288,66 @@ class Review extends Component {
     render() {
         console.log(this.state.files)
         console.log(this.state.pictures)
-        return (
-            <div>
-                <Header/>
-                <div className="container container-height">
-                    <div className="row pt-5">
-                        <div className="col-12">
-                            <Tabs defaultActiveKey="awaitingReview" id="uncontrolled-tab-example">
-                                <Tab eventKey="awaitingReview" title="Awaiting Review">
-                                    <div className="table-responsive">
-                                        <table className="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Trip Name</th>
-                                                    <th>Total Payment</th>
-                                                    <th>Order Date</th>
-                                                    <th>Star</th>
-                                                    <th>Review Title</th>
-                                                    <th>Review Content</th>
-                                                    <th>Picture</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {this.pendingReviewList()}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </Tab>
-                                <Tab eventKey="yourReview" title="Your Review">
-                                    <div className="table-responsive">
-                                        <table className="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Trip Name</th>
-                                                    <th>Star</th>
-                                                    <th>Review Title</th>
-                                                    <th>Review Content</th>
-                                                    <th>Pictures</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {this.completedReviewList()}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </Tab>
-                            </Tabs>
+        if (this.props.userId) {
+            return (
+                <div>
+                    <Header/>
+                    <div className="container container-height">
+                        <div className="row pt-5">
+                            <div className="col-12">
+                                <Tabs defaultActiveKey="awaitingReview" id="uncontrolled-tab-example">
+                                    <Tab eventKey="awaitingReview" title="Awaiting Review">
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Trip Name</th>
+                                                        <th>Total Payment</th>
+                                                        <th>Order Date</th>
+                                                        <th>Star</th>
+                                                        <th>Review Title</th>
+                                                        <th>Review Content</th>
+                                                        <th>Picture</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.pendingReviewList()}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </Tab>
+                                    <Tab eventKey="yourReview" title="Your Review">
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Trip Name</th>
+                                                        <th>Star</th>
+                                                        <th>Review Title</th>
+                                                        <th>Review Content</th>
+                                                        <th>Pictures</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.completedReviewList()}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </Tab>
+                                </Tabs>
+                            </div>
                         </div>
                     </div>
+                    <Footer/>
                 </div>
-                <Footer/>
-            </div>
-        )
+            )
+        } else {
+            return (
+                <Redirect to="/"/>
+            )
+        }
     }
 }
 

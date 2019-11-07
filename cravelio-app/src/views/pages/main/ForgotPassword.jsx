@@ -15,6 +15,10 @@ class ForgotPassword extends Component {
             email: ''
         }
     }
+
+    componentDidMount() {
+        document.title = 'Forgot Password - Cravelio'
+    }
     
     onSendClick = (e) => {
         e.preventDefault()
@@ -46,7 +50,7 @@ class ForgotPassword extends Component {
                                             <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
                                         </div>
                                         <button 
-                                            className='btn-block btn btn-dark mt-4'
+                                            className='btn-block btn-main mt-4'
                                             onClick={this.onSendClick}
                                         >
                                             Send Password Link

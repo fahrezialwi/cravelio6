@@ -22,6 +22,7 @@ class Invoice extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Invoice - Cravelio'
         this.getTransactionData()
     }
 
@@ -117,7 +118,7 @@ class Invoice extends Component {
                 return null
             } else {
                 return (
-                    <button onClick={() => this.onSubmitButton()} className="btn btn-dark btn-block">Submit</button>
+                    <button onClick={() => this.onSubmitButton()} className="btn-main btn-block">Submit</button>
                 )
             }
         } else {

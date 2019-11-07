@@ -32,6 +32,9 @@ class Checkout extends Component {
     }
 
     componentDidMount() {
+        
+        document.title = 'Checkout - Cravelio'
+  
         this.setState({
             totalPrice: this.props.pax*this.props.tripPrice,
             firstName: this.props.firstName,
@@ -407,9 +410,7 @@ class Checkout extends Component {
                 <div className="card-body">
                     <div className="input-group mb-2">
                         <input onChange={e => this.setState({promoCodeInput: e.target.value})} defaultValue={this.props.promoCodeInput} type="text" className="form-control"/>
-                        <div className="input-group-append">
-                            <button onClick = {() => this.checkPromo()} className="btn btn-dark btn-block">Apply</button>
-                        </div>
+                        <button onClick = {() => this.checkPromo()} className="btn-main ml-3">Apply</button>
                     </div>
                     <div>
                         {this.state.promoMessage}
@@ -621,7 +622,7 @@ class Checkout extends Component {
                         </div>
                         <div className="row row-bottom">
                             <div className="col-3 ml-auto">
-                                <button onClick={() => this.checkAllData()} className="btn btn-dark btn-block">Next</button>
+                                <button onClick={() => this.checkAllData()} className="btn-main btn-block">Next</button>
                             </div>
                         </div>
                     </div>

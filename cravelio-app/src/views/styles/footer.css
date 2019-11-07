@@ -1,5 +1,5 @@
 .footer-background {
-    background-color: #343a40;
+    background-image: linear-gradient(to right, #c8337c , #8c337c);
 }
 
 .footer-logo {
@@ -7,6 +7,7 @@
 }
 
 .copyright {
+    font-size: 14px;
     color: white
 }
 

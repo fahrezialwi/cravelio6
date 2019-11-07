@@ -18,6 +18,10 @@ class Confirmation extends Component {
         }
     }
 
+    componentDidMount() {
+        document.title = 'Confirmation - Cravelio'
+    }
+
     proceedPayment = () => {
         window.scrollTo(0, 0)
         this.setState({
@@ -109,11 +113,11 @@ class Confirmation extends Component {
                             <div className="row row-bottom">
                                 <div className="col-3 mr-auto">
                                     <Link to="/checkout">
-                                        <button className="btn btn-dark btn-block">Back</button>
+                                        <button className="btn-main btn-block">Back</button>
                                     </Link>
                                 </div>
                                 <div className="col-3 ml-auto">
-                                    <button onClick={() => this.proceedPayment()} className="btn btn-dark btn-block">Proceed to Payment</button>
+                                    <button onClick={() => this.proceedPayment()} className="btn-main btn-block">Proceed to Payment</button>
                                 </div>
                             </div>
                         </div>

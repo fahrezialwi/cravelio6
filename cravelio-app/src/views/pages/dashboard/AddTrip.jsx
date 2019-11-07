@@ -37,6 +37,7 @@ class AddTrip extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Add Trip - Cravelio Dashboard'
         this.createTrip()
     }
 
@@ -318,8 +319,8 @@ class AddTrip extends Component {
                     </div>
 
                     <div className="col-8 mb-5">
-                        <button onClick={() => this.onAddClick()} className="btn btn-dark">Add Trip</button>
-                        <button onClick={() => this.onCancelClick()} className="btn btn-dark ml-2" >Cancel</button>  
+                        <button onClick={() => this.onAddClick()} className="btn-main">Add Trip</button>
+                        <button onClick={() => this.onCancelClick()} className="btn-main ml-2" >Cancel</button>  
                     </div>
                 </div>
             </div>

@@ -3,6 +3,11 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 
 class AboutUs extends Component {
+
+    componentDidMount() {
+        document.title = 'About Us - Cravelio'
+    }
+
     render() {
         return (
             <div>

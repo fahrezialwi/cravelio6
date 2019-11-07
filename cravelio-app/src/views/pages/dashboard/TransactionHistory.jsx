@@ -13,6 +13,7 @@ class TransactionHistory extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Transaction History - Cravelio Dashboard'
         this.getTransactionsData()
     }
 

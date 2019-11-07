@@ -7,6 +7,10 @@ import Footer from '../../components/footer/Footer'
 
 class Complete extends Component {
 
+    componentDidMount() {
+        document.title = 'Complete - Cravelio'
+    }
+
     onBackToHomeClick = () => {
         this.props.onClearProof()
         this.props.history.push("/")
@@ -26,7 +30,7 @@ class Complete extends Component {
                         </div>
                         <div className="row row-bottom">
                             <div className="col-3 ml-auto">
-                                <button onClick={() => this.onBackToHomeClick()} className="btn btn-dark btn-block">Back to Home</button>
+                                <button onClick={() => this.onBackToHomeClick()} className="btn-main btn-block">Back to Home</button>
                             </div>
                         </div>
                     </div>

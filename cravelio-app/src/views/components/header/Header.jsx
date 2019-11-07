@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import {
     Collapse,
@@ -14,14 +15,30 @@ import {
 import { connect } from 'react-redux'
 import { onLogoutUser } from '../../../actions/auth'
 import '../../styles/header.css'
+import URL_API from '../../../configs/urlAPI'
 
 class Header extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            isOpen: false
+            isOpen: false,
+            user: ''
         }
+    }
+
+    componentDidMount() {
+        this.getUserData()
+    }
+
+    getUserData = () => {
+        axios.get(
+            URL_API + `users/${this.props.userId}`
+        ).then(res => {
+            this.setState({
+                user: res.data.results[0]
+            })
+        })
     }
 
     toggle = () => {
@@ -78,9 +95,11 @@ class Header extends Component {
                             </div>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
-                                    <div>{this.props.firstName} {this.props.lastName}</div>
-                                    <div style={{fontSize: "14px"}}>({this.props.email})</div>
+                                <div className="text-profile row pt-2 pb-2 pl-4 pr-4">
+                                    <div className="col-4 pr-0">
+                                        <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture"/>
+                                    </div>
+                                    <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
                                 </div>
                                 <DropdownItem divider />
                                 <Link to="/edit-profile">
@@ -116,9 +135,9 @@ class Header extends Component {
 
     render() {
         return (
-            <Navbar color="dark" dark expand="md" className="navbar-sticky">
+            <Navbar color="light" light expand="md" className="navbar-main navbar-sticky">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">cravelio</Link>
+                    <Link className="navbar-logo" to="/">cravelio</Link>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar>
                     {this.userMenu()}

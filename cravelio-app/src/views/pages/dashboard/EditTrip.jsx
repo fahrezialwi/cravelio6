@@ -37,6 +37,7 @@ class EditTrip extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Edit Trip - Cravelio Dashboard'
         this.getTripData()
         this.getPicturesData()
     }
@@ -332,8 +333,8 @@ class EditTrip extends Component {
                     </div>
 
                     <div className="col-8 mb-5">
-                        <button onClick={() => this.onSaveClick()} className="btn btn-dark">Save</button>
-                        <button onClick={() => this.onCancelClick()} className="btn btn-dark ml-2">Cancel</button>
+                        <button onClick={() => this.onSaveClick()} className="btn-main">Save</button>
+                        <button onClick={() => this.onCancelClick()} className="btn-main ml-2">Cancel</button>
                     </div>
                 </div>
             </div>

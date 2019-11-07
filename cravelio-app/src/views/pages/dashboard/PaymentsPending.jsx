@@ -13,6 +13,7 @@ class PaymentsPending extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Payments Pending - Cravelio Dashboard'
         this.getTransactionsData()
     }
 
@@ -52,8 +53,8 @@ class PaymentsPending extends Component {
                     </td>
                     <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
                     <td>
-                        <button className="btn btn-dark btn-block" disabled={!transaction.transfer_proof}>Approve</button>
-                        <button className="btn btn-dark btn-block" disabled={!transaction.transfer_proof}>Reject</button>             
+                        <button className="btn-main btn-block" disabled={!transaction.transfer_proof}>Approve</button>
+                        <button className="btn-main btn-block" disabled={!transaction.transfer_proof}>Reject</button>             
                     </td>
                 </tr>
             )

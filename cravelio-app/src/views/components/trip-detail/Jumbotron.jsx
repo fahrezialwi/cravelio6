@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import URL_API from '../../../configs/urlAPI'
 import FsLightbox from 'fslightbox-react'
-import '../../styles/pictures.css'
+import '../../styles/jumbotron.css'
 
-class Pictures extends Component {
+class Jumbotron extends Component {
 
     constructor(props) {
         super(props)
@@ -47,9 +47,9 @@ class Pictures extends Component {
         if (this.state.pictures) {
             return (
                 <div className="main-image">
-                    <div onClick={() => this.props.favoriteClick()} className={"favorite" + (this.props.favorite ? ' favorite-selected' : '')}>Favorite</div>
+                    <button onClick={() => this.props.favoriteClick()} className={"favorite" + (this.props.favorite ? ' favorite-selected' : '')}>V</button>
 
-                    <div onClick={() => this.setToogler(!this.state.toogler, 1)} className="all-images">View All Photos</div>
+                    <button onClick={() => this.setToogler(!this.state.toogler, 1)} className="all-images">View All Photos</button>
                     <div onClick={() => this.setToogler(!this.state.toogler, 1)} className="left-image">
                         <img 
                             alt="1" 
@@ -119,4 +119,4 @@ class Pictures extends Component {
     }
 }
 
-export default Pictures
+export default Jumbotron

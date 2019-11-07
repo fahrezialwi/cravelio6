@@ -1,0 +1,22 @@
+/* .carousel-container {
+    padding: 0 50px;
+} */
+
+.card-carousel {
+    margin: 30px 20px;
+    height: 300px;
+    border-radius: 4px;
+    position: relative
+}
+
+.card-carousel img {
+    object-fit: cover;
+    object-position: 50% 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px
+}
+
+.react-multi-carousel-list {
+    background-image: linear-gradient(to right, #c8337c , #8c337c)
+}

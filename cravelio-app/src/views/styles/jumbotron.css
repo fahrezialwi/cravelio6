@@ -8,16 +8,18 @@
     top: 20px;
     right: 20px;
     background-color: white;
-    padding: 7px 15px;
-    border: 1px solid black;
-    border-radius: 7px;
+    width: 50px;
+    height: 50px;
+    color: black;
+    font-family: Cereal-Medium;
+    border-radius: 50%;
     z-index: 1;
     cursor: pointer
 }
 
 .favorite-selected {
-    background-color: rgb(212, 25, 88);
-    color: white
+    /* background-color: rgb(212, 25, 88); */
+    color:#c8337c
 }
 
 .all-images {
@@ -25,11 +27,22 @@
     bottom: 20px;
     right: 20px;
     background-color: white;
-    padding: 7px 15px;
-    border: 1px solid black;
-    border-radius: 7px;
+    padding: 7px 20px;
+    /* border: 1px solid black; */
+    /* border-radius: 7px; */
     z-index: 1;
-    cursor: pointer
+    font-family: Cereal-Medium;
+    color: #8c337c;
+    /* background-image: linear-gradient(to right, #c8337c , #8c337c); */
+    /* padding: .375rem .75rem; */
+    /* font-size: 1rem; */
+    /* line-height: 1.5; */
+    border-radius: 20px;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
+
 }
 
 .left-image {
@@ -45,8 +58,8 @@
     height: 294.667px;
     color: inherit;
     overflow: hidden;
-    border-width: 1px;
-    border-style: solid
+    /* border-width: 1px;
+    border-style: solid */
 }
 
 .zooming-image {
@@ -82,8 +95,8 @@
     height: 50%;
     color: inherit;
     overflow: hidden;
-    border-width: 1px;
-    border-style: solid
+    /* border-width: 1px;
+    border-style: solid */
 }
 
 @media (min-width: 1200px){

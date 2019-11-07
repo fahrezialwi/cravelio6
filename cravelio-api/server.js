@@ -25,5 +25,7 @@ app.use(routers.promoRouter)
 app.use('/files/trip', express.static('uploads/trip-pictures'))
 app.use('/files/review', express.static('uploads/review-pictures'))
 app.use('/files/transfer', express.static('uploads/transfer-proofs'))
+app.use('/files/banner', express.static('uploads/banner-pictures'))
+app.use('/files/profile-picture', express.static('uploads/profile-pictures'))
 
 app.listen(port, () => console.log("Server up in port " + port))

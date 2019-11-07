@@ -3,6 +3,11 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 
 class TermsConditions extends Component {
+
+    componentDidMount() {
+        document.title = 'Terms & Conditions - Cravelio'
+    }
+
     render() {
         return (
             <div>

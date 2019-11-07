@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import '../../styles/footer.css'
 
 class Footer extends Component {
@@ -6,32 +7,32 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer-background">
-                <div className="container pt-5 pb-4">
-                    <div className="row mb-5">
-                        <div className="col-3">
+                <div className="container">
+                    <div className="row pt-3">
+                        <div className="col-12 col-md-6 col-lg-3 mt-3">
                             <h1 className="footer-logo">cravelio</h1>
                         </div>
-                        <div className="col-3 footer-link">
-                            <h5>About Cravelio</h5>
-                            <a href="/" rel="nofollow norefferer">Contact Us</a>
-                            <a href="/" rel="nofollow norefferer">How to Book</a>
-                            <a href="/" rel="nofollow norefferer">Help Center</a>
-                            <a href="/" rel="nofollow norefferer">Careers</a>
-                            <a href="/" rel="nofollow norefferer">About Us</a>
+                        <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
+                            <h4>About Cravelio</h4>
+                            <Link to="/contact-us">Contact Us</Link>
+                            <Link to="/how-to-book">How to Book</Link>
+                            <Link to="/help-center">Help Center</Link>
+                            <Link to="/careers">Careers</Link>
+                            <Link to="/about-us">About Us</Link>
                         </div>
-                        <div className="col-3 footer-link">
-                            <h5>Products</h5>
-                            <a href="/" rel="nofollow norefferer">Open Trip</a>
-                            <a href="/" rel="nofollow norefferer">Private Trip</a>
+                        <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
+                            <h4>Products</h4>
+                            <Link to="/open-trip">Open Trip</Link>
+                            <Link to="/private-trip">Private Trip</Link>
                         </div>
-                        <div className="col-3 footer-link">
-                            <h5>Others</h5>
-                            <a href="/" rel="nofollow norefferer">Privacy Policy</a>
-                            <a href="/" rel="nofollow norefferer">Terms & Conditions</a>
+                        <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
+                            <h4>Others</h4>
+                            <Link to="/privacy-policy">Privacy Policy</Link>
+                            <Link to="/terms-and-conditions">Terms & Conditions</Link>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-12 copyright text-center">
+                        <div className="col-12 mt-4 mb-4 copyright text-center">
                             Copyright 2019. Cravelio
                         </div>
                     </div>

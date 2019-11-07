@@ -24,6 +24,10 @@ class Register extends Component {
         }
     }
 
+    componentDidMount() {
+        document.title = 'Register - Cravelio'
+    }
+
     onRegisterSubmit = (e) => {
         e.preventDefault()
         this.setState({
@@ -130,7 +134,7 @@ class Register extends Component {
 
         return (
             <button 
-                className='btn-block btn btn-dark mt-4'
+                className='btn-block btn-main mt-4'
                 onClick={this.onRegisterSubmit}
             >
                 Register

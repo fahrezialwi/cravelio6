@@ -50,6 +50,7 @@ class TripDetail extends Component {
             this.setState({
                 trip: res.data.results[0]
             })
+            document.title = `${res.data.results[0].trip_name} - Cravelio`
         })
     }
 

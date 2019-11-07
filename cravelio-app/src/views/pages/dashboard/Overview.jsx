@@ -20,6 +20,7 @@ class Overview extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Overview - Cravelio Dashboard'
         this.getAllTransactions()
         this.getDataPerYear(new Date().getFullYear())
     }
