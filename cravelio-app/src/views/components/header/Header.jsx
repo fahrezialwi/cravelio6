@@ -97,7 +97,12 @@ class Header extends Component {
                             <DropdownMenu right>
                                 <div className="text-profile row pt-2 pb-2 pl-4 pr-4">
                                     <div className="col-4 pr-0">
-                                        <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture"/>
+                                        {
+                                            this.state.user.profile_picture ?
+                                            <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture"/>
+                                            :
+                                            null
+                                        }
                                     </div>
                                     <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
                                 </div>

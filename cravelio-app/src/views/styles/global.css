@@ -113,6 +113,27 @@ select:not([multiple]) {
     color: white
 }
 
+.page-link {
+    color: #8c337c
+}
+
+.page-link:hover {
+    background-color: #8c337c;
+    color: #fff;
+    cursor: pointer
+}
+
+.page-link:focus {
+    box-shadow: none
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #8c337c;
+    border-color: #8c337c
+}
+
 .container-height {
     min-height: 80vh
 }
@@ -143,10 +164,6 @@ select:not([multiple]) {
 
 .text-purple {
     color: #6d509d!important
-}
-
-a:hover {
-    text-decoration: none
 }
 
 .text-bold {

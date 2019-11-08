@@ -8,8 +8,11 @@ class Reviews extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            reviews: []
+            reviews: [],
+            currentPage: 1,
+            reviewsPerPage: 5
         }
+        this.myRef = React.createRef()
     }
 
     componentDidMount() {
@@ -42,6 +45,46 @@ class Reviews extends Component {
         })
     }
 
+    onPageClick = (e) => {
+        this.setState({
+            currentPage: Number(e.target.id)
+        })
+
+        let offsetPosition = this.myRef.current.offsetTop + 450
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        })
+    }
+
+    onPreviousClick = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+
+            let offsetPosition = this.myRef.current.offsetTop + 450
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            })
+        }
+    }
+
+    onNextClick = () => {
+        if (this.state.currentPage < Math.ceil(this.state.reviews.length / this.state.reviewsPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+            
+            let offsetPosition = this.myRef.current.offsetTop + 450
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            })
+        }
+    }
+
     pictureList = (pictures) => {
         return pictures.map((picture, index) => {
             if (picture === null) {
@@ -57,8 +100,13 @@ class Reviews extends Component {
     }
 
     reviewList = () => {
-        if (this.state.reviews.length > 0) {
-            return this.state.reviews.map(review => {
+        const { reviews, currentPage, reviewsPerPage } = this.state
+        const indexOfLastReview = currentPage * reviewsPerPage;
+        const indexOfFirstReview = indexOfLastReview - reviewsPerPage
+        const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview)
+
+        if (currentReviews.length > 0) {
+            return currentReviews.map(review => {
                 return (
                     <div className="col-12" key={review.review_id}>
                         <div className="row mb-4">
@@ -85,13 +133,64 @@ class Reviews extends Component {
         }
     }
 
+    pageNumberList = () => {
+
+        const { reviews, reviewsPerPage } = this.state
+        const pageNumbers = []
+        for (let i = 1; i <= Math.ceil(reviews.length / reviewsPerPage); i++) {
+            pageNumbers.push(i)
+        }
+    
+        return pageNumbers.map(number => {
+            return (
+                <li
+                    className={"page-item" + (this.state.currentPage === number ? ' active' : '')}
+                    key={number}
+                >
+                    <button
+                        className="page-link"
+                        id={number}
+                        onClick={this.onPageClick}
+                    >
+                        {number}
+                    </button>
+                </li>
+
+            )
+        })
+    }
+
     render() {
         return (
-            <div className="row mt-5 mb-4">
+            <div className="row mt-5 mb-4" ref={this.myRef}>
                 <div className="col-12 mb-2">
                     <h4><strong>Reviews</strong></h4>
                 </div>
                 {this.reviewList()}
+                <div className="col-12 mt-3">
+                    <nav>
+                        <ul className="pagination justify-content-center">
+                            <li
+                                className={"page-item" + (this.state.currentPage === 1 ? ' disabled' : '')}
+                            >
+                                <button
+                                    className="page-link"
+                                    onClick={this.onPreviousClick}
+                                >
+                                    Previous
+                                </button>
+                            </li>
+                            {this.pageNumberList()}
+                            <li
+                                className={"page-item" + (this.state.currentPage === Math.ceil(this.state.reviews.length / this.state.reviewsPerPage) ? ' disabled' : '')}
+                            >
+                                <button className="page-link" onClick={this.onNextClick}>
+                                    Next
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         )
     }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import URL_API from '../../../configs/urlAPI'
 import FsLightbox from 'fslightbox-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import '../../styles/jumbotron.css'
 
 class Jumbotron extends Component {
@@ -47,8 +49,9 @@ class Jumbotron extends Component {
         if (this.state.pictures) {
             return (
                 <div className="main-image">
-                    <button onClick={() => this.props.favoriteClick()} className={"favorite" + (this.props.favorite ? ' favorite-selected' : '')}>V</button>
-
+                    <button onClick={() => this.props.favoriteClick()} className={"favorite" + (this.props.favorite ? ' favorite-selected' : '')}>
+                        <FontAwesomeIcon icon={faHeart}/>
+                    </button>
                     <button onClick={() => this.setToogler(!this.state.toogler, 1)} className="all-images">View All Photos</button>
                     <div onClick={() => this.setToogler(!this.state.toogler, 1)} className="left-image">
                         <img 
