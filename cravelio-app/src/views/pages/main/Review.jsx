@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
 import axios from 'axios'
-import moment from 'moment'
 import { FilePond, registerPlugin } from 'react-filepond'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond/dist/filepond.min.css'
@@ -11,6 +10,9 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
+import '../../styles/review.css'
+import PendingReviewItem from '../../components/review/PendingReviewItem'
+import CompletedReviewItem from '../../components/review/CompletedReviewItem'
 
 registerPlugin(FilePondPluginImagePreview)
 
@@ -48,7 +50,7 @@ class Review extends Component {
 
     getCompletedReviewsData = () => {
         axios.get(
-            URL_API + 'reviews', {
+            URL_API + 'completed_reviews', {
                 params: {
                     user_id: this.props.userId
                 }
@@ -140,111 +142,130 @@ class Review extends Component {
     pendingReviewList = () => {
         return this.state.pendingReviews.map((review, index) => {
             return (
-                <tr key={index}>
-                    <td>{review.trip_name}</td>
-                    <td>{review.total_payment}</td>
-                    <td>{moment(review.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
-                    <td>
-                        <input
-                            type="number"
-                            min="1"
-                            max="5"
-                            ref="star"
-                            onChange={e => this.onStarChange(index, parseInt(e.target.value))}
-                            className="form-control"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type="text"
-                            ref="reviewTitle"
-                            onChange={e => this.onReviewTitleChange(index, e.target.value)}
-                            className="form-control"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type="text"
-                            ref="reviewContent"
-                            onChange={e => this.onReviewContentChange(index, e.target.value)}
-                            className="form-control"
-                        />
-                    </td>
-                    <td>
-                        <FilePond 
-                            ref={ref => this.pond = ref}
-                            files={this.state.files}
-                            allowMultiple={true}
-                            // onprocessfiles={() => this.createPicturesArray()}
-                            onupdatefiles={fileItems => {
-                                this.setState({
-                                    files: fileItems.map(fileItem => {
-                                        return fileItem.file
-                                    })
-                                })
-                            }}
-                            server={{
-                                process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-                                    const fd = new FormData()
-                                    fd.append(fieldName, file, file.name)
-                        
-                                    const xhr = new XMLHttpRequest()
-                                    xhr.open('POST', URL_API + 'reviews_picture')
-                        
-                                    xhr.upload.onprogress = (e) => {
-                                        progress(e.lengthComputable, e.loaded, e.total)
-                                    }
-                    
-                                    xhr.onload = () => {
-                                        if (xhr.status >= 200 && xhr.status < 300) {
-                                            load(xhr.responseText)
-                                        } else {
-                                            error('Upload error')
-                                        }
-                                    }
-
-                                    xhr.onreadystatechange = () => {
-                                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                                            let pictures = [...this.state.pictures]
-                                            pictures.push(xhr.responseText)
-                                            this.setState({
-                                                pictures
-                                            })
-                                        }
-                                    }
-
-                                    xhr.send(fd)
-                                    return {
-                                        abort: () => {
-                                            xhr.abort()
-                                            abort()
-                                        }
-                                    }
-                                },
-
-                                revert: (uniqueFileId, load, error) => {
-                                    const xhr = new XMLHttpRequest()
-                                    xhr.open('DELETE', URL_API + 'reviews_picture')
-                                    xhr.send(uniqueFileId)
-
-                                    let pictures = [...this.state.pictures]
-                                    pictures.pop()
-                                    this.setState({
-                                        pictures
-                                    })
-
-                                    error('Delete error')
-                                    load()
-                                }
-                            }}
-                        >
-                        </FilePond>
-                    </td>
-                    <td><button onClick={() => this.onSaveClick(index, review.trip_id, review.transaction_id)} className="btn-main">Save</button></td>
-                </tr>
+                <PendingReviewItem pendingReview={review} key={index}/>
             )
         })
     }
+
+
+    completedReviewList = () => {
+        return this.state.completedReviews.map((review, index) => {
+            return (
+                <CompletedReviewItem completedReview={review} key={index}/>
+            )
+        })
+    }
+
+    // pendingReviewList = () => {
+    //     return this.state.pendingReviews.map((review, index) => {
+    //         return (
+    //             <div className="col-12" key={index}>
+    //                 <div className="card">
+    //                     <div>{review.trip_name}</div>
+    //                     <div>{review.total_payment}</div>
+    //                     <div>{moment(review.created_at).format('MMM Do YYYY, HH:mm:ss')}</div>
+    //                     <div>
+    //                         <input
+    //                             type="number"
+    //                             min="1"
+    //                             max="5"
+    //                             ref="star"
+    //                             onChange={e => this.onStarChange(index, parseInt(e.target.value))}
+    //                             className="form-control"
+    //                         />
+    //                     </div>
+    //                     <div>
+    //                         <input
+    //                             type="text"
+    //                             ref="reviewTitle"
+    //                             onChange={e => this.onReviewTitleChange(index, e.target.value)}
+    //                             className="form-control"
+    //                         />
+    //                     </div>
+    //                     <div>
+    //                         <input
+    //                             type="text"
+    //                             ref="reviewContent"
+    //                             onChange={e => this.onReviewContentChange(index, e.target.value)}
+    //                             className="form-control"
+    //                         />
+    //                     </div>
+    //                     <div>
+    //                         <FilePond 
+    //                             ref={ref => this.pond = ref}
+    //                             files={this.state.files}
+    //                             allowMultiple={true}
+    //                             // onprocessfiles={() => this.createPicturesArray()}
+    //                             onupdatefiles={fileItems => {
+    //                                 this.setState({
+    //                                     files: fileItems.map(fileItem => {
+    //                                         return fileItem.file
+    //                                     })
+    //                                 })
+    //                             }}
+    //                             server={{
+    //                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+    //                                     const fd = new FormData()
+    //                                     fd.append(fieldName, file, file.name)
+                            
+    //                                     const xhr = new XMLHttpRequest()
+    //                                     xhr.open('POST', URL_API + 'reviews_picture')
+                            
+    //                                     xhr.upload.onprogress = (e) => {
+    //                                         progress(e.lengthComputable, e.loaded, e.total)
+    //                                     }
+                        
+    //                                     xhr.onload = () => {
+    //                                         if (xhr.status >= 200 && xhr.status < 300) {
+    //                                             load(xhr.responseText)
+    //                                         } else {
+    //                                             error('Upload error')
+    //                                         }
+    //                                     }
+
+    //                                     xhr.onreadystatechange = () => {
+    //                                         if (xhr.readyState === XMLHttpRequest.DONE) {
+    //                                             let pictures = [...this.state.pictures]
+    //                                             pictures.push(xhr.responseText)
+    //                                             this.setState({
+    //                                                 pictures
+    //                                             })
+    //                                         }
+    //                                     }
+
+    //                                     xhr.send(fd)
+    //                                     return {
+    //                                         abort: () => {
+    //                                             xhr.abort()
+    //                                             abort()
+    //                                         }
+    //                                     }
+    //                                 },
+
+    //                                 revert: (uniqueFileId, load, error) => {
+    //                                     const xhr = new XMLHttpRequest()
+    //                                     xhr.open('DELETE', URL_API + 'reviews_picture')
+    //                                     xhr.send(uniqueFileId)
+
+    //                                     let pictures = [...this.state.pictures]
+    //                                     pictures.pop()
+    //                                     this.setState({
+    //                                         pictures
+    //                                     })
+
+    //                                     error('Delete error')
+    //                                     load()
+    //                                 }
+    //                             }}
+    //                         >
+    //                         </FilePond>
+    //                     </div>
+    //                     <div><button onClick={() => this.onSaveClick(index, review.trip_id, review.transaction_id)} className="btn-main">Save</button></div>
+    //                 </div>
+    //             </div>
+    //         )
+    //     })
+    // }
 
     onEditClick = (reviewId) => {
         axios.patch(
@@ -258,36 +279,22 @@ class Review extends Component {
         })
     }
 
-    completedReviewList = () => {
-        return this.state.completedReviews.map((review, index) => {
-            return (
-                <tr key={index}>
-                    <td>{review.trip_name}</td>
-                    <td>{review.star}</td>
-                    <td>{review.review_title}</td>
-                    <td>{review.review_content}</td>
-                    <td>{this.reviewPictureList(review.pictures)}</td>
-                    <td><button onClick={() => this.onEditClick(review.review_id)} className="btn-main">Edit</button></td>
-                </tr>
-            )
-        })
-    }
-
-    reviewPictureList = (pictures) => {
-        return pictures.map((picture, index) => {
-            if(picture){
-                return (
-                    <img src={URL_API + 'files/review/' + picture} alt={index} key={index} width="150"/>
-                )
-            } else {
-                return null
-            }
-        })
-    }
+    // reviewPictureList = (pictures) => {
+    //     return pictures.map((picture, index) => {
+    //         if(picture){
+    //             return (
+    //                 <img src={URL_API + 'files/review/' + picture} alt={index} key={index} width="150"/>
+    //             )
+    //         } else {
+    //             return null
+    //         }
+    //     })
+    // }
 
     render() {
         console.log(this.state.files)
         console.log(this.state.pictures)
+        console.log(this.state.pendingReviews)
         if (this.props.userId) {
             return (
                 <div>
@@ -297,43 +304,13 @@ class Review extends Component {
                             <div className="col-12">
                                 <Tabs defaultActiveKey="awaitingReview" id="uncontrolled-tab-example">
                                     <Tab eventKey="awaitingReview" title="Awaiting Review">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Trip Name</th>
-                                                        <th>Total Payment</th>
-                                                        <th>Order Date</th>
-                                                        <th>Star</th>
-                                                        <th>Review Title</th>
-                                                        <th>Review Content</th>
-                                                        <th>Picture</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {this.pendingReviewList()}
-                                                </tbody>
-                                            </table>
+                                        <div className="row">
+                                            {this.pendingReviewList()}
                                         </div>
                                     </Tab>
                                     <Tab eventKey="yourReview" title="Your Review">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Trip Name</th>
-                                                        <th>Star</th>
-                                                        <th>Review Title</th>
-                                                        <th>Review Content</th>
-                                                        <th>Pictures</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {this.completedReviewList()}
-                                                </tbody>
-                                            </table>
+                                        <div className="row">
+                                            {this.completedReviewList()}
                                         </div>
                                     </Tab>
                                 </Tabs>

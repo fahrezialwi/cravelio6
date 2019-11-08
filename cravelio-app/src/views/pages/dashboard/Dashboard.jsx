@@ -12,6 +12,7 @@ import EditTrip from './EditTrip'
 import Schedules from './Schedules'
 import EditSchedule from './EditSchedule'
 import Promos from './Promos'
+import Chats from './Chats'
 import '../../styles/dashboard.css'
 
 class Dashboard extends Component {
@@ -49,6 +50,9 @@ class Dashboard extends Component {
                                         <li className="list-group-item">
                                             <Link to="/dashboard/promos" className={"list-dashboard" + (this.props.location.pathname.split("/")[2] === 'promos' ? ' list-active' : '')}>Promos</Link>
                                         </li>
+                                        <li className="list-group-item">
+                                            <Link to="/dashboard/chats" className={"list-dashboard" + (this.props.location.pathname.split("/")[2] === 'chats' ? ' list-active' : '')}>Chats</Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -63,6 +67,7 @@ class Dashboard extends Component {
                                     <Route path='/dashboard/schedules' exact component={Schedules}/>
                                     <Route path='/dashboard/schedules/edit-schedule/:id' component={EditSchedule}/>
                                     <Route path='/dashboard/promos' component={Promos}/>
+                                    <Route path='/dashboard/chats' component={Chats}/>
                                 </Switch>
                             </div>
                         </div>

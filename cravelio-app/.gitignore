@@ -17,6 +17,7 @@ emailSecretKey.js
 
 # crisp config
 crispChat.js
+Chats.jsx
 
 # misc
 .DS_Store

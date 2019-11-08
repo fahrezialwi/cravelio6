@@ -19,3 +19,8 @@
     display: block;
     color: white
 }
+
+.footer-link a:hover {
+    display: block;
+    color: #ddd
+}

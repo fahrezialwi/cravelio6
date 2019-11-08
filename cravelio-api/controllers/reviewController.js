@@ -4,10 +4,9 @@ const fs = require('fs')
 
 module.exports = {
     getReviews: (req, res) => {
-        let sql = `SELECT r.review_id, r.trip_id, t.trip_name, r.user_id, u.first_name, u.last_name,
+        let sql = `SELECT r.review_id, r.trip_id, r.user_id, u.first_name, u.last_name,
         r.review_title, r.review_content, r.star, rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
         JOIN users AS u ON r.user_id = u.user_id
-        JOIN trips AS t ON r.trip_id = t.trip_id
         LEFT JOIN reviews_picture AS rp ON r.review_id = rp.review_id`
 
         if (req.params.id) {
@@ -15,9 +14,6 @@ module.exports = {
         }
         if (req.query.trip_id) {
             sql = `${sql} WHERE r.trip_id = ${req.query.trip_id}`
-        }
-        if (req.query.user_id) {
-            sql = `${sql} WHERE r.user_id = ${req.query.user_id}`
         }
 
         sql += ` ORDER BY r.created_at DESC`
@@ -33,7 +29,6 @@ module.exports = {
                     data.push({
                         review_id: result[0].review_id,
                         trip_id: result[0].trip_id,
-                        trip_name: result[0].trip_name,
                         user_id: result[0].user_id,
                         first_name: result[0].first_name,
                         last_name: result[0].last_name,
@@ -54,7 +49,6 @@ module.exports = {
                     data.push({
                         review_id: result[i].review_id,
                         trip_id: result[i].trip_id,
-                        trip_name: result[i].trip_name,
                         user_id: result[i].user_id,
                         first_name: result[i].first_name,
                         last_name: result[i].last_name,
@@ -84,14 +78,90 @@ module.exports = {
         })
     },
 
-    getPendingReviews: (req, res) => {
-        let sql =  `SELECT tr.transaction_id, t.trip_id, t.trip_name, tr.total_payment, tr.created_at
-        FROM transactions AS tr
-        JOIN trips AS t ON tr.trip_id = t.trip_id
-        WHERE tr.status = 'Completed' AND tr.has_review = 0`
+    getCompletedReviews: (req, res) => {
+        let sql = `SELECT r.review_id, r.trip_id, t.trip_name, p.picture_link as main_picture,
+        r.user_id, r.transaction_id, r.review_title, r.review_content, r.star,
+        rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
+        JOIN trips AS t ON r.trip_id = t.trip_id
+        JOIN pictures AS p ON r.trip_id = p.trip_id
+        LEFT JOIN reviews_picture AS rp ON r.review_id = rp.review_id
+        WHERE p.is_main = 1`
 
         if (req.query.user_id) {
-            sql = `${sql} AND tr.user_id = ${req.query.user_id}`
+            sql = `${sql} AND r.user_id = ${req.query.user_id}`
+        }
+
+        sql += ` ORDER BY r.created_at DESC`
+
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            
+            let data = []
+            let iterator = 0
+
+            for (let i = 0; i < result.length; i++) {
+                if (i == 0) {
+                    data.push({
+                        review_id: result[0].review_id,
+                        trip_id: result[0].trip_id,
+                        trip_name: result[0].trip_name,
+                        main_picture: result[0].main_picture,
+                        user_id: result[0].user_id,
+                        transaction_id: result[0].transaction_id,
+                        review_title: result[0].review_title,
+                        review_content: result[0].review_content,
+                        star: result[0].star,
+                        pictures : [result[0].picture_link],
+                        created_at: result[0].created_at,
+                        updated_at: result[0].updated_at
+                    })
+                    iterator++
+                    continue
+                }
+
+                if (result[i].review_id == result[i-1].review_id) {
+                    data[iterator - 1].pictures.push(result[i].picture_link)
+                } else {
+                    data.push({
+                        review_id: result[i].review_id,
+                        trip_id: result[i].trip_id,
+                        trip_name: result[i].trip_name,
+                        main_picture: result[i].main_picture,
+                        user_id: result[i].user_id,
+                        transaction_id: result[i].transaction_id,
+                        review_title: result[i].review_title,
+                        review_content: result[i].review_content,
+                        star: result[i].star,
+                        pictures : [result[i].picture_link],
+                        created_at: result[i].created_at,
+                        updated_at: result[i].updated_at
+                    })
+                    iterator++
+                }
+            }
+
+            if (result.length > 0) {          
+                res.send({
+                    status: 200,
+                    results: data
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found',
+                    results: result
+                })
+            }
+        })
+    },
+
+    getPendingReviews: (req, res) => {
+        let sql =  `SELECT transaction_id, trip_id, trip_name, trip_price, picture_link,
+        start_date, end_date, pax, total_payment, created_at FROM transactions
+        WHERE status = 'Completed' AND has_review = 0`
+
+        if (req.query.user_id) {
+            sql = `${sql} AND user_id = ${req.query.user_id}`
         }
 
         db.query(sql, (err,result) => {

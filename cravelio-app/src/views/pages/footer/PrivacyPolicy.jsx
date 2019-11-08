@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
-import '../../styles/privacy-policy.css'
 
 class PrivacyPolicy extends Component {
 
@@ -17,7 +16,7 @@ class PrivacyPolicy extends Component {
                     <div className="row row-top row-bottom">
                         <div className="col-12">
                             <h3><strong>Privacy Policy</strong></h3>
-                            <p>Last modified on: September 2019</p>
+                            <p>Last modified on: November 2019</p>
                             <p>In order to provide you with the best experience when using our system, we may collect, use,
                             disclose, process and protect your personal identifiable information or personal data. Our system is owned and operated
                             by Cravelio Group of Companies ("<strong>Cravelio</strong>", "<strong>us</strong>", "<strong>we</strong>", or
@@ -32,18 +31,18 @@ class PrivacyPolicy extends Component {
                             <p>From time to time, Cravelio may revise this Privacy Policy to reflect changes in the laws and regulations, our use practices, the features of our Site and/or advances in technology. If we make revisions that change the way we collector use your Personal Data, those changes will be posted in this Privacy Policy and the effective date will be noted at the beginning of this Privacy Policy. Therefore, you should review this Privacy Policy periodically so that you are up to date on our most current policies and practices. If you do not agree with any changes or modifications to the Privacy Policy, please do not continue using the Site. You will be deemed to have consented to any modification of the Privacy Policy when you use the Site after the effective date of the modification.</p>
                             <p>This Privacy Policy explains about:</p>
                             <ul>
-                                <li><strong><a className="privacy-policy-explain" href="#information-collect">Information We Collect</a> </strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#use-information">How We Use Your Information</a> </strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#sharing-data">Sharing and Transferring of Your Personal Data</a> </strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#access-data">Access to or Correction of Your Personal Data</a></strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#consent">Withdrawing Consent</a> </strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#remove-data">Removal of Your Personal Data</a> </strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#retention-data">Retention of Personal Data</a></strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#protect-data">Protection of Your Personal Data</a></strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#links">Links to Other Websites</a></strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#membership">Registration and Membership</a></strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#misc">Miscellaneous</a> </strong></li>
-                                <li><strong><a className="privacy-policy-explain" href="#contact">Our Contact</a> </strong></li>
+                                <li><strong><a href="#information-collect">Information We Collect</a> </strong></li>
+                                <li><strong><a href="#use-information">How We Use Your Information</a> </strong></li>
+                                <li><strong><a href="#sharing-data">Sharing and Transferring of Your Personal Data</a> </strong></li>
+                                <li><strong><a href="#access-data">Access to or Correction of Your Personal Data</a></strong></li>
+                                <li><strong><a href="#consent">Withdrawing Consent</a> </strong></li>
+                                <li><strong><a href="#remove-data">Removal of Your Personal Data</a> </strong></li>
+                                <li><strong><a href="#retention-data">Retention of Personal Data</a></strong></li>
+                                <li><strong><a href="#protect-data">Protection of Your Personal Data</a></strong></li>
+                                <li><strong><a href="#links">Links to Other Websites</a></strong></li>
+                                <li><strong><a href="#membership">Registration and Membership</a></strong></li>
+                                <li><strong><a href="#misc">Miscellaneous</a> </strong></li>
+                                <li><strong><a href="#contact">Our Contact</a> </strong></li>
                             </ul>
                             <ol id="information-collect">
                                 <li>
