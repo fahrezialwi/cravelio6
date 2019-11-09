@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import URL_API from '../../../configs/urlAPI'
-import PendingReviewItem from '../../components/review/PendingReviewItem'
+import URL_API from '../../../../configs/urlAPI'
+import PendingReviewItem from '../../../components/review/PendingReviewItem'
 
 class AwaitingReview extends Component {
 
@@ -128,7 +128,7 @@ class AwaitingReview extends Component {
         return (
             <div className="row">
                 {this.pendingReviewList()}
-                <div className="col-12 mt-3">
+                <div className="col-12 mt-3 mb-3">
                     <nav>
                         <ul className="pagination justify-content-center">
                             <li

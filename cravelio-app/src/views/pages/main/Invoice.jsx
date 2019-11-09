@@ -166,10 +166,15 @@ class Invoice extends Component {
                         <div className="container container-height">
                             <div className="row row-top">
                                 <div className="col-12">
-                                    <h2>Invoice</h2>
+                                    <h2 className="mb-3">Invoice</h2>
                                     <p className="mb-2">INV/TRIP/{moment(this.state.transaction.created_at).format('YYYYMMDD')}/{this.state.transaction.transaction_id}</p>
-                                    <p className="mb-1">Due Date: {moment(this.state.transaction.created_at).add(1, 'days').format('MMMM DD, YYYY')} at {moment(this.state.transaction.created_at).add(1, 'days').format('HH:mm')}</p>
-                                    <p className="mb-1">Status: {this.state.transaction.status}</p>
+                                    {
+                                        this.state.transaction.status === 'Pending' ?
+                                        <p className="mb-2">Due Date: {moment(this.state.transaction.created_at).add(1, 'days').format('MMMM DD, YYYY')} at {moment(this.state.transaction.created_at).add(1, 'days').format('HH:mm')}</p>
+                                        :
+                                        null
+                                    }
+                                    <p className="mb-3">Status: {this.state.transaction.status}</p>
                                 </div>
                             </div>
                             <div className="row">

@@ -1,9 +1,31 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import ClampLines from 'react-clamp-lines'
 import { Link } from 'react-router-dom'
 import URL_API from '../../../configs/urlAPI'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 class CompletedReviewItem extends Component {
+
+    starList = (starCount) => {
+        let star = []
+
+        for ( let i = 0 ; i < starCount ; i++ ){
+            star.push (
+                <FontAwesomeIcon icon={faStar} className="star-rating" key={i}/>
+            )
+        }
+
+        for ( let i = starCount ; i < 5 ; i++ ){
+            star.push (
+                <FontAwesomeIcon icon={faStar} className="star-off" key={i}/>
+            )
+        }
+
+        return star
+    }
+    
     render() {
         let review = this.props.completedReview
 
@@ -17,7 +39,7 @@ class CompletedReviewItem extends Component {
                                 <Link to={`/invoice/${review.transaction_id}`}>INV/TRIP/{moment(review.created_at).format('YYYYMMDD')}/{review.transaction_id}</Link>
                             </div>
                             <div className="col-6">
-                                Transaction Date:<br/>
+                                Review Date:<br/>
                                 {moment(review.created_at).format('MMM Do YYYY, HH:mm')}
                             </div>
                         </div>
@@ -32,9 +54,17 @@ class CompletedReviewItem extends Component {
                                             <div className="trip-name">{review.trip_name}</div>
                                         </Link>
                                         <div>{moment(review.start_date).format('MMMM DD, YYYY')} - {moment(review.end_date).format('MMMM DD, YYYY')}</div>
-                                        <div>{review.star}</div>
-                                        <div>{review.review_title}</div>
-                                        <div>{review.review_content}</div>
+                                        <div>{this.starList(review.star)}</div>
+                                        {/* <div>{review.review_title}</div> */}
+                                        <ClampLines 
+                                            text={review.review_content}
+                                            id={review.review_id}
+                                            lines={2}
+                                            ellipsis="..."
+                                            moreText="Expand"
+                                            lessText="Collapse"
+                                        />
+                                        {/* <div className="mt-2">{review.review_content}</div> */}
                                     </div>
                                     <div className="col-2 text-right">
                                         <button className="btn-main">Edit Review</button>

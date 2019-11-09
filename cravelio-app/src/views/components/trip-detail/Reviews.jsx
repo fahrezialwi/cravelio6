@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import URL_API from '../../../configs/urlAPI'
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import '../../styles/reviews.css'
 
 class Reviews extends Component {
     
@@ -92,13 +95,32 @@ class Reviews extends Component {
         }
     }
 
+
+    starList = (starCount) => {
+        let star = []
+
+        for ( let i = 0 ; i < starCount ; i++ ){
+            star.push (
+                <FontAwesomeIcon icon={faStar} className="star-rating" key={i}/>
+            )
+        }
+
+        for ( let i = starCount ; i < 5 ; i++ ){
+            star.push (
+                <FontAwesomeIcon icon={faStar} className="star-off" key={i}/>
+            )
+        }
+
+        return star
+    }
+
     pictureList = (pictures) => {
         return pictures.map((picture, index) => {
             if (picture === null) {
                 return null
             } else {
                 return (
-                    <a href={picture} key={index} target="_blank" rel="noopener noreferrer">
+                    <a href={URL_API + 'files/review/' + picture} key={index} target="_blank" rel="noopener noreferrer">
                         <img src={URL_API + 'files/review/' + picture} className="mr-3" width="100" alt={index}/>
                     </a>
                 )
@@ -117,15 +139,19 @@ class Reviews extends Component {
                 return (
                     <div className="col-12" key={review.review_id}>
                         <div className="row mb-4">
-                            <div className="col-1">
-                                <h4>{review.star}</h4>
+                            <div className="col-1 pr-0">
+                                <img src={URL_API + 'files/profile-picture/' + review.profile_picture} alt="profile" className="profile-picture"/>
                             </div>
                             <div className="col-11">
-                                <h4 className="d-inline-block mr-2">{review.first_name} {review.last_name}</h4>
-                                on {moment(review.updated_at).format('MMM Do, YYYY')}
-                                <h5>{review.review_title}</h5>
+                                <h5 className="review-name mb-0">{review.first_name} {review.last_name}</h5>
+                                <span className="dot">&#183;</span>
+                                <span className="review-date">{moment(review.updated_at).format('MMM Do, YYYY')}</span>
+                                <div>{this.starList(review.star)}</div>
+                            </div>
+                            <div className="col-12 mt-3">
+                                {/* <h5>{review.review_title}</h5> */}
                                 <p>{review.review_content}</p>
-                                {this.pictureList(review.pictures)}
+                                <div className="mb-2">{this.pictureList(review.pictures)}</div>
                             </div>
                         </div>
                     </div>

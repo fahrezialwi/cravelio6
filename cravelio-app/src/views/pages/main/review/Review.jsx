@@ -6,9 +6,9 @@ import { Tab, Tabs } from 'react-bootstrap'
 // import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 // import 'filepond/dist/filepond.min.css'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
-import Header from '../../components/header/Header'
-import Footer from '../../components/footer/Footer'
-import '../../styles/review.css'
+import Header from '../../../components/header/Header'
+import Footer from '../../../components/footer/Footer'
+import '../../../styles/review.css'
 import AwaitingReview from './AwaitingReview'
 import MyReview from './MyReview'
 

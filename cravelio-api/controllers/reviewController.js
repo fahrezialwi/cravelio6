@@ -4,8 +4,8 @@ const fs = require('fs')
 
 module.exports = {
     getReviews: (req, res) => {
-        let sql = `SELECT r.review_id, r.trip_id, r.user_id, u.first_name, u.last_name,
-        r.review_title, r.review_content, r.star, rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
+        let sql = `SELECT r.review_id, r.trip_id, r.user_id, u.first_name, u.last_name, u.profile_picture,
+        r.review_content, r.star, rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
         JOIN users AS u ON r.user_id = u.user_id
         LEFT JOIN reviews_picture AS rp ON r.review_id = rp.review_id`
 
@@ -32,7 +32,7 @@ module.exports = {
                         user_id: result[0].user_id,
                         first_name: result[0].first_name,
                         last_name: result[0].last_name,
-                        review_title: result[0].review_title,
+                        profile_picture: result[0].profile_picture,
                         review_content: result[0].review_content,
                         star: result[0].star,
                         pictures : [result[0].picture_link],
@@ -52,7 +52,7 @@ module.exports = {
                         user_id: result[i].user_id,
                         first_name: result[i].first_name,
                         last_name: result[i].last_name,
-                        review_title: result[i].review_title,
+                        profile_picture: result[i].profile_picture,
                         review_content: result[i].review_content,
                         star: result[i].star,
                         pictures : [result[i].picture_link],
@@ -114,7 +114,7 @@ module.exports = {
 
     getCompletedReviews: (req, res) => {
         let sql = `SELECT r.review_id, tr.transaction_id, r.trip_id, t.path, t.trip_name, p.picture_link as main_picture,
-        r.user_id, r.transaction_id, r.review_title, r.review_content, r.star,
+        r.user_id, r.transaction_id, r.review_content, r.star,
         rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
         JOIN transactions as tr on r.transaction_id = tr.transaction_id
         JOIN trips AS t ON r.trip_id = t.trip_id
@@ -145,7 +145,6 @@ module.exports = {
                         main_picture: result[0].main_picture,
                         user_id: result[0].user_id,
                         transaction_id: result[0].transaction_id,
-                        review_title: result[0].review_title,
                         review_content: result[0].review_content,
                         star: result[0].star,
                         pictures : [result[0].picture_link],
@@ -168,7 +167,6 @@ module.exports = {
                         main_picture: result[i].main_picture,
                         user_id: result[i].user_id,
                         transaction_id: result[i].transaction_id,
-                        review_title: result[i].review_title,
                         review_content: result[i].review_content,
                         star: result[i].star,
                         pictures : [result[i].picture_link],
@@ -195,9 +193,9 @@ module.exports = {
     },
 
     createReview: (req, res) => {
-        let sql = `INSERT INTO reviews (review_id, review_title, review_content, star,
-        trip_id, user_id, created_at, updated_at) VALUES (0, '${req.body.review_title}', 
-        '${req.body.review_content}', '${req.body.star}', '${req.body.trip_id}', '${req.body.user_id}',
+        let sql = `INSERT INTO reviews (review_id, review_content, star,
+        trip_id, user_id, created_at, updated_at) VALUES (0, '${req.body.review_content}',
+        '${req.body.star}', '${req.body.trip_id}', '${req.body.user_id}',
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', 
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
@@ -258,9 +256,8 @@ module.exports = {
     },
 
     editReview: (req, res) => {
-        let sql = `UPDATE reviews SET review_title = '${req.body.review_title}', 
-        review_content = '${req.body.review_content}', star = ${req.body.star}
-        WHERE review_id = ${req.params.id}`
+        let sql = `UPDATE reviews SET review_content = '${req.body.review_content}',
+        star = ${req.body.star} WHERE review_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err

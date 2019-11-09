@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import formatCurrency from '../../../helpers/formatCurrency'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import '../../styles/sidebar.css'
 
 // window.onscroll = function() {
@@ -27,14 +29,14 @@ class Sidebar extends Component {
                     <div key={schedule.schedule_id}>
                         <input 
                             type="radio"
-                            className="mr-2"
+                            className="mr-3 radio-button"
                             name="date"
                             onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date, schedule.quota_left)}
                             id={schedule.schedule_id}
                         />
-                        <label className="mb-0" htmlFor={schedule.schedule_id}>
-                            {moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}<br/>
-                            ({schedule.quota_left} pax left)
+                        <label className="mb-2" htmlFor={schedule.schedule_id}>
+                            <div>{moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}</div>
+                            <div className="quota-left">({schedule.quota_left} pax left)</div>
                         </label>
                     </div>
                 )
@@ -58,7 +60,7 @@ class Sidebar extends Component {
                                 <span className="price-tag">{formatCurrency(this.props.trip.price)}</span>
                                 <span className="per-pax">/pax</span>
                             </div>
-                            <p>{this.props.reviewAvg} ({this.props.reviewCount} reviews)</p>
+                            <p><FontAwesomeIcon icon={faStar} className="star-rating"/> {this.props.reviewAvg} ({this.props.reviewCount} reviews)</p>
                             <h6>Pick the date</h6>
                             {this.scheduleList()}
                         </div>
