@@ -117,9 +117,9 @@ class Header extends Component {
                                         Wishlist
                                     </DropdownItem>
                                 </Link>
-                                <Link to="/order-history">
+                                <Link to="/purchase-list">
                                     <DropdownItem className="text-light-dark">
-                                        Order History
+                                        Purchase List
                                     </DropdownItem>
                                 </Link>
                                 <Link to="/review">

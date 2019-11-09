@@ -2,27 +2,23 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
-import axios from 'axios'
-import { FilePond, registerPlugin } from 'react-filepond'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond/dist/filepond.min.css'
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+// import { FilePond, registerPlugin } from 'react-filepond'
+// import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+// import 'filepond/dist/filepond.min.css'
+// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
-import URL_API from '../../../configs/urlAPI'
 import '../../styles/review.css'
-import PendingReviewItem from '../../components/review/PendingReviewItem'
-import CompletedReviewItem from '../../components/review/CompletedReviewItem'
+import AwaitingReview from './AwaitingReview'
+import MyReview from './MyReview'
 
-registerPlugin(FilePondPluginImagePreview)
+// registerPlugin(FilePondPluginImagePreview)
 
 class Review extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            pendingReviews: [],
-            completedReviews: [],
             files: [],
             pictures: []
         }
@@ -30,131 +26,84 @@ class Review extends Component {
 
     componentDidMount() {
         document.title = 'Review - Cravelio'
-        this.getPendingReviewsData()
-        this.getCompletedReviewsData()
     }
 
-    getPendingReviewsData = () => {
-        axios.get(
-            URL_API + 'pending_reviews', {
-                params: {
-                    user_id: this.props.userId
-                }
-            }
-        ).then(res => {
-            this.setState({
-                pendingReviews: res.data.results
-            })
-        })
-    }
+    // onStarChange = (index, value) => {
+    //     let newPendingReviews = [...this.state.pendingReviews]
+    //     newPendingReviews[index].star = value
+    //     this.setState({
+    //         pendingReviews: newPendingReviews
+    //     })
+    // }
 
-    getCompletedReviewsData = () => {
-        axios.get(
-            URL_API + 'completed_reviews', {
-                params: {
-                    user_id: this.props.userId
-                }
-            }
-        ).then(res => {
-            this.setState({
-                completedReviews: res.data.results
-            })
-        })
-    }
+    // onReviewTitleChange = (index, value) => {
+    //     let newPendingReviews = [...this.state.pendingReviews]
+    //     newPendingReviews[index].review_title = value
+    //     this.setState({
+    //         pendingReviews: newPendingReviews
+    //     })
+    // }
 
-    onStarChange = (index, value) => {
-        let newPendingReviews = [...this.state.pendingReviews]
-        newPendingReviews[index].star = value
-        this.setState({
-            pendingReviews: newPendingReviews
-        })
-    }
+    // onReviewContentChange = (index, value) => {
+    //     let newPendingReviews = [...this.state.pendingReviews]
+    //     newPendingReviews[index].review_content = value
+    //     this.setState({
+    //         pendingReviews: newPendingReviews
+    //     })
+    // }
 
-    onReviewTitleChange = (index, value) => {
-        let newPendingReviews = [...this.state.pendingReviews]
-        newPendingReviews[index].review_title = value
-        this.setState({
-            pendingReviews: newPendingReviews
-        })
-    }
+    // createPicturesArray = () => {
+    //     let pictures = this.state.files.map(file => {
+    //         return file.name
+    //     })
 
-    onReviewContentChange = (index, value) => {
-        let newPendingReviews = [...this.state.pendingReviews]
-        newPendingReviews[index].review_content = value
-        this.setState({
-            pendingReviews: newPendingReviews
-        })
-    }
+    //     this.setState({
+    //         pictures
+    //     })
+    // }
 
-    createPicturesArray = () => {
-        let pictures = this.state.files.map(file => {
-            return file.name
-        })
-
-        this.setState({
-            pictures
-        })
-    }
-
-    onSaveClick = (index, tripId, transactionId) => {
+    // onSaveClick = (index, tripId, transactionId) => {
         
-        if (
-            this.state.pendingReviews[index].review_title &&
-            this.state.pendingReviews[index].review_content &&
-            this.state.pendingReviews[index].star
-        ) {
-            axios.post(
-                URL_API + 'reviews', {
-                    review_title: this.state.pendingReviews[index].review_title,
-                    review_content: this.state.pendingReviews[index].review_content,
-                    star: this.state.pendingReviews[index].star,
-                    trip_id: tripId,
-                    user_id: this.props.userId,
-                    transaction_id: transactionId
-                }
-            ).then(res => {
-                axios.patch(
-                    URL_API + 'reviews_picture', {
-                        reviews_picture: this.state.pictures,
-                        insert_id: res.data.results.insertId
-                    }
-                ).then(res => {
-                    alert("Thank you for reviewing this trip")
-                    this.getPendingReviewsData()
-                    this.getCompletedReviewsData()
+    //     if (
+    //         this.state.pendingReviews[index].review_title &&
+    //         this.state.pendingReviews[index].review_content &&
+    //         this.state.pendingReviews[index].star
+    //     ) {
+    //         axios.post(
+    //             URL_API + 'reviews', {
+    //                 review_title: this.state.pendingReviews[index].review_title,
+    //                 review_content: this.state.pendingReviews[index].review_content,
+    //                 star: this.state.pendingReviews[index].star,
+    //                 trip_id: tripId,
+    //                 user_id: this.props.userId,
+    //                 transaction_id: transactionId
+    //             }
+    //         ).then(res => {
+    //             axios.patch(
+    //                 URL_API + 'reviews_picture', {
+    //                     reviews_picture: this.state.pictures,
+    //                     insert_id: res.data.results.insertId
+    //                 }
+    //             ).then(res => {
+    //                 alert("Thank you for reviewing this trip")
+    //                 this.getPendingReviewsData()
+    //                 this.getCompletedReviewsData()
     
-                    this.refs.reviewTitle.value = ''
-                    this.refs.reviewContent.value = ''
-                    this.refs.star.value = ''
-                    this.setState({
-                        pictures: [],
-                        files: []
-                    })
+    //                 this.refs.reviewTitle.value = ''
+    //                 this.refs.reviewContent.value = ''
+    //                 this.refs.star.value = ''
+    //                 this.setState({
+    //                     pictures: [],
+    //                     files: []
+    //                 })
     
-                    window.scrollTo(0, 0)
-                })
-            })
-        } else {
-            alert("Please fill all form")
-        }
-    }
-
-    pendingReviewList = () => {
-        return this.state.pendingReviews.map((review, index) => {
-            return (
-                <PendingReviewItem pendingReview={review} key={index}/>
-            )
-        })
-    }
-
-
-    completedReviewList = () => {
-        return this.state.completedReviews.map((review, index) => {
-            return (
-                <CompletedReviewItem completedReview={review} key={index}/>
-            )
-        })
-    }
+    //                 window.scrollTo(0, 0)
+    //             })
+    //         })
+    //     } else {
+    //         alert("Please fill all form")
+    //     }
+    // }
 
     // pendingReviewList = () => {
     //     return this.state.pendingReviews.map((review, index) => {
@@ -267,17 +216,17 @@ class Review extends Component {
     //     })
     // }
 
-    onEditClick = (reviewId) => {
-        axios.patch(
-            URL_API + `reviews/${reviewId}`, {
-                review_title: '',
-                review_content: '',
-                star: ''
-            }
-        ).then(res => {
-            this.getCompletedReviewsData()
-        })
-    }
+    // onEditClick = (reviewId) => {
+    //     axios.patch(
+    //         URL_API + `reviews/${reviewId}`, {
+    //             review_title: '',
+    //             review_content: '',
+    //             star: ''
+    //         }
+    //     ).then(res => {
+    //         this.getCompletedReviewsData()
+    //     })
+    // }
 
     // reviewPictureList = (pictures) => {
     //     return pictures.map((picture, index) => {
@@ -292,9 +241,9 @@ class Review extends Component {
     // }
 
     render() {
-        console.log(this.state.files)
-        console.log(this.state.pictures)
-        console.log(this.state.pendingReviews)
+        // console.log(this.state.files)
+        // console.log(this.state.pictures)
+        // console.log(this.state.pendingReviews)
         if (this.props.userId) {
             return (
                 <div>
@@ -304,14 +253,10 @@ class Review extends Component {
                             <div className="col-12">
                                 <Tabs defaultActiveKey="awaitingReview" id="uncontrolled-tab-example">
                                     <Tab eventKey="awaitingReview" title="Awaiting Review">
-                                        <div className="row">
-                                            {this.pendingReviewList()}
-                                        </div>
+                                        <AwaitingReview userId={this.props.userId}/>
                                     </Tab>
-                                    <Tab eventKey="yourReview" title="Your Review">
-                                        <div className="row">
-                                            {this.completedReviewList()}
-                                        </div>
+                                    <Tab eventKey="myReview" title="My Review">
+                                        <MyReview userId={this.props.userId}/>
                                     </Tab>
                                 </Tabs>
                             </div>

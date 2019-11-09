@@ -28,8 +28,10 @@ class CompletedReviewItem extends Component {
                                         <img src={URL_API + 'files/trip/' + review.main_picture} alt="trip" width="100%"/>
                                     </div>
                                     <div className="col-9">
-                                        <div className="trip-name">{review.trip_name}</div>
-                                        {moment(review.start_date).format('MMMM DD, YYYY')} - {moment(review.end_date).format('MMMM DD, YYYY')}
+                                        <Link to={`/trip/${review.path}`}>
+                                            <div className="trip-name">{review.trip_name}</div>
+                                        </Link>
+                                        <div>{moment(review.start_date).format('MMMM DD, YYYY')} - {moment(review.end_date).format('MMMM DD, YYYY')}</div>
                                         <div>{review.star}</div>
                                         <div>{review.review_title}</div>
                                         <div>{review.review_content}</div>

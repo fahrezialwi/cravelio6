@@ -7,7 +7,7 @@ import '../../styles/trip-item.css'
 class TripItem extends Component {
 
     render() {
-        let {trip_id, path, trip_name, price, duration, category, picture_link, schedule} = this.props.trip
+        let {trip_id, path, trip_name, price, duration, category, picture_link, has_schedule} = this.props.trip
 
         return (
             <div className="col-lg-3 col-md-6 col-sm-12 list-padding" key={trip_id}>
@@ -16,7 +16,7 @@ class TripItem extends Component {
                         <div className="card-image">
                             <img src={`${URL_API}files/trip/${picture_link}`} alt={trip_name} className="image-cover"/>
                             {
-                                schedule === 0 ?
+                                has_schedule === 0 ?
                                 <div className="card-tag-alert ml-2">NOT AVAILABLE</div>
                                 :
                                 null

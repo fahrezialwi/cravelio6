@@ -78,10 +78,45 @@ module.exports = {
         })
     },
 
+    getPendingReviews: (req, res) => {
+        let sql =  `SELECT tr.transaction_id, t.trip_id, t.path, t.trip_name, p.picture_link,
+        tr.start_date, tr.end_date, tr.pax, tr.total_payment, tr.created_at
+        FROM transactions AS tr
+        JOIN trips AS t ON tr.trip_id = t.trip_id
+        JOIN pictures AS p ON tr.trip_id = p.trip_id
+        WHERE tr.status = 'Completed'
+        AND (SELECT COUNT(*) FROM reviews AS r WHERE r.transaction_id = tr.transaction_id) = 0
+        AND p.is_main = 1`
+
+        if (req.query.user_id) {
+            sql = `${sql} AND tr.user_id = ${req.query.user_id}`
+        }
+
+        sql += ` ORDER BY tr.created_at DESC`
+
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            
+            if (result.length > 0) {          
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found',
+                    results: result
+                })
+            }
+        })
+    },
+
     getCompletedReviews: (req, res) => {
-        let sql = `SELECT r.review_id, r.trip_id, t.trip_name, p.picture_link as main_picture,
+        let sql = `SELECT r.review_id, tr.transaction_id, r.trip_id, t.path, t.trip_name, p.picture_link as main_picture,
         r.user_id, r.transaction_id, r.review_title, r.review_content, r.star,
         rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
+        JOIN transactions as tr on r.transaction_id = tr.transaction_id
         JOIN trips AS t ON r.trip_id = t.trip_id
         JOIN pictures AS p ON r.trip_id = p.trip_id
         LEFT JOIN reviews_picture AS rp ON r.review_id = rp.review_id
@@ -103,7 +138,9 @@ module.exports = {
                 if (i == 0) {
                     data.push({
                         review_id: result[0].review_id,
+                        transaction_id: result[0].transaction_id,
                         trip_id: result[0].trip_id,
+                        path: result[0].path,
                         trip_name: result[0].trip_name,
                         main_picture: result[0].main_picture,
                         user_id: result[0].user_id,
@@ -124,7 +161,9 @@ module.exports = {
                 } else {
                     data.push({
                         review_id: result[i].review_id,
+                        transaction_id: result[i].transaction_id,
                         trip_id: result[i].trip_id,
+                        path: result[i].path,
                         trip_name: result[i].trip_name,
                         main_picture: result[i].main_picture,
                         user_id: result[i].user_id,
@@ -155,33 +194,6 @@ module.exports = {
         })
     },
 
-    getPendingReviews: (req, res) => {
-        let sql =  `SELECT transaction_id, trip_id, trip_name, trip_price, picture_link,
-        start_date, end_date, pax, total_payment, created_at FROM transactions
-        WHERE status = 'Completed' AND has_review = 0`
-
-        if (req.query.user_id) {
-            sql = `${sql} AND user_id = ${req.query.user_id}`
-        }
-
-        db.query(sql, (err,result) => {
-            if (err) throw err
-            
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
-            }
-        })
-    },
-
     createReview: (req, res) => {
         let sql = `INSERT INTO reviews (review_id, review_title, review_content, star,
         trip_id, user_id, created_at, updated_at) VALUES (0, '${req.body.review_title}', 
@@ -189,7 +201,7 @@ module.exports = {
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', 
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
-        let sql2 = `UPDATE transactions SET has_review = 1 WHERE transaction_id = ${req.body.transaction_id}`
+        // let sql2 = `UPDATE transactions SET has_review = 1 WHERE transaction_id = ${req.body.transaction_id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -201,9 +213,9 @@ module.exports = {
             })
         })
 
-        db.query(sql2, (err2, result2) => {
-            if (err2) throw err2
-        })
+        // db.query(sql2, (err2, result2) => {
+        //     if (err2) throw err2
+        // })
     },
 
     updateReviewPicture: (req, res) => {

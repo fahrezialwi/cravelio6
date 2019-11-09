@@ -1,54 +1,40 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import URL_API from '../../../configs/urlAPI'
-import moment from 'moment'
+import PendingReviewItem from '../../components/review/PendingReviewItem'
 
-class Reviews extends Component {
-    
+class AwaitingReview extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
-            reviews: [],
+            pendingReviews: [],
             currentPage: 1,
             reviewsPerPage: 5
         }
-        this.myRef = React.createRef()
     }
 
     componentDidMount() {
-        this.getReviewsData()
+        this.getPendingReviewsData()
     }
 
-    getReviewsData = () => {
+    getPendingReviewsData = () => {
         axios.get(
-            URL_API + 'reviews', {
+            URL_API + 'pending_reviews', {
                 params: {
-                    trip_id: this.props.tripId
+                    user_id: this.props.userId
                 }
             }
-        ).then((res) => {    
+        ).then(res => {
             this.setState({
-                reviews: res.data.results
+                pendingReviews: res.data.results
             })
-
-            let average = arr => arr.reduce((p,c) => p+c, 0 )/arr.length
-            let arrReview = res.data.results.map(review => {
-                return review.star
-            })
-
-            let averageResult = average(arrReview)
-            if (isNaN(averageResult)) {
-                averageResult = 0
-            }
-
-            this.props.review(averageResult.toFixed(1),res.data.results.length)
         })
     }
 
     onPageClick = (e) => {
-        let offsetPosition = this.myRef.current.offsetTop + 450
         window.scrollTo({
-            top: offsetPosition,
+            top: 0,
             behavior: "smooth"
         })
 
@@ -62,9 +48,8 @@ class Reviews extends Component {
 
     onPreviousClick = () => {
         if (this.state.currentPage > 1) {
-            let offsetPosition = this.myRef.current.offsetTop + 450
             window.scrollTo({
-                top: offsetPosition,
+                top: 0,
                 behavior: "smooth"
             })
 
@@ -77,10 +62,9 @@ class Reviews extends Component {
     }
 
     onNextClick = () => {
-        if (this.state.currentPage < Math.ceil(this.state.reviews.length / this.state.reviewsPerPage)) {
-            let offsetPosition = this.myRef.current.offsetTop + 450
+        if (this.state.currentPage < Math.ceil(this.state.pendingReviews.length / this.state.reviewsPerPage)) {
             window.scrollTo({
-                top: offsetPosition,
+                top: 0,
                 behavior: "smooth"
             })
 
@@ -92,43 +76,16 @@ class Reviews extends Component {
         }
     }
 
-    pictureList = (pictures) => {
-        return pictures.map((picture, index) => {
-            if (picture === null) {
-                return null
-            } else {
-                return (
-                    <a href={picture} key={index} target="_blank" rel="noopener noreferrer">
-                        <img src={URL_API + 'files/review/' + picture} className="mr-3" width="100" alt={index}/>
-                    </a>
-                )
-            }
-        })
-    }
-
-    reviewList = () => {
-        const { reviews, currentPage, reviewsPerPage } = this.state
+    pendingReviewList = () => {
+        const { pendingReviews, currentPage, reviewsPerPage } = this.state
         const indexOfLastReview = currentPage * reviewsPerPage
         const indexOfFirstReview = indexOfLastReview - reviewsPerPage
-        const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview)
+        const currentReviews = pendingReviews.slice(indexOfFirstReview, indexOfLastReview)
 
         if (currentReviews.length > 0) {
-            return currentReviews.map(review => {
+            return currentReviews.map((review, index) => {
                 return (
-                    <div className="col-12" key={review.review_id}>
-                        <div className="row mb-4">
-                            <div className="col-1">
-                                <h4>{review.star}</h4>
-                            </div>
-                            <div className="col-11">
-                                <h4 className="d-inline-block mr-2">{review.first_name} {review.last_name}</h4>
-                                on {moment(review.updated_at).format('MMM Do, YYYY')}
-                                <h5>{review.review_title}</h5>
-                                <p>{review.review_content}</p>
-                                {this.pictureList(review.pictures)}
-                            </div>
-                        </div>
-                    </div>
+                    <PendingReviewItem pendingReview={review} key={index}/>
                 )
             })
         } else {
@@ -142,9 +99,9 @@ class Reviews extends Component {
 
     pageNumberList = () => {
 
-        const { reviews, reviewsPerPage } = this.state
+        const { pendingReviews, reviewsPerPage } = this.state
         const pageNumbers = []
-        for (let i = 1; i <= Math.ceil(reviews.length / reviewsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(pendingReviews.length / reviewsPerPage); i++) {
             pageNumbers.push(i)
         }
     
@@ -169,11 +126,8 @@ class Reviews extends Component {
 
     render() {
         return (
-            <div className="row mt-5 mb-4" ref={this.myRef}>
-                <div className="col-12 mb-2">
-                    <h4><strong>Reviews</strong></h4>
-                </div>
-                {this.reviewList()}
+            <div className="row">
+                {this.pendingReviewList()}
                 <div className="col-12 mt-3">
                     <nav>
                         <ul className="pagination justify-content-center">
@@ -189,7 +143,7 @@ class Reviews extends Component {
                             </li>
                             {this.pageNumberList()}
                             <li
-                                className={"page-item" + (this.state.currentPage === Math.ceil(this.state.reviews.length / this.state.reviewsPerPage) ? ' disabled' : '')}
+                                className={"page-item" + (this.state.currentPage === Math.ceil(this.state.pendingReviews.length / this.state.reviewsPerPage) ? ' disabled' : '')}
                             >
                                 <button className="page-link" onClick={this.onNextClick}>
                                     Older
@@ -203,4 +157,4 @@ class Reviews extends Component {
     }
 }
 
-export default Reviews
+export default AwaitingReview

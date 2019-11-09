@@ -28,9 +28,11 @@ class PendingReviewItem extends Component {
                                         <img src={URL_API + 'files/trip/' + review.picture_link} alt="trip" width="100%"/>
                                     </div>
                                     <div className="col-9">
-                                        <div className="trip-name">{review.trip_name}</div>
-                                        {moment(review.start_date).format('MMMM DD, YYYY')} - {moment(review.end_date).format('MMMM DD, YYYY')}<br/>
-                                        {review.pax} pax
+                                        <Link to={`/trip/${review.path}`}>
+                                            <div className="trip-name">{review.trip_name}</div>
+                                        </Link>
+                                        <div>{moment(review.start_date).format('MMMM DD, YYYY')} - {moment(review.end_date).format('MMMM DD, YYYY')}</div>
+                                        <div>{review.pax} pax</div>
                                     </div>
                                     <div className="col-2 text-right">
                                         <button className="btn-main">Write Review</button>

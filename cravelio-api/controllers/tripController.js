@@ -4,8 +4,8 @@ const moment = require('moment')
 module.exports = {
     getTrips: (req, res) => {
         let sql = `SELECT *, (SELECT COUNT(*) FROM schedules AS s
-        WHERE  start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
-        AND s.trip_id = t.trip_id) AS schedule FROM trips AS t
+        WHERE s.start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
+        AND s.trip_id = t.trip_id) AS has_schedule FROM trips AS t
         JOIN pictures AS p ON t.trip_id = p.trip_id WHERE p.is_main = 1`
 
         if (req.params.path) {
@@ -36,8 +36,8 @@ module.exports = {
 
     getDomesticTrips: (req, res) => {
         let sql = `SELECT *, (SELECT COUNT(*) FROM schedules AS s
-        WHERE  start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
-        AND s.trip_id = t.trip_id) AS schedule FROM trips AS t
+        WHERE s.start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
+        AND s.trip_id = t.trip_id) AS has_schedule FROM trips AS t
         JOIN pictures AS p ON t.trip_id = p.trip_id WHERE p.is_main = 1 AND t.region = 'Indonesia'`
 
         if (req.params.path) {
@@ -68,8 +68,8 @@ module.exports = {
 
     getInternationalTrips: (req, res) => {
         let sql = `SELECT *, (SELECT COUNT(*) FROM schedules AS s
-        WHERE  start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
-        AND s.trip_id = t.trip_id) AS schedule FROM trips AS t
+        WHERE s.start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}' 
+        AND s.trip_id = t.trip_id) AS has_schedule FROM trips AS t
         JOIN pictures AS p ON t.trip_id = p.trip_id WHERE p.is_main = 1 AND NOT t.region = 'Indonesia'`
 
         if (req.params.path) {

@@ -11,7 +11,7 @@ import ForgotPassword from './pages/main/ForgotPassword'
 import ResetPassword from './pages/main/ResetPassword'
 import EditProfile from './pages/main/EditProfile'
 import Wishlist from './pages/main/Wishlist'
-import OrderHistory from './pages/main/OrderHistory'
+import PurchaseList from './pages/main/PurchaseList'
 import Review from './pages/main/Review'
 import TripDetail from './pages/main/TripDetail'
 import Checkout from './pages/main/Checkout'
@@ -67,7 +67,7 @@ class App extends Component {
                         <Route path='/reset-password' component={ResetPassword}/>
                         <Route path='/edit-profile' component={EditProfile}/>
                         <Route path='/wishlist' component={Wishlist}/>
-                        <Route path='/order-history' component={OrderHistory}/>
+                        <Route path='/purchase-list' component={PurchaseList}/>
                         <Route path='/review' component={Review}/>
                         <Route path='/trip' component={TripDetail}/>
                         <Route path='/checkout' component={Checkout}/>

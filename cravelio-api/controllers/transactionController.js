@@ -59,7 +59,6 @@ module.exports = {
                         transfer_bank_name: result[0].transfer_bank_name,
                         transfer_account_holder: result[0].transfer_account_holder,
                         transfer_proof: result[0].transfer_proof,
-                        has_review: result[0].has_review,
                         created_at: result[0].created_at
                     })
                     iterator++
@@ -104,7 +103,6 @@ module.exports = {
                         transfer_bank_name: result[i].transfer_bank_name,
                         transfer_account_holder: result[i].transfer_account_holder,
                         transfer_proof: result[i].transfer_proof,
-                        has_review: result[i].has_review,
                         created_at: result[i].created_at
                     })
                     iterator++
@@ -130,12 +128,12 @@ module.exports = {
         db.query(
             `INSERT INTO transactions (trip_id, trip_name, trip_price, start_date, end_date,
             user_id, contact_first_name, contact_last_name, contact_phone_number, contact_email,
-            pax, promo_code, promo_percentage, promo_value, total_payment, status, has_review, created_at)
+            pax, promo_code, promo_percentage, promo_value, total_payment, status, created_at)
             VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price},'${req.body.start_date}', '${req.body.end_date}',
             ${req.body.user_id}, '${req.body.contact_first_name}', '${req.body.contact_last_name}',
             '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},
-            '${req.body.status}', 0, '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
+            '${req.body.status}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
             
             if (err) throw err
             res.send({

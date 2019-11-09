@@ -7,9 +7,9 @@ import URL_API from '../../../configs/urlAPI'
 import formatCurrency from '../../../helpers/formatCurrency'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
-import '../../styles/order-history.css'
+import '../../styles/purchase-list.css'
 
-class OrderHistory extends Component {
+class PurchaseList extends Component {
 
     constructor(props) {
         super(props)
@@ -21,7 +21,7 @@ class OrderHistory extends Component {
     }
 
     componentDidMount() {
-        document.title = 'Order History - Cravelio'
+        document.title = 'Purchase List - Cravelio'
         this.getTransactionsData()
     }
 
@@ -40,45 +40,52 @@ class OrderHistory extends Component {
     }
 
     onPageClick = (e) => {
-        this.setState({
-            currentPage: Number(e.target.id)
-        })
-
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         })
+
+        e.persist()
+        setTimeout(() => { 
+            this.setState({
+                currentPage: Number(e.target.id)
+            })
+        }, 700)
     }
 
     onPreviousClick = () => {
         if (this.state.currentPage > 1) {
-            this.setState({
-                currentPage: this.state.currentPage - 1
-            })
-
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             })
+
+            setTimeout(() => { 
+                this.setState({
+                    currentPage: this.state.currentPage - 1
+                })
+            }, 700)
         }
     }
 
     onNextClick = () => {
         if (this.state.currentPage < Math.ceil(this.state.transactions.length / this.state.transactionsPerPage)) {
-            this.setState({
-                currentPage: this.state.currentPage + 1
-            })
-            
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             })
+
+            setTimeout(() => { 
+                this.setState({
+                    currentPage: this.state.currentPage + 1
+                })
+            }, 700)
         }
     }
 
     transactionList = () => {
         const { transactions, currentPage, transactionsPerPage } = this.state
-        const indexOfLastReview = currentPage * transactionsPerPage;
+        const indexOfLastReview = currentPage * transactionsPerPage
         const indexOfFirstReview = indexOfLastReview - transactionsPerPage
         const currentTransactions = transactions.slice(indexOfFirstReview, indexOfLastReview)
 
@@ -86,7 +93,7 @@ class OrderHistory extends Component {
             return currentTransactions.map(transaction => {
                 return (
                     <div className="col-12" key={transaction.transaction_id}>
-                        <div className="card order-card mb-4">
+                        <div className="card purchase-card mb-4">
                             <div className="card-body">
                                 <div className="row mx-0 pb-2 border-bottom">
                                     <div className="col-12">{moment(transaction.created_at).format('MMM Do YYYY, HH:mm')}</div>
@@ -179,7 +186,7 @@ class OrderHistory extends Component {
                         <div className="container container-height">
                             <div className="row row-top">
                                 <div className="col-12 mb-3">
-                                    <h2>Order History</h2>
+                                    <h2>Purchase List</h2>
                                 </div>
                                     {this.transactionList()}
                                 <div className="col-12 mt-3 mb-3">
@@ -192,7 +199,7 @@ class OrderHistory extends Component {
                                                     className="page-link"
                                                     onClick={this.onPreviousClick}
                                                 >
-                                                    Previous
+                                                    Newer
                                                 </button>
                                             </li>
                                             {this.pageNumberList()}
@@ -200,7 +207,7 @@ class OrderHistory extends Component {
                                                 className={"page-item" + (this.state.currentPage === Math.ceil(this.state.transactions.length / this.state.transactionsPerPage) ? ' disabled' : '')}
                                             >
                                                 <button className="page-link" onClick={this.onNextClick}>
-                                                    Next
+                                                    Older
                                                 </button>
                                             </li>
                                         </ul>
@@ -240,4 +247,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(OrderHistory)
+export default connect(mapStateToProps)(PurchaseList)
