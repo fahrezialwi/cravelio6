@@ -32,7 +32,8 @@ class AddTrip extends Component {
             priceExcludes: '',
             faq: '',
             pictures: [],
-            files: []
+            files: [],
+            isUnmounting: false
         }
     }
 
@@ -42,7 +43,9 @@ class AddTrip extends Component {
     }
 
     componentWillUnmount() {
-        this.onCancelClick()
+        if (!this.state.isUnmounting) {
+            this.onCancelClick()
+        }
     }
 
     createTrip = () => {
@@ -143,6 +146,10 @@ class AddTrip extends Component {
     }
 
     onCancelClick = () => {
+        this.setState({
+            isUnmounting: true
+        })
+
         axios.delete(
             URL_API + `trips/${this.state.tripId}`
         ).then(res => {

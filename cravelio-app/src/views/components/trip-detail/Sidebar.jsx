@@ -24,19 +24,22 @@ class Sidebar extends Component {
 
     scheduleList = () => {
         if (this.props.schedule.length > 0) {
-            return this.props.schedule.map(schedule => {
+            return this.props.schedule.map((schedule, index) => {
                 return (
                     <div key={schedule.schedule_id}>
-                        <input 
-                            type="radio"
-                            className="mr-3 radio-button"
-                            name="date"
-                            onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date, schedule.quota_left)}
-                            id={schedule.schedule_id}
-                        />
-                        <label className="mb-2" htmlFor={schedule.schedule_id}>
-                            <div>{moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}</div>
-                            <div className="quota-left">({schedule.quota_left} pax left)</div>
+                        <label className="mb-2 row">
+                            <div className="col-1 pr-0">
+                                <input 
+                                    type="radio"
+                                    className="mr-3"
+                                    name="date"
+                                    onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date, schedule.quota_left)}
+                                />
+                            </div>
+                            <div className="col-11">
+                                <div>{moment(schedule.start_date).format('MMM Do, YYYY')} - {moment(schedule.end_date).format('MMM Do, YYYY')}</div>
+                                <div className="quota-left">({schedule.quota_left} pax left)</div>
+                            </div>
                         </label>
                     </div>
                 )

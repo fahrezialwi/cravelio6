@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import URL_API from '../../../../configs/urlAPI'
 import PendingReviewItem from '../../../components/review/PendingReviewItem'
@@ -15,6 +16,7 @@ class AwaitingReview extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Awaiting Review - Cravelio'
         this.getPendingReviewsData()
     }
 
@@ -157,4 +159,10 @@ class AwaitingReview extends Component {
     }
 }
 
-export default AwaitingReview
+const mapStateToProps = (state) => {
+    return {
+        userId: state.auth.userId
+    }
+}
+
+export default connect(mapStateToProps)(AwaitingReview)

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import URL_API from '../../../configs/urlAPI'
 import moment from 'moment'
+import ReadMoreAndLess from 'react-read-more-less'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import '../../styles/reviews.css'
@@ -149,8 +150,16 @@ class Reviews extends Component {
                                 <div>{this.starList(review.star)}</div>
                             </div>
                             <div className="col-12 mt-3">
-                                {/* <h5>{review.review_title}</h5> */}
-                                <p>{review.review_content}</p>
+                                <div className="mt-2 mb-3">
+                                    <ReadMoreAndLess
+                                        ref={this.ReadMore}
+                                        charLimit={280}
+                                        readMoreText="Show more"
+                                        readLessText="Show less"
+                                    >
+                                        {review.review_content}
+                                    </ReadMoreAndLess>
+                                </div>
                                 <div className="mb-2">{this.pictureList(review.pictures)}</div>
                             </div>
                         </div>

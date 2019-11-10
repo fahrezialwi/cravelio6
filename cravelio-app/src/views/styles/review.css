@@ -11,3 +11,12 @@
     font-family: Cereal-Bold;
     color: #8c337c
 }
+
+.readMoreText {
+    color: #8c337c!important;
+    margin-left: 5px
+}
+
+.star-size {
+    font-size: 30px
+}

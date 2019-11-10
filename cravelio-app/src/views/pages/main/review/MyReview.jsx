@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import URL_API from '../../../../configs/urlAPI'
 import CompletedReviewItem from '../../../components/review/CompletedReviewItem'
@@ -15,6 +16,7 @@ class MyReview extends Component {
     }
 
     componentDidMount() {
+        document.title = 'My Review - Cravelio'
         this.getCompletedReviewsData()
     }
 
@@ -157,4 +159,10 @@ class MyReview extends Component {
     }
 }
 
-export default MyReview
+const mapStateToProps = (state) => {
+    return {
+        userId: state.auth.userId
+    }
+}
+
+export default connect(mapStateToProps)(MyReview)

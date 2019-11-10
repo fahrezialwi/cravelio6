@@ -118,10 +118,8 @@ input[type='radio']:checked:after {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.btn-main:hover {
-    color: #fff;
-    background-color:#1a1d20;
-    text-decoration: none
+.btn-main:disabled {
+    background-image: linear-gradient(to right, rgba(200, 51, 124, 0.5) , rgba(140, 51, 124, 0.5))
 }
 
 .form-control {
@@ -238,4 +236,27 @@ input[type='radio']:checked:after {
 
 img.fslightbox-source{
     border-radius: 20px
+}
+
+.filepond--root {
+    font-family: Cereal-Light
+}
+
+[data-filepond-item-state*='error'] .filepond--item-panel,
+[data-filepond-item-state*='invalid'] .filepond--item-panel {
+    background-color: #c8337c
+}
+
+[data-filepond-item-state='processing-complete'] .filepond--item-panel {
+    background-color: #8c337c
+}
+
+.filepond--image-preview-overlay svg {
+    color: rgba(40,40,40,.85)
+}
+
+@media (min-width: 576px) {
+    .filepond--item {
+        width: calc(20% - .5em)
+    }
 }
