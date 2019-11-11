@@ -66,6 +66,7 @@ module.exports = {
 
     deleteSchedule: (req, res) => {
         let sql = `DELETE FROM schedules WHERE schedule_id = ${req.params.id}`
+        
         db.query(sql, (err, result) => {
             if (err) throw err
 

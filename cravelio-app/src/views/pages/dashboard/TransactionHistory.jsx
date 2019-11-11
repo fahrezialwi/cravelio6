@@ -56,7 +56,10 @@ class TransactionHistory extends Component {
 
     render() {
         return (
-            <div className="row row-top">
+            <div className="row row-top row-bottom ml-0 mr-0">
+                <div className="col-12 mb-3">
+                    <h2>Transaction History</h2>
+                </div>
                 <div className="col-12">
                     <div className="table-responsive">
                         <table className="table">

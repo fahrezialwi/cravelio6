@@ -76,33 +76,34 @@ class ManageTrip extends Component {
 
     render() {
         return (
-            <div className="card-body">
-                <div className="row">
-                    <div className="col-12 text-right mb-3">
-                        <Link to="/dashboard/manage-trips/add-trip">
-                            <button className="btn-main mr-2">Add Trip</button>
-                        </Link>
-                    </div>
-                    <div className="col-12">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Name</th>
-                                        <th>Meeting Point</th>
-                                        <th>Price</th>
-                                        <th>Category</th>
-                                        <th>Duration</th>
-                                        <th>Picture</th>
-                                        <th colSpan="2">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.tripList()}
-                                </tbody>
-                            </table>
-                        </div>
+            <div className="row row-top row-bottom ml-0 mr-0">
+                <div className="col-12 mb-3">
+                    <h2>Manage Trips</h2>
+                </div>
+                <div className="col-12 mb-4">
+                    <Link to="/dashboard/manage-trips/add-trip">
+                        <button className="btn-main mr-2">Add New Trip</button>
+                    </Link>
+                </div>
+                <div className="col-12">
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Meeting Point</th>
+                                    <th>Price</th>
+                                    <th>Category</th>
+                                    <th>Duration</th>
+                                    <th>Picture</th>
+                                    <th colSpan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.tripList()}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

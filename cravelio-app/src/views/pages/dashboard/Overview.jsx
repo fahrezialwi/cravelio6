@@ -84,11 +84,11 @@ class Overview extends Component {
             datasets: [
                 {
                     label: 'Transaction',
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(140, 51, 124,0.2)',
+                    borderColor: 'rgba(140, 51, 124,1)',
                     borderWidth: 1,
-                    hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                    hoverBorderColor: 'rgba(255,99,132,1)',
+                    hoverBackgroundColor: 'rgba(140, 51, 124,0.4)',
+                    hoverBorderColor: 'rgba(140, 51, 124,1)',
                     data: []
                 }
             ]
@@ -109,14 +109,14 @@ class Overview extends Component {
             datasets: [{
                 data: [],
                 backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
+                '#8c337c',
+                '#c767b5',
+                '#ee89db'
                 ],
                 hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
+                '#8c337c',
+                '#c767b5',
+                '#ee89db'
                 ]
             }]
         }
@@ -155,14 +155,14 @@ class Overview extends Component {
             datasets: [{
                 data: [],
                 backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
+                '#8c337c',
+                '#c767b5',
+                '#ee89db'
                 ],
                 hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
+                '#8c337c',
+                '#c767b5',
+                '#ee89db'
                 ]
             }]
         }
@@ -204,18 +204,23 @@ class Overview extends Component {
 
     render() {
         return (
-            <div className="row mb-4">
+            <div className="row row-top row-bottom ml-0 mr-0">
+                <div className="col-12 mb-3">
+                    <h2>Overview</h2>
+                </div>
                 <div className="col-12 mb-5">
                     <h5>Transaction Volume</h5>
                     <div className="row">
-                        <div className="col-6">
+                        <div className="col-9">
                             <p>Total transaction: {this.state.transactionsOfYear.length}</p>
                         </div>
-                        <div className="col-6 text-right">
-                            Year
-                            <select className="ml-2" onChange={e => this.getDataPerYear(e.target.value)}>
-                                {this.yearList()}
-                            </select>
+                        <div className="col-3 text-right">
+                            <div className="row">
+                                <div className="col-6 pt-2 pr-2">Year</div>
+                                <select className="form-control col-6" onChange={e => this.getDataPerYear(e.target.value)}>
+                                    {this.yearList()}
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <Bar

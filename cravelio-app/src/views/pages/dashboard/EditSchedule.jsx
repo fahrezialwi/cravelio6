@@ -157,46 +157,42 @@ class EditSchedule extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div className="row row-top row-bottom ml-0 mr-0">
+                <div className="col-12 mb-3">
+                    <h2>Edit Schedule for {this.state.tripName}</h2>
+                    <p>Showing only schedule that haven't yet started</p>
+                </div>
+                <div className="col-12 mb-4">
+                    <button onClick={() => this.onAddClick()} className="btn-main">Add New Schedule</button>
+                </div>
                 <div className="col-12">
-                    <div className="row">
-                        <div className="col-12 mb-3">
-                            <h2>Edit Schedule for {this.state.tripName}</h2>
-                            <p>Showing only schedule that haven't yet started</p>
-                        </div>
-                        <div className="col-12 text-right mb-2">
-                            <button onClick={() => this.onAddClick()} className="btn-main">Add New Schedule</button>
-                        </div>
-                        <div className="col-12">
-                            <div className="table-responsive">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.scheduleList()}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        {
-                            this.state.schedule.length === 0 ?
-                            <div className="col-12 text-center">
-                                No schedules
-                            </div>
-                            :
-                            null
-                        }
-                        <div className="col-12">
-                            <button onClick={() => this.onSaveClick()} className="btn-main mr-3">Save</button>
-                            <button onClick={() => this.onCancelClick()} className="btn-main">Cancel</button>
-                        </div>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.scheduleList()}
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                {
+                    this.state.schedule.length === 0 ?
+                    <div className="col-12 text-center">
+                        No schedules
+                    </div>
+                    :
+                    null
+                }
+                <div className="col-12">
+                    <button onClick={() => this.onSaveClick()} className="btn-main mr-3">Save</button>
+                    <button onClick={() => this.onCancelClick()} className="btn-main">Cancel</button>
                 </div>
             </div>
         )

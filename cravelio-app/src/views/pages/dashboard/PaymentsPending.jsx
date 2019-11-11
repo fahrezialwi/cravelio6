@@ -31,6 +31,24 @@ class PaymentsPending extends Component {
         })
     }
 
+    onApproveClick = (transactionId) => {
+        axios.patch(
+            URL_API + `approve_transaction/${transactionId}`
+        ).then(res => {
+            alert("Transaction approved")
+            this.getTransactionsData()
+        })
+    }
+
+    onRejectClick = (transactionId) => {
+        axios.patch(
+            URL_API + `reject_transaction/${transactionId}`
+        ).then(res => {
+            alert("Transaction rejected")
+            this.getTransactionsData()
+        })
+    }
+
     transactionList = () => {
         return this.state.transactions.map((transaction) => {
             return (
@@ -53,8 +71,8 @@ class PaymentsPending extends Component {
                     </td>
                     <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
                     <td>
-                        <button className="btn-main btn-block" disabled={!transaction.transfer_proof}>Approve</button>
-                        <button className="btn-main btn-block" disabled={!transaction.transfer_proof}>Reject</button>             
+                        <button className="btn-main btn-block" onClick = {() => this.onApproveClick(transaction.transaction_id)} disabled={!transaction.transfer_proof}>Approve</button>
+                        <button className="btn-main btn-block" onClick = {() => this.onRejectClick(transaction.transaction_id)} disabled={!transaction.transfer_proof}>Reject</button>             
                     </td>
                 </tr>
             )
@@ -63,7 +81,10 @@ class PaymentsPending extends Component {
 
     render() {
         return (
-            <div className="row row-top">
+            <div className="row row-top row-bottom ml-0 mr-0">
+                <div className="col-12 mb-3">
+                    <h2>Payments Pending</h2>
+                </div>
                 <div className="col-12">
                     <div className="table-responsive">
                         <table className="table">

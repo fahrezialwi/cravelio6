@@ -86,7 +86,6 @@ class EditReview extends Component {
                             <img src={URL_API + 'files/review/' + picture} className="mr-3" width="100" alt={index}/>
                         </a>
                     </div>
-
                 )
             }
         })

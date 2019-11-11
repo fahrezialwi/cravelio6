@@ -181,5 +181,33 @@ module.exports = {
             fs.unlinkSync(req.file.path)
             console.log(error)
         }
+    },
+
+    approveTransaction: (req, res) => {
+        let sql = `UPDATE transactions SET status = 'Completed' WHERE transaction_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+
+            res.send({
+                status: 200,
+                message: 'Approve transaction success',
+                results: result
+            })
+        })
+    },
+
+    rejectTransaction: (req, res) => {
+        let sql = `UPDATE transactions SET status = 'Cancelled' WHERE transaction_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+
+            res.send({
+                status: 200,
+                message: 'Reject transaction success',
+                results: result
+            })
+        })
     }
 }

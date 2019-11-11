@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import {
     Collapse,
     Navbar,
     NavbarToggler,
     Nav,
-    NavItem,
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
@@ -14,64 +14,68 @@ import {
 import { connect } from 'react-redux'
 import { onLogoutUser } from '../../../actions/auth'
 import '../../styles/header.css'
+import URL_API from '../../../configs/urlAPI'
 
 class Header extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            isOpen: false
+            isOpen: false,
+            user: ''
         }
     }
 
-    toggle = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
+    componentDidMount() {
+        this.getUserData()
+    }
+
+    getUserData = () => {
+        axios.get(
+            URL_API + `users/${this.props.userId}`
+        ).then(res => {
+            this.setState({
+                user: res.data.results[0]
+            })
         })
     }
 
     userMenu = () => {
-        if (!this.props.userId) {
-            return (
-                <Nav className="ml-auto" navbar>
-                    <NavItem>
-                        <Link className="nav-link mr-3" to="/register">Register</Link>
-                    </NavItem>
-                    <NavItem>
-                        <Link className="nav-link mr-3" to="/login">Login</Link>
-                    </NavItem>
-                </Nav>
-            )
-        } else {
-            return (
-                <Nav className="ml-auto" navbar>
-                    <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret className="navbar-dropdown">
-                        <div className="d-inline-block">
-                            {`Hello, ${this.props.firstName}`}
-                        </div>
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                            <div className="text-light-dark pt-2 pb-2 pl-4 pr-4">
-                                <div>{this.props.firstName} {this.props.lastName}</div>
-                                <div style={{fontSize: "14px"}}>({this.props.email})</div>
+        return (
+            <Nav className="ml-auto" navbar>
+                <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret className="navbar-dropdown">
+                    <div className="d-inline-block">
+                        {`Hello, ${this.props.firstName}`}
+                    </div>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                        <div className="text-profile row pt-2 pb-2 pl-4 pr-4">
+                            <div className="col-4 pr-0">
+                                {
+                                    this.state.user.profile_picture ?
+                                    <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture"/>
+                                    :
+                                    null
+                                }
                             </div>
-                            <DropdownItem divider />
-                            <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
-                                Logout
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-                </Nav>
-            )
-        }
+                            <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
+                        </div>
+                        <DropdownItem divider />
+                        <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
+                            Logout
+                        </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
+            </Nav>
+        )
     }
 
     render() {
         return (
-            <Navbar color="dark" dark expand="md" className="navbar-sticky">
+            <Navbar color="light" light expand="md" className="navbar-main navbar-sticky">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">cravelio</Link>
+                    <Link className="navbar-logo" to="/">cravelio</Link>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar>
                     {this.userMenu()}

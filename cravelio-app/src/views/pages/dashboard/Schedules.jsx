@@ -4,7 +4,8 @@ import createSlot from 'react-tackle-box/Slot'
 import axios from 'axios'
 import moment from 'moment'
 import URL_API from '../../../configs/urlAPI'
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import "../../styles/schedules.css"
 const localizer = momentLocalizer(moment)
 const ExampleControlSlot = createSlot()
 
@@ -67,8 +68,11 @@ class Schedules extends Component {
 
     render() {
         return (
-            <div className="row row-top">
-                <div className="col-12 mb-5">
+            <div className="row row-top row-bottom ml-0 mr-0">
+                <div className="col-12 mb-3">
+                    <h2>Schedules</h2>
+                </div>
+                <div className="col-12 mb-4">
                     <h5>Edit Schedule</h5>
                     <div className="input-group">
                         <select

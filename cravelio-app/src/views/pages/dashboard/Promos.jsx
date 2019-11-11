@@ -123,11 +123,11 @@ class Promos extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div className="row row-top row-bottom ml-0 mr-0">
                 <div className="col-12 mb-3">
                     <h2>Promos</h2>
                 </div>
-                <div className="col-12 text-right mb-2">
+                <div className="col-12 mb-4">
                     <button onClick={() => this.onAddClick()} className="btn-main">Add New Promo</button>
                 </div>
                 <div className="col-12">

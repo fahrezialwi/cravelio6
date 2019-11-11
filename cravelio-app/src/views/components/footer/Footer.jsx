@@ -10,7 +10,9 @@ class Footer extends Component {
                 <div className="container">
                     <div className="row pt-3">
                         <div className="col-12 col-md-6 col-lg-3 mt-3">
-                            <h1 className="footer-logo">cravelio</h1>
+                            <Link to="/">
+                                <h1 className="footer-logo">cravelio</h1>
+                            </Link>
                         </div>
                         <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
                             <h4>About Cravelio</h4>
