@@ -53,8 +53,8 @@ class CompletedReviewItem extends Component {
                                 <Link to={`/invoice/${review.transaction_id}`}>INV/TRIP/{moment(review.created_at).format('YYYYMMDD')}/{review.transaction_id}</Link>
                             </div>
                             <div className="col-6">
-                                Review Date:<br/>
-                                {moment(review.created_at).format('MMM Do YYYY, HH:mm')}
+                                Last Updated:<br/>
+                                {moment(review.updated_at).format('MMM Do YYYY, HH:mm')}
                             </div>
                         </div>
                         <div className="row mx-0">

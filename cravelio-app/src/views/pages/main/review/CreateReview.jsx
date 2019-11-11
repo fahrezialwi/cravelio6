@@ -33,7 +33,7 @@ class CreateReview extends Component {
             rating: 0,
             reviewContent: '',
             files: [],
-            isUnmounting: false
+            cancelClick: false
         }
     }
 
@@ -45,8 +45,8 @@ class CreateReview extends Component {
 
     componentWillUnmount() {
         this._isMounted = false
-        if (!this.state.isUnmounting) {
-            this.onCancelClick()
+        if (this.state.files.length > 0 && !this.state.cancelClick) {
+            this.clearPictures()
         }
     }
 
@@ -98,10 +98,33 @@ class CreateReview extends Component {
     }
 
     onCancelClick = () => {
-        this.setState({
-            isUnmounting: true
-        })
+        if (this.state.files.length > 0) {
+            this.setState({
+                cancelClick: true
+            })
+            axios.get(
+                URL_API + `reviews_picture`, {
+                    params: {
+                        transaction_id: this.state.transactionId
+                    }
+            }).then(res => {  
+                for (let i = 0; i < res.data.results.length; i++) {
+                    axios.delete(
+                        URL_API + `reviews_picture/${res.data.results[i].review_picture_id}`, {
+                            data: {
+                                picture_link: res.data.results[i].picture_link
+                            }
+                        }
+                    )
+                }
+                this.props.history.push("/review/awaiting-review")
+            })
+        } else {
+            this.props.history.push("/review/awaiting-review")
+        }
+    }
 
+    clearPictures = () => {
         axios.get(
             URL_API + `reviews_picture`, {
                 params: {
@@ -117,12 +140,10 @@ class CreateReview extends Component {
                     }
                 )
             }
-            this.props.history.push("/review/awaiting-review")
         })
     }
 
     render() {
-        console.log(this.state.files)
         if (this.state.transactionId) {
             if (this.state.userId === this.props.userId) {
                 return (

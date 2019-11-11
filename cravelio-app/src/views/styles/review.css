@@ -20,3 +20,16 @@
 .star-size {
     font-size: 30px
 }
+
+.delete-icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: -15px;
+    right: 7px;
+    padding: 2px 7px;
+    border-radius: 50%;
+    background-color: #8c337c;
+    color: white;
+    cursor: pointer
+}

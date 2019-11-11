@@ -33,7 +33,7 @@ class AddTrip extends Component {
             faq: '',
             pictures: [],
             files: [],
-            isUnmounting: false
+            cancelClick: false
         }
     }
 
@@ -43,8 +43,8 @@ class AddTrip extends Component {
     }
 
     componentWillUnmount() {
-        if (!this.state.isUnmounting) {
-            this.onCancelClick()
+        if (this.state.pictures.length > 0 && !this.state.cancelClick) {
+            this.clearPictures()
         }
     }
 
@@ -146,10 +146,30 @@ class AddTrip extends Component {
     }
 
     onCancelClick = () => {
-        this.setState({
-            isUnmounting: true
-        })
+        if (this.state.pictures.length > 0) {
+            this.setState({
+                cancelClick: true
+            })
+            axios.delete(
+                URL_API + `trips/${this.state.tripId}`
+            ).then(res => {
+                for (let i = 0; i < this.state.pictures.length; i++) {
+                    axios.delete(
+                        URL_API + `pictures/${this.state.pictures[i].picture_id}`,{
+                            data: {
+                                picture_link: this.state.pictures[i].picture_link
+                            }
+                        }
+                    )
+                }
+                this.props.history.push("/dashboard/manage-trips")
+            })
+        } else {
+            this.props.history.push("/dashboard/manage-trips")
+        }
+    }
 
+    clearPictures = () => {
         axios.delete(
             URL_API + `trips/${this.state.tripId}`
         ).then(res => {

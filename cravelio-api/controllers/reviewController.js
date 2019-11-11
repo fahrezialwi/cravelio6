@@ -16,7 +16,7 @@ module.exports = {
             sql = `${sql} WHERE r.trip_id = ${req.query.trip_id}`
         }
 
-        sql += ` ORDER BY r.created_at DESC`
+        sql += ` ORDER BY r.updated_at DESC`
 
         db.query(sql, (err,result) => {
             if (err) throw err
@@ -119,8 +119,8 @@ module.exports = {
     getCompletedReviews: (req, res) => {
         let sql = `SELECT r.review_id, tr.transaction_id, r.trip_id, t.path, t.trip_name,
         tr.start_date, tr.end_date, p.picture_link as main_picture,
-        r.user_id, r.transaction_id, r.review_content, r.star,
-        rp.picture_link, r.created_at, r.updated_at FROM reviews AS r
+        r.user_id, r.review_content, r.star, rp.picture_link,
+        r.created_at, r.updated_at FROM reviews AS r
         JOIN transactions as tr on r.transaction_id = tr.transaction_id
         JOIN trips AS t ON r.trip_id = t.trip_id
         JOIN pictures AS p ON r.trip_id = p.trip_id
@@ -130,12 +130,16 @@ module.exports = {
         if (req.query.user_id) {
             sql = `${sql} AND r.user_id = ${req.query.user_id}`
         }
+        
+        if (req.query.transaction_id) {
+            sql = `${sql} AND tr.transaction_id = ${req.query.transaction_id}`
+        }
 
         if (req.params.id) {
             sql = `${sql} AND r.review_id = ${req.params.id}`
         }
 
-        sql += ` ORDER BY r.created_at DESC`
+        sql += ` ORDER BY r.updated_at DESC`
 
         db.query(sql, (err,result) => {
             if (err) throw err
@@ -207,7 +211,7 @@ module.exports = {
 
     createReview: (req, res) => {
         let sql = `INSERT INTO reviews (review_id, review_content, star,
-        trip_id, user_id, transaction_id, created_at, updated_at) VALUES (0, '${req.body.review_content}',
+        trip_id, user_id, transaction_id, created_at, updated_at) VALUES (0, ${db.escape(req.body.review_content)},
         ${req.body.star}, ${req.body.trip_id}, ${req.body.user_id}, ${req.body.transaction_id},
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}', 
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
@@ -263,6 +267,11 @@ module.exports = {
         let sql = `INSERT INTO reviews_picture (review_picture_id, picture_link, transaction_id)
         VALUES (0, '${req.files[0].filename}', ${req.body.transaction_id})`
 
+        if (req.body.review_id && req.body.transaction_id) {
+            sql = `INSERT INTO reviews_picture (review_picture_id, picture_link, review_id, transaction_id)
+            VALUES (0, '${req.files[0].filename}', ${req.body.review_id}, ${req.body.transaction_id})`
+        }
+
         db.query(sql, (err, result) => {
             if (err) throw err  
             res.send(req.files[0].filename)
@@ -284,8 +293,9 @@ module.exports = {
     },
 
     editReview: (req, res) => {
-        let sql = `UPDATE reviews SET review_content = '${req.body.review_content}',
-        star = ${req.body.star} WHERE review_id = ${req.params.id}`
+        let sql = `UPDATE reviews SET review_content = ${db.escape(req.body.review_content)},
+        star = ${req.body.star}, updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'
+        WHERE review_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err
