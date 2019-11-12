@@ -79,14 +79,26 @@ class PendingPayments extends Component {
         }
     }
 
-    onApproveClick = (transactionId, email) => {
+    onApproveClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
         axios.patch(
             URL_API + `approve_transaction/${transactionId}`
         ).then(res => {
             axios.post(
                 URL_API + 'send_purchase_approved', {
                     transaction_id: transactionId,
-                    email: email
+                    created_at: createdAt,
+                    contact_email: contactEmail,
+                    contact_first_name: contactFirstName,
+                    contact_last_name: contactLastName,
+                    trip_name: tripName,
+                    start_date: startDate,
+                    end_date: endDate,
+                    pax: pax,
+                    trip_price: tripPrice,
+                    promo_code: promoCode,
+                    promo_value: promoValue,
+                    total_payment: totalPayment,
+                    participants: participants
                 }
             ).then(res => {
                 toast("Transaction approved", {
@@ -98,14 +110,26 @@ class PendingPayments extends Component {
         })
     }
 
-    onRejectClick = (transactionId, email) => {
+    onRejectClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
         axios.patch(
             URL_API + `reject_transaction/${transactionId}`
         ).then(res => {
             axios.post(
                 URL_API + 'send_purchase_rejected', {
                     transaction_id: transactionId,
-                    email: email
+                    created_at: createdAt,
+                    contact_email: contactEmail,
+                    contact_first_name: contactFirstName,
+                    contact_last_name: contactLastName,
+                    trip_name: tripName,
+                    start_date: startDate,
+                    end_date: endDate,
+                    pax: pax,
+                    trip_price: tripPrice,
+                    promo_code: promoCode,
+                    promo_value: promoValue,
+                    total_payment: totalPayment,
+                    participants: participants
                 }
             ).then(res => {
                 toast("Transaction rejected", {
@@ -148,8 +172,34 @@ class PendingPayments extends Component {
                     </td>
                     <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
                     <td>
-                        <button className="btn-main btn-block" onClick = {() => this.onApproveClick(transaction.transaction_id, transaction.contact_email)} disabled={!transaction.transfer_proof}>Approve</button>
-                        <button className="btn-main btn-block" onClick = {() => this.onRejectClick(transaction.transaction_id, transaction.contact_email)} disabled={!transaction.transfer_proof}>Reject</button>             
+                        <button
+                            className="btn-main btn-block"
+                            onClick = {() => 
+                                this.onApproveClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
+                                    transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name,
+                                    transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
+                                    transaction.promo_code, transaction.promo_value, transaction.total_payment,
+                                    transaction.participants
+                                )
+                            }
+                            disabled={!transaction.transfer_proof}
+                        >
+                                Approve
+                        </button>
+                        <button
+                            className="btn-main btn-block"
+                            onClick = {() => 
+                                this.onRejectClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
+                                    transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name,
+                                    transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
+                                    transaction.promo_code, transaction.promo_value, transaction.total_payment,
+                                    transaction.participants
+                                )
+                            }
+                            disabled={!transaction.transfer_proof}
+                        >
+                            Reject
+                        </button>             
                     </td>
                 </tr>
             )
@@ -184,6 +234,7 @@ class PendingPayments extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <div className="row row-top row-bottom ml-0 mr-0">
                 <div className="col-12 mb-3">

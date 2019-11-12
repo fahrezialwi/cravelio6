@@ -2,7 +2,10 @@ const db = require('../database')
 const fs = require('fs')
 const moment = require('moment')
 const nodemailer = require('nodemailer')
+const juice = require('juice')
 const mailPassword = require('../configs/mailPassword')
+const invoiceApproved = require('../email-templates/invoiceApproved')
+const invoiceRejected = require('../email-templates/invoiceRejected')
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
@@ -226,11 +229,16 @@ module.exports = {
     sendPurchaseApproved: (req, res) => {
         let mailOptions = {
             from: 'Cravelio <booking@cravelio.com>',
-            to: req.body.email,
+            to: req.body.contact_email,
             subject: 'Thank you for your booking',
-            html: `<p>This is your booking information: Transaction ID: ${req.body.transaction_id}</a>`
+            html: juice(invoiceApproved(
+                req.body.transaction_id, req.body.created_at, req.body.contact_first_name,
+                req.body.contact_last_name, req.body.trip_name, req.body.start_date,
+                req.body.end_date, req.body.pax, req.body.trip_price, req.body.promo_code,
+                req.body.promo_value, req.body.total_payment, req.body.participants
+            ))
         }
-        
+
         transporter.sendMail(mailOptions, (err, info) => {
             if (err) throw err
         })
@@ -238,17 +246,22 @@ module.exports = {
         res.send({
             status: 201,
             message: 'Email sent'
-        })  
+        })
     },
 
     sendPurchaseRejected: (req, res) => {
         let mailOptions = {
             from: 'Cravelio <booking@cravelio.com>',
-            to: req.body.email,
+            to: req.body.contact_email,
             subject: 'Rejection on your booking',
-            html: `<p>This is your booking information: Transaction ID: ${req.body.transaction_id}</a>`
+            html: juice(invoiceRejected(
+                req.body.transaction_id, req.body.created_at, req.body.contact_first_name,
+                req.body.contact_last_name, req.body.trip_name, req.body.start_date,
+                req.body.end_date, req.body.pax, req.body.trip_price, req.body.promo_code,
+                req.body.promo_value, req.body.total_payment, req.body.participants
+            ))
         }
-        
+
         transporter.sendMail(mailOptions, (err, info) => {
             if (err) throw err
         })
@@ -256,6 +269,6 @@ module.exports = {
         res.send({
             status: 201,
             message: 'Email sent'
-        })  
+        })
     }
 }

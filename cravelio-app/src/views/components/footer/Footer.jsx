@@ -12,7 +12,7 @@ class Footer extends Component {
                     <div className="row pt-3">
                         <div className="col-12 col-md-6 col-lg-3 mt-3">
                             <Link to="/">
-                                <h1 className="footer-logo">cravelio</h1>
+                                <img src={URL_API + 'files/general/cravelio-logo-white.png'} width="150" alt="cravelio-logo"/>
                             </Link>
                             <div className="partner-logo mt-4 mb-1">Official Partner</div>
                             <img src={URL_API + 'files/general/wonderful-indonesia-logo.png'} width="120" alt="wonderful-indonesia"/>

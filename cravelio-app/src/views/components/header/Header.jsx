@@ -149,7 +149,9 @@ class Header extends Component {
         return (
             <Navbar color="light" light expand="md" className="navbar-main navbar-sticky">
                 <div className="container">
-                    <Link className="navbar-logo" to="/">cravelio</Link>
+                    <Link className="navbar-logo" to="/">
+                        <img src={URL_API + 'files/general/cravelio-logo.png'} width="80" alt="cravelio-logo"/>
+                    </Link>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar>
                     {this.userMenu()}

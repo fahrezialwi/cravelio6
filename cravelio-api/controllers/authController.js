@@ -1,6 +1,7 @@
 const db = require('../database')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
 const moment = require('moment')
 const URL_APP = require('../configs/urlApp')
 const mailPassword = require('../configs/mailPassword')
@@ -77,14 +78,11 @@ module.exports = {
         })
     },
 
-    editUser: (req, res) => {
+    editWithoutProfilePicture: (req, res) => {
+   
         let sql = `UPDATE users SET first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
         password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
-
-        if (req.body.profile_picture) {
-            sql += ` profile_picture = '${req.body.profile_picture}',`
-        }
 
         if (req.body.birth_date) {
             sql += ` birth_date = '${req.body.birth_date}',`
@@ -103,19 +101,64 @@ module.exports = {
 
         db.query(sql, (err, result) => {
             if (err) throw err
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 401,
-                    message: 'Wrong email or password',
-                    results: result
-                })
+            
+            res.send({
+                status: 201,
+                message: 'Edit profile success',
+                results: result
+            })
+        }) 
+    },
+
+    editWithProfilePicture: (req, res) => {
+        try {
+            if (req.validation) throw req.validation
+            if (req.file.size > 5000000) throw {error: true, message: 'Image size too large'}
+
+            let data = JSON.parse(req.body.data)
+
+            let sql = `UPDATE users SET first_name = '${data.first_name}',
+            last_name = '${data.last_name}', email = '${data.email}',
+            password = '${data.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
+    
+            if (data.profile_picture) {
+                sql += ` profile_picture = '${req.file.filename}',`
             }
-        })
+    
+            if (data.birth_date) {
+                sql += ` birth_date = '${data.birth_date}',`
+            }
+    
+            if (data.address) {
+                sql += ` address = '${data.address}',`
+            }
+    
+            if (data.phone_number) {
+                sql += ` phone_number = '${data.phone_number}',`
+            }
+    
+            sql = sql.slice(0, -1)
+            sql += ` WHERE user_id = ${req.params.id}`
+
+            db.query(sql, (err, result) => {
+                try {
+                    if (err) throw err
+                    res.send({
+                        status: 201,
+                        message: 'Edit profile success',
+                        results: result
+                    })
+                } catch (error) {
+                    // delete file when query/database error
+                    fs.unlinkSync(req.file.path)
+                    console.log(error)                
+                }
+            })
+        } catch (error) {
+            // delete file if file size more than 5MB
+            fs.unlinkSync(req.file.path)
+            console.log(error)
+        }
     },
 
     sendVerificationLink: (req, res) => {
