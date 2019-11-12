@@ -80,7 +80,7 @@ class Register extends Component {
                             }
                         ).then(() => {
                             axios.post(
-                                URL_API + 'send-verification-link', {
+                                URL_API + 'send_verification_link', {
                                     email: email
                                 }
                             ).then(res => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from  'react-redux'
 import { keepLogin } from '../actions/auth'
+import { ToastContainer } from 'react-toastify'
 import Cookies from 'universal-cookie'
 import Home from './pages/main/Home'
 import Register from './pages/main/Register'
@@ -58,6 +59,7 @@ class App extends Component {
             return (
                 <BrowserRouter>
                     <ScrollToTop/>
+                    <ToastContainer hideProgressBar={true}/>
                     <Switch>
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>

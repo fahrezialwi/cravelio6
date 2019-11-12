@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import 'react-quill/dist/quill.snow.css'
@@ -22,7 +23,6 @@ class EditTrip extends Component {
             path: '',
             tripName: '',
             pictureId: '',
-            pictureLink: '',
             meetingPoint: '',
             price: '',
             duration: '',
@@ -58,7 +58,6 @@ class EditTrip extends Component {
                 path: res.data.results[0].path,
                 tripName: res.data.results[0].trip_name,
                 pictureId: res.data.results[0].picture_id,
-                pictureLink: res.data.results[0].picture_link,
                 meetingPoint: res.data.results[0].meeting_point,
                 price: res.data.results[0].price,
                 duration: res.data.results[0].duration,
@@ -118,11 +117,17 @@ class EditTrip extends Component {
                     }
                 }
             ).then(res => {
-                alert("Picture deleted")
+                toast("Picture deleted", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
                 this.getPicturesData()
             })
         } else {
-            alert("Pictures can not less than 5")
+            toast("Pictures can not less than 5", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 
@@ -150,13 +155,19 @@ class EditTrip extends Component {
                         trip_id: this.state.tripId
                     }
                 ).then(res => {
-                    alert("Trip updated")
+                    toast("Trip updated", {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: 'toast-container'
+                    })
                     this.forceUpdate()
                     window.scrollTo(0, 0)
                 })
             })
         } else {
-            alert("Pictures can not less than 5")
+            toast("Pictures can not less than 5", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 

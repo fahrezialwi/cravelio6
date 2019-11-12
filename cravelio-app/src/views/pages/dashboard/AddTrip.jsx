@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import 'react-quill/dist/quill.snow.css'
@@ -22,7 +23,6 @@ class AddTrip extends Component {
             tripId: '',
             tripName: '',
             pictureId: '',
-            pictureLink: '',
             meetingPoint: '',
             price: '',
             duration: '',
@@ -36,7 +36,7 @@ class AddTrip extends Component {
             faq: '',
             pictures: [],
             files: [],
-            cancelClick: false
+            buttonClick: false
         }
     }
 
@@ -46,7 +46,7 @@ class AddTrip extends Component {
     }
 
     componentWillUnmount() {
-        if (this.state.pictures.length > 0 && !this.state.cancelClick) {
+        if (this.state.pictures.length > 0 && !this.state.buttonClick) {
             this.clearPictures()
         }
     }
@@ -104,17 +104,26 @@ class AddTrip extends Component {
                     }
                 }
             ).then(res => {
-                alert("Picture deleted")
+                toast("Picture deleted", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
                 this.getPicturesData()
             })
         } else {
-            alert("Pictures can not less than 5")
+            toast("Pictures can not less than 5", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 
     onAddClick = () => {
         if (this.state.pictures.length >= 5) {
             if (this.state.pictureId) {
+                this.setState({
+                    buttonClick: true
+                })
                 axios.patch(
                     URL_API + `trips/${this.state.tripId}`, {
                         path: this.state.path,
@@ -137,22 +146,31 @@ class AddTrip extends Component {
                             trip_id: this.state.tripId
                         }
                     ).then(res => {
-                        alert("Trip added")
+                        toast("Trip added", {
+                            position: toast.POSITION.BOTTOM_CENTER,
+                            className: 'toast-container'
+                        })
                         this.props.history.push("/dashboard/manage-trips")
                     })
                 })
             } else {
-                alert("Please select main image")
+                toast("Please select main image", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
             }
         } else {
-            alert("Pictures can not less than 5")
+            toast("Pictures can not less than 5", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 
     onCancelClick = () => {
         if (this.state.pictures.length > 0) {
             this.setState({
-                cancelClick: true
+                buttonClick: true
             })
             axios.delete(
                 URL_API + `trips/${this.state.tripId}`

@@ -24,7 +24,7 @@ class VerifyAccount extends Component {
 
     verifyUser = () => {
         axios.get(
-            URL_API + 'check-password-link', {
+            URL_API + 'check_password_link', {
                 params: {
                     token: querystring.parse(this.props.location.search).key
                 }
@@ -36,7 +36,7 @@ class VerifyAccount extends Component {
                 })
             } else {
                 axios.patch(
-                    URL_API + 'verify-user', {
+                    URL_API + 'verify_user', {
                         token: querystring.parse(this.props.location.search).key
                     }
                 )
@@ -53,7 +53,7 @@ class VerifyAccount extends Component {
                         <div className="container container-height">
                             <div className="row row-top">
                                 <div className="col-12 text-center">
-                                    <p>Your account has been verified. Click <Link to="/login">here</Link> to login.</p>
+                                    <p>Your account has been verified. Click <Link to="/login" className="click-here">here</Link> to login.</p>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import { confirmAlert } from 'react-confirm-alert'
 import URL_API from '../../../configs/urlAPI'
 
 class Promos extends Component {
@@ -87,14 +89,29 @@ class Promos extends Component {
     }
 
     onDeleteClick = (promoId) => {
-        let conf = window.confirm("Are you sure want to delete this promo?")
-        if (conf) {
-            axios.delete(
-                URL_API + `promos/${promoId}`
-            ).then(res => {
-                this.getPromosData()
-            })
-        }
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='alert-container'>
+                        <p>Are you sure want to delete this promo?</p>
+                        <button
+                            onClick={() => {
+                                axios.delete(
+                                    URL_API + `promos/${promoId}`
+                                ).then(res => {
+                                    onClose()
+                                    this.getPromosData()
+                                })
+                            }}
+                            className="btn-main"
+                        >
+                        Yes
+                        </button>
+                        <button onClick={onClose} className="btn-main ml-2">No</button>
+                    </div>
+                )
+            }
+        })
     }
 
     onSaveClick = () => {
@@ -115,8 +132,10 @@ class Promos extends Component {
                 )
             }
         }
-        
-        alert("Promos saved")
+        toast("Promos saved", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            className: 'toast-container'
+        })
         this.forceUpdate()
         window.scrollTo(0, 0)
     }

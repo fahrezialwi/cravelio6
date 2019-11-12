@@ -4,6 +4,7 @@ import moment from 'moment'
 import StarRatingComponent from 'react-star-rating-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import URL_API from '../../../../configs/urlAPI'
@@ -33,7 +34,7 @@ class CreateReview extends Component {
             rating: 0,
             reviewContent: '',
             files: [],
-            cancelClick: false
+            buttonClick: false
         }
     }
 
@@ -45,7 +46,7 @@ class CreateReview extends Component {
 
     componentWillUnmount() {
         this._isMounted = false
-        if (this.state.files.length > 0 && !this.state.cancelClick) {
+        if (this.state.files.length > 0 && !this.state.buttonClick) {
             this.clearPictures()
         }
     }
@@ -76,6 +77,9 @@ class CreateReview extends Component {
     }
 
     onSaveClick = () => {
+        this.setState({
+            buttonClick: true
+        })
         axios.post(
             URL_API + 'reviews', {
                 review_content: this.state.reviewContent,
@@ -91,7 +95,10 @@ class CreateReview extends Component {
                     review_id: res.data.results.insertId
                 }
             ).then(res => {
-                alert("Thank you for reviewing this trip")
+                toast("Thank you for reviewing this trip", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
                 this.props.history.push("/review/my-review")
             })
         })
@@ -100,7 +107,7 @@ class CreateReview extends Component {
     onCancelClick = () => {
         if (this.state.files.length > 0) {
             this.setState({
-                cancelClick: true
+                buttonClick: true
             })
             axios.get(
                 URL_API + `reviews_picture`, {

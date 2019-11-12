@@ -4,7 +4,7 @@ import { Redirect, Switch, Route, Link } from 'react-router-dom'
 // import HeaderDashboard from '../../components/header/HeaderDashboard'
 // import FooterDashboard from '../../components/footer/FooterDashboard'
 import Overview from './Overview'
-import PaymentsPending from './PaymentsPending'
+import PendingPayments from './PendingPayments'
 import TransactionHistory from './TransactionHistory'
 import ManageTrips from './ManageTrips'
 import AddTrip from './AddTrip'
@@ -38,7 +38,7 @@ class Dashboard extends Component {
                                                 <Link to="/dashboard" className={"list-dashboard" + (this.props.location.pathname === '/dashboard' ? ' list-active' : '')}>Overview</Link>
                                             </li>
                                             <li className="list-group-item">
-                                                <Link to="/dashboard/payments-pending" className={"list-dashboard" + (this.props.location.pathname.split("/")[2] === 'payments-pending' ? ' list-active' : '')}>Payments Pending</Link>
+                                                <Link to="/dashboard/pending-payments" className={"list-dashboard" + (this.props.location.pathname.split("/")[2] === 'pending-payments' ? ' list-active' : '')}>Pending Payments</Link>
                                             </li>
                                             <li className="list-group-item">
                                                 <Link to="/dashboard/transaction-history" className={"list-dashboard" + (this.props.location.pathname.split("/")[2] === 'transaction-history' ? ' list-active' : '')}>Transaction History</Link>
@@ -62,7 +62,7 @@ class Dashboard extends Component {
                             <div className="col-9 pl-4 pr-4">
                                 <Switch>
                                     <Route path='/dashboard' exact component={Overview}/>
-                                    <Route path='/dashboard/payments-pending' component={PaymentsPending}/>
+                                    <Route path='/dashboard/pending-payments' component={PendingPayments}/>
                                     <Route path='/dashboard/transaction-history' component={TransactionHistory}/>
                                     <Route path='/dashboard/manage-trips' exact component={ManageTrips}/>
                                     <Route path='/dashboard/manage-trips/add-trip' component={AddTrip}/>

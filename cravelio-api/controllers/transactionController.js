@@ -1,6 +1,18 @@
 const db = require('../database')
 const fs = require('fs')
 const moment = require('moment')
+const nodemailer = require('nodemailer')
+const mailPassword = require('../configs/mailPassword')
+
+let transporter = nodemailer.createTransport({
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'booking@cravelio.com',
+        pass: mailPassword
+    }
+})
 
 module.exports = {
     getTransactions: (req, res) => {
@@ -126,12 +138,12 @@ module.exports = {
 
     createTransaction: (req, res) => {
         db.query(
-            `INSERT INTO transactions (trip_id, trip_name, trip_price, start_date, end_date,
+            `INSERT INTO transactions (trip_id, trip_name, trip_price, picture_link, start_date, end_date,
             user_id, contact_first_name, contact_last_name, contact_phone_number, contact_email,
             pax, promo_code, promo_percentage, promo_value, total_payment, status, created_at)
-            VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price},'${req.body.start_date}', '${req.body.end_date}',
-            ${req.body.user_id}, '${req.body.contact_first_name}', '${req.body.contact_last_name}',
-            '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
+            VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price}, '${req.body.picture_link}',
+            '${req.body.start_date}', '${req.body.end_date}', ${req.body.user_id}, '${req.body.contact_first_name}',
+            '${req.body.contact_last_name}', '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},
             '${req.body.status}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
             
@@ -209,5 +221,41 @@ module.exports = {
                 results: result
             })
         })
+    },
+
+    sendPurchaseApproved: (req, res) => {
+        let mailOptions = {
+            from: 'Cravelio <booking@cravelio.com>',
+            to: req.body.email,
+            subject: 'Thank you for your booking',
+            html: `<p>This is your booking information: Transaction ID: ${req.body.transaction_id}</a>`
+        }
+        
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) throw err
+        })
+
+        res.send({
+            status: 201,
+            message: 'Email sent'
+        })  
+    },
+
+    sendPurchaseRejected: (req, res) => {
+        let mailOptions = {
+            from: 'Cravelio <booking@cravelio.com>',
+            to: req.body.email,
+            subject: 'Rejection on your booking',
+            html: `<p>This is your booking information: Transaction ID: ${req.body.transaction_id}</a>`
+        }
+        
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) throw err
+        })
+
+        res.send({
+            status: 201,
+            message: 'Email sent'
+        })  
     }
 }

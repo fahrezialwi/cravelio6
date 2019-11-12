@@ -1,4 +1,5 @@
 import Cookies from 'universal-cookie'
+import { toast } from 'react-toastify'
 
 // Login
 export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumber) => {
@@ -27,6 +28,10 @@ export const keepLogin = (objUser) => {
 
 // Logout
 export const onLogoutUser = () => {
+    toast("You have been logged out", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        className: 'toast-container'
+    })
     const cookie = new Cookies()
     cookie.remove('userData', { path: '/' })
     return {

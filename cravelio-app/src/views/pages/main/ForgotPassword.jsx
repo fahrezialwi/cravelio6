@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import Header from '../../components/header/Header'
@@ -24,14 +25,20 @@ class ForgotPassword extends Component {
         e.preventDefault()
         if (this.state.email) {
             axios.post(
-                URL_API + 'send-password-link', {
+                URL_API + 'send_password_link', {
                     email: this.state.email
                 }
             ).then(res => {
-                alert("We have sent you an email to reset your password")
+                toast("We have sent you an email to reset your password", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
             })
         } else {
-            alert("Email cannot be empty")
+            toast("Email cannot be empty", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 

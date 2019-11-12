@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import { onSubmitProof } from '../../../actions/booking'
 import axios from 'axios'
 import moment from 'moment'
@@ -75,15 +76,17 @@ class Invoice extends Component {
                         </div>
                         {
                             this.state.bankName === 'BCA' ?
-                            <div className="col-8">
-                                <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
-                                <div>Cravelio BCA Account Number</div>
+                            <div className="col-3">
+                                <div className="mb-3">Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                <img src={URL_API + 'files/general/bank-bca-logo.png'} width="140" alt="bank-bca-logo"/>
+                                <div className="mt-3">PT Cravelio Indonesia</div>
                                 <div>6123456789</div>
                             </div>
                             :
                             <div className="col-8">
-                                <div>Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
-                                <div>Cravelio Mandiri Account Number</div>
+                                <div className="mb-3">Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                <img src={URL_API + 'files/general/bank-mandiri-logo.png'} width="150" alt="bank-mandiri-logo"/>
+                                <div className="mt-3">PT Cravelio Indonesia</div>
                                 <div>5123456789</div>
                             </div>
                         }
@@ -141,8 +144,10 @@ class Invoice extends Component {
                 axios.patch(
                     URL_API + `transactions/${this.props.match.params.id}`, fd
                 ).then(res => {
-                    alert('Upload proof success')
-
+                    toast("Upload proof success", {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: 'toast-container'
+                    })
                     this.props.onSubmitProof(this.state.bankName, this.state.accountHolderName, this.state.transferProof)
                     this.props.history.push("/complete")
 
@@ -150,16 +155,22 @@ class Invoice extends Component {
                     console.log(err)
                 })
             } else {
-                alert('Please select an image')
+                toast("Please select an image", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
             }
         } else {
-            alert('Please type account holder name')
+            toast("Please type account holder name", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 
     render() {
         if (this.state.transaction) {
-            if (this.props.userId === this.state.transaction.user_id) {
+            if (this.props.userId === this.state.transaction.user_id || this.props.role === 'admin') {
                 return (
                     <div>
                         <Header/>
@@ -226,7 +237,8 @@ class Invoice extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.auth.userId
+        userId: state.auth.userId,
+        role: state.auth.role
     }
 }
 

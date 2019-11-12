@@ -8,6 +8,8 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import URL_API from '../../../../configs/urlAPI'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { FilePond, registerPlugin } from 'react-filepond'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond/dist/filepond.min.css'
@@ -108,7 +110,10 @@ class EditReview extends Component {
                 star: this.state.rating
             }
         ).then(res => {
-            alert("Review updated")
+            toast("Review updated", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
             this.props.history.push("/review/my-review")
         })
     }

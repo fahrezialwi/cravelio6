@@ -144,7 +144,7 @@ class PurchaseList extends Component {
         } else {
             return (
                 <div className="col-12 text-center">
-                    No Transactions
+                    No purchases
                 </div>
             )
         }
@@ -179,60 +179,44 @@ class PurchaseList extends Component {
 
     render() {
         if (this.props.userId) {
-            if (this.state.transactions.length !== 0) {
-                return (
-                    <div>
-                        <Header/>
-                        <div className="container container-height">
-                            <div className="row row-top">
-                                <div className="col-12 mb-3">
-                                    <h2>Purchase List</h2>
-                                </div>
-                                    {this.transactionList()}
-                                <div className="col-12 mt-3 mb-3">
-                                    <nav>
-                                        <ul className="pagination justify-content-center">
-                                            <li
-                                                className={"page-item" + (this.state.currentPage === 1 ? ' disabled' : '')}
+            return (
+                <div>
+                    <Header/>
+                    <div className="container container-height">
+                        <div className="row row-top">
+                            <div className="col-12 mb-3">
+                                <h2>Purchase List</h2>
+                            </div>
+                            {this.transactionList()}
+                            <div className="col-12 mt-3 mb-3">
+                                <nav>
+                                    <ul className="pagination justify-content-center">
+                                        <li
+                                            className={"page-item" + (this.state.currentPage === 1 ? ' disabled' : '')}
+                                        >
+                                            <button
+                                                className="page-link"
+                                                onClick={this.onPreviousClick}
                                             >
-                                                <button
-                                                    className="page-link"
-                                                    onClick={this.onPreviousClick}
-                                                >
-                                                    Newer
-                                                </button>
-                                            </li>
-                                            {this.pageNumberList()}
-                                            <li
-                                                className={"page-item" + (this.state.currentPage === Math.ceil(this.state.transactions.length / this.state.transactionsPerPage) ? ' disabled' : '')}
-                                            >
-                                                <button className="page-link" onClick={this.onNextClick}>
-                                                    Older
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                                Newer
+                                            </button>
+                                        </li>
+                                        {this.pageNumberList()}
+                                        <li
+                                            className={"page-item" + (this.state.currentPage === Math.ceil(this.state.transactions.length / this.state.transactionsPerPage) ? ' disabled' : '')}
+                                        >
+                                            <button className="page-link" onClick={this.onNextClick}>
+                                                Older
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
-                        <Footer/>
                     </div>
-                ) 
-            } else {
-                return (
-                    <div>
-                        <Header/>
-                        <div className="container container-height">
-                            <div className="row row-top">
-                                <div className="col-12 text-center">
-                                    No data
-                                </div>
-                            </div>
-                        </div>
-                        <Footer/>
-                    </div>
-                )
-            }
+                    <Footer/>
+                </div>
+            ) 
         } else {
             return (
                 <Redirect to="/"/>

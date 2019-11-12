@@ -80,7 +80,7 @@ module.exports = {
     editUser: (req, res) => {
         let sql = `UPDATE users SET first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
-        password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'`
+        password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
 
         if (req.body.profile_picture) {
             sql += ` profile_picture = '${req.body.profile_picture}',`
@@ -99,7 +99,7 @@ module.exports = {
         }
 
         sql = sql.slice(0, -1)
-        sql += ` WHERE user_id = '${req.params.id}'`
+        sql += ` WHERE user_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
             if (err) throw err
@@ -121,7 +121,7 @@ module.exports = {
     sendVerificationLink: (req, res) => {
         let info = {}
         info.email = req.body.email
-        info.expiry = new Date(new Date().getTime() +  10 * 60 * 1000)
+        info.expiry = new Date(new Date().getTime() +  60 * 60 * 1000)
 
         let token = jwt.sign(info, emailSecretKey)
 

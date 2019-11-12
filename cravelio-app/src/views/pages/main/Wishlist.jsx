@@ -36,9 +36,17 @@ class Wishlist extends Component {
     }
 
     favoriteList = () => {
-        return this.state.favorites.map(favorite => {
-            return <TripItem trip={favorite} key={favorite.trip_id}/>
-        })   
+        if (this.state.favorites.length > 0) {
+            return this.state.favorites.map(favorite => {
+                return <TripItem trip={favorite} key={favorite.trip_id}/>
+            })   
+        } else {
+            return (
+                <div className="col-12 text-center">
+                    No wishlist
+                </div>
+            )
+        }
     }
 
     render() {

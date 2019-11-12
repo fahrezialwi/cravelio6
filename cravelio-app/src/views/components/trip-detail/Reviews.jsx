@@ -96,7 +96,6 @@ class Reviews extends Component {
         }
     }
 
-
     starList = (starCount) => {
         let star = []
 

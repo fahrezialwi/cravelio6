@@ -87,7 +87,7 @@ class Login extends Component {
 
     onVerifyClick = () => {
         axios.post(
-            URL_API + 'send-verification-link', {
+            URL_API + 'send_verification_link', {
                 email: this.state.inputEmail
             }
         ).then(res => {

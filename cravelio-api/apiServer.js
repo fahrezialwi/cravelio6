@@ -4,6 +4,7 @@ let cors = require ('cors')
 
 const app = express()
 const port = 1010
+// const port = process.env.PORT || 1010
 const routers = require('./routers')
 
 app.use(bodyParser.json())
@@ -27,5 +28,6 @@ app.use('/files/review', express.static('uploads/review-pictures'))
 app.use('/files/transfer', express.static('uploads/transfer-proofs'))
 app.use('/files/banner', express.static('uploads/banner-pictures'))
 app.use('/files/profile-picture', express.static('uploads/profile-pictures'))
+app.use('/files/general', express.static('uploads/general'))
 
 app.listen(port, () => console.log("Server up in port " + port))

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import URL_API from '../../../configs/urlAPI'
 import '../../styles/footer.css'
 
 class Footer extends Component {
@@ -13,6 +14,8 @@ class Footer extends Component {
                             <Link to="/">
                                 <h1 className="footer-logo">cravelio</h1>
                             </Link>
+                            <div className="partner-logo mt-4 mb-1">Official Partner</div>
+                            <img src={URL_API + 'files/general/wonderful-indonesia-logo.png'} width="120" alt="wonderful-indonesia"/>
                         </div>
                         <div className="col-12 col-md-6 col-lg-3 mt-3 footer-link">
                             <h4>About Cravelio</h4>

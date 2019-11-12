@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import { toast } from 'react-toastify'
+import { confirmAlert } from 'react-confirm-alert'
 import URL_API from '../../../configs/urlAPI'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class EditSchedule extends Component {
 
@@ -115,14 +118,29 @@ class EditSchedule extends Component {
     }
 
     onDeleteClick = (scheduleId) => {
-        let conf = window.confirm("Are you sure want to delete this schedule?")
-        if (conf) {
-            axios.delete(
-                URL_API + `schedules/${scheduleId}`
-            ).then(res => {
-                this.getScheduleData()
-            })
-        }
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='alert-container'>
+                        <p>Are you sure want to delete this schedule?</p>
+                        <button
+                            onClick={() => {
+                                axios.delete(
+                                    URL_API + `schedules/${scheduleId}`
+                                ).then(res => {
+                                    onClose()
+                                    this.getScheduleData()
+                                })
+                            }}
+                            className="btn-main"
+                        >
+                        Yes
+                        </button>
+                        <button onClick={onClose} className="btn-main ml-2">No</button>
+                    </div>
+                )
+            }
+        })
     }
 
     onSaveClick = () => {
@@ -145,13 +163,15 @@ class EditSchedule extends Component {
                 )
             }
         }
-        
-        alert("Schedule saved")
+        toast("Schedule saved", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            className: 'toast-container'
+        })
         this.forceUpdate()
         window.scrollTo(0, 0)
     }
 
-    onCancelClick = () => {
+    onBackClick = () => {
         this.props.history.push("/dashboard/schedules")
     }
 
@@ -192,7 +212,7 @@ class EditSchedule extends Component {
                 }
                 <div className="col-12">
                     <button onClick={() => this.onSaveClick()} className="btn-main mr-3">Save</button>
-                    <button onClick={() => this.onCancelClick()} className="btn-main">Cancel</button>
+                    <button onClick={() => this.onBackClick()} className="btn-main">Back</button>
                 </div>
             </div>
         )

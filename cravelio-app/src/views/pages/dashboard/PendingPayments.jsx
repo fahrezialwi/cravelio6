@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import URL_API from '../../../configs/urlAPI'
 
-class TransactionHistory extends Component {
+class PendingPayments extends Component {
 
     constructor(props) {
         super(props)
@@ -16,13 +17,17 @@ class TransactionHistory extends Component {
     }
 
     componentDidMount() {
-        document.title = 'Transaction History - Cravelio Dashboard'
+        document.title = 'Pending Payments - Cravelio Dashboard'
         this.getTransactionsData()
     }
 
     getTransactionsData = () => {
         axios.get (
-            URL_API + 'transactions'
+            URL_API + 'transactions', {
+                params: {
+                    status: 'Pending'
+                }
+            }
         ).then((res)=> {
             this.setState({
                 transactions: res.data.results
@@ -74,6 +79,44 @@ class TransactionHistory extends Component {
         }
     }
 
+    onApproveClick = (transactionId, email) => {
+        axios.patch(
+            URL_API + `approve_transaction/${transactionId}`
+        ).then(res => {
+            axios.post(
+                URL_API + 'send_purchase_approved', {
+                    transaction_id: transactionId,
+                    email: email
+                }
+            ).then(res => {
+                toast("Transaction approved", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
+                this.getTransactionsData()
+            })
+        })
+    }
+
+    onRejectClick = (transactionId, email) => {
+        axios.patch(
+            URL_API + `reject_transaction/${transactionId}`
+        ).then(res => {
+            axios.post(
+                URL_API + 'send_purchase_rejected', {
+                    transaction_id: transactionId,
+                    email: email
+                }
+            ).then(res => {
+                toast("Transaction rejected", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
+                this.getTransactionsData()
+            })
+        })
+    }
+
     transactionList = () => {
         const { transactions, currentPage, transactionsPerPage } = this.state
         const indexOfLastTransactions = currentPage * transactionsPerPage
@@ -92,7 +135,6 @@ class TransactionHistory extends Component {
                     <td>{transaction.contact_first_name} {transaction.contact_last_name}</td>
                     <td>{transaction.contact_phone_number}</td>
                     <td>{transaction.pax}</td>
-                    <td>{transaction.status}</td>
                     <td>{transaction.transfer_bank_name ? transaction.transfer_bank_name : '(not yet upload)'}</td>
                     <td>{transaction.transfer_account_holder ? transaction.transfer_account_holder : '(not yet upload)'}</td>
                     <td>
@@ -105,6 +147,10 @@ class TransactionHistory extends Component {
                         }
                     </td>
                     <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
+                    <td>
+                        <button className="btn-main btn-block" onClick = {() => this.onApproveClick(transaction.transaction_id, transaction.contact_email)} disabled={!transaction.transfer_proof}>Approve</button>
+                        <button className="btn-main btn-block" onClick = {() => this.onRejectClick(transaction.transaction_id, transaction.contact_email)} disabled={!transaction.transfer_proof}>Reject</button>             
+                    </td>
                 </tr>
             )
         })
@@ -141,23 +187,23 @@ class TransactionHistory extends Component {
         return (
             <div className="row row-top row-bottom ml-0 mr-0">
                 <div className="col-12 mb-3">
-                    <h2>Transaction History</h2>
+                    <h2>Pending Payments</h2>
                 </div>
                 <div className="col-12">
                     <div className="table-responsive">
                         <table className="table">
-                            <thead>
+                            <thead className="align-middle">
                                 <tr>
                                     <th className="align-middle">Invoice</th>
                                     <th className="align-middle">Trip Name</th>
                                     <th className="align-middle">User</th>
                                     <th className="align-middle">Phone Number</th>
                                     <th className="align-middle">Pax</th>
-                                    <th className="align-middle">Status</th>
                                     <th className="align-middle">Bank Name</th>
                                     <th className="align-middle">Account Holder Name</th>
                                     <th className="align-middle">Transfer Proof</th>
                                     <th className="align-middle">Date Created</th>
+                                    <th className="align-middle">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,7 +214,7 @@ class TransactionHistory extends Component {
                     {
                         this.state.transactions.length === 0 ?
                         <div className="col-12 text-center">
-                            No transactions
+                            No pending payments
                         </div>
                         :
                         null
@@ -203,4 +249,4 @@ class TransactionHistory extends Component {
     }
 }
 
-export default TransactionHistory
+export default PendingPayments

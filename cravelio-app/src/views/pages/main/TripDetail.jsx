@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Tab, Tabs } from 'react-bootstrap'
@@ -117,6 +118,7 @@ class TripDetail extends Component {
                     this.state.trip.trip_id,
                     this.state.trip.trip_name,
                     this.state.trip.price,
+                    this.state.trip.picture_link,
                     this.state.startDate,
                     this.state.endDate,
                     this.state.pax
@@ -124,7 +126,10 @@ class TripDetail extends Component {
 
                 this.props.history.push("/checkout")
             } else {
-                alert("Admin cannot book trip")
+                toast("Admin cannot book trip", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
             }
         } else {
             this.props.history.push("/login")

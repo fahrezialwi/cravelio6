@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import URL_API from '../../../configs/urlAPI'
 import encrypt from '../../../helpers/crypto'
 import Header from '../../components/header/Header'
@@ -62,7 +64,10 @@ class EditProfile extends Component {
                         phone_number: this.state.phoneNumber
                     }
                 ).then(res => {
-                    alert("Edit Success")
+                    toast("Edit success", {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: 'toast-container'
+                    })
                     this.setState({
                         password: '',
                         repeatPassword: ''
@@ -74,10 +79,16 @@ class EditProfile extends Component {
                     console.log(err)
                 })
             } else {
-                alert("Password doesn't match")
+                toast("Password doesn't match", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
             }
         } else {
-            alert("Please check your data")
+            toast("Please check your data", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import querystring from 'query-string'
+import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import Header from '../../components/header/Header'
@@ -27,7 +28,7 @@ class ResetPassword extends Component {
 
     checkExpiry = () => {
         axios.get(
-            URL_API + 'check-password-link', {
+            URL_API + 'check_password_link', {
                 params: {
                     token: querystring.parse(this.props.location.search).key
                 }
@@ -45,16 +46,22 @@ class ResetPassword extends Component {
         e.preventDefault()
         if (this.state.password ===  this.state.repeatPassword) {
             axios.patch(
-                URL_API + 'reset-password', {
+                URL_API + 'reset_password', {
                     token: querystring.parse(this.props.location.search).key,
                     password: encryptPassword(this.state.password)
                 }
             ).then(res => {
-                alert("Password has been changed. Please login")
+                toast("Password has been changed. Please login", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
                 this.props.history.push("/login")
             })
         } else {
-            alert("Password doesn't match")
+            toast("Password doesn't match", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         }
     }
 
