@@ -64,7 +64,7 @@ class App extends Component {
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
-                        <Route path='/verify' component={VerifyAccount}/>
+                        <Route path='/verify-account' component={VerifyAccount}/>
                         <Route path='/forgot-password' component={ForgotPassword}/>
                         <Route path='/reset-password' component={ResetPassword}/>
                         <Route path='/edit-profile' component={EditProfile}/>

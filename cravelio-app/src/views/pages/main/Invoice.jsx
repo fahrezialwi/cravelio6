@@ -18,7 +18,8 @@ class Invoice extends Component {
             transaction: '',
             bankName: 'BCA',
             accountHolderName: '',
-            transferProof: ''
+            transferProof: '',
+            file: null
         }
     }
 
@@ -35,6 +36,13 @@ class Invoice extends Component {
                 transaction: res.data.results[0]
             })
         })
+    }
+
+    showPicture = (e) => {
+        this.setState({
+            transferProof: URL.createObjectURL(e.target.files[0]),
+            file: e.target.files[0]
+        }) 
     }
 
     participantsList = () => {
@@ -72,7 +80,22 @@ class Invoice extends Component {
                             Account Holder Name
                             <input onChange={e => this.setState({accountHolderName: e.target.value})} type="text" className="form-control mb-2"/>
                             Proof of Transfer
-                            <input onChange={e => this.setState({transferProof: e.target.files[0]})} type="file" className="form-control"/>
+                            {/* <input onChange={e => this.setState({transferProof: e.target.files[0]})} type="file" className="form-control"/> */}
+                            {
+                                this.state.transferProof ?
+                                <div className="mt-2 mb-3">
+                                    <a href={this.state.transferProof} target="_blank" rel="noopener noreferrer">
+                                        <img 
+                                            src={this.state.transferProof}
+                                            alt="transferProof"
+                                            width="200"
+                                        />
+                                    </a>
+                                </div>
+                                :
+                                null
+                            }
+                            <input onChange={e => this.showPicture(e)} type="file" className="form-control"/> 
                         </div>
                         {
                             this.state.bankName === 'BCA' ?
@@ -138,7 +161,7 @@ class Invoice extends Component {
                     transfer_account_holder: this.state.accountHolderName
                 }
 
-                fd.append('browse_file', this.state.transferProof, this.state.transferProof.name)
+                fd.append('browse_file', this.state.file, this.state.file.name)
                 fd.append('data', JSON.stringify(data))
 
                 axios.patch(

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { onClearBooking } from '../../../actions/booking'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 import moment from 'moment'
 import formatCurrency from '../../../helpers/formatCurrency'
@@ -23,38 +24,56 @@ class Confirmation extends Component {
     }
 
     proceedPayment = () => {
-        window.scrollTo(0, 0)
-        this.setState({
-            proceed: true
-        }, () => {
-            axios.post(
-                URL_API + 'transactions', {
-                    trip_id: this.props.tripId,
-                    trip_name: this.props.tripName,
-                    trip_price: this.props.tripPrice,
-                    picture_link: this.props.pictureLink,
-                    start_date: moment(this.props.startDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
-                    end_date: moment(this.props.endDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
-                    user_id: this.props.userId,
-                    contact_first_name: this.props.contactFirstName,
-                    contact_last_name: this.props.contactLastName,
-                    contact_phone_number: this.props.contactPhoneNumber,
-                    contact_email: this.props.contactEmail,
-                    pax: this.props.pax,
-                    participants: this.props.participants,
-                    promo_code: this.props.promoCode,
-                    promo_percentage: this.props.promoPercentage,
-                    promo_value: this.props.promoValue,
-                    total_payment: this.props.totalPrice,
-                    status: 'Pending'
-                }
-            ).then(res => {
-                setTimeout(() => { 
-                    this.props.history.push(`/invoice/${res.data.results.insertId}`)
-                    this.props.onClearBooking()
-                }, 500)
-            })
-        })  
+        axios.get(
+            URL_API + `schedules/${this.props.scheduleId}`
+        ).then(res => {
+            if (res.data.results[0].quota_left >= this.props.pax) {
+                window.scrollTo(0, 0)
+                this.setState({
+                    proceed: true
+                }, () => {
+                    axios.patch(
+                        URL_API + `schedules_quota/${this.props.scheduleId}`, {
+                            quota_left: res.data.results[0].quota_left - this.props.pax
+                        }
+                    ).then(res => {
+                        axios.post(
+                            URL_API + 'transactions', {
+                                trip_id: this.props.tripId,
+                                trip_name: this.props.tripName,
+                                trip_price: this.props.tripPrice,
+                                picture_link: this.props.pictureLink,
+                                schedule_id: this.props.scheduleId,
+                                start_date: moment(this.props.startDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
+                                end_date: moment(this.props.endDate).format('YYYY-MM-DD HH:mm:ss.SSS'),
+                                user_id: this.props.userId,
+                                contact_first_name: this.props.contactFirstName,
+                                contact_last_name: this.props.contactLastName,
+                                contact_phone_number: this.props.contactPhoneNumber,
+                                contact_email: this.props.contactEmail,
+                                pax: this.props.pax,
+                                participants: this.props.participants,
+                                promo_code: this.props.promoCode,
+                                promo_percentage: this.props.promoPercentage,
+                                promo_value: this.props.promoValue,
+                                total_payment: this.props.totalPrice,
+                                status: 'Pending'
+                            }
+                        ).then(res2 => {
+                            setTimeout(() => { 
+                                this.props.history.push(`/invoice/${res2.data.results.insertId}`)
+                                this.props.onClearBooking()
+                            }, 500)
+                        })
+                    })
+                })  
+            } else {
+                toast(`Quota has changed (${res.data.results[0].quota_left} left), please rebooking on the trip page`, {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
+                })
+            }
+        })
     }
 
     renderParticipants = () => {
@@ -154,6 +173,7 @@ const mapStateToProps = (state) => {
         tripName: state.booking.tripName,
         tripPrice: state.booking.tripPrice,
         pictureLink: state.booking.pictureLink,
+        scheduleId: state.booking.scheduleId,
         startDate: state.booking.startDate,
         endDate: state.booking.endDate,
         pax: state.booking.pax,

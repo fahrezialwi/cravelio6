@@ -51,6 +51,7 @@ module.exports = {
                         trip_name: result[0].trip_name,
                         trip_price: result[0].trip_price,
                         picture_link: result[0].picture_link,
+                        schedule_id: result[0].schedule_id,
                         start_date: result[0].start_date,
                         end_date: result[0].end_date,
                         user_id: result[0].user_id,
@@ -95,6 +96,7 @@ module.exports = {
                         trip_name: result[i].trip_name,
                         trip_price: result[i].trip_price,
                         picture_link: result[i].picture_link,
+                        schedule_id: result[i].schedule_id,
                         start_date: result[i].start_date,
                         end_date: result[i].end_date,
                         user_id: result[i].user_id,
@@ -141,10 +143,10 @@ module.exports = {
 
     createTransaction: (req, res) => {
         db.query(
-            `INSERT INTO transactions (trip_id, trip_name, trip_price, picture_link, start_date, end_date,
+            `INSERT INTO transactions (trip_id, trip_name, trip_price, picture_link, schedule_id, start_date, end_date,
             user_id, contact_first_name, contact_last_name, contact_phone_number, contact_email,
             pax, promo_code, promo_percentage, promo_value, total_payment, status, created_at)
-            VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price}, '${req.body.picture_link}',
+            VALUES (${req.body.trip_id}, '${req.body.trip_name}', ${req.body.trip_price}, '${req.body.picture_link}', ${req.body.schedule_id},
             '${req.body.start_date}', '${req.body.end_date}', ${req.body.user_id}, '${req.body.contact_first_name}',
             '${req.body.contact_last_name}', '${req.body.contact_phone_number}', '${req.body.contact_email}', ${req.body.pax},
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},

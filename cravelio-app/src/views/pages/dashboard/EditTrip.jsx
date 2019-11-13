@@ -288,7 +288,7 @@ class EditTrip extends Component {
                     />
                 </div>
                 <div className="col-12 mb-3">
-                    FAQ
+                    Terms and Conditions
                     <ReactQuill
                         value={this.state.faq}
                         onChange={value => this.setState({faq: value})}

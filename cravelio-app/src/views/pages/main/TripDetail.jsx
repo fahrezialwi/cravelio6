@@ -30,6 +30,7 @@ class TripDetail extends Component {
             schedule: [],
             reviewAvg: '',
             reviewCount: '',
+            scheduleId: '',
             startDate: '',
             endDate: '',
             quotaLeft: '',
@@ -99,16 +100,30 @@ class TripDetail extends Component {
         })
     }
 
-    dateHandler = (startDate, endDate, quotaLeft) => {
+    dateHandler = (scheduleId, startDate, endDate, quotaLeft) => {
         this.setState({
-            startDate, endDate, quotaLeft
+            scheduleId,
+            startDate,
+            endDate,
+            quotaLeft,
+            pax: 1
         })
     }
 
-    paxHandler = (pax) => {
-        this.setState({
-            pax
-        })
+    onPaxAdd = () => {
+        if (this.state.pax < this.state.quotaLeft) {
+            this.setState({
+                pax: this.state.pax + 1
+            })
+        }
+    }
+
+    onPaxSubtract = () => {
+        if (this.state.pax > 1) {
+            this.setState({
+                pax: this.state.pax - 1
+            })
+        }
     }
 
     onBookClick = () => {
@@ -119,6 +134,7 @@ class TripDetail extends Component {
                     this.state.trip.trip_name,
                     this.state.trip.price,
                     this.state.trip.picture_link,
+                    this.state.scheduleId,
                     this.state.startDate,
                     this.state.endDate,
                     this.state.pax
@@ -187,7 +203,7 @@ class TripDetail extends Component {
                                     <Tab eventKey="excludes" title="Price Excludes">
                                         <PriceExcludes trip={this.state.trip}/>
                                     </Tab>
-                                    <Tab eventKey="faq" title="FAQ">
+                                    <Tab eventKey="terms-and-questions" title="Terms and Conditions">
                                         <FrequentQuestion trip={this.state.trip}/>
                                     </Tab>
                                 </Tabs>
@@ -201,7 +217,10 @@ class TripDetail extends Component {
                                     pickDate={this.dateHandler}
                                     date={this.state.startDate}
                                     quotaLeft={this.state.quotaLeft}
+                                    paxValue={this.state.pax}
                                     pax={this.paxHandler}
+                                    paxAdd={this.onPaxAdd}
+                                    paxSubtract={this.onPaxSubtract}
                                     bookClick={this.onBookClick}
                                 />
                             </div>

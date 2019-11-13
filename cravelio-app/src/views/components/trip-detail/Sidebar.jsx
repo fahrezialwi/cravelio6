@@ -27,13 +27,14 @@ class Sidebar extends Component {
             return this.props.schedule.map((schedule, index) => {
                 return (
                     <div key={schedule.schedule_id}>
-                        <label className="mb-2 row">
+                        <label className={"mb-2 row" + (!schedule.quota_left ? ' label-disabled' : '')}>
                             <div className="col-1 pr-0">
                                 <input 
                                     type="radio"
                                     className="mr-3"
                                     name="date"
-                                    onClick={() => this.props.pickDate(schedule.start_date, schedule.end_date, schedule.quota_left)}
+                                    disabled={!schedule.quota_left}
+                                    onClick={() => this.props.pickDate(schedule.schedule_id, schedule.start_date, schedule.end_date, schedule.quota_left)}
                                 />
                             </div>
                             <div className="col-11">
@@ -73,7 +74,15 @@ class Sidebar extends Component {
                         <div className="row mb-3">
                             <div className="col-12">
                                 <h6>Pax</h6>
-                                <input type="number" className="form-control" defaultValue="1" min="1" max={this.props.quotaLeft} onChange={e => this.props.pax(parseInt(e.target.value))}/>
+                                <div className="row">
+                                    <div className="col-2 pr-0">
+                                        <button onClick={this.props.paxSubtract} className="button-pax">−</button>
+                                    </div>
+                                    <div className="col-2 pl-2 pt-2">{this.props.paxValue}</div>
+                                    <div className="col-2 pl-0">
+                                        <button onClick={this.props.paxAdd} className="button-pax">+</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         :

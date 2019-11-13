@@ -309,7 +309,7 @@ class AddTrip extends Component {
                     />
                 </div>
                 <div className="col-12 mb-3">
-                    FAQ
+                    Terms and Conditions
                     <ReactQuill
                         onChange={value => this.setState({faq: value})}
                     />

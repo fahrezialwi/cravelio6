@@ -110,7 +110,17 @@ class PendingPayments extends Component {
         })
     }
 
-    onRejectClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
+    onRejectClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, scheduleId, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
+        axios.get(
+            URL_API + `schedules/${scheduleId}`
+        ).then(res => {
+            axios.patch(
+                URL_API + `schedules_quota/${scheduleId}`, {
+                    quota_left: res.data.results[0].quota_left + pax
+                }
+            )
+        })
+        
         axios.patch(
             URL_API + `reject_transaction/${transactionId}`
         ).then(res => {
@@ -190,7 +200,7 @@ class PendingPayments extends Component {
                             className="btn-main btn-block"
                             onClick = {() => 
                                 this.onRejectClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
-                                    transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name,
+                                    transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name, transaction.schedule_id,
                                     transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
                                     transaction.promo_code, transaction.promo_value, transaction.total_payment,
                                     transaction.participants
@@ -234,7 +244,6 @@ class PendingPayments extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="row row-top row-bottom ml-0 mr-0">
                 <div className="col-12 mb-3">

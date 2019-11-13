@@ -7,4 +7,6 @@ router.get('/schedules/:id', scheduleController.getSchedules)
 router.post('/schedules', scheduleController.createSchedule)
 router.patch('/schedules/:id', scheduleController.editSchedule)
 router.delete('/schedules/:id', scheduleController.deleteSchedule)
+router.patch('/schedules_quota/:id', scheduleController.editScheduleQuota)
+
 module.exports = router

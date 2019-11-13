@@ -1,33 +1,6 @@
-const moment = require('moment')
-const formatCurrency = require('../helpers/formatCurrency')
+const URL_APP = require('../configs/urlApp')
 
-let participantList = (participants) => {
-	let result = participants.map((participant, index) => {
-		return	`
-			<tr>
-				<td>${index+1}</td>
-				<td>${participant.first_name} ${participant.last_name}</td>
-				<td>${participant.identification_type}</td>
-				<td>${participant.identification_number}</td>
-			</tr>
-		`
-	})
-	return result.join('')
-}
-
-let renderPromo = (promoCode, promoValue, totalPayment) => {
-	if (promoCode) {
-		return `
-			<div class="mb-2">Promo (${promoCode.toUpperCase()}): - ${formatCurrency(promoValue)}</div>
-			<div class="mb-2">Total: ${formatCurrency(totalPayment)}</div>
-		`
-	} else {
-		return `<div class="mb-2">Total: ${formatCurrency(totalPayment)}</div>`
-	}
-}
-
-let invoiceRejected = (transactionId, transactionDate, contactFirstName, contactLastName, tripName,
-startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
+let accountVerification = (token) => {
 	return `
 	<html>
 		<head>
@@ -442,30 +415,9 @@ startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, partici
 					<div class="col-md-12">
 						<img src="http://www.cravelio.com:1010/files/general/cravelio-logo.png" width="200" alt="cravelio-logo">
 					</div>
-					<div class="col-md-12 mb-4">
-						<h2>Sorry</h2>
-						<div class="mb-4">Hi ${contactFirstName} ${contactLastName},
-						Your trip reservation has been rejected due to invalid payment proof.</div>
-						<div class="mb-2">INV/TRIP/${moment(transactionDate).format('YYYYMMDD')}/${transactionId}</div>
-						<div class="mb-2">Trip Name: ${tripName}</div>
-						<div class="mb-2">Date: ${moment(startDate).format('MMMM DD, YYYY')} - ${moment(endDate).format('MMMM DD, YYYY')}</div>
-						<div class="mb-2">Price (${pax} pax): ${formatCurrency(tripPrice*pax)}</div>
-						${renderPromo(promoCode, promoValue, totalPayment)}
-					</div>
-					<div class="col-md-12">
-						<table class="table text-center">
-							<thead class="text-center">
-								<tr>
-									<th>No.</th>
-									<th>Name</th>
-									<th>ID Type</th>
-									<th>ID Number</th>
-								</tr>
-							</thead>
-							<tbody>
-								${participantList(participants)}
-							</tbody>
-						</table>
+					<div class="col-md-12 mb-3">
+						<p>To verify your account, visit the following address:</p>
+						<a href='${URL_APP}verify-account?key=${token}'>Verify your account</a>
 					</div>
 				</div>
 			</div>
@@ -476,4 +428,4 @@ startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, partici
 	`
 }
 
-module.exports = invoiceRejected
+module.exports = accountVerification

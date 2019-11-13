@@ -2,10 +2,12 @@ const db = require('../database')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const juice = require('juice')
 const moment = require('moment')
-const URL_APP = require('../configs/urlApp')
 const mailPassword = require('../configs/mailPassword')
 const emailSecretKey = require('../configs/emailSecretKey')
+const accountVerification = require('../email-templates/accountVerification')
+const resetPassword = require('../email-templates/resetPassword')
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
@@ -79,7 +81,6 @@ module.exports = {
     },
 
     editWithoutProfilePicture: (req, res) => {
-   
         let sql = `UPDATE users SET first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
         password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
@@ -121,7 +122,7 @@ module.exports = {
             last_name = '${data.last_name}', email = '${data.email}',
             password = '${data.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
     
-            if (data.profile_picture) {
+            if (req.file.filename) {
                 sql += ` profile_picture = '${req.file.filename}',`
             }
     
@@ -172,7 +173,7 @@ module.exports = {
             from: 'Cravelio <donotreply@cravelio.com>',
             to: req.body.email,
             subject: 'Verify your account',
-            html: `<p>To verify your account, visit the following address:</p><a href='${URL_APP}verify?key=${token}'>Verify your account</a>`
+            html: juice(accountVerification(token))
         }
         
         transporter.sendMail(mailOptions, (err, info) => {
@@ -223,7 +224,7 @@ module.exports = {
             from: 'Cravelio <donotreply@cravelio.com>',
             to: req.body.email,
             subject: 'Forgot Password',
-            html: `<p>To reset your password, visit the following address:</p><a href='${URL_APP}reset-password?key=${token}'>Reset your password</a>`
+            html: juice(resetPassword(token))
         }
         
         transporter.sendMail(mailOptions, (err, info) => {

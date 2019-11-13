@@ -77,7 +77,6 @@ class EditReview extends Component {
 
     pictureList = (pictures) => {
         return pictures.map((picture, index) => {
-            console.log(picture)
             if (picture === null) {
                 return null
             } else {

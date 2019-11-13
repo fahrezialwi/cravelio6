@@ -3,6 +3,7 @@ const init = {
     tripName: '',
     tripPrice: '',
     pictureLink: '',
+    scheduleId: '',
     startDate: '',
     endDate: '',
     pax: ''
@@ -17,6 +18,7 @@ const bookingReducer = (state = init, action) => {
                 tripName: action.payload.tripName,
                 tripPrice: action.payload.tripPrice,
                 pictureLink: action.payload.pictureLink,
+                scheduleId: action.payload.scheduleId,
                 startDate: action.payload.startDate,
                 endDate: action.payload.endDate,
                 pax: action.payload.pax
@@ -42,6 +44,7 @@ const bookingReducer = (state = init, action) => {
                 tripName: '',
                 tripPrice: '',
                 pictureLink: '',
+                scheduleId: '',
                 startDate: '',
                 endDate: '',
                 pax: '',

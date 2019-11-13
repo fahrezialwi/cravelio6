@@ -7,7 +7,7 @@ module.exports = {
         JOIN trips AS t ON s.trip_id = t.trip_id`
         
         if (req.params.id) {
-            sql = `${sql} WHERE schedule_id = ${req.params.id}`
+            sql = `${sql} WHERE s.schedule_id = ${req.params.id}`
         }
         if (req.query.trip_id) {
             sql = `${sql} WHERE s.trip_id = ${req.query.trip_id} AND s.start_date > '${moment(new Date()).add(6, 'hours').format('YYYY-MM-DD HH:mm:ss.SSS')}'`
@@ -73,6 +73,20 @@ module.exports = {
             res.send({
                 status: 200,
                 message: 'Delete schedule success',
+                results: result
+            })
+        })
+    },
+
+    editScheduleQuota: (req, res) => {
+        let sql = `UPDATE schedules SET quota_left = ${req.body.quota_left} WHERE schedule_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+
+            res.send({
+                status: 201,
+                message: 'Edit schedule success',
                 results: result
             })
         })

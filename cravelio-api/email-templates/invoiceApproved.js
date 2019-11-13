@@ -2,7 +2,7 @@ const moment = require('moment')
 const formatCurrency = require('../helpers/formatCurrency')
 
 let participantList = (participants) => {
-	return participants.map((participant, index) => {
+	let result = participants.map((participant, index) => {
 		return	`
 			<tr>
 				<td>${index+1}</td>
@@ -12,6 +12,7 @@ let participantList = (participants) => {
 			</tr>
 		`
 	})
+	return result.join('')
 }
 
 let renderPromo = (promoCode, promoValue, totalPayment) => {

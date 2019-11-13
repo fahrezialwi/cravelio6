@@ -38,7 +38,6 @@ class EditProfile extends Component {
         axios.get(
             URL_API + `users/${this.props.userId}`
         ).then(res => {
-            console.log("getdata")
             this.setState({
                 profilePicture: res.data.results[0].profile_picture,
                 firstName: res.data.results[0].first_name,
@@ -51,7 +50,7 @@ class EditProfile extends Component {
         })
     }
 
-    showProof = (e) => {
+    showPicture = (e) => {
         this.setState({
             profilePicture: URL.createObjectURL(e.target.files[0]),
             file: e.target.files[0]
@@ -84,6 +83,8 @@ class EditProfile extends Component {
                             className: 'toast-container'
                         })
                         this.setState({
+                            password: '',
+                            repeatPassword: '',
                             profilePicture: '',
                             file: null
                         }, () => {
@@ -108,7 +109,14 @@ class EditProfile extends Component {
                             position: toast.POSITION.BOTTOM_CENTER,
                             className: 'toast-container'
                         })
-                        this.getUserData()
+                        this.setState({
+                            password: '',
+                            repeatPassword: ''
+                        }, () => {
+                            this.refs.password.value = ''
+                            this.refs.repeatPassword.value = ''
+                            this.getUserData()
+                        })
                         window.scrollTo(0,0)
                     }).catch(err => {
                         console.log(err)
@@ -153,7 +161,7 @@ class EditProfile extends Component {
                                     />
                                 </div>
                                 <div className="col-8 mt-2 mb-1">
-                                    <input type="file" onChange={e => this.showProof(e)}/>
+                                    <input type="file" onChange={e => this.showPicture(e)}/>
                                 </div>
                                 <div className="col-8 mt-5 mb-3">
                                     <div className="row">
@@ -162,7 +170,7 @@ class EditProfile extends Component {
                                             <input 
                                                 type="fname"
                                                 onChange={e => this.setState({firstName: e.target.value})}
-                                                value={this.state.firstName}
+                                                defaultValue={this.state.firstName}
                                                 className="form-control"
                                             />
                                         </div>
@@ -171,7 +179,7 @@ class EditProfile extends Component {
                                             <input 
                                                 type="lname"
                                                 onChange={e => this.setState({lastName: e.target.value})}
-                                                value={this.state.lastName}
+                                                defaultValue={this.state.lastName}
                                                 className="form-control"
                                             />
                                         </div>
@@ -182,7 +190,7 @@ class EditProfile extends Component {
                                     <input 
                                         type="email"
                                         onChange={e => this.setState({email: e.target.value})}
-                                        value={this.state.email}
+                                        defaultValue={this.state.email}
                                         className="form-control"
                                     />
                                 </div>
@@ -212,7 +220,7 @@ class EditProfile extends Component {
                                     Birth Date
                                     <input
                                         type="date"
-                                        value={this.state.birthDate}
+                                        defaultValue={this.state.birthDate}
                                         onChange={e => this.setState({birthDate: e.target.value})}
                                         className="form-control"
                                     />
@@ -222,7 +230,7 @@ class EditProfile extends Component {
                                     <input 
                                         type="text"
                                         onChange={e => this.setState({address: e.target.value})}
-                                        value={this.state.address}
+                                        defaultValue={this.state.address}
                                         className="form-control"
                                     />
                                 </div>
@@ -231,7 +239,7 @@ class EditProfile extends Component {
                                     <input 
                                         type="text"
                                         onChange={e => this.setState({phoneNumber: e.target.value})}
-                                        value={this.state.phoneNumber}
+                                        defaultValue={this.state.phoneNumber}
                                         className="form-control"
                                     />
                                 </div>

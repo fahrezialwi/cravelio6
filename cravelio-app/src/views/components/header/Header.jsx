@@ -82,7 +82,7 @@ class Header extends Component {
                                             null
                                         }
                                     </div>
-                                    <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
+                                    <div className="col-8">{this.state.user.first_name} {this.state.user.last_name}</div>
                                 </div>
                                 <DropdownItem divider />
                                 <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
@@ -111,7 +111,7 @@ class Header extends Component {
                                             null
                                         }
                                     </div>
-                                    <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
+                                    <div className="col-8">{this.state.user.first_name} {this.state.user.last_name}</div>
                                 </div>
                                 <DropdownItem divider />
                                 <Link to="/edit-profile">
