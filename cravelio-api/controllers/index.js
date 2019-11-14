@@ -1,4 +1,4 @@
-const authController = require('./authController')
+const userController = require('./userController')
 const tripController = require('./tripController')
 const pictureController = require('./pictureController')
 const favoriteController = require('./favoriteController')
@@ -8,7 +8,7 @@ const scheduleController = require('./scheduleController')
 const promoController = require('./promoController')
 
 module.exports = {
-    authController,
+    userController,
     tripController,
     pictureController,
     favoriteController,

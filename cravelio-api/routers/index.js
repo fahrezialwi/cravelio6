@@ -1,4 +1,4 @@
-const authRouter = require('./authRouter')
+const userRouter = require('./userRouter')
 const tripRouter = require('./tripRouter')
 const pictureRouter = require('./pictureRouter')
 const favoriteRouter = require('./favoriteRouter')
@@ -8,7 +8,7 @@ const scheduleRouter = require('./scheduleRouter')
 const promoRouter = require('./promoRouter')
 
 module.exports = {
-    authRouter,
+    userRouter,
     tripRouter,
     pictureRouter,
     favoriteRouter,

@@ -14,7 +14,7 @@ app.use(cors())
 app.get('/', (req, res) => res.send("Welcome to Cravelio API"))
 app.get('/favicon.ico', (req, res) => res.status(204))
 
-app.use(routers.authRouter)
+app.use(routers.userRouter)
 app.use(routers.tripRouter)
 app.use(routers.pictureRouter)
 app.use(routers.favoriteRouter)
