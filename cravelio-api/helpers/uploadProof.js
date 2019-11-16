@@ -2,7 +2,7 @@ let multer = require('multer')
 let crypto = require("crypto")
 let moment = require("moment")
 
-let multerStorageConfig =  multer.diskStorage({
+let multerStorageConfig = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads/transfer-proofs')
     },

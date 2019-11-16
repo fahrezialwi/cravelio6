@@ -1,4 +1,6 @@
-.edit-profile-picture {
+
+.profile-picture {
+    object-fit: cover;
     border-radius: 50%;
     width: 200px;
     height: 200px

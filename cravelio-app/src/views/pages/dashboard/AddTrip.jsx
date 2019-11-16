@@ -33,7 +33,7 @@ class AddTrip extends Component {
             itinerary: '',
             priceIncludes: '',
             priceExcludes: '',
-            faq: '',
+            termsConditions: '',
             pictures: [],
             files: [],
             buttonClick: false
@@ -138,7 +138,7 @@ class AddTrip extends Component {
                         itinerary: this.state.itinerary,
                         price_includes: this.state.priceIncludes,
                         price_excludes: this.state.priceExcludes,
-                        faq: this.state.faq
+                        terms_conditions: this.state.termsConditions
                     }
                 ).then(res => {
                     axios.patch(
@@ -311,7 +311,7 @@ class AddTrip extends Component {
                 <div className="col-12 mb-3">
                     Terms and Conditions
                     <ReactQuill
-                        onChange={value => this.setState({faq: value})}
+                        onChange={value => this.setState({termsConditions: value})}
                     />
                 </div>
                 <div className="col-12 mb-3">

@@ -1,11 +1,10 @@
-let express = require('express')
-let bodyParser = require ('body-parser')
-let cors = require ('cors')
-
+const express = require('express')
 const app = express()
-const port = 1010
-// const port = process.env.PORT || 1010
+const bodyParser = require ('body-parser')
+const cors = require ('cors')
 const routers = require('./routers')
+
+const port = process.env.PORT || 1010
 
 app.use(bodyParser.json())
 app.use(bodyParser.text())

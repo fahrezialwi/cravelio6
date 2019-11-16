@@ -13,8 +13,9 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { onLogoutUser } from '../../../actions/auth'
-import '../../styles/header.css'
+import Cookies from 'universal-cookie'
 import URL_API from '../../../configs/urlAPI'
+import '../../styles/header.css'
 
 class Header extends Component {
 
@@ -31,13 +32,20 @@ class Header extends Component {
     }
 
     getUserData = () => {
-        axios.get(
-            URL_API + `users/${this.props.userId}`
-        ).then(res => {
-            this.setState({
-                user: res.data.results[0]
+        if (this.props.userId) {
+            let cookie = new Cookies()
+            axios.get(
+                URL_API + `users/${this.props.userId}`, {
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
+                }
+            ).then(res => {
+                this.setState({
+                    user: res.data.results[0]
+                })
             })
-        })
+        }
     }
 
     userMenu = () => {
@@ -54,7 +62,7 @@ class Header extends Component {
                             <div className="col-4 pr-0">
                                 {
                                     this.state.user.profile_picture ?
-                                    <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture"/>
+                                    <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture-header"/>
                                     :
                                     null
                                 }

@@ -1,5 +1,6 @@
 const moment = require('moment')
 const formatCurrency = require('../helpers/formatCurrency')
+const URL_API = require('../configs/urlAPI')
 
 let participantList = (participants) => {
 	let result = participants.map((participant, index) => {
@@ -440,7 +441,7 @@ startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, partici
 			<div class="container">
 				<div class="row row-top row-bottom">
 					<div class="col-md-12">
-						<img src="http://www.cravelio.com:1010/files/general/cravelio-logo.png" width="200" alt="cravelio-logo">
+						<img src="${URL_API}files/general/cravelio-logo.png" width="200" alt="cravelio-logo">
 					</div>
 					<div class="col-md-12 mb-4">
 						<h2>Your booking is here!</h2>

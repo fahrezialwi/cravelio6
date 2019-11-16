@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Cookies from 'universal-cookie'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { onLoginUser } from '../../../actions/auth'
@@ -58,22 +57,7 @@ class Login extends Component {
                 let {user_id, first_name, last_name, email, role, phone_number, is_verified} = res.data.results[0]
 
                 if (is_verified === 1) {
-                    let d = new Date()
-                    d.setTime(d.getTime() + (1*24*60*60*1000))
-                    const cookie = new Cookies()
-    
-                    cookie.set(
-                        'userData',
-                        {
-                            user_id, first_name, last_name, email, role, phone_number
-                        },
-                        {
-                            path: "/", expires: d
-                        }
-                    )
-    
                     this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number)
-                
                 } else {
                     this.setState({
                         loading: false,

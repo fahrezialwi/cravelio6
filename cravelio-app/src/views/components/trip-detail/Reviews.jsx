@@ -140,7 +140,7 @@ class Reviews extends Component {
                     <div className="col-12" key={review.review_id}>
                         <div className="row mb-4">
                             <div className="col-1 pr-0">
-                                <img src={URL_API + 'files/profile-picture/' + review.profile_picture} alt="profile" className="profile-picture"/>
+                                <img src={URL_API + 'files/profile-picture/' + review.profile_picture} alt="profile" className="profile-picture-review"/>
                             </div>
                             <div className="col-11">
                                 <h5 className="review-name mb-0">{review.first_name} {review.last_name}</h5>

@@ -15,7 +15,7 @@ import Reviews from '../../components/trip-detail/Reviews'
 import Itinerary from '../../components/trip-detail/Itinerary'
 import PriceIncludes from '../../components/trip-detail/PriceIncludes'
 import PriceExcludes from '../../components/trip-detail/PriceExcludes'
-import FrequentQuestion from '../../components/trip-detail/FrequentQuestion'
+import TermsAndConditions from '../../components/trip-detail/TermsAndConditions'
 import Sidebar from '../../components/trip-detail/Sidebar'
 import URL_API from '../../../configs/urlAPI'
 
@@ -204,7 +204,7 @@ class TripDetail extends Component {
                                         <PriceExcludes trip={this.state.trip}/>
                                     </Tab>
                                     <Tab eventKey="terms-and-questions" title="Terms and Conditions">
-                                        <FrequentQuestion trip={this.state.trip}/>
+                                        <TermsAndConditions trip={this.state.trip}/>
                                     </Tab>
                                 </Tabs>
                             </div>

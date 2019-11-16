@@ -33,7 +33,7 @@ class EditTrip extends Component {
             itinerary: '',
             priceIncludes: '',
             priceExcludes: '',
-            faq: '',
+            termsConditions: '',
             pictures: [],
             files: []
         }
@@ -68,7 +68,7 @@ class EditTrip extends Component {
                 itinerary: res.data.results[0].itinerary,
                 priceIncludes: res.data.results[0].price_includes,
                 priceExcludes: res.data.results[0].price_excludes,
-                faq: res.data.results[0].faq
+                termsConditions: res.data.results[0].terms_conditions
             })    
         })
     }
@@ -147,7 +147,7 @@ class EditTrip extends Component {
                     itinerary: this.state.itinerary,
                     price_includes: this.state.priceIncludes,
                     price_excludes: this.state.priceExcludes,
-                    faq: this.state.faq
+                    terms_conditions: this.state.termsConditions
                 }
             ).then(res => {
                 axios.patch(
@@ -290,8 +290,8 @@ class EditTrip extends Component {
                 <div className="col-12 mb-3">
                     Terms and Conditions
                     <ReactQuill
-                        value={this.state.faq}
-                        onChange={value => this.setState({faq: value})}
+                        value={this.state.termsConditions}
+                        onChange={value => this.setState({termsConditions: value})}
                     />
                 </div>
                 <div className="col-12 mb-3">

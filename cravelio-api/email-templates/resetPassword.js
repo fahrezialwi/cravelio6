@@ -1,4 +1,5 @@
 const URL_APP = require('../configs/urlApp')
+const URL_API = require('../configs/urlAPI')
 
 let resetPassword = (token) => {
 	return `
@@ -413,11 +414,11 @@ let resetPassword = (token) => {
 			<div class="container">
 				<div class="row row-top row-bottom">
 					<div class="col-md-12">
-						<img src="http://www.cravelio.com:1010/files/general/cravelio-logo.png" width="200" alt="cravelio-logo">
+						<img src="${URL_API}files/general/cravelio-logo.png" width="200" alt="cravelio-logo">
 					</div>
 					<div class="col-md-12 mb-3">
 						<p>To reset your password, visit the following address:</p>
-						<a href='${URL_APP}reset-password?key=${token}'>Reset your password</a>
+						<a href="${URL_APP}reset-password?key=${token}">Reset your password</a>
 					</div>
 				</div>
 			</div>

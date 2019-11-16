@@ -58,11 +58,43 @@ class EditProfile extends Component {
     }
 
     onSaveClick = () => {
-        if (this.state.firstName && this.state.lastName && this.state.email && this.state.password) {
-            if (this.state.password === this.state.repeatPassword) {
-                if (this.state.file) {
-                    let fd = new FormData()
-                    let data = {
+        if (this.state.firstName && this.state.lastName && this.state.email) {
+            if (this.state.file) {
+                let fd = new FormData()
+                let data = {
+                    first_name: this.state.firstName,
+                    last_name: this.state.lastName,
+                    email: this.state.email,
+                    password: encrypt(this.state.password),
+                    birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
+                    address: this.state.address,
+                    phone_number: this.state.phoneNumber
+                }
+
+                fd.append('browse_file', this.state.file, this.state.file.name)
+                fd.append('data', JSON.stringify(data))
+
+                axios.patch(
+                    URL_API + `users_picture/${this.props.userId}`, fd
+                ).then(res => {
+                    toast("Edit success", {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: 'toast-container'
+                    })
+                    this.setState({
+                        password: '',
+                        repeatPassword: '',
+                        profilePicture: '',
+                        file: null
+                    }, () => {
+                        this.getUserData()
+                    })
+                }).catch(err => {
+                    console.log(err)
+                })
+            } else {
+                axios.patch(
+                    URL_API + `users/${this.props.userId}`, {
                         first_name: this.state.firstName,
                         last_name: this.state.lastName,
                         email: this.state.email,
@@ -71,61 +103,22 @@ class EditProfile extends Component {
                         address: this.state.address,
                         phone_number: this.state.phoneNumber
                     }
-    
-                    fd.append('browse_file', this.state.file, this.state.file.name)
-                    fd.append('data', JSON.stringify(data))
-    
-                    axios.patch(
-                        URL_API + `users_picture/${this.props.userId}`, fd
-                    ).then(res => {
-                        toast("Edit success", {
-                            position: toast.POSITION.BOTTOM_CENTER,
-                            className: 'toast-container'
-                        })
-                        this.setState({
-                            password: '',
-                            repeatPassword: '',
-                            profilePicture: '',
-                            file: null
-                        }, () => {
-                            this.getUserData()
-                        })
-                    }).catch(err => {
-                        console.log(err)
+                ).then(res => {
+                    toast("Edit success", {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: 'toast-container'
                     })
-                } else {
-                    axios.patch(
-                        URL_API + `users/${this.props.userId}`, {
-                            first_name: this.state.firstName,
-                            last_name: this.state.lastName,
-                            email: this.state.email,
-                            password: encrypt(this.state.password),
-                            birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
-                            address: this.state.address,
-                            phone_number: this.state.phoneNumber
-                        }
-                    ).then(res => {
-                        toast("Edit success", {
-                            position: toast.POSITION.BOTTOM_CENTER,
-                            className: 'toast-container'
-                        })
-                        this.setState({
-                            password: '',
-                            repeatPassword: ''
-                        }, () => {
-                            this.refs.password.value = ''
-                            this.refs.repeatPassword.value = ''
-                            this.getUserData()
-                        })
-                        window.scrollTo(0,0)
-                    }).catch(err => {
-                        console.log(err)
+                    this.setState({
+                        password: '',
+                        repeatPassword: ''
+                    }, () => {
+                        this.refs.password.value = ''
+                        this.refs.repeatPassword.value = ''
+                        this.getUserData()
                     })
-                }
-            } else {
-                toast("Password doesn't match", {
-                    position: toast.POSITION.BOTTOM_CENTER,
-                    className: 'toast-container'
+                    window.scrollTo(0,0)
+                }).catch(err => {
+                    console.log(err)
                 })
             }
         } else {
@@ -157,7 +150,7 @@ class EditProfile extends Component {
                                         }
                                         alt="profile"
                                         ref="profilePicture"
-                                        className="edit-profile-picture"
+                                        className="profile-picture"
                                     />
                                 </div>
                                 <div className="col-8 mt-2 mb-1">

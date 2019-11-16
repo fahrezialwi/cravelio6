@@ -83,7 +83,11 @@ module.exports = {
     editWithoutProfilePicture: (req, res) => {
         let sql = `UPDATE users SET first_name = '${req.body.first_name}',
         last_name = '${req.body.last_name}', email = '${req.body.email}',
-        password = '${req.body.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
+        updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
+
+        if (req.body.password) {
+            sql += ` password = '${req.body.password}',`
+        }
 
         if (req.body.birth_date) {
             sql += ` birth_date = '${req.body.birth_date}',`
@@ -120,10 +124,14 @@ module.exports = {
 
             let sql = `UPDATE users SET first_name = '${data.first_name}',
             last_name = '${data.last_name}', email = '${data.email}',
-            password = '${data.password}', updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
+            updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}',`
     
             if (req.file.filename) {
                 sql += ` profile_picture = '${req.file.filename}',`
+            }
+
+            if (data.password) {
+                sql += ` password = '${data.password}',`
             }
     
             if (data.birth_date) {

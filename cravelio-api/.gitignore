@@ -10,6 +10,7 @@
 /uploads
 
 # password
+appKey.js
 emailSecretKey.js
 mailPassword.js
 

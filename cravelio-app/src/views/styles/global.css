@@ -180,7 +180,7 @@ input[type='radio']:checked:after {
     margin-top: 40px
 }
 
-.profile-picture {
+.profile-picture-header {
     border-radius: 50%;
     width: 40px;
     height: 40px

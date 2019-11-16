@@ -11,11 +11,12 @@
 # production
 /build
 
-# secret key
+# configs
+appKey.js
 cryptoSecretKey.js
 emailSecretKey.js
 
-# crisp config
+# crisp
 crispChat.js
 Chats.jsx
 

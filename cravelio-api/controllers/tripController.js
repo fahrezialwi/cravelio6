@@ -118,7 +118,7 @@ module.exports = {
         meeting_point = ${db.escape(req.body.meeting_point)}, price = ${req.body.price}, duration = '${req.body.duration}',
         category = ${db.escape(req.body.category)}, region = ${db.escape(req.body.region)}, quota = ${req.body.quota},
         description = ${db.escape(req.body.description)}, itinerary = ${db.escape(req.body.itinerary)}, price_includes = ${db.escape(req.body.price_includes)},
-        price_excludes = ${db.escape(req.body.price_excludes)}, faq = ${db.escape(req.body.faq)},
+        price_excludes = ${db.escape(req.body.price_excludes)}, terms_conditions = ${db.escape(req.body.terms_conditions)},
         updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}' WHERE trip_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {

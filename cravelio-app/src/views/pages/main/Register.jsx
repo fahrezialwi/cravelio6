@@ -6,6 +6,7 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
 import encrypt from '../../../helpers/crypto'
+import createToken from '../../../helpers/createToken'
 import '../../styles/register.css'
 
 class Register extends Component {
@@ -56,6 +57,9 @@ class Register extends Component {
                     {
                         params: {
                             email: email
+                        },
+                        headers: {
+                            Authorization: createToken(email)
                         }
                     }
                 ).then((res) => {
@@ -77,6 +81,11 @@ class Register extends Component {
                                 last_name: lastName,
                                 email: email,
                                 password: password
+                            },
+                            {
+                                headers: {
+                                    Authorization: createToken(email)
+                                }
                             }
                         ).then(() => {
                             axios.post(
