@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { Link } from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert'
 import URL_API from '../../../configs/urlAPI'
+
+const cookie = new Cookies()
 
 class ManageTrip extends Component {
 
@@ -83,7 +86,11 @@ class ManageTrip extends Component {
                         <button
                             onClick={() => {
                                 axios.delete(
-                                    URL_API + `trips/${tripId}`
+                                    URL_API + `trips/${tripId}`, {
+                                        headers: {
+                                            Authorization: cookie.get('token')
+                                        }
+                                    }
                                 ).then(res => {
                                     axios.get(
                                         URL_API + 'pictures', {
@@ -97,6 +104,9 @@ class ManageTrip extends Component {
                                                 URL_API + `pictures/${res.data.results[i].picture_id}`,{
                                                     data: {
                                                         picture_link: res.data.results[i].picture_link
+                                                    },
+                                                    headers: {
+                                                        Authorization: cookie.get('token')
                                                     }
                                                 }
                                             )

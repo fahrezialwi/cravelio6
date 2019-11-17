@@ -1,33 +1,48 @@
 const db = require('../database')
 const nodemailer = require('nodemailer')
+const mg = require('nodemailer-mailgun-transport')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const juice = require('juice')
 const moment = require('moment')
-const mailPassword = require('../configs/mailPassword')
+const apiKey = require('../configs/apiKey')
 const emailSecretKey = require('../configs/emailSecretKey')
 const accountVerification = require('../email-templates/accountVerification')
 const resetPassword = require('../email-templates/resetPassword')
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp.zoho.com',
-    port: 465,
-    secure: true,
+let auth = {
     auth: {
-        user: 'donotreply@cravelio.com',
-        pass: mailPassword
+      api_key: apiKey,
+      domain: 'mail.cravelio.com'
     }
-})
+}
+
+let transporter = nodemailer.createTransport(mg(auth))
 
 module.exports = {
     getUsers: (req, res) => {
         let sql = `SELECT * FROM users`
-        if (req.params.id) {
-            sql = `${sql} WHERE user_id = ${req.params.id}`
-        }
-        if (req.query.email) {
-            sql = `${sql} WHERE email = '${req.query.email}'`
-        }
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+            if (result.length > 0) {
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'User not found',
+                    results: result
+                })
+            }
+        })
+    },
+ 
+    getUserByEmail: (req, res) => {
+        let sql = `SELECT * FROM users WHERE email = '${req.query.email}'`
+
         db.query(sql, (err, result) => {
             if (err) throw err
             if (result.length > 0) {
@@ -61,6 +76,57 @@ module.exports = {
         })
     },
 
+    sendVerificationLink: (req, res) => {
+        let info = {}
+        info.email = req.body.email
+        info.expiry = new Date(new Date().getTime() +  60 * 60 * 1000)
+
+        let token = jwt.sign(info, emailSecretKey)
+
+        let mailOptions = {
+            from: 'Cravelio <donotreply@cravelio.com>',
+            to: req.body.email,
+            subject: 'Verify your account',
+            html: juice(accountVerification(token))
+        }
+        
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) throw err
+        })
+
+        res.send({
+            status: 201,
+            message: 'Email sent'
+        })  
+    },
+
+    checkVerificationLink: (req, res) => {
+        let token = req.query.token
+        let data = jwt.verify(token, emailSecretKey)
+        
+        if (new Date(data.expiry) > new Date()) {
+            res.send({
+                status: 200,
+                message: 'Link is active'
+            })
+        } else {
+            res.send({
+                status: 404,
+                message: 'Link has expired'
+            })
+        }
+    },
+
+    verifyUser: (req, res) => {
+        let token = req.body.token
+        let data = jwt.verify(token, emailSecretKey)
+
+        db.query(`UPDATE users SET is_verified = 1 WHERE email = '${data.email}'`, (err, result) => {
+            if (err) throw err
+            res.send('Your account has been verified')
+        })
+    },
+
     loginUser: (req, res) => {
         db.query(`SELECT * FROM users WHERE email = '${req.query.email}' AND password = '${req.query.password}'`, (err, result) => {
 
@@ -74,6 +140,26 @@ module.exports = {
                 res.send({
                     status: 401,
                     message: 'Wrong email or password',
+                    results: result
+                })
+            }
+        })
+    },
+
+    getUserById: (req, res) => {
+        let sql = `SELECT * FROM users WHERE user_id = ${req.params.id}`
+
+        db.query(sql, (err, result) => {
+            if (err) throw err
+            if (result.length > 0) {
+                res.send({
+                    status: 200,
+                    results: result
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'User not found',
                     results: result
                 })
             }
@@ -168,57 +254,6 @@ module.exports = {
             fs.unlinkSync(req.file.path)
             console.log(error)
         }
-    },
-
-    sendVerificationLink: (req, res) => {
-        let info = {}
-        info.email = req.body.email
-        info.expiry = new Date(new Date().getTime() +  60 * 60 * 1000)
-
-        let token = jwt.sign(info, emailSecretKey)
-
-        let mailOptions = {
-            from: 'Cravelio <donotreply@cravelio.com>',
-            to: req.body.email,
-            subject: 'Verify your account',
-            html: juice(accountVerification(token))
-        }
-        
-        transporter.sendMail(mailOptions, (err, info) => {
-            if (err) throw err
-        })
-
-        res.send({
-            status: 201,
-            message: 'Email sent'
-        })  
-    },
-
-    checkVerificationLink: (req, res) => {
-        let token = req.query.token
-        let data = jwt.verify(token, emailSecretKey)
-        
-        if (new Date(data.expiry) > new Date()) {
-            res.send({
-                status: 200,
-                message: 'Link is active'
-            })
-        } else {
-            res.send({
-                status: 404,
-                message: 'Link has expired'
-            })
-        }
-    },
-
-    verifyUser: (req, res) => {
-        let token = req.body.token
-        let data = jwt.verify(token, emailSecretKey)
-
-        db.query(`UPDATE users SET is_verified = 1 WHERE email = '${data.email}'`, (err, result) => {
-            if (err) throw err
-            res.send('Your account has been verified')
-        })
     },
 
     sendPasswordLink: (req, res) => {

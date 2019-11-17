@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -15,9 +16,11 @@ import Reviews from '../../components/trip-detail/Reviews'
 import Itinerary from '../../components/trip-detail/Itinerary'
 import PriceIncludes from '../../components/trip-detail/PriceIncludes'
 import PriceExcludes from '../../components/trip-detail/PriceExcludes'
-import TermsAndConditions from '../../components/trip-detail/TermsAndConditions'
+import TermsConditions from '../../components/trip-detail/TermsConditions'
 import Sidebar from '../../components/trip-detail/Sidebar'
 import URL_API from '../../../configs/urlAPI'
+
+const cookie = new Cookies()
 
 class TripDetail extends Component {
 
@@ -63,6 +66,9 @@ class TripDetail extends Component {
                     params: {
                         path: this.props.location.pathname.split("/").pop(),
                         user_id: this.props.userId
+                    },
+                    headers: {
+                        Authorization: cookie.get('token')
                     }
                 }
             ).then(res => {   
@@ -156,7 +162,14 @@ class TripDetail extends Component {
         if (this.props.userId) {
             if (this.state.favorite) {
                 axios.patch(
-                    URL_API + `favorites/${this.state.favoriteId}`
+                    URL_API + `favorites/${this.state.favoriteId}`, {
+                        user_id: this.props.userId
+                    }, 
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
+                    }
                 ).then(res => {
                     this.getFavoriteData()
                 })
@@ -165,6 +178,11 @@ class TripDetail extends Component {
                     URL_API + 'favorites', {
                         trip_id: this.state.trip.trip_id,
                         user_id: this.props.userId
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 ).then(res => {
                     this.getFavoriteData()
@@ -203,8 +221,8 @@ class TripDetail extends Component {
                                     <Tab eventKey="excludes" title="Price Excludes">
                                         <PriceExcludes trip={this.state.trip}/>
                                     </Tab>
-                                    <Tab eventKey="terms-and-questions" title="Terms and Conditions">
-                                        <TermsAndConditions trip={this.state.trip}/>
+                                    <Tab eventKey="terms-and-conditions" title="Terms and Conditions">
+                                        <TermsConditions trip={this.state.trip}/>
                                     </Tab>
                                 </Tabs>
                             </div>

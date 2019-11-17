@@ -1,12 +1,12 @@
 import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
-import createToken from '../helpers/createToken'
+import signToken from '../helpers/signToken'
 
 // Login
 export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumber) => {
     let d = new Date()
     let cookie = new Cookies()
-    let token = createToken(email)
+    let token = signToken(userId, email, role)
 
     d.setTime(d.getTime() + (1*24*60*60*1000))
     

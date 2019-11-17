@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import StarRatingComponent from 'react-star-rating-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -15,6 +16,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
+const cookie = new Cookies()
 registerPlugin(FilePondPluginImagePreview)
 
 class EditReview extends Component {
@@ -53,7 +55,14 @@ class EditReview extends Component {
 
     getCompleteReviewData = () => {
         axios.get(
-            URL_API + `completed_reviews/${this.props.match.params.id}`
+            URL_API + `completed_reviews/${this.props.match.params.id}`, {
+                params: {
+                    user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then(res => {
             if (this._isMounted) {
                 this.setState({
@@ -95,7 +104,13 @@ class EditReview extends Component {
     onDeleteClick = (pictureLink) => {
         axios.delete(
             URL_API + 'reviews_picture', {
-                data: pictureLink
+                data: {
+                    picture_link: pictureLink,
+                    user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
+                }
             }
         ).then(res => {
             this.getCompleteReviewData()
@@ -106,7 +121,13 @@ class EditReview extends Component {
         axios.patch(
             URL_API + `reviews/${this.state.reviewId}`, {
                 review_content: this.state.reviewContent,
-                star: this.state.rating
+                star: this.state.rating,
+                user_id: this.props.userId
+            },
+            {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
             }
         ).then(res => {
             toast("Review updated", {
@@ -181,11 +202,13 @@ class EditReview extends Component {
                                                             process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                                                 const fd = new FormData()
                                                                 fd.append(fieldName, file, file.name)
-                                                                fd.append("transaction_id", this.state.transactionId)
-                                                                fd.append("review_id", this.state.reviewId)
+                                                                fd.append('transaction_id', this.state.transactionId)
+                                                                fd.append('review_id', this.state.reviewId)
+                                                                fd.append('user_id', this.props.userId)
                                                     
                                                                 const xhr = new XMLHttpRequest()
                                                                 xhr.open('POST', URL_API + 'reviews_picture')
+                                                                xhr.setRequestHeader('Authorization', cookie.get('token'))
                                                     
                                                                 xhr.upload.onprogress = (e) => {
                                                                     progress(e.lengthComputable, e.loaded, e.total)
@@ -210,7 +233,13 @@ class EditReview extends Component {
                                                             revert: (uniqueFileId, load, error) => {
                                                                 const xhr = new XMLHttpRequest()
                                                                 xhr.open('DELETE', URL_API + 'reviews_picture')
-                                                                xhr.send(uniqueFileId)
+                                                                xhr.setRequestHeader('Content-type', 'application/json')
+                                                                xhr.setRequestHeader('Authorization', cookie.get('token'))
+                                                                let data = {
+                                                                    user_id: this.props.userId,
+                                                                    picture_link: uniqueFileId
+                                                                }
+                                                                xhr.send(JSON.stringify(data))
                                                                 error('Delete error')
                                                                 load()
                                                             }

@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import URL_API from '../../../configs/urlAPI'
 import TripItem from '../../components/trip-item/TripItem'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
+
+const cookie = new Cookies()
 
 class Wishlist extends Component {
 
@@ -26,6 +29,9 @@ class Wishlist extends Component {
             URL_API + 'favorites', {
                 params: {
                     user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
                 }
             }
         ).then(res => {

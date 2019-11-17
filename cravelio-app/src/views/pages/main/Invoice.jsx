@@ -5,10 +5,13 @@ import { toast } from 'react-toastify'
 import { onSubmitProof } from '../../../actions/booking'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import formatCurrency from '../../../helpers/formatCurrency'
 import URL_API from '../../../configs/urlAPI'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
+
+const cookie = new Cookies()
 
 class Invoice extends Component {
 
@@ -30,7 +33,14 @@ class Invoice extends Component {
 
     getTransactionData = () => {
         axios.get (
-            URL_API + `transactions/${this.props.match.params.id}`
+            URL_API + `transactions/${this.props.match.params.id}`, {
+                params: {
+                    user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then((res)=> {
             this.setState({
                 transaction: res.data.results[0]
@@ -69,52 +79,61 @@ class Invoice extends Component {
                     </div>
                 )
             } else {
-                return (
-                    <div className="row">
-                        <div className="col-4">
-                            Select Bank
-                            <select onChange={e => this.setState({bankName: e.target.value})} className="form-control mb-2">
-                                <option>BCA</option>
-                                <option>Mandiri</option>
-                            </select>
-                            Account Holder Name
-                            <input onChange={e => this.setState({accountHolderName: e.target.value})} type="text" className="form-control mb-2"/>
-                            Proof of Transfer
-                            {/* <input onChange={e => this.setState({transferProof: e.target.files[0]})} type="file" className="form-control"/> */}
+                if (this.props.role === 'admin') {
+                    return  (
+                        <div className="row">
+                            <div className="col-4">
+                                <p>User not yet uploaded proof.</p>
+                            </div>
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className="row">
+                            <div className="col-4">
+                                Select Bank
+                                <select onChange={e => this.setState({bankName: e.target.value})} className="form-control mb-2">
+                                    <option>BCA</option>
+                                    <option>Mandiri</option>
+                                </select>
+                                Account Holder Name
+                                <input onChange={e => this.setState({accountHolderName: e.target.value})} type="text" className="form-control mb-2"/>
+                                Proof of Transfer
+                                {
+                                    this.state.transferProof ?
+                                    <div className="mt-2 mb-3">
+                                        <a href={this.state.transferProof} target="_blank" rel="noopener noreferrer">
+                                            <img 
+                                                src={this.state.transferProof}
+                                                alt="transferProof"
+                                                width="200"
+                                            />
+                                        </a>
+                                    </div>
+                                    :
+                                    null
+                                }
+                                <input onChange={e => this.showPicture(e)} type="file" className="form-control"/> 
+                            </div>
                             {
-                                this.state.transferProof ?
-                                <div className="mt-2 mb-3">
-                                    <a href={this.state.transferProof} target="_blank" rel="noopener noreferrer">
-                                        <img 
-                                            src={this.state.transferProof}
-                                            alt="transferProof"
-                                            width="200"
-                                        />
-                                    </a>
+                                this.state.bankName === 'BCA' ?
+                                <div className="col-3">
+                                    <div className="mb-3">Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                    <img src={URL_API + 'files/general/bank-bca-logo.png'} width="140" alt="bank-bca-logo"/>
+                                    <div className="mt-3">PT Cravelio Indonesia</div>
+                                    <div>6123456789</div>
                                 </div>
                                 :
-                                null
+                                <div className="col-8">
+                                    <div className="mb-3">Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
+                                    <img src={URL_API + 'files/general/bank-mandiri-logo.png'} width="150" alt="bank-mandiri-logo"/>
+                                    <div className="mt-3">PT Cravelio Indonesia</div>
+                                    <div>5123456789</div>
+                                </div>
                             }
-                            <input onChange={e => this.showPicture(e)} type="file" className="form-control"/> 
                         </div>
-                        {
-                            this.state.bankName === 'BCA' ?
-                            <div className="col-3">
-                                <div className="mb-3">Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
-                                <img src={URL_API + 'files/general/bank-bca-logo.png'} width="140" alt="bank-bca-logo"/>
-                                <div className="mt-3">PT Cravelio Indonesia</div>
-                                <div>6123456789</div>
-                            </div>
-                            :
-                            <div className="col-8">
-                                <div className="mb-3">Transfer {formatCurrency(this.state.transaction.total_payment)} to:</div>
-                                <img src={URL_API + 'files/general/bank-mandiri-logo.png'} width="150" alt="bank-mandiri-logo"/>
-                                <div className="mt-3">PT Cravelio Indonesia</div>
-                                <div>5123456789</div>
-                            </div>
-                        }
-                    </div>
-                )
+                    )
+                }
             }
         } else {
             return (
@@ -143,9 +162,13 @@ class Invoice extends Component {
             if (this.state.transaction.status === "Cancelled") {
                 return null
             } else {
-                return (
-                    <button onClick={() => this.onSubmitButton()} className="btn-main btn-block">Submit</button>
-                )
+                if (this.props.role === 'admin') {
+                    return  null
+                } else {
+                    return (
+                        <button onClick={() => this.onSubmitButton()} className="btn-main btn-block">Submit</button>
+                    )
+                }
             }
         } else {
             return null
@@ -163,9 +186,14 @@ class Invoice extends Component {
 
                 fd.append('browse_file', this.state.file, this.state.file.name)
                 fd.append('data', JSON.stringify(data))
+                fd.append('user_id', this.props.userId)
 
                 axios.patch(
-                    URL_API + `transactions/${this.props.match.params.id}`, fd
+                    URL_API + `transactions/${this.props.match.params.id}`, fd, {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
+                    }
                 ).then(res => {
                     toast("Upload proof success", {
                         position: toast.POSITION.BOTTOM_CENTER,

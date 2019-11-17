@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import URL_API from '../../../configs/urlAPI'
+
+const cookie = new Cookies()
 
 class PendingPayments extends Component {
 
@@ -26,6 +29,9 @@ class PendingPayments extends Component {
             URL_API + 'transactions', {
                 params: {
                     status: 'Pending'
+                },
+                headers: {
+                    Authorization: cookie.get('token')
                 }
             }
         ).then((res)=> {
@@ -81,7 +87,11 @@ class PendingPayments extends Component {
 
     onApproveClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
         axios.patch(
-            URL_API + `approve_transaction/${transactionId}`
+            URL_API + `approve_transaction/${transactionId}`, {}, {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then(res => {
             axios.post(
                 URL_API + 'send_purchase_approved', {
@@ -99,6 +109,11 @@ class PendingPayments extends Component {
                     promo_value: promoValue,
                     total_payment: totalPayment,
                     participants: participants
+                },
+                {
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
                 }
             ).then(res => {
                 toast("Transaction approved", {
@@ -115,14 +130,23 @@ class PendingPayments extends Component {
             URL_API + `schedules/${scheduleId}`
         ).then(res => {
             axios.patch(
-                URL_API + `schedules_quota/${scheduleId}`, {
+                URL_API + `add_schedules_quota/${scheduleId}`, {
                     quota_left: res.data.results[0].quota_left + pax
+                },
+                {
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
                 }
             )
         })
         
         axios.patch(
-            URL_API + `reject_transaction/${transactionId}`
+            URL_API + `reject_transaction/${transactionId}`, {}, {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then(res => {
             axios.post(
                 URL_API + 'send_purchase_rejected', {
@@ -140,6 +164,11 @@ class PendingPayments extends Component {
                     promo_value: promoValue,
                     total_payment: totalPayment,
                     participants: participants
+                },
+                {
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
                 }
             ).then(res => {
                 toast("Transaction rejected", {

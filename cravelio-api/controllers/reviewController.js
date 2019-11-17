@@ -249,20 +249,6 @@ module.exports = {
         })
     },
 
-    updateReviewPicture: (req, res) => {
-        let sql = `UPDATE reviews_picture SET review_id = ${req.body.review_id}
-        WHERE transaction_id = ${req.body.transaction_id}`
-        
-        db.query(sql, (err, result) => {
-            if (err) throw err
-            res.send({
-                status: 201,
-                message: 'Update review picture success',
-                results: result
-            })
-        })
-    },
-
     createReviewPicture: (req, res) => {
         let sql = `INSERT INTO reviews_picture (review_picture_id, picture_link, transaction_id)
         VALUES (0, '${req.files[0].filename}', ${req.body.transaction_id})`
@@ -279,14 +265,28 @@ module.exports = {
     },
 
     cancelCreateReviewPicture: (req, res) => {
-        let sql = `DELETE FROM reviews_picture WHERE picture_link = '${req.body}'`
+        let sql = `DELETE FROM reviews_picture WHERE picture_link = '${req.body.picture_link}'`
 
         db.query(sql, (err, result) => {
             if (err) throw err  
-            fs.unlinkSync(`./uploads/review-pictures/${req.body}`)
+            fs.unlinkSync(`./uploads/review-pictures/${req.body.picture_link}`)
             res.send({
                 status: 200,
                 message: 'Cancel create review picture success',
+                results: result
+            })
+        })
+    },
+
+    updateReviewPicture: (req, res) => {
+        let sql = `UPDATE reviews_picture SET review_id = ${req.body.review_id}
+        WHERE transaction_id = ${req.body.transaction_id}`
+        
+        db.query(sql, (err, result) => {
+            if (err) throw err
+            res.send({
+                status: 201,
+                message: 'Update review picture success',
                 results: result
             })
         })

@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { confirmAlert } from 'react-confirm-alert'
 import URL_API from '../../../configs/urlAPI'
+
+const cookie = new Cookies()
 
 class Promos extends Component {
 
@@ -97,7 +100,11 @@ class Promos extends Component {
                         <button
                             onClick={() => {
                                 axios.delete(
-                                    URL_API + `promos/${promoId}`
+                                    URL_API + `promos/${promoId}`, {
+                                        headers: {
+                                            Authorization: cookie.get('token')
+                                        }
+                                    }
                                 ).then(res => {
                                     onClose()
                                     this.getPromosData()
@@ -121,6 +128,11 @@ class Promos extends Component {
                     URL_API + `promos/${this.state.promos[i].promo_id}`, {
                         promo_code: this.state.promos[i].promo_code,
                         promo_discount: this.state.promos[i].promo_discount
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 )
             } else {
@@ -128,6 +140,11 @@ class Promos extends Component {
                     URL_API + 'promos', {
                         promo_code: this.state.promos[i].promo_code,
                         promo_discount: this.state.promos[i].promo_discount
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 )
             }

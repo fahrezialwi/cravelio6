@@ -27,7 +27,7 @@ import AboutUs from './pages/footer/AboutUs'
 import OpenTrip from './pages/footer/OpenTrip'
 import PrivateTrip from './pages/footer/PrivateTrip'
 import PrivacyPolicy from './pages/footer/PrivacyPolicy'
-import TermsConditions from './pages/footer/TermsConditions'
+import TermsAndConditions from './pages/footer/TermsAndConditions'
 import Dashboard from './pages/dashboard/Dashboard'
 import NotFound from './pages/main/NotFound'
 import ScrollToTop from './components/general/ScrollToTop'
@@ -84,7 +84,7 @@ class App extends Component {
                         <Route path='/open-trip' component={OpenTrip}/>
                         <Route path='/private-trip' component={PrivateTrip}/>
                         <Route path='/privacy-policy' component={PrivacyPolicy}/>
-                        <Route path='/terms-and-conditions' component={TermsConditions}/>
+                        <Route path='/terms-and-conditions' component={TermsAndConditions}/>
                         <Route path='/dashboard' component={Dashboard}/>
                         <Route path='/404' component={NotFound}/>
                         <Redirect from='*' to='/404'/>

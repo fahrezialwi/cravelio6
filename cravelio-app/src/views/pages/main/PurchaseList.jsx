@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import URL_API from '../../../configs/urlAPI'
 import formatCurrency from '../../../helpers/formatCurrency'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import '../../styles/purchase-list.css'
+
+const cookie = new Cookies()
 
 class PurchaseList extends Component {
 
@@ -27,9 +30,12 @@ class PurchaseList extends Component {
 
     getTransactionsData = () => {
         axios.get (
-            URL_API + 'transactions', {
+            URL_API + 'transactions_user', {
                 params: {
                     user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
                 }
             }
         ).then((res)=> {

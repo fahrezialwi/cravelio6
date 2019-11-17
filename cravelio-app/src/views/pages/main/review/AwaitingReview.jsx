@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import URL_API from '../../../../configs/urlAPI'
 import PendingReviewItem from '../../../components/review/PendingReviewItem'
+
+const cookie = new Cookies()
 
 class AwaitingReview extends Component {
 
@@ -25,6 +28,9 @@ class AwaitingReview extends Component {
             URL_API + 'pending_reviews', {
                 params: {
                     user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
                 }
             }
         ).then(res => {

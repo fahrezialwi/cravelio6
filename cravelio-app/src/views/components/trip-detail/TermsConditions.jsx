@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import parse from 'html-react-parser'
 
-class TermsAndConditions extends Component {
+class TermsConditions extends Component {
     render() {
         return (
             <div className="row mt-4">
@@ -13,4 +13,4 @@ class TermsAndConditions extends Component {
     }
 }
 
-export default TermsAndConditions
+export default TermsConditions

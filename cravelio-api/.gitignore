@@ -10,9 +10,9 @@
 /uploads
 
 # password
+apiKey.js
 appKey.js
 emailSecretKey.js
-mailPassword.js
 
 # sql
 /sql

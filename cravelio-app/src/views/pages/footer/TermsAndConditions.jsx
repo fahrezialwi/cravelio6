@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 
-class TermsConditions extends Component {
+class TermsAndConditions extends Component {
 
     componentDidMount() {
         document.title = 'Terms & Conditions - Cravelio'
@@ -356,4 +356,4 @@ class TermsConditions extends Component {
     }
 }
 
-export default TermsConditions
+export default TermsAndConditions

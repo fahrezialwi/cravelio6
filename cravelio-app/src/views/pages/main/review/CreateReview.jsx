@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import StarRatingComponent from 'react-star-rating-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -13,6 +14,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
+const cookie = new Cookies()
 registerPlugin(FilePondPluginImagePreview)
 
 class CreateReview extends Component {
@@ -53,7 +55,14 @@ class CreateReview extends Component {
 
     getPendingReviewData = () => {
         axios.get(
-            URL_API + `pending_reviews/${this.props.match.params.id}`
+            URL_API + `pending_reviews/${this.props.match.params.id}`, {
+                params: {
+                    user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then(res => {
             if (this._isMounted) {
                 if (res.data.results.length > 0) {
@@ -87,12 +96,23 @@ class CreateReview extends Component {
                 trip_id: this.state.tripId,
                 user_id: this.state.userId,
                 transaction_id: this.state.transactionId
+            },
+            {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
             }
         ).then(res => {
             axios.patch(
                 URL_API + 'reviews_picture', {
                     transaction_id: this.state.transactionId,
-                    review_id: res.data.results.insertId
+                    review_id: res.data.results.insertId,
+                    user_id: this.props.userId
+                },
+                {   
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
                 }
             ).then(res => {
                 toast("Thank you for reviewing this trip", {
@@ -112,14 +132,22 @@ class CreateReview extends Component {
             axios.get(
                 URL_API + `reviews_picture`, {
                     params: {
-                        transaction_id: this.state.transactionId
+                        transaction_id: this.state.transactionId,
+                        user_id: this.props.userId
+                    },
+                    headers: {
+                        Authorization: cookie.get('token')
                     }
             }).then(res => {  
                 for (let i = 0; i < res.data.results.length; i++) {
                     axios.delete(
                         URL_API + `reviews_picture/${res.data.results[i].review_picture_id}`, {
                             data: {
-                                picture_link: res.data.results[i].picture_link
+                                picture_link: res.data.results[i].picture_link,
+                                user_id: this.props.userId
+                            },
+                            headers: {
+                                Authorization: cookie.get('token')
                             }
                         }
                     )
@@ -135,14 +163,22 @@ class CreateReview extends Component {
         axios.get(
             URL_API + `reviews_picture`, {
                 params: {
-                    transaction_id: this.state.transactionId
+                    transaction_id: this.state.transactionId,
+                    user_id: this.props.userId
+                },
+                headers: {
+                    Authorization: cookie.get('token')
                 }
         }).then(res => {  
             for (let i = 0; i < res.data.results.length; i++) {
                 axios.delete(
                     URL_API + `reviews_picture/${res.data.results[i].review_picture_id}`, {
                         data: {
-                            picture_link: res.data.results[i].picture_link
+                            picture_link: res.data.results[i].picture_link,
+                            user_id: this.props.userId
+                        },
+                        headers: {
+                            Authorization: cookie.get('token')
                         }
                     }
                 )
@@ -212,10 +248,12 @@ class CreateReview extends Component {
                                                             process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                                                 const fd = new FormData()
                                                                 fd.append(fieldName, file, file.name)
-                                                                fd.append("transaction_id", this.state.transactionId)
+                                                                fd.append('transaction_id', this.state.transactionId)
+                                                                fd.append('user_id', this.props.userId)
                                                     
                                                                 const xhr = new XMLHttpRequest()
                                                                 xhr.open('POST', URL_API + 'reviews_picture')
+                                                                xhr.setRequestHeader('Authorization', cookie.get('token'))
                                                     
                                                                 xhr.upload.onprogress = (e) => {
                                                                     progress(e.lengthComputable, e.loaded, e.total)
@@ -240,7 +278,13 @@ class CreateReview extends Component {
                                                             revert: (uniqueFileId, load, error) => {
                                                                 const xhr = new XMLHttpRequest()
                                                                 xhr.open('DELETE', URL_API + 'reviews_picture')
-                                                                xhr.send(uniqueFileId)
+                                                                xhr.setRequestHeader('Content-type', 'application/json')
+                                                                xhr.setRequestHeader('Authorization', cookie.get('token'))
+                                                                let data = {
+                                                                    user_id: this.props.userId,
+                                                                    picture_link: uniqueFileId
+                                                                }
+                                                                xhr.send(JSON.stringify(data))
                                                                 error('Delete error')
                                                                 load()
                                                             }

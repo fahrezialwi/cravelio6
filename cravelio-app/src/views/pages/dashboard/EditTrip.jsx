@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +13,7 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import URL_API from '../../../configs/urlAPI'
 import URL_APP from '../../../configs/urlApp'
 
+const cookie = new Cookies()
 registerPlugin(FilePondPluginImagePreview)
 
 class EditTrip extends Component {
@@ -114,6 +116,9 @@ class EditTrip extends Component {
                 URL_API + `pictures/${pictureId}`,{
                     data: {
                         picture_link: pictureLink
+                    },
+                    headers: {
+                        Authorization: cookie.get('token')
                     }
                 }
             ).then(res => {
@@ -148,11 +153,21 @@ class EditTrip extends Component {
                     price_includes: this.state.priceIncludes,
                     price_excludes: this.state.priceExcludes,
                     terms_conditions: this.state.termsConditions
+                },
+                {
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
                 }
             ).then(res => {
                 axios.patch(
                     URL_API + `pictures/${this.state.pictureId}`, {
                         trip_id: this.state.tripId
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 ).then(res => {
                     toast("Trip updated", {
@@ -309,35 +324,37 @@ class EditTrip extends Component {
                             process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                 const fd = new FormData()
                                 fd.append(fieldName, file, file.name)
-                                fd.append("trip_id", this.state.tripId)
+                                fd.append('trip_id', this.state.tripId)
                     
-                                const request = new XMLHttpRequest()
-                                request.open('POST', URL_API + 'pictures')
+                                const xhr = new XMLHttpRequest()
+                                xhr.open('POST', URL_API + 'pictures')
+                                xhr.setRequestHeader('Authorization', cookie.get('token'))
                     
-                                request.upload.onprogress = (e) => {
+                                xhr.upload.onprogress = (e) => {
                                     progress(e.lengthComputable, e.loaded, e.total);
                                 }
                 
-                                request.onload = function() {
-                                    if (request.status >= 200 && request.status < 300) {
-                                        load(request.responseText)
+                                xhr.onload = function() {
+                                    if (xhr.status >= 200 && xhr.status < 300) {
+                                        load(xhr.responseText)
                                     } else {
                                         error('Upload error')
                                     }
                                 }
-                                request.send(fd)
+                                xhr.send(fd)
                                 return {
                                     abort: () => {
-                                        request.abort()
+                                        xhr.abort()
                                         abort()
                                     }
                                 }
                             },
 
                             revert: (uniqueFileId, load, error) => {
-                                const request = new XMLHttpRequest()
-                                request.open('DELETE', URL_API + 'pictures')
-                                request.send(uniqueFileId)
+                                const xhr = new XMLHttpRequest()
+                                xhr.open('DELETE', URL_API + 'pictures')
+                                xhr.setRequestHeader('Authorization', cookie.get('token'))
+                                xhr.send(uniqueFileId)
                                 error('Delete error')
                                 load()
                             }

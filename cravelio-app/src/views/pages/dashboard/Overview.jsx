@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import URL_API from '../../../configs/urlAPI'
 import { Bar } from 'react-chartjs-2'
 import { Doughnut } from 'react-chartjs-2'
+
+const cookie = new Cookies()
 
 class Overview extends Component {
 
@@ -27,7 +30,11 @@ class Overview extends Component {
 
     getAllTransactions = () => {
         axios.get (
-            URL_API + 'transactions'
+            URL_API + 'transactions', {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then((res)=> {
             this.setState({
                 allTransactions: res.data.results
@@ -56,6 +63,9 @@ class Overview extends Component {
             URL_API + 'transactions', {
                 params: {
                     year: year
+                },
+                headers: {
+                    Authorization: cookie.get('token')
                 }
             }
         ).then((res)=> {
@@ -63,6 +73,9 @@ class Overview extends Component {
                 URL_API + 'all_favorites', {
                     params: {
                         year: year
+                    },
+                    headers: {
+                        Authorization: cookie.get('token')
                     }
                 }
             ).then(res2 => {

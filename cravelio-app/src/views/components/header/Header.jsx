@@ -18,6 +18,8 @@ import Cookies from 'universal-cookie'
 import URL_API from '../../../configs/urlAPI'
 import '../../styles/header.css'
 
+const cookie = new Cookies()
+
 class Header extends Component {
 
     constructor(props) {
@@ -34,7 +36,6 @@ class Header extends Component {
 
     getUserData = () => {
         if (this.props.userId) {
-            let cookie = new Cookies()
             axios.get(
                 URL_API + `users/${this.props.userId}`, {
                     headers: {

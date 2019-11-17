@@ -6,6 +6,7 @@ import moment from 'moment'
 import URL_API from '../../../configs/urlAPI'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "../../styles/schedules.css"
+
 const localizer = momentLocalizer(moment)
 const ExampleControlSlot = createSlot()
 

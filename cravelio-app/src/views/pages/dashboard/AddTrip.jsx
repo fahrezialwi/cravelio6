@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import ReactQuill from 'react-quill'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +13,7 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import URL_API from '../../../configs/urlAPI'
 import URL_APP from '../../../configs/urlApp'
 
+const cookie = new Cookies()
 registerPlugin(FilePondPluginImagePreview)
 
 class AddTrip extends Component {
@@ -46,14 +48,21 @@ class AddTrip extends Component {
     }
 
     componentWillUnmount() {
-        if (this.state.pictures.length > 0 && !this.state.buttonClick) {
-            this.clearPictures()
+        if (!this.state.buttonClick) {
+            if (this.state.pictures.length > 0 ) {
+                this.clearPictures()
+            }
+            this.clearTrip()
         }
     }
 
     createTrip = () => {
         axios.post(
-            URL_API + 'trips'
+            URL_API + 'trips', {}, {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then(res => {
             this.setState({
                 tripId: res.data.results.insertId
@@ -101,6 +110,9 @@ class AddTrip extends Component {
                 URL_API + `pictures/${pictureId}`,{
                     data: {
                         picture_link: pictureLink
+                    },
+                    headers: {
+                        Authorization: cookie.get('token')
                     }
                 }
             ).then(res => {
@@ -139,11 +151,21 @@ class AddTrip extends Component {
                         price_includes: this.state.priceIncludes,
                         price_excludes: this.state.priceExcludes,
                         terms_conditions: this.state.termsConditions
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 ).then(res => {
                     axios.patch(
                         URL_API + `pictures/${this.state.pictureId}`, {
                             trip_id: this.state.tripId
+                        },
+                        {
+                            headers: {
+                                Authorization: cookie.get('token')
+                            }
                         }
                     ).then(res => {
                         toast("Trip added", {
@@ -171,41 +193,45 @@ class AddTrip extends Component {
         if (this.state.pictures.length > 0) {
             this.setState({
                 buttonClick: true
+            }, () => {
+                this.clearTrip()
+                this.clearPictures()
             })
-            axios.delete(
-                URL_API + `trips/${this.state.tripId}`
-            ).then(res => {
-                for (let i = 0; i < this.state.pictures.length; i++) {
-                    axios.delete(
-                        URL_API + `pictures/${this.state.pictures[i].picture_id}`,{
-                            data: {
-                                picture_link: this.state.pictures[i].picture_link
-                            }
-                        }
-                    )
-                }
-                this.props.history.push("/dashboard/manage-trips")
-            })
+            this.props.history.push("/dashboard/manage-trips")
         } else {
+            this.setState({
+                buttonClick: true
+            }, () => {
+                this.clearTrip()
+            })
             this.props.history.push("/dashboard/manage-trips")
         }
     }
 
-    clearPictures = () => {
+    clearTrip = () => {
         axios.delete(
-            URL_API + `trips/${this.state.tripId}`
-        ).then(res => {
-            for (let i = 0; i < this.state.pictures.length; i++) {
-                axios.delete(
-                    URL_API + `pictures/${this.state.pictures[i].picture_id}`,{
-                        data: {
-                            picture_link: this.state.pictures[i].picture_link
-                        }
-                    }
-                )
+            URL_API + `trips/${this.state.tripId}`, {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
             }
-            this.props.history.push("/dashboard/manage-trips")
-        })
+        )
+    }
+
+    clearPictures = () => {
+        for (let i = 0; i < this.state.pictures.length; i++) {
+            axios.delete(
+                URL_API + `pictures/${this.state.pictures[i].picture_id}`, {
+                    data: {
+                        picture_link: this.state.pictures[i].picture_link
+                    },
+                    headers: {
+                        Authorization: cookie.get('token')
+                    }
+                }
+            )
+        }
+        this.props.history.push("/dashboard/manage-trips")
     }
 
     render() {
@@ -329,10 +355,11 @@ class AddTrip extends Component {
                             process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                 const fd = new FormData()
                                 fd.append(fieldName, file, file.name)
-                                fd.append("trip_id", this.state.tripId)
+                                fd.append('trip_id', this.state.tripId)
                     
                                 const xhr = new XMLHttpRequest()
                                 xhr.open('POST', URL_API + 'pictures')
+                                xhr.setRequestHeader('Authorization', cookie.get('token'))
                     
                                 xhr.upload.onprogress = (e) => {
                                     progress(e.lengthComputable, e.loaded, e.total)
@@ -357,6 +384,7 @@ class AddTrip extends Component {
                             revert: (uniqueFileId, load, error) => {
                                 const xhr = new XMLHttpRequest()
                                 xhr.open('DELETE', URL_API + 'pictures')
+                                xhr.setRequestHeader('Authorization', cookie.get('token'))
                                 xhr.send(uniqueFileId)
                                 error('Delete error')
                                 load()

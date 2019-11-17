@@ -5,10 +5,13 @@ import { onClearBooking } from '../../../actions/booking'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import formatCurrency from '../../../helpers/formatCurrency'
 import URL_API from '../../../configs/urlAPI'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
+
+const cookie = new Cookies()
 
 class Confirmation extends Component {
 
@@ -33,8 +36,14 @@ class Confirmation extends Component {
                     proceed: true
                 }, () => {
                     axios.patch(
-                        URL_API + `schedules_quota/${this.props.scheduleId}`, {
+                        URL_API + `subtract_schedules_quota/${this.props.scheduleId}`, {
+                            user_id: this.props.userId,
                             quota_left: res.data.results[0].quota_left - this.props.pax
+                        },
+                        {
+                            headers: {
+                                Authorization: cookie.get('token')
+                            }
                         }
                     ).then(res => {
                         axios.post(
@@ -58,6 +67,11 @@ class Confirmation extends Component {
                                 promo_value: this.props.promoValue,
                                 total_payment: this.props.totalPrice,
                                 status: 'Pending'
+                            },
+                            {
+                                headers: {
+                                    Authorization: cookie.get('token')
+                                }
                             }
                         ).then(res2 => {
                             setTimeout(() => { 

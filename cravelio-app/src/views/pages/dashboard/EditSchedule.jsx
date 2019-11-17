@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { confirmAlert } from 'react-confirm-alert'
 import URL_API from '../../../configs/urlAPI'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+
+const cookie = new Cookies()
 
 class EditSchedule extends Component {
 
@@ -126,7 +129,11 @@ class EditSchedule extends Component {
                         <button
                             onClick={() => {
                                 axios.delete(
-                                    URL_API + `schedules/${scheduleId}`
+                                    URL_API + `schedules/${scheduleId}`, {
+                                        headers: {
+                                            Authorization: cookie.get('token')
+                                        }
+                                    }
                                 ).then(res => {
                                     onClose()
                                     this.getScheduleData()
@@ -150,6 +157,11 @@ class EditSchedule extends Component {
                     URL_API + `schedules/${this.state.schedule[i].schedule_id}`, {
                         start_date: moment(this.state.schedule[i].start_date).format('YYYY-MM-DD'),
                         end_date: moment(this.state.schedule[i].end_date).format('YYYY-MM-DD')
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 )
             } else {
@@ -159,6 +171,11 @@ class EditSchedule extends Component {
                         end_date: moment(this.state.schedule[i].end_date).format('YYYY-MM-DD'),
                         trip_id: this.state.tripId,
                         quota_left: this.state.schedule[i].quota_left
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 )
             }

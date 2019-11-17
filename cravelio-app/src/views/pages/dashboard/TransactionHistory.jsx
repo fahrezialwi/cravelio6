@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import { Link } from 'react-router-dom'
 import URL_API from '../../../configs/urlAPI'
+
+const cookie = new Cookies()
 
 class TransactionHistory extends Component {
 
@@ -22,7 +25,11 @@ class TransactionHistory extends Component {
 
     getTransactionsData = () => {
         axios.get (
-            URL_API + 'transactions'
+            URL_API + 'transactions', {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then((res)=> {
             this.setState({
                 transactions: res.data.results

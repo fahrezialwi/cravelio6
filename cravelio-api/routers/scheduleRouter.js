@@ -1,13 +1,15 @@
 let express = require('express')
 let router = express.Router()
-let verifyToken = require('../helpers/verifyToken')
+const { verifyToken, verifyTokenAdmin } = require('../helpers/verifyToken')
 const { scheduleController } = require('../controllers')
 
 router.get('/schedules', scheduleController.getSchedules)
 router.get('/schedules/:id', scheduleController.getSchedules)
-router.post('/schedules', verifyToken, scheduleController.createSchedule)
-router.patch('/schedules/:id', verifyToken, scheduleController.editSchedule)
-router.delete('/schedules/:id', verifyToken, scheduleController.deleteSchedule)
-router.patch('/schedules_quota/:id', verifyToken, scheduleController.editScheduleQuota)
+
+router.post('/schedules', verifyTokenAdmin, scheduleController.createSchedule)
+router.patch('/schedules/:id', verifyTokenAdmin, scheduleController.editSchedule)
+router.delete('/schedules/:id', verifyTokenAdmin, scheduleController.deleteSchedule)
+router.patch('/subtract_schedules_quota/:id', verifyToken, scheduleController.editScheduleQuota)
+router.patch('/add_schedules_quota/:id', verifyTokenAdmin, scheduleController.editScheduleQuota)
 
 module.exports = router

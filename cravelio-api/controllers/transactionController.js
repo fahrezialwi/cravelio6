@@ -2,20 +2,20 @@ const db = require('../database')
 const fs = require('fs')
 const moment = require('moment')
 const nodemailer = require('nodemailer')
+const mg = require('nodemailer-mailgun-transport')
 const juice = require('juice')
-const mailPassword = require('../configs/mailPassword')
+const apiKey = require('../configs/apiKey')
 const invoiceApproved = require('../email-templates/invoiceApproved')
 const invoiceRejected = require('../email-templates/invoiceRejected')
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp.zoho.com',
-    port: 465,
-    secure: true,
+let auth = {
     auth: {
-        user: 'booking@cravelio.com',
-        pass: mailPassword
+      api_key: apiKey,
+      domain: 'mail.cravelio.com'
     }
-})
+}
+
+let transporter = nodemailer.createTransport(mg(auth))
 
 module.exports = {
     getTransactions: (req, res) => {
@@ -31,6 +31,117 @@ module.exports = {
         if (req.query.year) {
             sql += ` WHERE year(tr.created_at) = ${req.query.year}`
         }
+
+        sql += ` ORDER BY tr.created_at DESC`
+
+        db.query(sql, (err,result) => {
+            if (err) throw err
+            
+            let data = []
+            let iterator = 0
+
+            for (let i = 0; i < result.length; i++) {
+                if (i == 0) {
+                    data.push({
+                        transaction_id: result[0].transaction_id,
+                        trip_id: result[0].trip_id,
+                        trip_name: result[0].trip_name,
+                        trip_price: result[0].trip_price,
+                        picture_link: result[0].picture_link,
+                        schedule_id: result[0].schedule_id,
+                        start_date: result[0].start_date,
+                        end_date: result[0].end_date,
+                        user_id: result[0].user_id,
+                        contact_first_name: result[0].contact_first_name,
+                        contact_last_name: result[0].contact_last_name,
+                        contact_phone_number: result[0].contact_phone_number,
+                        contact_email: result[0].contact_email,
+                        pax: result[0].pax,
+                        participants: [{
+                            title: result[0].title,
+                            first_name: result[0].first_name,
+                            last_name: result[0].last_name,
+                            identification_type: result[0].identification_type,
+                            identification_number: result[0].identification_number
+                        }],
+                        promo_code: result[0].promo_code,
+                        promo_percentage: result[0].promo_percentage,
+                        promo_value: result[0].promo_value,
+                        total_payment: result[0].total_payment,
+                        status: result[0].status,
+                        transfer_bank_name: result[0].transfer_bank_name,
+                        transfer_account_holder: result[0].transfer_account_holder,
+                        transfer_proof: result[0].transfer_proof,
+                        created_at: result[0].created_at
+                    })
+                    iterator++
+                    continue
+                }
+
+                if (result[i].transaction_id == result[i-1].transaction_id) {
+                    data[iterator - 1].participants.push({
+                        title: result[i].title,
+                        first_name: result[i].first_name,
+                        last_name: result[i].last_name,
+                        identification_type: result[i].identification_type,
+                        identification_number: result[i].identification_number
+                    })
+                } else {
+                    data.push({
+                        transaction_id: result[i].transaction_id,
+                        trip_id: result[i].trip_id,
+                        trip_name: result[i].trip_name,
+                        trip_price: result[i].trip_price,
+                        picture_link: result[i].picture_link,
+                        schedule_id: result[i].schedule_id,
+                        start_date: result[i].start_date,
+                        end_date: result[i].end_date,
+                        user_id: result[i].user_id,
+                        contact_first_name: result[i].contact_first_name,
+                        contact_last_name: result[i].contact_last_name,
+                        contact_phone_number: result[i].contact_phone_number,
+                        contact_email: result[i].contact_email,
+                        pax: result[i].pax,
+                        participants: [{
+                            title: result[i].title,
+                            first_name: result[i].first_name,
+                            last_name: result[i].last_name,
+                            identification_type: result[i].identification_type,
+                            identification_number: result[i].identification_number
+                        }],
+                        promo_code: result[i].promo_code,
+                        promo_percentage: result[i].promo_percentage,
+                        promo_value: result[i].promo_value,
+                        total_payment: result[i].total_payment,
+                        status: result[i].status,
+                        transfer_bank_name: result[i].transfer_bank_name,
+                        transfer_account_holder: result[i].transfer_account_holder,
+                        transfer_proof: result[i].transfer_proof,
+                        created_at: result[i].created_at
+                    })
+                    iterator++
+                }
+            }
+
+            if (result.length > 0) {          
+                res.send({
+                    status: 200,
+                    results: data
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Data not found',
+                    results: result
+                })
+            }
+        })
+    },
+
+    getTransactionsByUserId: (req, res) => {
+        let sql = `SELECT * FROM transactions AS tr
+        JOIN transactions_detail AS td ON tr.transaction_id = td.transaction_id`
+
         if (req.query.user_id) {
             sql += ` WHERE tr.user_id = ${req.query.user_id}`
         }

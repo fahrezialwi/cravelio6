@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import URL_API from '../../../configs/urlAPI'
@@ -10,6 +11,8 @@ import encrypt from '../../../helpers/crypto'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import '../../styles/edit-profile.css'
+
+const cookie = new Cookies()
 
 class EditProfile extends Component {
 
@@ -36,7 +39,11 @@ class EditProfile extends Component {
 
     getUserData = () => {
         axios.get(
-            URL_API + `users/${this.props.userId}`
+            URL_API + `users/${this.props.userId}`, {
+                headers: {
+                    Authorization: cookie.get('token')
+                }
+            }
         ).then(res => {
             this.setState({
                 profilePicture: res.data.results[0].profile_picture,
@@ -73,9 +80,14 @@ class EditProfile extends Component {
 
                 fd.append('browse_file', this.state.file, this.state.file.name)
                 fd.append('data', JSON.stringify(data))
+                fd.append('user_id', this.props.userId)
 
                 axios.patch(
-                    URL_API + `users_picture/${this.props.userId}`, fd
+                    URL_API + `users_picture/${this.props.userId}`, fd, {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
+                    }
                 ).then(res => {
                     toast("Edit success", {
                         position: toast.POSITION.BOTTOM_CENTER,
@@ -102,6 +114,11 @@ class EditProfile extends Component {
                         birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
                         address: this.state.address,
                         phone_number: this.state.phoneNumber
+                    },
+                    {
+                        headers: {
+                            Authorization: cookie.get('token')
+                        }
                     }
                 ).then(res => {
                     toast("Edit success", {
