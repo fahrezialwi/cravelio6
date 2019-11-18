@@ -66,76 +66,92 @@ class EditProfile extends Component {
 
     onSaveClick = () => {
         if (this.state.firstName && this.state.lastName && this.state.email) {
-            if (this.state.file) {
-                let fd = new FormData()
-                let data = {
-                    first_name: this.state.firstName,
-                    last_name: this.state.lastName,
-                    email: this.state.email,
-                    password: encrypt(this.state.password),
-                    birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
-                    address: this.state.address,
-                    phone_number: this.state.phoneNumber
-                }
-
-                fd.append('browse_file', this.state.file, this.state.file.name)
-                fd.append('data', JSON.stringify(data))
-                fd.append('user_id', this.props.userId)
-
-                axios.patch(
-                    URL_API + `users_picture/${this.props.userId}`, fd, {
-                        headers: {
-                            Authorization: cookie.get('token')
-                        }
-                    }
-                ).then(res => {
-                    toast("Edit success", {
-                        position: toast.POSITION.BOTTOM_CENTER,
-                        className: 'toast-container'
-                    })
-                    this.setState({
-                        password: '',
-                        repeatPassword: '',
-                        profilePicture: '',
-                        file: null
-                    }, () => {
-                        this.getUserData()
-                    })
-                }).catch(err => {
-                    console.log(err)
-                })
-            } else {
-                axios.patch(
-                    URL_API + `users/${this.props.userId}`, {
+            if (this.state.password === this.state.repeatPassword) {
+                if (this.state.file) {
+                    let fd = new FormData()
+    
+                    let data = {
                         first_name: this.state.firstName,
                         last_name: this.state.lastName,
                         email: this.state.email,
-                        password: encrypt(this.state.password),
                         birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
                         address: this.state.address,
                         phone_number: this.state.phoneNumber
-                    },
-                    {
-                        headers: {
-                            Authorization: cookie.get('token')
-                        }
                     }
-                ).then(res => {
-                    toast("Edit success", {
-                        position: toast.POSITION.BOTTOM_CENTER,
-                        className: 'toast-container'
+    
+                    if (this.state.password) {
+                        data.password = encrypt(this.state.password)
+                    }
+    
+                    fd.append('browse_file', this.state.file, this.state.file.name)
+                    fd.append('data', JSON.stringify(data))
+                    fd.append('user_id', this.props.userId)
+    
+                    axios.patch(
+                        URL_API + `users_picture/${this.props.userId}`, fd, {
+                            headers: {
+                                Authorization: cookie.get('token')
+                            }
+                        }
+                    ).then(res => {
+                        toast("Edit success", {
+                            position: toast.POSITION.BOTTOM_CENTER,
+                            className: 'toast-container'
+                        })
+                        this.setState({
+                            password: '',
+                            repeatPassword: '',
+                            profilePicture: '',
+                            file: null
+                        }, () => {
+                            this.getUserData()
+                        })
+                    }).catch(err => {
+                        console.log(err)
                     })
-                    this.setState({
-                        password: '',
-                        repeatPassword: ''
-                    }, () => {
-                        this.refs.password.value = ''
-                        this.refs.repeatPassword.value = ''
-                        this.getUserData()
+                } else {
+                    let body = {
+                        first_name: this.state.firstName,
+                        last_name: this.state.lastName,
+                        email: this.state.email,
+                        birth_date: moment(this.state.birthDate).format('YYYY-MM-DD'),
+                        address: this.state.address,
+                        phone_number: this.state.phoneNumber
+                    }
+
+                    if (this.state.password) {
+                        body.password = encrypt(this.state.password)
+                    }
+
+                    axios.patch(
+                        URL_API + `users/${this.props.userId}`, body,
+                        {
+                            headers: {
+                                Authorization: cookie.get('token')
+                            }
+                        }
+                    ).then(res => {
+                        toast("Edit success", {
+                            position: toast.POSITION.BOTTOM_CENTER,
+                            className: 'toast-container'
+                        })
+                        this.setState({
+                            password: '',
+                            repeatPassword: ''
+                        }, () => {
+                            this.refs.password.value = ''
+                            this.refs.repeatPassword.value = ''
+                            this.getUserData()
+                        })
+                        window.scrollTo(0,0)
+                    }).catch(err => {
+                        console.log(err)
                     })
-                    window.scrollTo(0,0)
-                }).catch(err => {
-                    console.log(err)
+                }
+            } else {
+                toast("Password doesn't match", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    className: 'toast-container'
                 })
             }
         } else {

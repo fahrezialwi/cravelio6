@@ -17,18 +17,23 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -39,13 +44,17 @@ module.exports = {
         ${req.body.quota_left})`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 201,
-                message: 'Create schedule success',
-                results: result
-            })
+                res.send({
+                    status: 201,
+                    message: 'Create schedule success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -54,13 +63,17 @@ module.exports = {
         end_date = '${req.body.end_date}' WHERE schedule_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 201,
-                message: 'Edit schedule success',
-                results: result
-            })
+                res.send({
+                    status: 200,
+                    message: 'Edit schedule success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -68,13 +81,17 @@ module.exports = {
         let sql = `DELETE FROM schedules WHERE schedule_id = ${req.params.id}`
         
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 200,
-                message: 'Delete schedule success',
-                results: result
-            })
+                res.send({
+                    status: 200,
+                    message: 'Delete schedule success',
+                    results: result
+                }) 
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -82,13 +99,17 @@ module.exports = {
         let sql = `UPDATE schedules SET quota_left = ${req.body.quota_left} WHERE schedule_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 201,
-                message: 'Edit schedule success',
-                results: result
-            })
+                res.send({
+                    status: 200,
+                    message: 'Edit schedule success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     }
 }

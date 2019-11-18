@@ -19,61 +19,65 @@ module.exports = {
         sql += ` ORDER BY r.updated_at DESC`
 
         db.query(sql, (err,result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
             
-            let data = []
-            let iterator = 0
-
-            for (let i = 0; i < result.length; i++) {
-                if (i == 0) {
-                    data.push({
-                        review_id: result[0].review_id,
-                        trip_id: result[0].trip_id,
-                        user_id: result[0].user_id,
-                        first_name: result[0].first_name,
-                        last_name: result[0].last_name,
-                        profile_picture: result[0].profile_picture,
-                        review_content: result[0].review_content,
-                        star: result[0].star,
-                        pictures : [result[0].picture_link],
-                        created_at: result[0].created_at,
-                        updated_at: result[0].updated_at
-                    })
-                    iterator++
-                    continue
+                let data = []
+                let iterator = 0
+    
+                for (let i = 0; i < result.length; i++) {
+                    if (i == 0) {
+                        data.push({
+                            review_id: result[0].review_id,
+                            trip_id: result[0].trip_id,
+                            user_id: result[0].user_id,
+                            first_name: result[0].first_name,
+                            last_name: result[0].last_name,
+                            profile_picture: result[0].profile_picture,
+                            review_content: result[0].review_content,
+                            star: result[0].star,
+                            pictures : [result[0].picture_link],
+                            created_at: result[0].created_at,
+                            updated_at: result[0].updated_at
+                        })
+                        iterator++
+                        continue
+                    }
+    
+                    if (result[i].review_id == result[i-1].review_id) {
+                        data[iterator - 1].pictures.push(result[i].picture_link)
+                    } else {
+                        data.push({
+                            review_id: result[i].review_id,
+                            trip_id: result[i].trip_id,
+                            user_id: result[i].user_id,
+                            first_name: result[i].first_name,
+                            last_name: result[i].last_name,
+                            profile_picture: result[i].profile_picture,
+                            review_content: result[i].review_content,
+                            star: result[i].star,
+                            pictures : [result[i].picture_link],
+                            created_at: result[i].created_at,
+                            updated_at: result[i].updated_at
+                        })
+                        iterator++
+                    }
                 }
-
-                if (result[i].review_id == result[i-1].review_id) {
-                    data[iterator - 1].pictures.push(result[i].picture_link)
+    
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: data
+                    })
                 } else {
-                    data.push({
-                        review_id: result[i].review_id,
-                        trip_id: result[i].trip_id,
-                        user_id: result[i].user_id,
-                        first_name: result[i].first_name,
-                        last_name: result[i].last_name,
-                        profile_picture: result[i].profile_picture,
-                        review_content: result[i].review_content,
-                        star: result[i].star,
-                        pictures : [result[i].picture_link],
-                        created_at: result[i].created_at,
-                        updated_at: result[i].updated_at
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
                     })
-                    iterator++
                 }
-            }
-
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: data
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -99,19 +103,23 @@ module.exports = {
         sql += ` ORDER BY tr.created_at DESC`
 
         db.query(sql, (err,result) => {
-            if (err) throw err
-            
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -142,69 +150,73 @@ module.exports = {
         sql += ` ORDER BY r.updated_at DESC`
 
         db.query(sql, (err,result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
             
-            let data = []
-            let iterator = 0
-
-            for (let i = 0; i < result.length; i++) {
-                if (i == 0) {
-                    data.push({
-                        review_id: result[0].review_id,
-                        transaction_id: result[0].transaction_id,
-                        trip_id: result[0].trip_id,
-                        path: result[0].path,
-                        trip_name: result[0].trip_name,
-                        start_date: result[0].start_date,
-                        end_date: result[0].end_date,
-                        main_picture: result[0].main_picture,
-                        user_id: result[0].user_id,
-                        transaction_id: result[0].transaction_id,
-                        review_content: result[0].review_content,
-                        star: result[0].star,
-                        pictures : [result[0].picture_link],
-                        created_at: result[0].created_at,
-                        updated_at: result[0].updated_at
-                    })
-                    iterator++
-                    continue
+                let data = []
+                let iterator = 0
+    
+                for (let i = 0; i < result.length; i++) {
+                    if (i == 0) {
+                        data.push({
+                            review_id: result[0].review_id,
+                            transaction_id: result[0].transaction_id,
+                            trip_id: result[0].trip_id,
+                            path: result[0].path,
+                            trip_name: result[0].trip_name,
+                            start_date: result[0].start_date,
+                            end_date: result[0].end_date,
+                            main_picture: result[0].main_picture,
+                            user_id: result[0].user_id,
+                            transaction_id: result[0].transaction_id,
+                            review_content: result[0].review_content,
+                            star: result[0].star,
+                            pictures : [result[0].picture_link],
+                            created_at: result[0].created_at,
+                            updated_at: result[0].updated_at
+                        })
+                        iterator++
+                        continue
+                    }
+    
+                    if (result[i].review_id == result[i-1].review_id) {
+                        data[iterator - 1].pictures.push(result[i].picture_link)
+                    } else {
+                        data.push({
+                            review_id: result[i].review_id,
+                            transaction_id: result[i].transaction_id,
+                            trip_id: result[i].trip_id,
+                            path: result[i].path,
+                            trip_name: result[i].trip_name,
+                            start_date: result[i].start_date,
+                            end_date: result[i].end_date,
+                            main_picture: result[i].main_picture,
+                            user_id: result[i].user_id,
+                            transaction_id: result[i].transaction_id,
+                            review_content: result[i].review_content,
+                            star: result[i].star,
+                            pictures : [result[i].picture_link],
+                            created_at: result[i].created_at,
+                            updated_at: result[i].updated_at
+                        })
+                        iterator++
+                    }
                 }
-
-                if (result[i].review_id == result[i-1].review_id) {
-                    data[iterator - 1].pictures.push(result[i].picture_link)
+    
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: data
+                    })
                 } else {
-                    data.push({
-                        review_id: result[i].review_id,
-                        transaction_id: result[i].transaction_id,
-                        trip_id: result[i].trip_id,
-                        path: result[i].path,
-                        trip_name: result[i].trip_name,
-                        start_date: result[i].start_date,
-                        end_date: result[i].end_date,
-                        main_picture: result[i].main_picture,
-                        user_id: result[i].user_id,
-                        transaction_id: result[i].transaction_id,
-                        review_content: result[i].review_content,
-                        star: result[i].star,
-                        pictures : [result[i].picture_link],
-                        created_at: result[i].created_at,
-                        updated_at: result[i].updated_at
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
                     })
-                    iterator++
                 }
-            }
-
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: data
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -217,13 +229,17 @@ module.exports = {
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 201,
-                message: 'Create review success',
-                results: result
-            })
+                res.send({
+                    status: 201,
+                    message: 'Create review success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -232,19 +248,23 @@ module.exports = {
         WHERE transaction_id = ${req.query.transaction_id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -259,8 +279,13 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
-            res.send(req.files[0].filename)
+            try {
+                if (err) throw err
+
+                res.send(req.files[0].filename)
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -268,13 +293,18 @@ module.exports = {
         let sql = `DELETE FROM reviews_picture WHERE picture_link = '${req.body.picture_link}'`
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
-            fs.unlinkSync(`./uploads/review-pictures/${req.body.picture_link}`)
-            res.send({
-                status: 200,
-                message: 'Cancel create review picture success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                fs.unlinkSync(`./uploads/review-pictures/${req.body.picture_link}`)
+                res.send({
+                    status: 200,
+                    message: 'Cancel create review picture success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -283,12 +313,17 @@ module.exports = {
         WHERE transaction_id = ${req.body.transaction_id}`
         
         db.query(sql, (err, result) => {
-            if (err) throw err
-            res.send({
-                status: 201,
-                message: 'Update review picture success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 200,
+                    message: 'Update review picture success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -298,13 +333,17 @@ module.exports = {
         WHERE review_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 201,
-                message: 'Edit review success',
-                results: result
-            })
+                res.send({
+                    status: 200,
+                    message: 'Edit review success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -312,13 +351,18 @@ module.exports = {
         let sql = `DELETE FROM reviews_picture WHERE review_picture_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
-            fs.unlinkSync(`./uploads/review-pictures/${req.body.picture_link}`)
-            res.send({
-                status: 200,
-                message: 'Delete picture success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                fs.unlinkSync(`./uploads/review-pictures/${req.body.picture_link}`)
+                res.send({
+                    status: 200,
+                    message: 'Delete picture success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     }
 }

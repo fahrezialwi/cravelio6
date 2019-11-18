@@ -16,20 +16,23 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
+            try {
+                if (err) throw err
 
-            if (err) throw err
-
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -48,20 +51,23 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
+            try {
+                if (err) throw err
 
-            if (err) throw err
-
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -80,20 +86,23 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
+            try {
+                if (err) throw err
 
-            if (err) throw err
-
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -104,12 +113,17 @@ module.exports = {
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            res.send({
-                status: 200,
-                message: 'Create trip success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 201,
+                    message: 'Create trip success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -122,12 +136,17 @@ module.exports = {
         updated_at = '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}' WHERE trip_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            res.send({
-                status: 200,
-                message: 'Edit trip success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 200,
+                    message: 'Edit trip success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -135,12 +154,17 @@ module.exports = {
         let sql = `DELETE FROM trips WHERE trip_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            res.send({
-                status: 201,
-                message: 'Delete trip success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 200,
+                    message: 'Delete trip success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     }
 }

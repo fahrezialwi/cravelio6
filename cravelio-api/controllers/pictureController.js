@@ -4,25 +4,32 @@ const fs = require('fs')
 module.exports = {
     getPictures: (req, res) => {
         let sql = `SELECT * FROM pictures`
+
         if (req.params.id) {
             sql = `${sql} WHERE picture_id = ${req.params.id}`
         }
         if (req.query.trip_id) {
             sql = `${sql} WHERE trip_id = '${req.query.trip_id}'`
         }
+
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+            
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -32,8 +39,13 @@ module.exports = {
         (0, '${req.files[0].filename}', ${req.body.trip_id}, 0)`
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
-            res.send(req.files[0].filename)
+            try {
+                if (err) throw err
+
+                res.send(req.files[0].filename)
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -41,13 +53,18 @@ module.exports = {
         let sql = `DELETE FROM pictures WHERE picture_link = '${req.body}'`
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
-            fs.unlinkSync(`./uploads/trip-pictures/${req.body}`)
-            res.send({
-                status: 200,
-                message: 'Cancel create picture success',
-                results: result
-            })
+            try {
+                if (err) throw err
+            
+                fs.unlinkSync(`./uploads/trip-pictures/${req.body}`)
+                res.send({
+                    status: 200,
+                    message: 'Cancel create picture success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -56,16 +73,25 @@ module.exports = {
         let sql2 = `UPDATE pictures SET is_main = 1 WHERE picture_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
+            try {
+                if (err) throw err  
 
-            db.query(sql2, (err2, result2) => {
-                if (err2) throw err2
-                res.send({
-                    status: 201,
-                    message: 'Set main picture success',
-                    results: result2
+                db.query(sql2, (err2, result2) => {
+                    try {
+                        if (err2) throw err2
+
+                        res.send({
+                            status: 200,
+                            message: 'Set main picture success',
+                            results: result2
+                        })
+                    } catch(err2) {
+                        console.log(err2)
+                    }
                 })
-            })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -73,13 +99,18 @@ module.exports = {
         let sql = `DELETE FROM pictures WHERE picture_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err  
-            fs.unlinkSync(`./uploads/trip-pictures/${req.body.picture_link}`)
-            res.send({
-                status: 200,
-                message: 'Delete picture success',
-                results: result
-            })
+            try {
+                if (err) throw err  
+
+                fs.unlinkSync(`./uploads/trip-pictures/${req.body.picture_link}`)
+                res.send({
+                    status: 200,
+                    message: 'Delete picture success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     }
 }

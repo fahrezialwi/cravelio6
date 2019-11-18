@@ -10,32 +10,37 @@ const emailSecretKey = require('../configs/emailSecretKey')
 const accountVerification = require('../email-templates/accountVerification')
 const resetPassword = require('../email-templates/resetPassword')
 
-let auth = {
+let options = {
     auth: {
-      api_key: apiKey,
-      domain: 'mail.cravelio.com'
+        api_key: apiKey,
+        domain: 'mail.cravelio.com'
     }
 }
 
-let transporter = nodemailer.createTransport(mg(auth))
+let transporter = nodemailer.createTransport(mg(options))
 
 module.exports = {
     getUsers: (req, res) => {
         let sql = `SELECT * FROM users`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'User not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'User not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -44,18 +49,23 @@ module.exports = {
         let sql = `SELECT * FROM users WHERE email = '${req.query.email}'`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'User not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'User not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -67,12 +77,17 @@ module.exports = {
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            res.send({
-                status: 201,
-                message: 'Create user success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 201,
+                    message: 'Create user success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -89,59 +104,79 @@ module.exports = {
             subject: 'Verify your account',
             html: juice(accountVerification(token))
         }
-        
-        transporter.sendMail(mailOptions, (err, info) => {
-            if (err) throw err
-        })
 
-        res.send({
-            status: 201,
-            message: 'Email sent'
-        })  
+        try {
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) throw err
+
+                res.send({
+                    status: 200,
+                    message: 'Email sent'
+                })  
+            })
+        } catch(err) {
+            console.log(err)
+        }
     },
 
     checkVerificationLink: (req, res) => {
         let token = req.query.token
         let data = jwt.verify(token, emailSecretKey)
-        
-        if (new Date(data.expiry) > new Date()) {
-            res.send({
-                status: 200,
-                message: 'Link is active'
-            })
-        } else {
-            res.send({
-                status: 404,
-                message: 'Link has expired'
-            })
+
+        try {
+            if (new Date(data.expiry) > new Date()) {
+                res.send({
+                    status: 200,
+                    message: 'Link is active'
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Link has expired'
+                })
+            }
+        } catch(err) {
+            console.log(err)
         }
     },
 
     verifyUser: (req, res) => {
+        let sql = `UPDATE users SET is_verified = 1 WHERE email = '${data.email}'`
         let token = req.body.token
         let data = jwt.verify(token, emailSecretKey)
 
-        db.query(`UPDATE users SET is_verified = 1 WHERE email = '${data.email}'`, (err, result) => {
-            if (err) throw err
-            res.send('Your account has been verified')
+        db.query(sql, (err, result) => {
+            try {
+                if (err) throw err
+
+                res.send('Your account has been verified')
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
     loginUser: (req, res) => {
-        db.query(`SELECT * FROM users WHERE email = '${req.query.email}' AND password = '${req.query.password}'`, (err, result) => {
+        let sql = `SELECT * FROM users WHERE email = '${req.query.email}' AND password = '${req.query.password}'`
 
-            if (err) throw err
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 401,
-                    message: 'Wrong email or password',
-                    results: result
-                })
+        db.query(sql, (err, result) => {
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 401,
+                        message: 'Wrong email or password',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -150,18 +185,23 @@ module.exports = {
         let sql = `SELECT * FROM users WHERE user_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'User not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'User not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -191,13 +231,17 @@ module.exports = {
         sql += ` WHERE user_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            
-            res.send({
-                status: 201,
-                message: 'Edit profile success',
-                results: result
-            })
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 200,
+                    message: 'Edit profile success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         }) 
     },
 
@@ -238,8 +282,9 @@ module.exports = {
             db.query(sql, (err, result) => {
                 try {
                     if (err) throw err
+
                     res.send({
-                        status: 201,
+                        status: 200,
                         message: 'Edit profile success',
                         results: result
                     })
@@ -269,52 +314,65 @@ module.exports = {
             subject: 'Forgot Password',
             html: juice(resetPassword(token))
         }
-        
-        transporter.sendMail(mailOptions, (err, info) => {
-            if (err) throw err
-        })
 
-        res.send({
-            status: 201,
-            message: 'Email sent'
-        })  
+        try {
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) throw err
+
+                res.send({
+                    status: 200,
+                    message: 'Email sent'
+                }) 
+            }) 
+        } catch(err) {
+            console.log(err)
+        }
     },
 
     checkPasswordLink: (req, res) => {
         let token = req.query.token
         let data = jwt.verify(token, emailSecretKey)
-        
-        if (new Date(data.expiry) > new Date()) {
-            res.send({
-                status: 200,
-                message: 'Link is active'
-            })
-        } else {
-            res.send({
-                status: 404,
-                message: 'Link has expired'
-            })
+
+        try {
+            if (new Date(data.expiry) > new Date()) {
+                res.send({
+                    status: 200,
+                    message: 'Link is active'
+                })
+            } else {
+                res.send({
+                    status: 404,
+                    message: 'Link has expired'
+                })
+            }
+        } catch(err) {
+            console.log(err)
         }
     },
 
     resetPassword: (req, res) => {
+        let sql = `UPDATE users SET password = '${req.body.password}' WHERE email = '${data.email}'`
         let token = req.body.token
         let data = jwt.verify(token, emailSecretKey)
 
-        db.query(`UPDATE users SET password = '${req.body.password}' WHERE email = '${data.email}'`, (err, result) => {
+        db.query(sql, (err, result) => {
+            try {
+                if (err) throw err
 
-            if (err) throw err
-            if (result.length > 0) {
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 401,
-                    message: 'Error resetting password',
-                    results: result
-                })
+                if (result.length > 0) {
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 401,
+                        message: 'Error resetting password',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     }

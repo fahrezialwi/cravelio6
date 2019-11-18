@@ -26,18 +26,23 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+            
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -63,18 +68,23 @@ module.exports = {
         }
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: result
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+            try {
+                if (err) throw err
+            
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: result
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -85,19 +95,16 @@ module.exports = {
         '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {          
+            try {
+                if (err) throw err
+     
                 res.send({
-                    status: 200,
+                    status: 201,
                     message: 'Create favorite success',
                     results: result
                 })
-            } else {
-                res.send({
-                    status: 401,
-                    message: 'Create favorite error',
-                    results: result
-                })
+            } catch(err) {
+                console.log(err)
             }
         }) 
     },
@@ -108,19 +115,16 @@ module.exports = {
         WHERE favorite_id = ${req.params.id}` 
 
         db.query(sql, (err, result) => {
-            if (err) throw err
-            if (result.length > 0) {          
+            try {
+                if (err) throw err
+                 
                 res.send({
                     status: 200,
                     message: 'Delete favorite success',
                     results: result
                 })
-            } else {
-                res.send({
-                    status: 401,
-                    message: 'Delete favorite error',
-                    results: result
-                })
+            } catch(err) {
+                console.log(err)
             }
         })
     }

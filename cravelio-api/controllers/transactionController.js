@@ -8,14 +8,14 @@ const apiKey = require('../configs/apiKey')
 const invoiceApproved = require('../email-templates/invoiceApproved')
 const invoiceRejected = require('../email-templates/invoiceRejected')
 
-let auth = {
+let options = {
     auth: {
-      api_key: apiKey,
-      domain: 'mail.cravelio.com'
+        api_key: apiKey,
+        domain: 'mail.cravelio.com'
     }
 }
 
-let transporter = nodemailer.createTransport(mg(auth))
+let transporter = nodemailer.createTransport(mg(options))
 
 module.exports = {
     getTransactions: (req, res) => {
@@ -35,105 +35,109 @@ module.exports = {
         sql += ` ORDER BY tr.created_at DESC`
 
         db.query(sql, (err,result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
             
-            let data = []
-            let iterator = 0
-
-            for (let i = 0; i < result.length; i++) {
-                if (i == 0) {
-                    data.push({
-                        transaction_id: result[0].transaction_id,
-                        trip_id: result[0].trip_id,
-                        trip_name: result[0].trip_name,
-                        trip_price: result[0].trip_price,
-                        picture_link: result[0].picture_link,
-                        schedule_id: result[0].schedule_id,
-                        start_date: result[0].start_date,
-                        end_date: result[0].end_date,
-                        user_id: result[0].user_id,
-                        contact_first_name: result[0].contact_first_name,
-                        contact_last_name: result[0].contact_last_name,
-                        contact_phone_number: result[0].contact_phone_number,
-                        contact_email: result[0].contact_email,
-                        pax: result[0].pax,
-                        participants: [{
-                            title: result[0].title,
-                            first_name: result[0].first_name,
-                            last_name: result[0].last_name,
-                            identification_type: result[0].identification_type,
-                            identification_number: result[0].identification_number
-                        }],
-                        promo_code: result[0].promo_code,
-                        promo_percentage: result[0].promo_percentage,
-                        promo_value: result[0].promo_value,
-                        total_payment: result[0].total_payment,
-                        status: result[0].status,
-                        transfer_bank_name: result[0].transfer_bank_name,
-                        transfer_account_holder: result[0].transfer_account_holder,
-                        transfer_proof: result[0].transfer_proof,
-                        created_at: result[0].created_at
-                    })
-                    iterator++
-                    continue
-                }
-
-                if (result[i].transaction_id == result[i-1].transaction_id) {
-                    data[iterator - 1].participants.push({
-                        title: result[i].title,
-                        first_name: result[i].first_name,
-                        last_name: result[i].last_name,
-                        identification_type: result[i].identification_type,
-                        identification_number: result[i].identification_number
-                    })
-                } else {
-                    data.push({
-                        transaction_id: result[i].transaction_id,
-                        trip_id: result[i].trip_id,
-                        trip_name: result[i].trip_name,
-                        trip_price: result[i].trip_price,
-                        picture_link: result[i].picture_link,
-                        schedule_id: result[i].schedule_id,
-                        start_date: result[i].start_date,
-                        end_date: result[i].end_date,
-                        user_id: result[i].user_id,
-                        contact_first_name: result[i].contact_first_name,
-                        contact_last_name: result[i].contact_last_name,
-                        contact_phone_number: result[i].contact_phone_number,
-                        contact_email: result[i].contact_email,
-                        pax: result[i].pax,
-                        participants: [{
+                let data = []
+                let iterator = 0
+    
+                for (let i = 0; i < result.length; i++) {
+                    if (i == 0) {
+                        data.push({
+                            transaction_id: result[0].transaction_id,
+                            trip_id: result[0].trip_id,
+                            trip_name: result[0].trip_name,
+                            trip_price: result[0].trip_price,
+                            picture_link: result[0].picture_link,
+                            schedule_id: result[0].schedule_id,
+                            start_date: result[0].start_date,
+                            end_date: result[0].end_date,
+                            user_id: result[0].user_id,
+                            contact_first_name: result[0].contact_first_name,
+                            contact_last_name: result[0].contact_last_name,
+                            contact_phone_number: result[0].contact_phone_number,
+                            contact_email: result[0].contact_email,
+                            pax: result[0].pax,
+                            participants: [{
+                                title: result[0].title,
+                                first_name: result[0].first_name,
+                                last_name: result[0].last_name,
+                                identification_type: result[0].identification_type,
+                                identification_number: result[0].identification_number
+                            }],
+                            promo_code: result[0].promo_code,
+                            promo_percentage: result[0].promo_percentage,
+                            promo_value: result[0].promo_value,
+                            total_payment: result[0].total_payment,
+                            status: result[0].status,
+                            transfer_bank_name: result[0].transfer_bank_name,
+                            transfer_account_holder: result[0].transfer_account_holder,
+                            transfer_proof: result[0].transfer_proof,
+                            created_at: result[0].created_at
+                        })
+                        iterator++
+                        continue
+                    }
+    
+                    if (result[i].transaction_id == result[i-1].transaction_id) {
+                        data[iterator - 1].participants.push({
                             title: result[i].title,
                             first_name: result[i].first_name,
                             last_name: result[i].last_name,
                             identification_type: result[i].identification_type,
                             identification_number: result[i].identification_number
-                        }],
-                        promo_code: result[i].promo_code,
-                        promo_percentage: result[i].promo_percentage,
-                        promo_value: result[i].promo_value,
-                        total_payment: result[i].total_payment,
-                        status: result[i].status,
-                        transfer_bank_name: result[i].transfer_bank_name,
-                        transfer_account_holder: result[i].transfer_account_holder,
-                        transfer_proof: result[i].transfer_proof,
-                        created_at: result[i].created_at
-                    })
-                    iterator++
+                        })
+                    } else {
+                        data.push({
+                            transaction_id: result[i].transaction_id,
+                            trip_id: result[i].trip_id,
+                            trip_name: result[i].trip_name,
+                            trip_price: result[i].trip_price,
+                            picture_link: result[i].picture_link,
+                            schedule_id: result[i].schedule_id,
+                            start_date: result[i].start_date,
+                            end_date: result[i].end_date,
+                            user_id: result[i].user_id,
+                            contact_first_name: result[i].contact_first_name,
+                            contact_last_name: result[i].contact_last_name,
+                            contact_phone_number: result[i].contact_phone_number,
+                            contact_email: result[i].contact_email,
+                            pax: result[i].pax,
+                            participants: [{
+                                title: result[i].title,
+                                first_name: result[i].first_name,
+                                last_name: result[i].last_name,
+                                identification_type: result[i].identification_type,
+                                identification_number: result[i].identification_number
+                            }],
+                            promo_code: result[i].promo_code,
+                            promo_percentage: result[i].promo_percentage,
+                            promo_value: result[i].promo_value,
+                            total_payment: result[i].total_payment,
+                            status: result[i].status,
+                            transfer_bank_name: result[i].transfer_bank_name,
+                            transfer_account_holder: result[i].transfer_account_holder,
+                            transfer_proof: result[i].transfer_proof,
+                            created_at: result[i].created_at
+                        })
+                        iterator++
+                    }
                 }
-            }
-
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: data
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+    
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: data
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -149,105 +153,109 @@ module.exports = {
         sql += ` ORDER BY tr.created_at DESC`
 
         db.query(sql, (err,result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
             
-            let data = []
-            let iterator = 0
-
-            for (let i = 0; i < result.length; i++) {
-                if (i == 0) {
-                    data.push({
-                        transaction_id: result[0].transaction_id,
-                        trip_id: result[0].trip_id,
-                        trip_name: result[0].trip_name,
-                        trip_price: result[0].trip_price,
-                        picture_link: result[0].picture_link,
-                        schedule_id: result[0].schedule_id,
-                        start_date: result[0].start_date,
-                        end_date: result[0].end_date,
-                        user_id: result[0].user_id,
-                        contact_first_name: result[0].contact_first_name,
-                        contact_last_name: result[0].contact_last_name,
-                        contact_phone_number: result[0].contact_phone_number,
-                        contact_email: result[0].contact_email,
-                        pax: result[0].pax,
-                        participants: [{
-                            title: result[0].title,
-                            first_name: result[0].first_name,
-                            last_name: result[0].last_name,
-                            identification_type: result[0].identification_type,
-                            identification_number: result[0].identification_number
-                        }],
-                        promo_code: result[0].promo_code,
-                        promo_percentage: result[0].promo_percentage,
-                        promo_value: result[0].promo_value,
-                        total_payment: result[0].total_payment,
-                        status: result[0].status,
-                        transfer_bank_name: result[0].transfer_bank_name,
-                        transfer_account_holder: result[0].transfer_account_holder,
-                        transfer_proof: result[0].transfer_proof,
-                        created_at: result[0].created_at
-                    })
-                    iterator++
-                    continue
-                }
-
-                if (result[i].transaction_id == result[i-1].transaction_id) {
-                    data[iterator - 1].participants.push({
-                        title: result[i].title,
-                        first_name: result[i].first_name,
-                        last_name: result[i].last_name,
-                        identification_type: result[i].identification_type,
-                        identification_number: result[i].identification_number
-                    })
-                } else {
-                    data.push({
-                        transaction_id: result[i].transaction_id,
-                        trip_id: result[i].trip_id,
-                        trip_name: result[i].trip_name,
-                        trip_price: result[i].trip_price,
-                        picture_link: result[i].picture_link,
-                        schedule_id: result[i].schedule_id,
-                        start_date: result[i].start_date,
-                        end_date: result[i].end_date,
-                        user_id: result[i].user_id,
-                        contact_first_name: result[i].contact_first_name,
-                        contact_last_name: result[i].contact_last_name,
-                        contact_phone_number: result[i].contact_phone_number,
-                        contact_email: result[i].contact_email,
-                        pax: result[i].pax,
-                        participants: [{
+                let data = []
+                let iterator = 0
+    
+                for (let i = 0; i < result.length; i++) {
+                    if (i == 0) {
+                        data.push({
+                            transaction_id: result[0].transaction_id,
+                            trip_id: result[0].trip_id,
+                            trip_name: result[0].trip_name,
+                            trip_price: result[0].trip_price,
+                            picture_link: result[0].picture_link,
+                            schedule_id: result[0].schedule_id,
+                            start_date: result[0].start_date,
+                            end_date: result[0].end_date,
+                            user_id: result[0].user_id,
+                            contact_first_name: result[0].contact_first_name,
+                            contact_last_name: result[0].contact_last_name,
+                            contact_phone_number: result[0].contact_phone_number,
+                            contact_email: result[0].contact_email,
+                            pax: result[0].pax,
+                            participants: [{
+                                title: result[0].title,
+                                first_name: result[0].first_name,
+                                last_name: result[0].last_name,
+                                identification_type: result[0].identification_type,
+                                identification_number: result[0].identification_number
+                            }],
+                            promo_code: result[0].promo_code,
+                            promo_percentage: result[0].promo_percentage,
+                            promo_value: result[0].promo_value,
+                            total_payment: result[0].total_payment,
+                            status: result[0].status,
+                            transfer_bank_name: result[0].transfer_bank_name,
+                            transfer_account_holder: result[0].transfer_account_holder,
+                            transfer_proof: result[0].transfer_proof,
+                            created_at: result[0].created_at
+                        })
+                        iterator++
+                        continue
+                    }
+    
+                    if (result[i].transaction_id == result[i-1].transaction_id) {
+                        data[iterator - 1].participants.push({
                             title: result[i].title,
                             first_name: result[i].first_name,
                             last_name: result[i].last_name,
                             identification_type: result[i].identification_type,
                             identification_number: result[i].identification_number
-                        }],
-                        promo_code: result[i].promo_code,
-                        promo_percentage: result[i].promo_percentage,
-                        promo_value: result[i].promo_value,
-                        total_payment: result[i].total_payment,
-                        status: result[i].status,
-                        transfer_bank_name: result[i].transfer_bank_name,
-                        transfer_account_holder: result[i].transfer_account_holder,
-                        transfer_proof: result[i].transfer_proof,
-                        created_at: result[i].created_at
-                    })
-                    iterator++
+                        })
+                    } else {
+                        data.push({
+                            transaction_id: result[i].transaction_id,
+                            trip_id: result[i].trip_id,
+                            trip_name: result[i].trip_name,
+                            trip_price: result[i].trip_price,
+                            picture_link: result[i].picture_link,
+                            schedule_id: result[i].schedule_id,
+                            start_date: result[i].start_date,
+                            end_date: result[i].end_date,
+                            user_id: result[i].user_id,
+                            contact_first_name: result[i].contact_first_name,
+                            contact_last_name: result[i].contact_last_name,
+                            contact_phone_number: result[i].contact_phone_number,
+                            contact_email: result[i].contact_email,
+                            pax: result[i].pax,
+                            participants: [{
+                                title: result[i].title,
+                                first_name: result[i].first_name,
+                                last_name: result[i].last_name,
+                                identification_type: result[i].identification_type,
+                                identification_number: result[i].identification_number
+                            }],
+                            promo_code: result[i].promo_code,
+                            promo_percentage: result[i].promo_percentage,
+                            promo_value: result[i].promo_value,
+                            total_payment: result[i].total_payment,
+                            status: result[i].status,
+                            transfer_bank_name: result[i].transfer_bank_name,
+                            transfer_account_holder: result[i].transfer_account_holder,
+                            transfer_proof: result[i].transfer_proof,
+                            created_at: result[i].created_at
+                        })
+                        iterator++
+                    }
                 }
-            }
-
-            if (result.length > 0) {          
-                res.send({
-                    status: 200,
-                    results: data
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Data not found',
-                    results: result
-                })
+    
+                if (result.length > 0) {          
+                    res.send({
+                        status: 200,
+                        results: data
+                    })
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Data not found',
+                        results: result
+                    })
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -263,19 +271,24 @@ module.exports = {
             '${req.body.promo_code}', ${req.body.promo_percentage}, ${req.body.promo_value}, ${req.body.total_payment},
             '${req.body.status}', '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}')`, (err, result) => {
             
-            if (err) throw err
-            res.send({
-                status: 201,
-                message: 'Create transaction success',
-                results: result
-            })
-            
-            for (let i = 1; i <= req.body.pax ; i++) {
-                db.query(
-                    `INSERT INTO transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
-                    VALUES (${result.insertId}, '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}',
-                    '${req.body.participants["lastName"+i]}', '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`
-                )
+            try {
+                if (err) throw err
+
+                res.send({
+                    status: 201,
+                    message: 'Create transaction success',
+                    results: result
+                })
+                
+                for (let i = 1; i <= req.body.pax ; i++) {
+                    db.query(
+                        `INSERT INTO transactions_detail (transaction_id, title, first_name, last_name, identification_type, identification_number)
+                        VALUES (${result.insertId}, '${req.body.participants["title"+i]}', '${req.body.participants["firstName"+i]}',
+                        '${req.body.participants["lastName"+i]}', '${req.body.participants["idType"+i]}', ${req.body.participants["idNumber"+i]})`
+                    )
+                }
+            } catch(err) {
+                console.log(err)
             }
         })
     },
@@ -293,8 +306,9 @@ module.exports = {
 
                 try {
                     if (err) throw err
+
                     res.send({
-                        status: 201,
+                        status: 200,
                         message: 'Add proof success',
                         results: result
                     })
@@ -315,13 +329,17 @@ module.exports = {
         let sql = `UPDATE transactions SET status = 'Completed' WHERE transaction_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 200,
-                message: 'Approve transaction success',
-                results: result
-            })
+                res.send({
+                    status: 200,
+                    message: 'Approve transaction success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -329,13 +347,17 @@ module.exports = {
         let sql = `UPDATE transactions SET status = 'Cancelled' WHERE transaction_id = ${req.params.id}`
 
         db.query(sql, (err, result) => {
-            if (err) throw err
+            try {
+                if (err) throw err
 
-            res.send({
-                status: 200,
-                message: 'Reject transaction success',
-                results: result
-            })
+                res.send({
+                    status: 200,
+                    message: 'Reject transaction success',
+                    results: result
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -353,12 +375,16 @@ module.exports = {
         }
 
         transporter.sendMail(mailOptions, (err, info) => {
-            if (err) throw err
-        })
+            try {
+                if (err) throw err
 
-        res.send({
-            status: 201,
-            message: 'Email sent'
+                res.send({
+                    status: 200,
+                    message: 'Email sent'
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     },
 
@@ -376,12 +402,16 @@ module.exports = {
         }
 
         transporter.sendMail(mailOptions, (err, info) => {
-            if (err) throw err
-        })
+            try {
+                if (err) throw err
 
-        res.send({
-            status: 201,
-            message: 'Email sent'
+                res.send({
+                    status: 200,
+                    message: 'Email sent'
+                })
+            } catch(err) {
+                console.log(err)
+            }
         })
     }
 }
