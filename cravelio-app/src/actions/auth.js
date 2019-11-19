@@ -2,10 +2,11 @@ import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import signToken from '../helpers/signToken'
 
+const cookie = new Cookies()
+
 // Login
-export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumber) => {
+export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumber, profilePicture) => {
     let d = new Date()
-    let cookie = new Cookies()
     let token = signToken(userId, email, role)
 
     d.setTime(d.getTime() + (1*24*60*60*1000))
@@ -17,7 +18,8 @@ export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumbe
             last_name: lastName,
             email: email,
             role: role,
-            phone_number: phoneNumber
+            phone_number: phoneNumber,
+            profile_picture: profilePicture
         }, {path: "/", expires: d}
     )
 
@@ -28,7 +30,7 @@ export const onLoginUser = (userId, firstName, lastName, email, role, phoneNumbe
     return {
         type: 'LOGIN_SUCCESS',
         payload: {
-            userId, firstName, lastName, email, role, phoneNumber
+            userId, firstName, lastName, email, role, phoneNumber, profilePicture
         }
     }                          
 }
@@ -43,9 +45,44 @@ export const keepLogin = (objUser) => {
             lastName: objUser.last_name,
             email: objUser.email,
             role: objUser.role,
-            phoneNumber: objUser.phone_number
+            phoneNumber: objUser.phone_number,
+            profilePicture: objUser.profilePicture
         }
     }
+}
+
+// Edit Profile
+export const onEditProfile = (userId, firstName, lastName, email, role, phoneNumber, profilePicture) => {
+    cookie.remove('userData', { path: '/' })
+    cookie.remove('token', { path: '/' })
+
+    let d = new Date()
+    let token = signToken(userId, email, role)
+
+    d.setTime(d.getTime() + (1*24*60*60*1000))
+    
+    cookie.set(
+        'userData', {
+            user_id: userId,
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            role: role,
+            phone_number: phoneNumber,
+            profile_picture: profilePicture
+        }, {path: "/", expires: d}
+    )
+
+    cookie.set(
+        'token', token, {path: "/", expires: d}
+    )
+    
+    return {
+        type: 'EDIT_PROFILE_SUCCESS',
+        payload: {
+            userId, firstName, lastName, email, role, phoneNumber, profilePicture
+        }
+    }  
 }
 
 // Logout
@@ -54,7 +91,7 @@ export const onLogoutUser = () => {
         position: toast.POSITION.BOTTOM_CENTER,
         className: 'toast-container'
     })
-    const cookie = new Cookies()
+
     cookie.remove('userData', { path: '/' })
     cookie.remove('token', { path: '/' })
     return {

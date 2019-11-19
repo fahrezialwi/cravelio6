@@ -177,7 +177,8 @@ const mapStateToProps = (state) => {
         firstName: state.auth.firstName,
         lastName: state.auth.lastName,
         email: state.auth.email,
-        role: state.auth.role
+        role: state.auth.role,
+        profilePicture: state.auth.profilePicture
     }
 }
 
