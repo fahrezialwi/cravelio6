@@ -54,10 +54,10 @@ class Login extends Component {
                     }) 
                 }, 3000)
             } else {
-                let {user_id, first_name, last_name, email, role, phone_number, is_verified} = res.data.results[0]
+                let {user_id, first_name, last_name, email, role, phone_number, profile_picture, is_verified} = res.data.results[0]
 
                 if (is_verified === 1) {
-                    this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number)
+                    this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number, profile_picture)
                 } else {
                     this.setState({
                         loading: false,

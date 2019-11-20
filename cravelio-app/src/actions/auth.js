@@ -46,7 +46,7 @@ export const keepLogin = (objUser) => {
             email: objUser.email,
             role: objUser.role,
             phoneNumber: objUser.phone_number,
-            profilePicture: objUser.profilePicture
+            profilePicture: objUser.profile_picture
         }
     }
 }
@@ -95,6 +95,6 @@ export const onLogoutUser = () => {
     cookie.remove('userData', { path: '/' })
     cookie.remove('token', { path: '/' })
     return {
-        type: 'LOGOUT_SUCCESS',
+        type: 'LOGOUT_SUCCESS'
     }
 }

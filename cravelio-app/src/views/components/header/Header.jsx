@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import {
     Collapse,
@@ -14,39 +13,15 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { onLogoutUser } from '../../../actions/auth'
-import Cookies from 'universal-cookie'
 import URL_API from '../../../configs/urlAPI'
 import '../../styles/header.css'
-
-const cookie = new Cookies()
 
 class Header extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            isOpen: false,
-            user: ''
-        }
-    }
-
-    componentDidMount() {
-        this.getUserData()
-    }
-
-    getUserData = () => {
-        if (this.props.userId) {
-            axios.get(
-                URL_API + `users/${this.props.userId}`, {
-                    headers: {
-                        Authorization: cookie.get('token')
-                    }
-                }
-            ).then(res => {
-                this.setState({
-                    user: res.data.results[0]
-                })
-            })
+            isOpen: false
         }
     }
 
@@ -84,14 +59,9 @@ class Header extends Component {
                             <DropdownMenu right>
                                 <div className="text-profile row pt-2 pb-2 pl-4 pr-4">
                                     <div className="col-4 pr-0">
-                                        {
-                                            this.state.user.profile_picture ?
-                                            <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture-header"/>
-                                            :
-                                            null
-                                        }
+                                        <img src={URL_API + 'files/profile-picture/' + this.props.profilePicture} alt="profile" className="profile-picture-header"/>
                                     </div>
-                                    <div className="col-8">{this.state.user.first_name} {this.state.user.last_name}</div>
+                                    <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
                                 </div>
                                 <DropdownItem divider />
                                 <DropdownItem className="text-light-dark" onClick={this.props.onLogoutUser}>
@@ -113,14 +83,9 @@ class Header extends Component {
                             <DropdownMenu right>
                                 <div className="text-profile row pt-2 pb-2 pl-4 pr-4">
                                     <div className="col-4 pr-0">
-                                        {
-                                            this.state.user.profile_picture ?
-                                            <img src={URL_API + 'files/profile-picture/' + this.state.user.profile_picture} alt="profile" className="profile-picture-header"/>
-                                            :
-                                            null
-                                        }
+                                        <img src={URL_API + 'files/profile-picture/' + this.props.profilePicture} alt="profile" className="profile-picture-header"/>
                                     </div>
-                                    <div className="col-8">{this.state.user.first_name} {this.state.user.last_name}</div>
+                                    <div className="col-8">{this.props.firstName} {this.props.lastName}</div>
                                 </div>
                                 <DropdownItem divider />
                                 <Link to="/edit-profile">

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { onEditProfile } from '../../../actions/auth'
 import axios from 'axios'
 import moment from 'moment'
 import Cookies from 'universal-cookie'
@@ -19,7 +20,7 @@ class EditProfile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            profilePicture: '',
+            userId: '',
             firstName: '',
             lastName: '',
             email: '',
@@ -27,7 +28,9 @@ class EditProfile extends Component {
             repeatPassword: '',
             birthDate: '',
             address: '',
+            role: '',
             phoneNumber: '',
+            profilePicture: '',
             file: null
         }
     }
@@ -46,13 +49,15 @@ class EditProfile extends Component {
             }
         ).then(res => {
             this.setState({
-                profilePicture: res.data.results[0].profile_picture,
+                userId: res.data.results[0].user_id,
                 firstName: res.data.results[0].first_name,
                 lastName: res.data.results[0].last_name,
                 email: res.data.results[0].email,
                 birthDate: moment(res.data.results[0].birth_date).format('YYYY-MM-DD'),
                 address: res.data.results[0].address,
-                phoneNumber: res.data.results[0].phone_number
+                role: res.data.results[0].role,
+                phoneNumber: res.data.results[0].phone_number,
+                profilePicture: res.data.results[0].profile_picture,
             })    
         })
     }
@@ -106,6 +111,16 @@ class EditProfile extends Component {
                         }, () => {
                             this.getUserData()
                         })
+                    }).then(res => {
+                        this.props.onEditProfile(
+                            this.state.userId,
+                            this.state.firstName,
+                            this.state.lastName,
+                            this.state.email,
+                            this.state.role,
+                            this.state.phoneNumber,
+                            this.state.profilePicture
+                        )
                     }).catch(err => {
                         console.log(err)
                     })
@@ -144,6 +159,16 @@ class EditProfile extends Component {
                             this.getUserData()
                         })
                         window.scrollTo(0,0)
+                    }).then(res => {
+                        this.props.onEditProfile(
+                            this.state.userId,
+                            this.state.firstName,
+                            this.state.lastName,
+                            this.state.email,
+                            this.state.role,
+                            this.state.phoneNumber,
+                            this.state.profilePicture
+                        )
                     }).catch(err => {
                         console.log(err)
                     })
@@ -292,4 +317,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(EditProfile)
+export default connect(mapStateToProps,{onEditProfile})(EditProfile)

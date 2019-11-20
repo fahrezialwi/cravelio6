@@ -4,7 +4,8 @@ const init = {
     lastName: '',
     email: '',
     role: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    profilePicture: ''
 }
 
 const authReducer = (state = init, action) => {
@@ -17,7 +18,8 @@ const authReducer = (state = init, action) => {
                 lastName: action.payload.lastName,
                 email: action.payload.email,
                 role: action.payload.role,
-                phoneNumber: action.payload.phoneNumber
+                phoneNumber: action.payload.phoneNumber,
+                profilePicture: action.payload.profilePicture
             }
         case "KEEP_LOGIN_SUCCESS":
             return {
@@ -27,7 +29,19 @@ const authReducer = (state = init, action) => {
                 lastName: action.payload.lastName,
                 email: action.payload.email,
                 role: action.payload.role,
-                phoneNumber: action.payload.phoneNumber
+                phoneNumber: action.payload.phoneNumber,
+                profilePicture: action.payload.profilePicture
+            }
+        case "EDIT_PROFILE_SUCCESS":
+            return {
+                ...state,
+                userId: action.payload.userId,
+                firstName: action.payload.firstName,
+                lastName: action.payload.lastName,
+                email: action.payload.email,
+                role: action.payload.role,
+                phoneNumber: action.payload.phoneNumber,
+                profilePicture: action.payload.profilePicture
             }
         case "LOGOUT_SUCCESS":
             return {
@@ -37,7 +51,8 @@ const authReducer = (state = init, action) => {
                 lastName: '',
                 email: '',
                 role: '',
-                phoneNumber: ''
+                phoneNumber: '',
+                profilePicture: ''
             }
         default:
             return state
