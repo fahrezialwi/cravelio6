@@ -40,26 +40,26 @@ class EditProfile extends Component {
         this.getUserData()
     }
 
-    getUserData = () => {
-        axios.get(
-            URL_API + `users/${this.props.userId}`, {
-                headers: {
-                    Authorization: cookie.get('token')
-                }
+    getUserData = async () => {
+        const res = await axios.get(URL_API + `users/${this.props.userId}`, {
+            headers: {
+                Authorization: cookie.get('token')
             }
-        ).then(res => {
-            this.setState({
-                userId: res.data.results[0].user_id,
-                firstName: res.data.results[0].first_name,
-                lastName: res.data.results[0].last_name,
-                email: res.data.results[0].email,
-                birthDate: moment(res.data.results[0].birth_date).format('YYYY-MM-DD'),
-                address: res.data.results[0].address,
-                role: res.data.results[0].role,
-                phoneNumber: res.data.results[0].phone_number,
-                profilePicture: res.data.results[0].profile_picture,
-            })    
         })
+
+        this.setState({
+            userId: res.data.results[0].user_id,
+            firstName: res.data.results[0].first_name,
+            lastName: res.data.results[0].last_name,
+            email: res.data.results[0].email,
+            birthDate: moment(res.data.results[0].birth_date).format('YYYY-MM-DD'),
+            address: res.data.results[0].address,
+            role: res.data.results[0].role,
+            phoneNumber: res.data.results[0].phone_number,
+            profilePicture: res.data.results[0].profile_picture,
+        })
+
+        return res
     }
 
     showPicture = (e) => {
@@ -108,19 +108,19 @@ class EditProfile extends Component {
                             repeatPassword: '',
                             profilePicture: '',
                             file: null
-                        }, () => {
-                            this.getUserData()
                         })
-                    }).then(res => {
-                        this.props.onEditProfile(
-                            this.state.userId,
-                            this.state.firstName,
-                            this.state.lastName,
-                            this.state.email,
-                            this.state.role,
-                            this.state.phoneNumber,
-                            this.state.profilePicture
-                        )
+
+                        this.getUserData().then(res2 => {
+                            this.props.onEditProfile(
+                                this.state.userId,
+                                this.state.firstName,
+                                this.state.lastName,
+                                this.state.email,
+                                this.state.role,
+                                this.state.phoneNumber,
+                                this.state.profilePicture
+                            )
+                        })
                     }).catch(err => {
                         console.log(err)
                     })
@@ -153,22 +153,24 @@ class EditProfile extends Component {
                         this.setState({
                             password: '',
                             repeatPassword: ''
-                        }, () => {
-                            this.refs.password.value = ''
-                            this.refs.repeatPassword.value = ''
-                            this.getUserData()
                         })
+
+                        this.refs.password.value = ''
+                        this.refs.repeatPassword.value = ''
+                        
+                        this.getUserData().then(res2 => {
+                            this.props.onEditProfile(
+                                this.state.userId,
+                                this.state.firstName,
+                                this.state.lastName,
+                                this.state.email,
+                                this.state.role,
+                                this.state.phoneNumber,
+                                this.state.profilePicture
+                            )
+                        })
+                        
                         window.scrollTo(0,0)
-                    }).then(res => {
-                        this.props.onEditProfile(
-                            this.state.userId,
-                            this.state.firstName,
-                            this.state.lastName,
-                            this.state.email,
-                            this.state.role,
-                            this.state.phoneNumber,
-                            this.state.profilePicture
-                        )
                     }).catch(err => {
                         console.log(err)
                     })
