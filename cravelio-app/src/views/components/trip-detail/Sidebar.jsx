@@ -76,11 +76,11 @@ class Sidebar extends Component {
                                 <h6>Pax</h6>
                                 <div className="row">
                                     <div className="col-2 pr-0">
-                                        <button onClick={this.props.paxSubtract} className="button-pax">−</button>
+                                        <button onClick={this.props.paxSubtract} className="btn-pax">−</button>
                                     </div>
                                     <div className="col-2 pl-2 pt-2">{this.props.paxValue}</div>
                                     <div className="col-2 pl-0">
-                                        <button onClick={this.props.paxAdd} className="button-pax">+</button>
+                                        <button onClick={this.props.paxAdd} className="btn-pax">+</button>
                                     </div>
                                 </div>
                             </div>

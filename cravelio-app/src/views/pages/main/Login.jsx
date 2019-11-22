@@ -160,7 +160,7 @@ class Login extends Component {
             )
         } else {
             if (this.props.role === 'user') {
-                return <Redirect to='/'/>
+                return <Redirect to="/"/>
             } else {
                 return <Redirect to='/dashboard'/>
             }

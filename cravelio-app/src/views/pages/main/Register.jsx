@@ -44,6 +44,7 @@ class Register extends Component {
                 loading: false,
                 error: 'Please fill all input forms.'
             })
+
             setTimeout(() => { 
                 this.setState({
                     error: ''
@@ -52,8 +53,7 @@ class Register extends Component {
         } else {
             if (password === repeatPassword) {
                 axios.get(
-                    URL_API + 'users_email', 
-                    {
+                    URL_API + 'users_email', {
                         params: {
                             email: email
                         }
@@ -64,6 +64,7 @@ class Register extends Component {
                             loading: false,
                             error: 'Email address has already been used.'
                         })
+
                         setTimeout(() => { 
                             this.setState({
                                 error: ''
@@ -71,8 +72,7 @@ class Register extends Component {
                         }, 3000)
                     } else {
                         axios.post(
-                            URL_API + 'users', 
-                            {
+                            URL_API + 'users', {
                                 first_name: firstName,
                                 last_name: lastName,
                                 email: email,
@@ -114,6 +114,7 @@ class Register extends Component {
                     loading: false,
                     error: 'Password did not match.'
                 })
+                
                 setTimeout(() => { 
                     this.setState({
                         error: ''
@@ -202,7 +203,7 @@ class Register extends Component {
                 </div>
             )
         } else {
-            return <Redirect to='/'/>
+            return <Redirect to="/"/>
         }
     }
 }

@@ -98,7 +98,7 @@ class ResetPassword extends Component {
                     </div>
                 )
             } else {
-                return <Redirect to='/'/>
+                return <Redirect to="/"/>
             }
         } else {
             return (
