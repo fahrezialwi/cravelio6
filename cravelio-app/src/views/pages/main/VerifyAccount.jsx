@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import querystring from 'query-string'
+import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import Header from '../../components/header/Header'
@@ -13,7 +14,9 @@ class VerifyAccount extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            expired: false
+            invalid: false,
+            expired: false,
+            email: ''
         }
     }
 
@@ -24,7 +27,7 @@ class VerifyAccount extends Component {
 
     verifyUser = () => {
         axios.get(
-            URL_API + 'check_password_link', {
+            URL_API + 'check_verification_link', {
                 params: {
                     token: querystring.parse(this.props.location.search).key
                 }
@@ -32,20 +35,60 @@ class VerifyAccount extends Component {
         ).then(res => {
             if (res.data.status === 404) {
                 this.setState({
-                    expired: true
+                    invalid: true
                 })
-            } else {
-                axios.patch(
-                    URL_API + 'verify_user', {
-                        token: querystring.parse(this.props.location.search).key
-                    }
-                )
+            } else if (res.data.status === 401)  {
+                this.setState({
+                    expired: true,
+                    email: res.data.results
+                })
             }
         })
     }
 
+    onResendClick = () => {
+        axios.post(
+            URL_API + 'send_verification_link', {
+                email: this.state.email
+            }
+        ).then(res => {
+            toast(`Verification link has been sent to ${this.state.email}. Please check your inbox.`, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
+        })
+    }
+
     render() {
-          if (!this.state.expired) {
+        if (this.state.invalid) {
+            return (
+                <div>
+                    <Header/>
+                    <div className="container container-height">
+                        <div className="row row-top">
+                            <div className="col-12 text-center">
+                                <p>Sorry, your link is invalid. Back to <Link to="/login" className="resend-link">home</Link>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <Footer/>
+                </div>
+            )
+        } else if (this.state.expired) {
+            return (
+                <div>
+                    <Header/>
+                    <div className="container container-height">
+                        <div className="row row-top">
+                            <div className="col-12 text-center">
+                                <p>Link has expired. Please <span className="resend-link" onClick={this.onResendClick}>resend</span> the verification link.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <Footer/>
+                </div>
+            )
+        } else {
             if (!this.props.userId) {
                 return (
                     <div>
@@ -53,7 +96,7 @@ class VerifyAccount extends Component {
                         <div className="container container-height">
                             <div className="row row-top">
                                 <div className="col-12 text-center">
-                                    <p>Your account has been verified. Click <Link to="/login" className="click-here">here</Link> to login.</p>
+                                    <p>Your account has been verified. Click <Link to="/login" className="resend-link">here</Link> to login.</p>
                                 </div>
                             </div>
                         </div>
@@ -63,20 +106,6 @@ class VerifyAccount extends Component {
             } else {
                 return <Redirect to="/"/>
             }
-        } else {
-            return (
-                <div>
-                    <Header/>
-                    <div className="container container-height">
-                        <div className="row row-top">
-                            <div className="col-12 text-center">
-                                <p>Link has expired. Please resend the verification link.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <Footer/>
-                </div>
-            )
         }
     }
 }

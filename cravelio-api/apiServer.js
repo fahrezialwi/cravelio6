@@ -21,7 +21,6 @@ app.use(routers.reviewRouter)
 app.use(routers.transactionRouter)
 app.use(routers.scheduleRouter)
 app.use(routers.promoRouter)
-app.use(routers.tokenRouter)
 
 app.use('/files/trip', express.static('uploads/trip-pictures'))
 app.use('/files/review', express.static('uploads/review-pictures'))

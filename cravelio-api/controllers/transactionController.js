@@ -313,13 +313,11 @@ module.exports = {
                         results: result
                     })
                 } catch (error) {
-                    // delete file when query/database error
                     fs.unlinkSync(req.file.path)
                     console.log(error)                
                 }
             })
         } catch (error) {
-            // delete file if file size more than 5MB
             fs.unlinkSync(req.file.path)
             console.log(error)
         }

@@ -7,6 +7,11 @@
     text-decoration: underline
 }
 
-.click-here {
+.resend-link {
     color: #8c337c
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+    cursor: pointer
 }

@@ -2,6 +2,7 @@ const db = require('../database')
 const nodemailer = require('nodemailer')
 const mg = require('nodemailer-mailgun-transport')
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 const fs = require('fs')
 const juice = require('juice')
 const moment = require('moment')
@@ -92,11 +93,13 @@ module.exports = {
     },
 
     sendVerificationLink: (req, res) => {
-        let info = {}
-        info.email = req.body.email
-        info.expiry = new Date(new Date().getTime() +  60 * 60 * 1000)
+        let token = crypto.randomBytes(8).toString("hex")
 
-        let token = jwt.sign(info, emailSecretKey)
+        let sql = `UPDATE tokens SET is_invalid = 1 WHERE email = '${req.body.email}'`
+
+        let sql2 = `INSERT INTO tokens (token_id, email, token, is_invalid, expired_at) 
+        VALUES (0, '${req.body.email}', '${token}', 0,
+        '${moment(new Date()).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss.SSS')}')`
 
         let mailOptions = {
             from: 'Cravelio <donotreply@cravelio.com>',
@@ -105,51 +108,69 @@ module.exports = {
             html: juice(accountVerification(token))
         }
 
-        try {
-            transporter.sendMail(mailOptions, (err, info) => {
-                if (err) throw err
-
-                res.send({
-                    status: 200,
-                    message: 'Email sent'
-                })  
-            })
-        } catch(err) {
-            console.log(err)
-        }
-    },
-
-    checkVerificationLink: (req, res) => {
-        let token = req.query.token
-        let data = jwt.verify(token, emailSecretKey)
-
-        try {
-            if (new Date(data.expiry) > new Date()) {
-                res.send({
-                    status: 200,
-                    message: 'Link is active'
-                })
-            } else {
-                res.send({
-                    status: 404,
-                    message: 'Link has expired'
-                })
-            }
-        } catch(err) {
-            console.log(err)
-        }
-    },
-
-    verifyUser: (req, res) => {
-        let sql = `UPDATE users SET is_verified = 1 WHERE email = '${data.email}'`
-        let token = req.body.token
-        let data = jwt.verify(token, emailSecretKey)
-
         db.query(sql, (err, result) => {
             try {
                 if (err) throw err
 
-                res.send('Your account has been verified')
+                db.query(sql2, (err2, result2) => {
+                    try {
+                        if (err2) throw err2
+        
+                        try {
+                            transporter.sendMail(mailOptions, (err3, info) => {
+                                if (err3) throw err3
+                
+                                res.send({
+                                    status: 200,
+                                    message: 'Email sent'
+                                })
+                            })
+                        } catch(err3) {
+                            console.log(err3)
+                        }
+                    } catch(err2) {
+                        console.log(err2)
+                    }
+                })
+            } catch(err) {
+                console.log(err)
+            }
+        })
+    },
+
+    checkVerificationLink: (req, res) => {
+        db.query(`SELECT * FROM tokens WHERE token = '${req.query.token}' AND is_invalid = 0`, (err, result) => {
+            try {
+                if (err) throw err
+
+                if (result.length > 0) {
+                    if (new Date(result[0].expired_at) > new Date()) {
+                        db.query(`UPDATE users SET is_verified = 1 WHERE email = '${result[0].email}'`, (err2, result2) => {
+                            try {
+                                if (err2) throw err2
+                
+                                res.send({
+                                    status: 200,
+                                    message: 'Account has been verified'
+                                })
+                            } catch(err2) {
+                                console.log(err2)
+                            }
+                        })
+                    } else {
+                        res.send({
+                            status: 401,
+                            message: 'Token has expired',
+                            results: result[0].email
+                        })
+                    }
+                } else {
+                    res.send({
+                        status: 404,
+                        message: 'Token invalid',
+                        results: result
+                    })
+                }
             } catch(err) {
                 console.log(err)
             }
@@ -289,13 +310,11 @@ module.exports = {
                         results: result
                     })
                 } catch (error) {
-                    // delete file when query/database error
                     fs.unlinkSync(req.file.path)
                     console.log(error)                
                 }
             })
         } catch (error) {
-            // delete file if file size more than 5MB
             fs.unlinkSync(req.file.path)
             console.log(error)
         }

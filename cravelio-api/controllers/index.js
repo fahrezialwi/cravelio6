@@ -6,7 +6,6 @@ const reviewController = require('./reviewController')
 const transactionController = require('./transactionController')
 const scheduleController = require('./scheduleController')
 const promoController = require('./promoController')
-const tokenController = require('./tokenController')
 
 module.exports = {
     userController,
@@ -16,6 +15,5 @@ module.exports = {
     reviewController,
     transactionController,
     scheduleController,
-    promoController,
-    tokenController
+    promoController
 }

@@ -6,7 +6,6 @@ const reviewRouter = require('./reviewRouter')
 const transactionRouter = require('./transactionRouter')
 const scheduleRouter = require('./scheduleRouter')
 const promoRouter = require('./promoRouter')
-const tokenRouter = require('./tokenRouter')
 
 module.exports = {
     userRouter,
@@ -16,6 +15,5 @@ module.exports = {
     reviewRouter,
     transactionRouter,
     scheduleRouter,
-    promoRouter,
-    tokenRouter
+    promoRouter
 }

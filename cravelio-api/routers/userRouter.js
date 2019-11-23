@@ -10,7 +10,7 @@ router.get('/users_email', userController.getUserByEmail)
 router.post('/users', userController.createUser)
 router.post('/send_verification_link', userController.sendVerificationLink)
 router.get('/check_verification_link', userController.checkVerificationLink)
-router.patch('/verify_user', userController.verifyUser)
+// router.patch('/verify_user', userController.verifyUser)
 
 router.get('/login', userController.loginUser)
 router.get('/users/:id', verifyToken, userController.getUserById)

@@ -151,14 +151,12 @@ class Register extends Component {
                     {this.state.error}
                 </div>
             )
-
         } else if (this.state.success) {
             return (
                 <div className='alert alert-success mt-4'>
                     {this.state.success}
                 </div>
             )
-
         } else {
             return null
         }
