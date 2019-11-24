@@ -3,7 +3,7 @@ import axios from 'axios'
 import querystring from 'query-string'
 import { toast } from 'react-toastify'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
@@ -15,20 +15,23 @@ class ResetPassword extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            loading: true,
+            invalid: false,
+            expired: false,
             password: '',
             repeatPassword: '',
-            expired: false
+            email: ''
         }
     }
 
     componentDidMount = () => {
         document.title = 'Reset Password - Cravelio'
-        this.checkExpiry()
+        this.checkLink()
     }
 
-    checkExpiry = () => {
+    checkLink = () => {
         axios.get(
-            URL_API + 'check_password_link', {
+            URL_API + 'check_reset_link', {
                 params: {
                     token: querystring.parse(this.props.location.search).key
                 }
@@ -36,9 +39,29 @@ class ResetPassword extends Component {
         ).then(res => {
             if (res.data.status === 404) {
                 this.setState({
-                    expired: true
+                    loading: false,
+                    invalid: true
+                })
+            } else if (res.data.status === 401)  {
+                this.setState({
+                    loading: false,
+                    expired: true,
+                    email: res.data.results
                 })
             }
+        })
+    }
+
+    onResendClick = () => {
+        axios.post(
+            URL_API + 'send_reset_link', {
+                email: this.state.email
+            }
+        ).then(res => {
+            toast(`Reset link has been sent to ${this.state.email}. Please check your inbox.`, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                className: 'toast-container'
+            })
         })
     }
 
@@ -66,54 +89,76 @@ class ResetPassword extends Component {
     }
 
     render() {
-          if (!this.state.expired) {
-            if (!this.props.userId) {
-                return (
-                    <div>
-                        <Header/>
-                        <div className="container container-height">
-                            <div className="row row-top">
-                                <div className="col-sm-8 col-md-4 mx-auto">
-                                    <div className="card-body">
-                                        <h2>Reset Password</h2>
-                                        <form onSubmit={this.onResetClick}>
-                                            <div className="input-group">
-                                                <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
-                                            </div>
-                                            <div className="input-group">
-                                                <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
-                                            </div>
-                                            <button 
-                                                className='btn-block btn-main mt-4'
-                                                onClick={this.onResetClick}
-                                            >
-                                                Reset
-                                            </button>
-                                        </form>
+        if (querystring.parse(this.props.location.search).key) {
+            if (!this.state.loading) {
+                if (this.state.invalid) {
+                    return (
+                        <div>
+                            <Header/>
+                            <div className="container container-height">
+                                <div className="row row-top">
+                                    <div className="col-12 text-center">
+                                        <p>Sorry, your link is invalid. Back to <Link to="/login" className="resend-link">home</Link>.</p>
                                     </div>
                                 </div>
                             </div>
+                            <Footer/>
                         </div>
-                        <Footer/>
-                    </div>
-                )
+                    )
+                } else if (this.state.expired) {
+                    return (
+                        <div>
+                            <Header/>
+                            <div className="container container-height">
+                                <div className="row row-top">
+                                    <div className="col-12 text-center">
+                                        <p>Link has expired. Please <span className="resend-link" onClick={this.onResendClick}>resend</span> the reset link.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <Footer/>
+                        </div>
+                    )
+                } else {
+                    if (!this.props.userId) {
+                        return (
+                            <div>
+                                <Header/>
+                                <div className="container container-height">
+                                    <div className="row row-top">
+                                        <div className="col-sm-8 col-md-4 mx-auto">
+                                            <div className="card-body">
+                                                <h2>Reset Password</h2>
+                                                <form onSubmit={this.onResetClick}>
+                                                    <div className="input-group">
+                                                        <input onChange={e => this.setState({password: e.target.value})} type="password" className="form-control mt-3" placeholder="Password"/>
+                                                    </div>
+                                                    <div className="input-group">
+                                                        <input onChange={e => this.setState({repeatPassword: e.target.value})} type="password" className="form-control mt-3" placeholder="Repeat Password"/>
+                                                    </div>
+                                                    <button 
+                                                        className='btn-block btn-main mt-4'
+                                                        onClick={this.onResetClick}
+                                                    >
+                                                        Reset
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <Footer/>
+                            </div>
+                        )
+                    } else {
+                        return <Redirect to="/"/>
+                    }
+                }
             } else {
-                return <Redirect to="/"/>
+                return null
             }
         } else {
-            return (
-                <div>
-                    <Header/>
-                    <div className="container container-height">
-                        <div className="row row-top">
-                            <div className="col-sm-8 col-md-4 mx-auto">
-                                <p>Link has expired. Please request a new reset link.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <Footer/>
-                </div>
-            )
+            return <Redirect to="/"/>
         }
     }
 }

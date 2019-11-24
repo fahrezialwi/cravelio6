@@ -25,7 +25,7 @@ class ForgotPassword extends Component {
         e.preventDefault()
         if (this.state.email) {
             axios.post(
-                URL_API + 'send_password_link', {
+                URL_API + 'send_reset_link', {
                     email: this.state.email
                 }
             ).then(res => {
@@ -60,7 +60,7 @@ class ForgotPassword extends Component {
                                             className='btn-block btn-main mt-4'
                                             onClick={this.onSendClick}
                                         >
-                                            Send Password Link
+                                            Send Reset Link
                                         </button>
                                     </form>
                                 </div>
