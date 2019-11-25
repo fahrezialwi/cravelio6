@@ -49,7 +49,7 @@ class Register extends Component {
                 this.setState({
                     error: ''
                 }) 
-            }, 3000)
+            }, 5000)
         } else {
             if (password === repeatPassword) {
                 axios.get(
@@ -69,7 +69,7 @@ class Register extends Component {
                             this.setState({
                                 error: ''
                             }) 
-                        }, 3000)
+                        }, 5000)
                     } else {
                         axios.post(
                             URL_API + 'users', {
@@ -119,7 +119,7 @@ class Register extends Component {
                     this.setState({
                         error: ''
                     }) 
-                }, 3000)
+                }, 5000)
             }
         }
     }
@@ -127,33 +127,36 @@ class Register extends Component {
     loadingButton = () => {
         if (this.state.loading) {
             return (
-                <div className='spinner-grow' role='status'>
-                    <span className='sr-only'></span>
+                <div className="not-allowed">
+                    <button 
+                        className="btn-block btn-main mt-4 pointer-events-none"
+                    >
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
                 </div>
             )
+        } else {
+            return (
+                <button 
+                    className="btn-block btn-main mt-4"
+                    onClick={this.onRegisterSubmit}
+                >
+                    Register
+                </button>
+            )
         }
-
-        return (
-            <button 
-                className='btn-block btn-main mt-4'
-                onClick={this.onRegisterSubmit}
-            >
-                Register
-            </button>
-        )
-
     }
 
     notification = () => {
         if (this.state.error) {
             return (
-                <div className='alert alert-danger mt-4'>
+                <div className="alert alert-danger mt-4">
                     {this.state.error}
                 </div>
             )
         } else if (this.state.success) {
             return (
-                <div className='alert alert-success mt-4'>
+                <div className="alert alert-success mt-4">
                     {this.state.success}
                 </div>
             )

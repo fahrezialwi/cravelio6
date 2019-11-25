@@ -16,7 +16,7 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            inputEmail: '',
+            userEmail: '',
             loading: '',
             success: '',
             error: '',
@@ -34,50 +34,62 @@ class Login extends Component {
             loading: true
         })
 
-        axios.get (
-            URL_API + 'login',
-            {
-                params: {
-                    email: this.state.email,
-                    password: encrypt(this.state.password)
-                }
-            }
-        ).then((res)=> {
-            if (res.data.status === 401) {
-                this.setState({
-                    loading: false,
-                    error: 'Incorrect email or password.'
-                })
-                setTimeout(() => { 
-                    this.setState({
-                        error: ''
-                    }) 
-                }, 3000)
-            } else {
-                let {user_id, first_name, last_name, email, role, phone_number, profile_picture, is_verified} = res.data.results[0]
+        if (!this.state.email || !this.state.password) {
+            this.setState({
+                loading: false,
+                error: 'Email and password cannot be empty.'
+            })
 
-                if (is_verified === 1) {
-                    this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number, profile_picture)
-                } else {
+            setTimeout(() => { 
+                this.setState({
+                    error: ''
+                }) 
+            }, 5000)
+        } else {
+            axios.get (
+                URL_API + 'login', {
+                    params: {
+                        email: this.state.email,
+                        password: encrypt(this.state.password)
+                    }
+                }
+            ).then((res)=> {
+                if (res.data.status === 401) {
                     this.setState({
                         loading: false,
-                        notVerified: true,
-                        inputEmail: email
+                        error: 'Incorrect email or password.'
                     })
+                    setTimeout(() => { 
+                        this.setState({
+                            error: ''
+                        }) 
+                    }, 5000)
+                } else {
+                    let {user_id, first_name, last_name, email, role, phone_number, profile_picture, is_verified} = res.data.results[0]
+
+                    if (is_verified === 1) {
+                        this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number, profile_picture)
+                    } else {
+                        this.setState({
+                            loading: false,
+                            notVerified: true,
+                            userEmail: email
+                        })
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     onVerifyClick = () => {
         axios.post(
             URL_API + 'send_verification_link', {
-                email: this.state.inputEmail
+                email: this.state.userEmail
             }
         ).then(res => {
             this.setState({
                 notVerified: '',
-                success: `Verification link has been sent to ${this.state.inputEmail}. Please check your inbox.`
+                success: `Verification link has been sent to ${this.state.userEmail}. Please check your inbox.`
             })
             setTimeout(() => { 
                 this.setState({
@@ -90,32 +102,36 @@ class Login extends Component {
     loadingButton = () => {
         if (this.state.loading) {
             return (
-                <div className='spinner-grow' role='status'>
-                    <span className='sr-only'></span>
+                <div className="not-allowed">
+                    <button 
+                        className="btn-block btn-main mt-4 pointer-events-none"
+                    >
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
                 </div>
             )
+        } else {
+            return (
+                <button 
+                    className="btn-block btn-main mt-4"
+                    onClick={this.onLoginSubmit}
+                >
+                    Login
+                </button>
+            )
         }
-
-        return (
-            <button 
-                className='btn-block btn-main mt-4'
-                onClick={this.onLoginSubmit}
-            >
-                Login
-            </button>
-        )
     }
 
     notification = () => {
         if (this.state.error) {
             return (
-                <div className='alert alert-danger mt-4'>
+                <div className="alert alert-danger mt-4">
                     {this.state.error}
                 </div>
             )
         } else if (this.state.notVerified) {
             return (
-                <div className='alert alert-danger mt-4'>
+                <div className="alert alert-danger mt-4">
                     Please verify your account. Click <span onClick={this.onVerifyClick} className="send-verify">here</span> to resend verification link.
                 </div>
             )

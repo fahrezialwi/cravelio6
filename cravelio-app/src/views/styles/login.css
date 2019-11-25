@@ -15,3 +15,11 @@
     text-decoration: underline;
     cursor: pointer
 }
+
+.not-allowed {
+    cursor: not-allowed !important
+}
+
+.pointer-events-none {
+    pointer-events: none
+}
