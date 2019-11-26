@@ -3,6 +3,7 @@ const app = express()
 const bodyParser = require ('body-parser')
 const cors = require ('cors')
 const routers = require('./routers')
+const checkExpiry = require('./helpers/checkExpiry')
 
 const port = process.env.PORT || 1010
 
@@ -30,3 +31,7 @@ app.use('/files/profile-picture', express.static('uploads/profile-pictures'))
 app.use('/files/general', express.static('uploads/general'))
 
 app.listen(port, () => console.log("Server up in port " + port))
+
+setInterval(() => {
+    checkExpiry()
+}, 5000)
