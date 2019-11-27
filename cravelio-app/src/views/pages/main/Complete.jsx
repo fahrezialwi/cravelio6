@@ -17,7 +17,7 @@ class Complete extends Component {
     }
 
     render() {
-        if (this.props.transferProof) {
+        if (this.props.userId && this.props.transferProof) {
             return (
                 <div>
                     <Header/>
@@ -45,6 +45,7 @@ class Complete extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.auth.userId,
         transferProof: state.booking.transferProof
     }
 }

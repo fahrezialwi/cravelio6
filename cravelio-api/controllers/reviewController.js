@@ -90,7 +90,8 @@ module.exports = {
         JOIN pictures AS p ON tr.trip_id = p.trip_id
         WHERE tr.status = 'Completed'
         AND (SELECT COUNT(*) FROM reviews AS r WHERE r.transaction_id = tr.transaction_id) = 0
-        AND p.is_main = 1`
+        AND p.is_main = 1
+        AND tr.end_date < '${moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS')}'`
 
         if (req.query.user_id) {
             sql = `${sql} AND tr.user_id = ${req.query.user_id}`

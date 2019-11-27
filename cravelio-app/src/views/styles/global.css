@@ -298,3 +298,11 @@ img.fslightbox-source{
 .text-bold {
     font-weight: 700
 }
+
+.not-allowed {
+    cursor: not-allowed !important
+}
+
+.pointer-events-none {
+    pointer-events: none
+}

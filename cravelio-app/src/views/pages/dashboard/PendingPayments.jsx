@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import URL_API from '../../../configs/urlAPI'
+import '../../styles/pending-payments.css'
 
 const cookie = new Cookies()
 
@@ -15,7 +16,10 @@ class PendingPayments extends Component {
         this.state = {
             transactions : [],
             currentPage: 1,
-            transactionsPerPage: 10
+            transactionsPerPage: 10,
+            loadingApprove: false,
+            loadingReject: false,
+            loadingId: ''
         }
     }
 
@@ -86,6 +90,11 @@ class PendingPayments extends Component {
     }
 
     onApproveClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
+        this.setState({
+            loadingApprove: true,
+            loadingId: transactionId
+        })
+
         axios.patch(
             URL_API + `approve_transaction/${transactionId}`, {}, {
                 headers: {
@@ -120,12 +129,23 @@ class PendingPayments extends Component {
                     position: toast.POSITION.BOTTOM_CENTER,
                     className: 'toast-container'
                 })
+
+                this.setState({
+                    loadingApprove: false,
+                    loadingId: ''
+                })
+                
                 this.getTransactionsData()
             })
         })
     }
 
     onRejectClick = (transactionId, createdAt, contactEmail, contactFirstName, contactLastName, tripName, scheduleId, startDate, endDate, pax, tripPrice, promoCode, promoValue, totalPayment, participants) => {
+        this.setState({
+            loadingReject: true,
+            loadingId: transactionId
+        })
+
         axios.get(
             URL_API + `schedules/${scheduleId}`
         ).then(res => {
@@ -175,6 +195,12 @@ class PendingPayments extends Component {
                     position: toast.POSITION.BOTTOM_CENTER,
                     className: 'toast-container'
                 })
+
+                this.setState({
+                    loadingReject: false,
+                    loadingId:''
+                })
+
                 this.getTransactionsData()
             })
         })
@@ -211,34 +237,38 @@ class PendingPayments extends Component {
                     </td>
                     <td>{moment(transaction.created_at).format('MMM Do YYYY, HH:mm:ss')}</td>
                     <td>
-                        <button
-                            className="btn-main btn-block"
-                            onClick = {() => 
-                                this.onApproveClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
-                                    transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name,
-                                    transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
-                                    transaction.promo_code, transaction.promo_value, transaction.total_payment,
-                                    transaction.participants
-                                )
-                            }
-                            disabled={!transaction.transfer_proof}
-                        >
-                                Approve
-                        </button>
-                        <button
-                            className="btn-main btn-block"
-                            onClick = {() => 
-                                this.onRejectClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
-                                    transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name, transaction.schedule_id,
-                                    transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
-                                    transaction.promo_code, transaction.promo_value, transaction.total_payment,
-                                    transaction.participants
-                                )
-                            }
-                            disabled={!transaction.transfer_proof}
-                        >
-                            Reject
-                        </button>             
+                        <div className={"btn-container" + (this.state.loadingId ? ' not-allowed' : '')}>
+                            <button
+                                className={"btn-main btn-block" + (this.state.loadingId ? ' pointer-events-none' : '')}
+                                onClick = {() => 
+                                    this.onApproveClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
+                                        transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name,
+                                        transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
+                                        transaction.promo_code, transaction.promo_value, transaction.total_payment,
+                                        transaction.participants
+                                    )
+                                }
+                                disabled={!transaction.transfer_proof}
+                            >
+                                {this.state.loadingApprove && this.state.loadingId === transaction.transaction_id ? <div className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div> : 'Approve'}
+                            </button>
+                        </div>
+                        <div className={"btn-container" + (this.state.loadingId ? ' not-allowed' : '')}>
+                            <button
+                                className={"btn-main btn-block" + (this.state.loadingId ? ' pointer-events-none' : '')}
+                                onClick = {() => 
+                                    this.onRejectClick(transaction.transaction_id, transaction.created_at, transaction.contact_email, 
+                                        transaction.contact_first_name, transaction.contact_last_name, transaction.trip_name, transaction.schedule_id,
+                                        transaction.start_date, transaction.end_date, transaction.pax, transaction.trip_price,
+                                        transaction.promo_code, transaction.promo_value, transaction.total_payment,
+                                        transaction.participants
+                                    )
+                                }
+                                disabled={!transaction.transfer_proof}
+                            >
+                                {this.state.loadingReject && this.state.loadingId === transaction.transaction_id ? <div className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div> : 'Reject'}
+                            </button>    
+                        </div>
                     </td>
                 </tr>
             )
@@ -246,7 +276,6 @@ class PendingPayments extends Component {
     }
 
     pageNumberList = () => {
-
         const { transactions, transactionsPerPage } = this.state
         const pageNumbers = []
         for (let i = 1; i <= Math.ceil(transactions.length / transactionsPerPage); i++) {
