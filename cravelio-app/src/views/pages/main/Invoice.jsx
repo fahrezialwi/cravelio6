@@ -199,9 +199,9 @@ class Invoice extends Component {
                         position: toast.POSITION.BOTTOM_CENTER,
                         className: 'toast-container'
                     })
+                    
                     this.props.onSubmitProof(this.state.bankName, this.state.accountHolderName, this.state.transferProof)
                     this.props.history.push("/complete")
-
                 }).catch(err => {
                     console.log(err)
                 })

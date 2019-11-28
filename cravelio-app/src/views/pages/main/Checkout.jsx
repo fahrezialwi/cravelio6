@@ -32,7 +32,6 @@ class Checkout extends Component {
     }
 
     componentDidMount() {
-        
         document.title = 'Checkout - Cravelio'
   
         this.setState({

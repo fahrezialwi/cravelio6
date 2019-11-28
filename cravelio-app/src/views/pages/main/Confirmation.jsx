@@ -32,6 +32,7 @@ class Confirmation extends Component {
         ).then(res => {
             if (res.data.results[0].quota_left >= this.props.pax) {
                 window.scrollTo(0, 0)
+
                 this.setState({
                     proceed: true
                 }, () => {
@@ -92,6 +93,7 @@ class Confirmation extends Component {
 
     renderParticipants = () => {
         let participants = []
+        
         for (let i = 1 ; i <= this.props.pax ; i++) {
             participants.push(
                 <tr key={i}>
@@ -102,6 +104,7 @@ class Confirmation extends Component {
                 </tr>
             )
         }
+
         return participants
     }
 
@@ -165,9 +168,7 @@ class Confirmation extends Component {
                         <div className="container container-height">
                             <div className="text-center row-top row-bottom">
                                 <h4 className="mb-4">Processing your order</h4>
-                                <div className="spinner-border" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </div>
+                                <div className="spinner-border spinner-border-violet" role="status"></div>
                             </div>
                         </div>
                         <Footer/>

@@ -5,7 +5,7 @@
     z-index: 100;
     padding: 0;
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    background-color: #8c337c
+    background-color: #8c337c;
 }
 
 .sidebar-sticky {
@@ -14,38 +14,38 @@
     top: 0px;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 100vh
+    height: 100vh;
 }
 
 .dashboard-logo {
-    color: #fff
+    color: #fff;
 }
 
 .card-header-dashboard {
     border-radius: 0px!important;
     background-image: none!important;
-    background-color: #8c337c!important
+    background-color: #8c337c!important;
 }
 
 .card-body-dashboard .list-group-item {
     background-color: #8c337c;
-    border-color: 1px solid rgba(0,0,0,.125)
+    border-color: 1px solid rgba(0,0,0,.125);
 }
 
 .card-body-dashboard .list-dashboard {
-    color: #fff !important
+    color: #fff !important;
 }
 
 .card-body-dashboard .list-dashboard:hover {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .card-body-dashboard .list-dashboard:visited {
-    text-decoration: none
+    text-decoration: none;
 }
 
 .card-body-dashboard .list-active {
-    font-family: Cereal-Bold
+    font-family: Cereal-Bold;
 }
 
 .delete-picture {
@@ -58,5 +58,5 @@
     border-radius: 50%;
     background-color: #8c337c;
     color: white;
-    cursor: pointer
+    cursor: pointer;
 }

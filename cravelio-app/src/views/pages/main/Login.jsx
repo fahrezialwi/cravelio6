@@ -17,10 +17,11 @@ class Login extends Component {
             email: '',
             password: '',
             userEmail: '',
-            loading: '',
+            loadingLogin: '',
             success: '',
             error: '',
-            notVerified: ''
+            notVerified: '',
+            loadingVerify: false
         }
     }
     
@@ -30,13 +31,14 @@ class Login extends Component {
 
     onLoginSubmit = (e) => {
         e.preventDefault()
+        
         this.setState({
-            loading: true
+            loadingLogin: true
         })
 
         if (!this.state.email || !this.state.password) {
             this.setState({
-                loading: false,
+                loadingLogin: false,
                 error: 'Email and password cannot be empty.'
             })
 
@@ -56,9 +58,10 @@ class Login extends Component {
             ).then((res)=> {
                 if (res.data.status === 401) {
                     this.setState({
-                        loading: false,
+                        loadingLogin: false,
                         error: 'Incorrect email or password.'
                     })
+
                     setTimeout(() => { 
                         this.setState({
                             error: ''
@@ -71,7 +74,7 @@ class Login extends Component {
                         this.props.onLoginUser(user_id, first_name, last_name, email, role, phone_number, profile_picture)
                     } else {
                         this.setState({
-                            loading: false,
+                            loadingLogin: false,
                             notVerified: true,
                             userEmail: email
                         })
@@ -82,15 +85,21 @@ class Login extends Component {
     }
 
     onVerifyClick = () => {
+        this.setState({
+            loadingVerify: true
+        })
+
         axios.post(
             URL_API + 'send_verification_link', {
                 email: this.state.userEmail
             }
         ).then(res => {
             this.setState({
+                loadingVerify: false,
                 notVerified: '',
                 success: `Verification link has been sent to ${this.state.userEmail}. Please check your inbox.`
             })
+
             setTimeout(() => { 
                 this.setState({
                     success: ''
@@ -100,7 +109,7 @@ class Login extends Component {
     }
 
     loadingButton = () => {
-        if (this.state.loading) {
+        if (this.state.loadingLogin) {
             return (
                 <div className="not-allowed">
                     <button 
@@ -130,11 +139,19 @@ class Login extends Component {
                 </div>
             )
         } else if (this.state.notVerified) {
-            return (
-                <div className="alert alert-danger mt-4">
-                    Please verify your account. Click <span onClick={this.onVerifyClick} className="send-verify">here</span> to resend verification link.
-                </div>
-            )
+            if (this.state.loadingVerify) {
+                return (
+                    <div className="text-center mt-4">
+                        <div className="spinner-border spinner-border-violet" role="status"></div>   
+                    </div>
+                )  
+            } else {
+                return (
+                    <div className="alert alert-danger mt-4">
+                        Please verify your account. Click <span onClick={this.onVerifyClick} className="send-verify">here</span> to resend verification link.
+                    </div>
+                )
+            }
         } else if (this.state.success) {
             return (
                 <div className='alert alert-success mt-4'>

@@ -7,14 +7,14 @@ import { Link, Redirect } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
-import '../../styles/login.css'
 
 class VerifyAccount extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            loading: true,
+            loadingPage: true,
+            loadingResend: false,
             invalid: false,
             expired: false,
             email: ''
@@ -36,25 +36,39 @@ class VerifyAccount extends Component {
         ).then(res => {
             if (res.data.status === 404) {
                 this.setState({
-                    loading: false,
+                    loadingPage: false,
                     invalid: true
                 })
             } else if (res.data.status === 401)  {
                 this.setState({
-                    loading: false,
+                    loadingPage: false,
                     expired: true,
                     email: res.data.results
+                })
+            } else {
+                this.setState({
+                    loadingPage: false,
+                    expired: false,
+                    invalid: false
                 })
             }
         })
     }
 
     onResendClick = () => {
+        this.setState({
+            loadingResend: true
+        })
+
         axios.post(
             URL_API + 'send_verification_link', {
                 email: this.state.email
             }
         ).then(res => {
+            this.setState({
+                loadingResend: false
+            })
+
             toast(`Verification link has been sent to ${this.state.email}. Please check your inbox.`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 className: 'toast-container'
@@ -64,7 +78,7 @@ class VerifyAccount extends Component {
 
     render() {
         if (querystring.parse(this.props.location.search).key) {
-            if (!this.state.loading) {
+            if (!this.state.loadingPage) {
                 if (this.state.invalid) {
                     return (
                         <div>
@@ -87,6 +101,12 @@ class VerifyAccount extends Component {
                                 <div className="row row-top">
                                     <div className="col-12 text-center">
                                         <p>Link has expired. Please <span className="resend-link" onClick={this.onResendClick}>resend</span> the verification link.</p>
+                                        {
+                                            this.state.loadingResend ? 
+                                            <div className="spinner-border spinner-border-violet" role="status"></div>
+                                            :
+                                            null
+                                        }
                                     </div>
                                 </div>
                             </div>

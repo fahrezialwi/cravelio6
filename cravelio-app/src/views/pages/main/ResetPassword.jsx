@@ -8,14 +8,13 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
 import encryptPassword from '../../../helpers/crypto'
-import '../../styles/login.css'
 
 class ResetPassword extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            loading: true,
+            loadingPage: true,
             invalid: false,
             expired: false,
             password: '',
@@ -39,14 +38,20 @@ class ResetPassword extends Component {
         ).then(res => {
             if (res.data.status === 404) {
                 this.setState({
-                    loading: false,
+                    loadingPage: false,
                     invalid: true
                 })
             } else if (res.data.status === 401)  {
                 this.setState({
-                    loading: false,
+                    loadingPage: false,
                     expired: true,
                     email: res.data.results
+                })
+            } else {
+                this.setState({
+                    loadingPage: false,
+                    invalid: false,
+                    expired: false
                 })
             }
         })
@@ -67,6 +72,7 @@ class ResetPassword extends Component {
 
     onResetClick = (e) => {
         e.preventDefault()
+        
         if (this.state.password ===  this.state.repeatPassword) {
             axios.patch(
                 URL_API + 'reset_password', {
@@ -90,7 +96,7 @@ class ResetPassword extends Component {
 
     render() {
         if (querystring.parse(this.props.location.search).key) {
-            if (!this.state.loading) {
+            if (!this.state.loadingPage) {
                 if (this.state.invalid) {
                     return (
                         <div>

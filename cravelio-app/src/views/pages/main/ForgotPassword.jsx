@@ -6,14 +6,14 @@ import { Redirect } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
-import '../../styles/login.css'
 
 class ForgotPassword extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            email: ''
+            email: '',
+            loading: false
         }
     }
 
@@ -23,22 +23,58 @@ class ForgotPassword extends Component {
     
     onSendClick = (e) => {
         e.preventDefault()
+
+        this.setState({
+            loading: true
+        })
+
         if (this.state.email) {
             axios.post(
                 URL_API + 'send_reset_link', {
                     email: this.state.email
                 }
             ).then(res => {
+                this.setState({
+                    loading: false
+                })
+
                 toast("We have sent you an email to reset your password", {
                     position: toast.POSITION.BOTTOM_CENTER,
                     className: 'toast-container'
                 })
             })
         } else {
+            this.setState({
+                loading: false
+            })
+
             toast("Email cannot be empty", {
                 position: toast.POSITION.BOTTOM_CENTER,
                 className: 'toast-container'
             })
+        }
+    }
+
+    loadingButton = () => {
+        if (this.state.loading) {
+            return (
+                <div className="not-allowed">
+                    <button 
+                        className="btn-block btn-main mt-4 pointer-events-none"
+                    >
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+            )
+        } else {
+            return (
+                <button 
+                    className="btn-block btn-main mt-4"
+                    onClick={this.onLoginSubmit}
+                >
+                    Send Reset Link
+                </button>
+            )
         }
     }
 
@@ -56,12 +92,7 @@ class ForgotPassword extends Component {
                                         <div className="input-group">
                                             <input onChange={e => this.setState({email: e.target.value})} type="email" className="form-control mt-3" placeholder="Email"/>
                                         </div>
-                                        <button 
-                                            className='btn-block btn-main mt-4'
-                                            onClick={this.onSendClick}
-                                        >
-                                            Send Reset Link
-                                        </button>
+                                        {this.loadingButton()}
                                     </form>
                                 </div>
                             </div>

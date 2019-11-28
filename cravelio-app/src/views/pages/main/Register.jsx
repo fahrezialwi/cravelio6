@@ -6,7 +6,6 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import URL_API from '../../../configs/urlAPI'
 import encrypt from '../../../helpers/crypto'
-import '../../styles/register.css'
 
 class Register extends Component {
 
@@ -18,7 +17,7 @@ class Register extends Component {
             email: '',
             password: '',
             repeatPassword: '',
-            loading: '',
+            loadingRegister: false,
             error: '',
             success: ''
         }
@@ -30,8 +29,9 @@ class Register extends Component {
 
     onRegisterSubmit = (e) => {
         e.preventDefault()
+        
         this.setState({
-            loading: true
+            loadingRegister: true
         })
         
         let {firstName, lastName,  email, password, repeatPassword} = this.state
@@ -41,7 +41,7 @@ class Register extends Component {
 
         if (!firstName|| !lastName || !email || !password || !repeatPassword) {
             this.setState({
-                loading: false,
+                loadingRegister: false,
                 error: 'Please fill all input forms.'
             })
 
@@ -61,7 +61,7 @@ class Register extends Component {
                 ).then((res) => {
                     if (res.data.status === 200) {
                         this.setState({
-                            loading: false,
+                            loadingRegister: false,
                             error: 'Email address has already been used.'
                         })
 
@@ -90,7 +90,7 @@ class Register extends Component {
                                     email: '',
                                     password: '',
                                     repeatPassword: '',
-                                    loading: false,
+                                    loadingRegister: false,
                                     success: 'Registration successful. Please check your inbox to verify your account.'
                                 })
     
@@ -111,7 +111,7 @@ class Register extends Component {
                 })
             } else{
                 this.setState({
-                    loading: false,
+                    loadingRegister: false,
                     error: 'Password did not match.'
                 })
                 
@@ -125,7 +125,7 @@ class Register extends Component {
     }
 
     loadingButton = () => {
-        if (this.state.loading) {
+        if (this.state.loadingRegister) {
             return (
                 <div className="not-allowed">
                     <button 

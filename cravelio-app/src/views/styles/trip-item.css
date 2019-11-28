@@ -1,19 +1,19 @@
 .card-decoration {
     color: #111111;
-    margin-bottom: 20px
+    margin-bottom: 20px;
 }
 
 .card-image {
     width: 100%;
     height: 200px;
     border-radius: 4px;
-    position: relative
+    position: relative;
 }
 
 .card-tag {
     font-family: Cereal-Bold;
     font-size: 12px;
-    display: inline-block
+    display: inline-block;
 }
 
 .card-tag-alert {
@@ -26,17 +26,17 @@
     display: inline-block;
     position: absolute;
     top: 10px;
-    right: 10px
+    right: 10px;
 }
 
 .card-title {
     margin-top: 5px;
     margin-bottom: 0px;
-    font-weight: 600
+    font-weight: 600;
 }
 
 .card-price {
-    font-size: 14px
+    font-size: 14px;
 }
 
 .image-cover {
@@ -44,5 +44,5 @@
     object-position: 50% 0;
     height: 100%;
     width: 100%;
-    border-radius: 4px
+    border-radius: 4px;
 }

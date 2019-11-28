@@ -1,17 +1,4 @@
-.login-top {
-    margin-top: 180px
-}
-
 .send-verify {
     cursor: pointer;
-    text-decoration: underline
-}
-
-.resend-link {
-    color: #8c337c
-}
-
-.resend-link:hover {
     text-decoration: underline;
-    cursor: pointer
 }

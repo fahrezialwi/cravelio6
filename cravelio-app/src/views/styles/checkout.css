@@ -7,24 +7,24 @@
 .id-number-error {
     font-size: 12px;
     color: #e73f2d;
-    display: none
+    display: none;
 }
 
 .show-error {
     margin-top: 5px;
-    display: inline-block
+    display: inline-block;
 }
 
 .checkout-promo {
     font-size: 12px;
-    text-transform: uppercase
+    text-transform: uppercase;
 }
 
 .checkout-date {
     font-size: 12px;
-    margin-bottom: 5px
+    margin-bottom: 5px;
 }
 
 .checkout-pax {
-    font-size: 14px
+    font-size: 14px;
 }
