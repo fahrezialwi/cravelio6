@@ -99,28 +99,36 @@ class EditProfile extends Component {
                             }
                         }
                     ).then(res => {
-                        toast("Edit success", {
-                            position: toast.POSITION.BOTTOM_CENTER,
-                            className: 'toast-container'
-                        })
-                        this.setState({
-                            password: '',
-                            repeatPassword: '',
-                            profilePicture: '',
-                            file: null
-                        })
-
-                        this.getUserData().then(res2 => {
-                            this.props.onEditProfile(
-                                this.state.userId,
-                                this.state.firstName,
-                                this.state.lastName,
-                                this.state.email,
-                                this.state.role,
-                                this.state.phoneNumber,
-                                this.state.profilePicture
-                            )
-                        })
+                        if (res.data.status === 200) {
+                            toast("Edit success", {
+                                position: toast.POSITION.BOTTOM_CENTER,
+                                className: 'toast-container'
+                            })
+    
+                            this.setState({
+                                password: '',
+                                repeatPassword: '',
+                                profilePicture: '',
+                                file: null
+                            })
+    
+                            this.getUserData().then(res2 => {
+                                this.props.onEditProfile(
+                                    this.state.userId,
+                                    this.state.firstName,
+                                    this.state.lastName,
+                                    this.state.email,
+                                    this.state.role,
+                                    this.state.phoneNumber,
+                                    this.state.profilePicture
+                                )
+                            })
+                        } else {
+                            toast("Image size too large (max 5 MB)", {
+                                position: toast.POSITION.BOTTOM_CENTER,
+                                className: 'toast-container'
+                            })
+                        }
                     }).catch(err => {
                         console.log(err)
                     })

@@ -195,13 +195,20 @@ class Invoice extends Component {
                         }
                     }
                 ).then(res => {
-                    toast("Upload proof success", {
-                        position: toast.POSITION.BOTTOM_CENTER,
-                        className: 'toast-container'
-                    })
-                    
-                    this.props.onSubmitProof(this.state.bankName, this.state.accountHolderName, this.state.transferProof)
-                    this.props.history.push("/complete")
+                    if (res.data.status === 200) {
+                        toast("Upload proof success", {
+                            position: toast.POSITION.BOTTOM_CENTER,
+                            className: 'toast-container'
+                        })
+                        
+                        this.props.onSubmitProof(this.state.bankName, this.state.accountHolderName, this.state.transferProof)
+                        this.props.history.push("/complete")
+                    } else {
+                        toast("Image size too large (max 5 MB)", {
+                            position: toast.POSITION.BOTTOM_CENTER,
+                            className: 'toast-container'
+                        })
+                    }
                 }).catch(err => {
                     console.log(err)
                 })

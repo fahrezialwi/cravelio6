@@ -216,6 +216,10 @@ img.fslightbox-source {
     }
 }
 
+.tab-content {
+    margin-top: 40px;
+}
+
 .toast-container {
     background-color:#c8337c;
     font-family: Cereal-Book;

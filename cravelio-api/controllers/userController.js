@@ -318,13 +318,17 @@ module.exports = {
                         results: result
                     })
                 } catch (error) {
-                    fs.unlinkSync(req.file.path)
-                    console.log(error)                
+                    console.log(error) 
+                    fs.unlinkSync(req.file.path)               
                 }
             })
         } catch (error) {
-            fs.unlinkSync(req.file.path)
             console.log(error)
+            fs.unlinkSync(req.file.path)
+            res.send({
+                status: 401,
+                message: 'Image size too large',
+            })
         }
     },
 
