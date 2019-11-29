@@ -1,0 +1,42 @@
+#sidebar {
+    width: 350px;
+    padding: 30px 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+}
+
+.label-disabled {
+    color: rgba(72, 72, 72, 0.5);
+}
+
+.sidebar-fixed {
+    position: fixed;
+    top: 100px;
+}
+
+.price-tag {
+    font-size: 22px;
+    font-weight: 600
+}
+
+.per-pax {
+    font-size: 12px;
+    margin-left: 3px;
+}
+
+.radio-button {
+    vertical-align: 85%;
+}
+
+.quota-left {
+    font-size: 12px;
+}
+
+.btn-pax {
+    padding-left: 0px;
+    color: #c8337c;
+    font-family: Cereal-Medium;
+    font-size: 25px;
+    background-color: transparent;
+}
