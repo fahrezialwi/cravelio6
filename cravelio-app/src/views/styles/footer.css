@@ -1,0 +1,31 @@
+.footer-background {
+    background-image: linear-gradient(to right, #c8337c , #8c337c);
+}
+
+.footer-logo {
+    color: white;
+}
+
+.partner-logo {
+    font-size: 12px;
+    color: white;
+}
+
+.copyright {
+    font-size: 14px;
+    color: white;
+}
+
+.footer-link {
+    color: white;
+}
+
+.footer-link a {
+    display: block;
+    color: white;
+}
+
+.footer-link a:hover {
+    display: block;
+    color: #ddd;
+}
